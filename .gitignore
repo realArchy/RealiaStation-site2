@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+build/
+install/
+log/
+*.egg-info/
+.venv/
+venv/
+*.bag
+*.mcap
+*.db3
+data/
+node_modules/
+.DS_Store
+*.log

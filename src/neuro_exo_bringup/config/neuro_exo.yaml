@@ -1,0 +1,17 @@
+# Seuils de securite — valeurs de depart, a ajuster APRES mesure.
+# Regle : aucune valeur de securite en dur dans le code des noeuds.
+neuro_exo_nodes:
+  harness_safety_monitor:
+    ros__parameters:
+      inclinaison_max_deg: 25.0
+      chute_inclinaison_deg: 55.0
+      obstacle_min_m: 0.30
+      absence_max_s: 3.0
+      watchdog_max_s: 0.050
+
+# Emplacements de modeles — VIDES volontairement (aucune IA dans ce depot).
+models:
+  intent_detector:
+    type: "threshold"      # "threshold" aujourd'hui ; "model:<nom>" plus tard
+    chemin: null
+    actif: false
