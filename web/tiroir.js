@@ -14,6 +14,7 @@ const ORDRE = [
   { fichier: 'realiastation.html',      cle: 'nav.realia',   nom: 'RealiaStation' },
   { fichier: 'lunagalaxie.html',        cle: 'nav.luna',     nom: 'LunaGalaxie' },
   { fichier: 'meta-projet-social.html', cle: 'nav.social',   nom: 'Projet social' },
+  { fichier: 'blueprint.html',          cle: 'nav.blueprint', nom: 'Blueprint' },
   { fichier: 'architecte.html',         cle: 'nav.archi',    nom: "L'Architecte" },
   { fichier: 'wishlist.html',           cle: 'nav.wishlist', nom: 'Wishlist' },
   { fichier: 'boutique.html',           cle: 'nav.boutique', nom: 'Boutique' }

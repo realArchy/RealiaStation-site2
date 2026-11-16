@@ -19,6 +19,9 @@ sys.path.insert(0, str(RACINE / "_source"))
 
 from contenu_1 import ACCUEIL, NAV, ORIENT  # noqa: E402
 from contenu_2 import PAGES  # noqa: E402
+from contenu_3 import BLUEPRINT  # noqa: E402
+
+PAGES["blueprint"] = BLUEPRINT
 
 FR = "fr"
 
@@ -30,6 +33,7 @@ ORDRE = [
     ("realia", "realiastation.html", "luna-05-realiastation"),
     ("luna", "lunagalaxie.html", "luna-06-ghostsheller"),
     ("social", "meta-projet-social.html", "luna-07-ilot-ong"),
+    ("blueprint", "blueprint.html", "luna-11-blueprint"),
     ("archi", "architecte.html", "luna-08-architecte"),
     ("wish", "wishlist.html", "luna-09-wishlist"),
     ("boutique", "boutique.html", "luna-10-noel"),
@@ -59,7 +63,7 @@ def e(s: str) -> str:
 def nav(page: str) -> str:
     idx = [p[0] for p in ORDRE].index(page)
     cles = ("accueil", "virtuel", "neuroexo", "devkit", "realia",
-            "luna", "social", "archi", "wishlist", "boutique")
+            "luna", "social", "blueprint", "archi", "wishlist", "boutique")
     liens = []
     for i, (cle, (pid, f, _a)) in enumerate(zip(cles, ORDRE)):
         courant = ' aria-current="page"' if i == idx else ""
@@ -573,6 +577,141 @@ def page_boutique() -> str:
     return enveloppe("boutique", corps, t("boutique.titre")[:60], t("boutique.lead")[:150])
 
 
+
+def page_blueprint() -> str:
+    p = PAGES["blueprint"]
+
+    donut = (
+        '      <div class="profondeur" style="display:grid; place-items:center; gap:1.4rem">\n'
+        '        <div class="donut" role="img" aria-label="40 % trésorerie, 30 % rendement, 20 % R&D, 10 % mécénat"></div>\n'
+        '        <div class="legende-donut">\n'
+        f'          <span><i style="background:#00f5ff"></i>40 % <em data-t="blueprint.w40">{t("blueprint.w40")}</em></span>\n'
+        f'          <span><i style="background:#ff007f"></i>30 % <em data-t="blueprint.w30">{t("blueprint.w30")}</em></span>\n'
+        f'          <span><i style="background:#a855f7"></i>20 % <em data-t="blueprint.w20">{t("blueprint.w20")}</em></span>\n'
+        f'          <span><i style="background:#ffd166"></i>10 % <em data-t="blueprint.w10">{t("blueprint.w10")}</em></span>\n'
+        '        </div>\n'
+        '      </div>')
+
+    corps = bloc(
+        f"""{badge('blueprint')}
+      <h1 style="margin:1.1rem 0 0" data-t="blueprint.titre">{t('blueprint.titre')}</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="blueprint.sous">{t('blueprint.sous')}</p>""",
+        donut)
+
+    corps += f"""
+  <section class="section">
+    <div class="verre-clair reveler" style="padding:2rem">
+      <p class="etiq" data-t="blueprint.tr_titre">{t('blueprint.tr_titre')}</p>
+      <p style="color:var(--doux); max-width:52rem" data-t="blueprint.tr_txt">{t('blueprint.tr_txt')}</p>
+      <ul class="points">
+        <li data-t="blueprint.tr_1">{t('blueprint.tr_1')}</li>
+        <li data-t="blueprint.tr_2">{t('blueprint.tr_2')}</li>
+        <li data-t="blueprint.tr_3">{t('blueprint.tr_3')}</li>
+      </ul>
+      <p class="mentions" style="margin-top:1.4rem; text-align:left" data-t="blueprint.tr_note">{t('blueprint.tr_note')}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Architecture</p>
+      <h2 data-t="blueprint.archi_titre">{t('blueprint.archi_titre')}</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.archi_lead">{t('blueprint.archi_lead')}</p>
+    </div>
+    <div class="duo">
+      <article class="verre carte reveler">
+        <h3 data-t="blueprint.r1t">{t('blueprint.r1t')}</h3>
+        <p data-t="blueprint.r1d">{t('blueprint.r1d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="blueprint.r2t">{t('blueprint.r2t')}</h3>
+        <p data-t="blueprint.r2d">{t('blueprint.r2d')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Structure juridique</p>
+      <h2 data-t="blueprint.jur_titre">{t('blueprint.jur_titre')}</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.jur_lead">{t('blueprint.jur_lead')}</p>
+    </div>
+    <div class="juridique reveler">
+      <article class="verre carte">
+        <span class="rang">01</span>
+        <h3 data-t="blueprint.ong_t">{t('blueprint.ong_t')}</h3>
+        <p data-t="blueprint.ong_d">{t('blueprint.ong_d')}</p>
+      </article>
+      <div class="lien-juridique">
+        <span class="trait"></span>
+        <span class="mono" data-t="blueprint.flux">{t('blueprint.flux')}</span>
+        <span class="trait"></span>
+      </div>
+      <article class="verre carte">
+        <span class="rang">02</span>
+        <h3 data-t="blueprint.holding_t">{t('blueprint.holding_t')}</h3>
+        <p data-t="blueprint.holding_d">{t('blueprint.holding_d')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Waterfall</p>
+      <h2 data-t="blueprint.wf_titre">{t('blueprint.wf_titre')}</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.wf_lead">{t('blueprint.wf_lead')}</p>
+    </div>
+    <div class="waterfall reveler">
+      <div class="part w40"><strong>40 %</strong><span data-t="blueprint.w40">{t('blueprint.w40')}</span><p data-t="blueprint.w40d">{t('blueprint.w40d')}</p></div>
+      <div class="part w30"><strong>30 %</strong><span data-t="blueprint.w30">{t('blueprint.w30')}</span><p data-t="blueprint.w30d">{t('blueprint.w30d')}</p></div>
+      <div class="part w20"><strong>20 %</strong><span data-t="blueprint.w20">{t('blueprint.w20')}</span><p data-t="blueprint.w20d">{t('blueprint.w20d')}</p></div>
+      <div class="part w10"><strong>10 %</strong><span data-t="blueprint.w10">{t('blueprint.w10')}</span><p data-t="blueprint.w10d">{t('blueprint.w10d')}</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Tech-for-equity</p>
+      <h2 data-t="blueprint.tech_titre">{t('blueprint.tech_titre')}</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.tech_lead">{t('blueprint.tech_lead')}</p>
+    </div>
+    <div class="trio">
+      <article class="verre carte palier reveler">
+        <h3 data-t="blueprint.tier1">{t('blueprint.tier1')}</h3>
+        <p data-t="blueprint.tier1d">{t('blueprint.tier1d')}</p>
+      </article>
+      <article class="verre carte palier reveler">
+        <h3 data-t="blueprint.tier2">{t('blueprint.tier2')}</h3>
+        <p data-t="blueprint.tier2d">{t('blueprint.tier2d')}</p>
+      </article>
+      <article class="verre carte palier reveler">
+        <h3 data-t="blueprint.tier3">{t('blueprint.tier3')}</h3>
+        <p data-t="blueprint.tier3d">{t('blueprint.tier3d')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Roadmap</p>
+      <h2 data-t="blueprint.road_titre">{t('blueprint.road_titre')}</h2>
+    </div>
+    <ol class="roadmap reveler">
+      <li><span class="rangee">P0</span><div><h3 data-t="blueprint.p0t">{t('blueprint.p0t')}</h3><p data-t="blueprint.p0d">{t('blueprint.p0d')}</p></div></li>
+      <li><span class="rangee">P1</span><div><h3 data-t="blueprint.p1t">{t('blueprint.p1t')}</h3><p data-t="blueprint.p1d">{t('blueprint.p1d')}</p></div></li>
+      <li><span class="rangee">P2</span><div><h3 data-t="blueprint.p2t">{t('blueprint.p2t')}</h3><p data-t="blueprint.p2d">{t('blueprint.p2d')}</p></div></li>
+      <li><span class="rangee">P3</span><div><h3 data-t="blueprint.p3t">{t('blueprint.p3t')}</h3><p data-t="blueprint.p3d">{t('blueprint.p3d')}</p></div></li>
+    </ol>
+    <p class="mentions" style="margin-top:2rem; text-align:left" data-t="blueprint.legal">{t('blueprint.legal')}</p>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="meta-projet-social.html" class="bouton" data-t="blueprint.cta">{t('blueprint.cta')}</a>
+  </section>
+"""
+    return enveloppe("blueprint", corps, t("blueprint.titre")[:60], t("blueprint.sous")[:150])
+
+
 # ===========================================================================
 def main() -> None:
     pages = {
@@ -605,6 +744,7 @@ def main() -> None:
 """ % (t("realia.lien_titre"), t("realia.lien_txt"), t("realia.lien_cta"))),
         "luna": page_luna(),
         "social": page_social(),
+        "blueprint": page_blueprint(),
         "archi": page_archi(),
         "wish": page_wishlist(),
         "boutique": page_boutique(),

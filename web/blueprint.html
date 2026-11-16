@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Transparence & architecture de l'écosystème Realia (V2) — Neuro-Exo</title>
+<meta name="description" content="Comment la technologie, l'immobilier solidaire et la création numérique s'auto-financent au service de notre mission humanitaire." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="blueprint" data-audio="assets/audio/luna-11-blueprint.mp3">
+
+<div class="ciel"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
+
+<header class="entete">
+  <nav class="nav">
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">N</span>
+        <span class="marque-texte">NEURO<span>EXO</span></span>
+      </a>
+      <div class="langues" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="neuroexo-ai.html">NeuroExoAI</a>
+      <a href="devkit.html">DevKit-Clean</a>
+      <a href="realiastation.html">RealiaStation</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="blueprint.html" aria-current="page">Blueprint</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="boutique.html">Boutique</a>
+    </div>
+  </nav>
+</header>
+
+<main class="enveloppe interne">
+  <section class="split">
+    <div class="split-texte reveler">
+      <span class="chantier"><span class="point"></span><span data-t="blueprint.badge">📐 BLUEPRINT V2 — GOUVERNANCE & TRANSPARENCE</span></span>
+      <h1 style="margin:1.1rem 0 0" data-t="blueprint.titre">Transparence & architecture de l'écosystème Realia (V2)</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="blueprint.sous">Comment la technologie, l'immobilier solidaire et la création numérique s'auto-financent au service de notre mission humanitaire.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <div class="profondeur" style="display:grid; place-items:center; gap:1.4rem">
+        <div class="donut" role="img" aria-label="40 % trésorerie, 30 % rendement, 20 % R&D, 10 % mécénat"></div>
+        <div class="legende-donut">
+          <span><i style="background:#00f5ff"></i>40 % <em data-t="blueprint.w40">Trésorerie opérationnelle</em></span>
+          <span><i style="background:#ff007f"></i>30 % <em data-t="blueprint.w30">Rendement & droits d'usage</em></span>
+          <span><i style="background:#a855f7"></i>20 % <em data-t="blueprint.w20">Réinvestissement R&D & impact</em></span>
+          <span><i style="background:#ffd166"></i>10 % <em data-t="blueprint.w10">Mécénat automatique</em></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="verre-clair reveler" style="padding:2rem">
+      <p class="etiq" data-t="blueprint.tr_titre">Engagement de transparence — phase d'amorçage</p>
+      <p style="color:var(--doux); max-width:52rem" data-t="blueprint.tr_txt">Aujourd'hui, l'ONG et la holding ne sont pas encore enregistrées. Pendant cette phase de lancement R&D, 100 % des sommes reçues — dons Ko-fi et Tipeee, matériel offert via la wishlist, commissions de la boutique — vont à trois postes, et à eux seuls :</p>
+      <ul class="points">
+        <li data-t="blueprint.tr_1">Les capteurs biomédicaux (EEG, sEMG, module FES isolé).</li>
+        <li data-t="blueprint.tr_2">Le développement des harnais open source et du jumeau numérique.</li>
+        <li data-t="blueprint.tr_3">La constitution du capital juridique de départ (frais de création ONG et holding).</li>
+      </ul>
+      <p class="mentions" style="margin-top:1.4rem; text-align:left" data-t="blueprint.tr_note">Aucun salaire, aucun frais de structure, aucune dépense non listée. Les justificatifs sont publiés au fil de l'eau.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Architecture</p>
+      <h2 data-t="blueprint.archi_titre">Deux niveaux, une seule mission</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.archi_lead">D'un côté la matière — un lieu, des actifs, des revenus. De l'autre le logiciel — des agents, des contrats, des flux. Aucun des deux ne suffit seul.</p>
+    </div>
+    <div class="duo">
+      <article class="verre carte reveler">
+        <h3 data-t="blueprint.r1t">R'Station — la mère agnostique</h3>
+        <p data-t="blueprint.r1d">Plateforme physique et logique : hôtel ou riad, FabLab PMR, école inclusive, coopérative agricole. Elle fournit le cadre, les actifs tangibles et les revenus de base. Premier pilote (Genesis Block) à Madagascar, conçue comme un modèle réticulaire réplicable partout.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="blueprint.r2t">Le DevKit — le CTO numérique</h3>
+        <p data-t="blueprint.r2d">Infrastructure logicielle : agents IA, contrats intelligents, oracles. Il pilote la R'Station, sécurise les flux, automatise la production de contenu et vérifie ce qui est publié.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Structure juridique</p>
+      <h2 data-t="blueprint.jur_titre">Séparer les risques pour protéger la mission</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.jur_lead">Un lieu qui soigne et un lieu qui gagne de l'argent ne doivent pas se tenir au même endroit juridique. La terre reste à la mission ; le commerce vit à côté, et paie.</p>
+    </div>
+    <div class="juridique reveler">
+      <article class="verre carte">
+        <span class="rang">01</span>
+        <h3 data-t="blueprint.ong_t">L'ONG — base sociale et foncière</h3>
+        <p data-t="blueprint.ong_d">Détient la terre, l'école, le centre pour enfants handicapés et femmes. Elle ne commerce pas : elle loue les espaces commerciaux aux filiales d'exploitation et encaisse un loyer.</p>
+      </article>
+      <div class="lien-juridique">
+        <span class="trait"></span>
+        <span class="mono" data-t="blueprint.flux">Loyer + mécénat</span>
+        <span class="trait"></span>
+      </div>
+      <article class="verre carte">
+        <span class="rang">02</span>
+        <h3 data-t="blueprint.holding_t">Holding internationale & pôles spécialisés</h3>
+        <p data-t="blueprint.holding_d">Structure de contrôle détenue par la mission. Elle sépare deux pôles : Digital / Tech (DevKit, agents, infrastructure) et Content / Média & IP (LunaGalaxie, formations, droits à l'image protégés).</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Waterfall</p>
+      <h2 data-t="blueprint.wf_titre">Le waterfall — où va chaque euro gagné</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.wf_lead">Chaque R'Station répartit automatiquement ses revenus. Cette clé est publique, écrite dans le contrat, et ne se négocie pas en comité.</p>
+    </div>
+    <div class="waterfall reveler">
+      <div class="part w40"><strong>40 %</strong><span data-t="blueprint.w40">Trésorerie opérationnelle</span><p data-t="blueprint.w40d">Salaires locaux, entretien, énergie, matières premières.</p></div>
+      <div class="part w30"><strong>30 %</strong><span data-t="blueprint.w30">Rendement & droits d'usage</span><p data-t="blueprint.w30d">Token Hôtel : accès au grand public et à la diaspora, avec droits d'usage réels.</p></div>
+      <div class="part w20"><strong>20 %</strong><span data-t="blueprint.w20">Réinvestissement R&D & impact</span><p data-t="blueprint.w20d">Token Écosystème / DevKit : exosquelettes, prototypes, innovation.</p></div>
+      <div class="part w10"><strong>10 %</strong><span data-t="blueprint.w10">Mécénat automatique</span><p data-t="blueprint.w10d">Versement direct à l'ONG : l'école et le centre de soin sont financés en permanence.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Tech-for-equity</p>
+      <h2 data-t="blueprint.tech_titre">Tech-for-equity — le DevKit contre une part de croissance</h2>
+      <p class="lead" style="margin-top:1rem" data-t="blueprint.tech_lead">Le DevKit ne se vend pas à la journée. Il s'installe chez des PME partenaires contre une part, un engagement, ou une contribution à l'écosystème.</p>
+    </div>
+    <div class="trio">
+      <article class="verre carte palier reveler">
+        <h3 data-t="blueprint.tier1">Tier 1 — Pilote</h3>
+        <p data-t="blueprint.tier1d">Installation du DevKit, accompagnement, première automatisation. Sans engagement de durée.</p>
+      </article>
+      <article class="verre carte palier reveler">
+        <h3 data-t="blueprint.tier2">Tier 2 — Acteur</h3>
+        <p data-t="blueprint.tier2d">Le partenaire opère le DevKit sur ses propres flux et alimente l'écosystème en cas d'usage.</p>
+      </article>
+      <article class="verre carte palier reveler">
+        <h3 data-t="blueprint.tier3">Tier 3 — Architecte</h3>
+        <p data-t="blueprint.tier3d">Engagement de 3 ans avec reverse vesting : la part se gagne en construisant, pas en signant.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Roadmap</p>
+      <h2 data-t="blueprint.road_titre">Feuille de route</h2>
+    </div>
+    <ol class="roadmap reveler">
+      <li><span class="rangee">P0</span><div><h3 data-t="blueprint.p0t">Phase 0 — Fondations juridiques & IP</h3><p data-t="blueprint.p0d">Statuts de l'ONG et de la holding, dépôt des marques, contrats de cession des droits à l'image.</p></div></li>
+      <li><span class="rangee">P1</span><div><h3 data-t="blueprint.p1t">Phase 1 — Actif pilote & Token Hôtel</h3><p data-t="blueprint.p1d">Premier lieu à Madagascar, waterfall en production, token d'usage encadré KYC/AML.</p></div></li>
+      <li><span class="rangee">P2</span><div><h3 data-t="blueprint.p2t">Phase 2 — FabLab, coopérative & Token Écosystème</h3><p data-t="blueprint.p2d">Production locale, formation des jeunes, seconde couche de financement de la R&D.</p></div></li>
+      <li><span class="rangee">P3</span><div><h3 data-t="blueprint.p3t">Phase 3 — Réseau mondial & agents autonomes</h3><p data-t="blueprint.p3d">Réplication des R'Station, orchestration par les agents, mission financée par construction.</p></div></li>
+    </ol>
+    <p class="mentions" style="margin-top:2rem; text-align:left" data-t="blueprint.legal">Document d'architecture stratégique V2 présenté à titre informatif et évolutif ; le déploiement des actifs tokenisés sera strictement encadré par les réglementations financières et procédures KYC/AML en vigueur.</p>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="meta-projet-social.html" class="bouton" data-t="blueprint.cta">Voir la mission sociale</a>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
+    </div>
+  </div>
+  
+</footer>
+
+<script src="traductions.js" defer></script>
+<script src="i18n.js" defer></script>
+<script src="revele.js" defer></script>
+<script src="tiroir.js" defer></script>
+<script src="audio.js" defer></script>
+<script type="module" src="systeme.js"></script>
+</body>
+</html>

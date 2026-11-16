@@ -29,7 +29,8 @@
     'luna-07-ilot-ong': "L'Îlot de l'Espoir",
     'luna-08-architecte': 'Renaissance',
     'luna-09-wishlist': 'Les Capteurs du Futur',
-    'luna-10-noel': 'Féerie Cyberpunk de Noël'
+    'luna-10-noel': 'Féerie Cyberpunk de Noël',
+    'luna-11-blueprint': 'Gouvernance & Transparence'
   };
 
   const audio = document.createElement('audio');

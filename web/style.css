@@ -185,15 +185,15 @@ a  { color: var(--cyan); }
 .nav-liens a[aria-current="page"] { color: #fff; border-color: var(--cyan); text-shadow: var(--lueur-cyan); }
 @media (min-width: 1080px) { .nav-liens { display: flex; } }
 
-@media (min-width: 1280px) {
+@media (min-width: 1500px) {
   /* Un seul rang : on « dissout » le conteneur du haut pour que la marque, les
      liens, les langues et le bouton soient tous frères et s'ordonnent. */
   .nav { flex-wrap: nowrap; padding: .5rem 1.4rem; gap: .9rem; }
   .nav-haut { display: contents; }
   .marque { order: 1; }
   .nav-liens {
-    order: 2; flex: 1; width: auto; justify-content: center;
-    border-top: 0; margin-top: 0; padding: 0; font-size: .76rem; gap: .8rem;
+    order: 2; flex: 1 1 auto; width: auto; min-width: 0; justify-content: center;
+    border-top: 0; margin-top: 0; padding: 0; font-size: .74rem; gap: .7rem;
   }
   .langues { order: 3; }
   .nav-haut .bouton, .entete .bouton { order: 4; padding: .6rem 1.2rem; font-size: .84rem; }
@@ -518,8 +518,10 @@ a  { color: var(--cyan); }
 /* ---------------------------------------------------------------------------
    Apparition
    ------------------------------------------------------------------------- */
-.reveler { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-.reveler.vu { opacity: 1; transform: none; }
+/* L'état caché n'existe QUE si le JavaScript l'a demandé. Sans lui, le texte
+   reste lisible : une animation ne doit jamais pouvoir retenir le contenu. */
+html.revele-js .reveler { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+html.revele-js .reveler.vu { opacity: 1; transform: none; }
 
 /* ---------------------------------------------------------------------------
    Transitions de page
@@ -551,6 +553,88 @@ body.entree-bas, body.entree-haut { animation: fondu .2s ease both; }
   .hero-actions { gap: .6rem; }
   .split { padding: 3rem 0; gap: 1.6rem; }
 }
+
+
+/* ---------------------------------------------------------------------------
+   Blueprint : donut du waterfall, structure juridique, paliers, feuille de route
+   ------------------------------------------------------------------------- */
+.donut {
+  width: 260px; aspect-ratio: 1; border-radius: 50%;
+  background: conic-gradient(
+    #00f5ff 0 40%,
+    #ff007f 40% 70%,
+    #a855f7 70% 90%,
+    #ffd166 90% 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent 57%, #000 58%);
+  mask: radial-gradient(farthest-side, transparent 57%, #000 58%);
+  box-shadow: 0 0 50px rgba(255, 0, 127, .25);
+}
+.legende-donut { display: grid; gap: .45rem; font-size: .92rem; color: var(--doux); }
+.legende-donut span { display: flex; align-items: center; gap: .55rem; }
+.legende-donut i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.legende-donut em { font-style: normal; color: #fff; }
+
+.points { list-style: none; margin: 1.2rem 0 0; padding: 0; }
+.points li {
+  position: relative; padding-left: 1.5rem; margin-bottom: .7rem;
+  color: var(--doux); font-size: 1rem;
+}
+.points li::before {
+  content: "▸"; position: absolute; left: 0; color: var(--cyan);
+}
+
+.juridique { display: grid; gap: 1rem; align-items: stretch; }
+@media (min-width: 900px) { .juridique { grid-template-columns: 1fr auto 1fr; } }
+.juridique .rang {
+  font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .2em;
+  color: var(--cyan); display: block; margin-bottom: .6rem;
+}
+.lien-juridique {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .5rem; color: var(--magenta); font-size: .64rem; letter-spacing: .16em; text-transform: uppercase;
+}
+.lien-juridique .trait { width: 1px; flex: 1; min-height: 28px;
+  background: linear-gradient(180deg, transparent, var(--magenta), transparent); }
+
+.waterfall { display: grid; gap: .8rem; }
+@media (min-width: 900px) { .waterfall { grid-template-columns: repeat(4, 1fr); } }
+.waterfall .part {
+  padding: 1.5rem 1.3rem; border-radius: var(--rayon);
+  background: var(--panneau); border: 1px solid var(--bord);
+  border-top: 3px solid var(--cyan);
+}
+.waterfall .w30 { border-top-color: var(--magenta); }
+.waterfall .w20 { border-top-color: #a855f7; }
+.waterfall .w10 { border-top-color: #ffd166; }
+.waterfall strong {
+  display: block; font-family: 'Space Grotesk', sans-serif; font-size: 2rem;
+  color: #fff; line-height: 1; margin-bottom: .5rem;
+}
+.waterfall span { display: block; font-weight: 600; color: #fff; margin-bottom: .4rem; }
+.waterfall p { font-size: .92rem; color: var(--doux); margin: 0; }
+
+.palier { border-left: 3px solid var(--cyan); }
+.palier:nth-child(2) { border-left-color: var(--magenta); }
+.palier:nth-child(3) { border-left-color: #a855f7; }
+
+.roadmap { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1rem; }
+.roadmap li {
+  display: grid; grid-template-columns: 4rem 1fr; gap: 1.2rem; align-items: start;
+  padding: 1.2rem 0; border-top: 1px solid rgba(0, 245, 255, .14);
+}
+.roadmap li:first-child { border-top: 0; }
+.roadmap .rangee {
+  font-family: 'JetBrains Mono', monospace; font-size: .78rem; font-weight: 600;
+  color: #05020a; background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  border-radius: .45rem; padding: .35rem 0; text-align: center;
+}
+.roadmap h3 { font-size: 1.05rem; margin: 0 0 .25rem; }
+.roadmap p { font-size: .95rem; color: var(--doux); margin: 0; }
+
+/* Le tiroir fixe du bas ne doit jamais recouvrir la fin du texte.
+   (Un simple `main` ne suffisait pas : `.enveloppe` impose `padding: 0 1.4rem`
+   et gagne sur le sélecteur d'élément.) */
+main.enveloppe { padding-bottom: 6rem; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

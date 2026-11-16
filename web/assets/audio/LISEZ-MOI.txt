@@ -10,6 +10,7 @@ Dépose ici les dix morceaux de 30 s chantés par Luna (MP3, 44,1 kHz).
   luna-08-architecte.mp3     architecte.html — Renaissance
   luna-09-wishlist.mp3       wishlist.html — Les Capteurs du Futur
   luna-10-noel.mp3           boutique.html — Féerie Cyberpunk de Noël
+  luna-11-blueprint.mp3      blueprint.html — Gouvernance & transparence
 
 Tant qu'un fichier manque, le lecteur affiche « Bientôt » — il ne prétend pas
 jouer quelque chose.
