@@ -1,0 +1,15 @@
+Dépose ici les dix morceaux de 30 s chantés par Luna (MP3, 44,1 kHz).
+
+  luna-01-aventure.mp3       index.html — L'Étincelle & Le Départ
+  luna-02-virtuel.mp3        virtuel.html — Le Corps avant le Métal
+  luna-03-neuroexo.mp3       neuroexo-ai.html — Synapses & Temps Réel
+  luna-04-devkit.mp3         devkit.html — L'Usine du Code
+  luna-05-realiastation.mp3  realiastation.html — Le Cabinet de l'Architecte
+  luna-06-ghostsheller.mp3   lunagalaxie.html — En Orbite sur le GhostSheller
+  luna-07-ilot-ong.mp3       meta-projet-social.html — L'Îlot de l'Espoir
+  luna-08-architecte.mp3     architecte.html — Renaissance
+  luna-09-wishlist.mp3       wishlist.html — Les Capteurs du Futur
+  luna-10-noel.mp3           boutique.html — Féerie Cyberpunk de Noël
+
+Tant qu'un fichier manque, le lecteur affiche « Bientôt » — il ne prétend pas
+jouer quelque chose.

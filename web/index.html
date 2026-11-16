@@ -3,436 +3,171 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Neuro-Exo — Capter l'étincelle</title>
-<meta name="description" content="Exosquelette open source de rééducation neuro-robotique : capter l'intention motrice résiduelle d'une lésion C6-C7, assister le mouvement, mesurer." />
+<title>Capter l'étincelle — Neuro-Exo</title>
+<meta name="description" content="Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale. De l'impulsion à l'étincelle." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
-<style>
-  /* --- accueil : compositions propres à cette page --- */
-  .heros {
-    display: grid; gap: 3rem; align-items: center;
-    padding: 3rem 0 5rem; position: relative; z-index: 10;
-  }
-  @media (min-width: 980px) {
-    .heros { grid-template-columns: 1.15fr .85fr; gap: 4rem; }
-  }
-  .heros h1 { margin: 1.2rem 0 0; }
-  .heros .lead { margin-top: 1.6rem; }
-
-  .boucle { padding: 2rem; }
-  .boucle ol { list-style: none; margin: 1.4rem 0 0; padding: 0; }
-  .boucle li { display: flex; gap: 1rem; padding: 1rem 0; border-top: 1px solid rgba(167,139,250,.16); }
-  .boucle li:first-child { border-top: 0; padding-top: 0; }
-  .boucle li:last-child { padding-bottom: 0; }
-  .num {
-    flex-shrink: 0; width: 2rem; height: 2rem; border-radius: .6rem; display: grid; place-items: center;
-    font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #14061f; font-weight: 500;
-    background: linear-gradient(135deg, #c4b5fd, #e879f9);
-  }
-  .boucle strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: .98rem; }
-  .boucle span.d { display: block; font-size: .85rem; color: var(--doux); }
-
-  .carte { padding: 1.8rem; }
-  .carte h3 { margin-bottom: .5rem; }
-  .carte p { font-size: .9rem; color: var(--doux); margin: 0; }
-
-  /* --- parcours : portrait + récit --- */
-  .parcours-grille { display: grid; gap: 1.6rem; align-items: start; }
-  @media (min-width: 900px) {
-    .parcours-grille { grid-template-columns: .82fr 1.18fr; gap: 2.2rem; }
-  }
-  .portrait { margin: 0; }
-  .portrait-cadre {
-    position: relative; border-radius: var(--rayon); overflow: hidden;
-    border: 1px solid rgba(196,181,253,.30);
-    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(139,92,246,.14);
-  }
-  .portrait-cadre::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(180deg, rgba(139,92,246,.12), transparent 45%, rgba(18,6,31,.35));
-  }
-  .portrait-cadre img { display: block; width: 100%; height: auto; }
-  .portrait figcaption {
-    margin-top: .9rem; font-family: 'JetBrains Mono', monospace;
-    font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--faible); line-height: 1.7;
-  }
-  .parcours-cartes { display: grid; gap: 1rem; }
-
-  .schema { display: flex; gap: .6rem; overflow-x: auto; padding: 1.6rem; }
-  .schema div {
-    flex-shrink: 0; padding: .8rem 1rem; border-radius: .7rem; text-align: center;
-    font-size: .78rem; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    background: rgba(167,139,250,.10); border: 1px solid var(--bord);
-  }
-  .schema div.haut { background: linear-gradient(135deg, rgba(196,181,253,.25), rgba(232,121,249,.20)); border-color: var(--bord-fort); }
-  .schema .fleche { color: var(--magenta); font-size: .9rem; align-self: center; border: 0; background: none; padding: 0 .2rem; }
-
-  .scene-hote {
-    border-radius: var(--rayon); overflow: hidden; height: 440px;
-    background: radial-gradient(circle at 50% 35%, rgba(76,29,149,.55), rgba(18,6,31,.85));
-  }
-  .onglets { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
-  .onglet {
-    padding: .5rem 1rem; border-radius: 999px; cursor: pointer;
-    font-family: 'Space Grotesk', sans-serif; font-size: .84rem; font-weight: 500;
-    color: var(--doux); background: rgba(167,139,250,.08); border: 1px solid var(--bord);
-    transition: all .22s ease;
-  }
-  .onglet[aria-pressed="true"] {
-    color: #14061f; border-color: transparent;
-    background: linear-gradient(100deg, #c4b5fd, #e879f9 55%, #f472b6);
-  }
-  .onglet:hover:not([aria-pressed="true"]) { color: var(--texte); border-color: var(--bord-fort); }
-
-  table.prix { width: 100%; border-collapse: collapse; font-size: .9rem; }
-  table.prix td { padding: .65rem 0; border-top: 1px solid rgba(167,139,250,.14); color: var(--doux); }
-  table.prix tr:first-child td { border-top: 0; }
-  table.prix td:last-child { text-align: right; color: var(--texte); white-space: nowrap; }
-  table.prix tr.total td { border-top: 1px solid rgba(232,121,249,.45); padding-top: 1rem; color: var(--texte); font-weight: 600; }
-
-  .canal { display: block; padding: 1.4rem; text-decoration: none; transition: transform .22s, border-color .22s; }
-  .canal:hover { transform: translateY(-3px); border-color: rgba(232,121,249,.5); }
-  .canal p { font-size: .82rem; color: var(--doux); margin: .4rem 0 .8rem; }
-  .canal .balise { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--magenta); }
-
-  .video-hote {
-    aspect-ratio: 16/9; border-radius: var(--rayon); display: grid; place-items: center;
-    background: radial-gradient(circle at 50% 40%, rgba(76,29,149,.6), rgba(18,6,31,.9));
-    border: 1px solid var(--bord);
-  }
-</style>
 </head>
-<body data-page="0">
+<body data-page="index" data-audio="assets/audio/luna-01-aventure.mp3">
 
 <div class="ciel"></div>
-<div class="systeme" style="bottom:-9%; right:-5%" data-taille="560" data-opacite="0.72"></div>
+<div class="systeme" data-position="bas-droite" data-taille="560" data-opacite="0.8"></div>
 
 <header class="entete">
   <nav class="nav">
-    <a href="index.html" class="marque">
-      <span class="marque-pastille">N</span>
-      <span class="marque-texte">NEURO<span>EXO</span></span>
-    </a>
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">N</span>
+        <span class="marque-texte">NEURO<span>EXO</span></span>
+      </a>
+      <div class="langues" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
     <div class="nav-liens">
       <a href="index.html" aria-current="page">Accueil</a>
-      <a href="meta-projet-social.html">Projet social</a>
-      <a href="affiliations.html">Équipements</a>
-      <a href="shopping.html">Boutique</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="neuroexo-ai.html">NeuroExoAI</a>
+      <a href="devkit.html">DevKit-Clean</a>
+      <a href="realiastation.html">RealiaStation</a>
       <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="boutique.html">Boutique</a>
     </div>
-    <a href="#financer" class="bouton">Soutenir</a>
   </nav>
 </header>
 
-<!-- ============================= HÉROS ============================= -->
-<section class="enveloppe">
-  <div class="heros">
-    <div>
-      <span class="chantier"><span class="point"></span>Prototype open source · Phase 1</span>
-      <h1>Capter<br /><span class="degrade-texte">l'étincelle.</span></h1>
-      <p class="lead">
-        Une lésion médullaire <strong style="color:var(--texte)">C6-C7 incomplète</strong> n'efface
-        pas tout : quand je commande à mes jambes de bouger, <em>je sens l'influx descendre</em>.
-        Ce prototype capte ce signal résiduel et le rend au mouvement — en boucle fermée.
-      </p>
-      <div style="display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem">
-        <a href="#financer" class="bouton">Soutenir le projet</a>
-        <a href="[LIEN_GITHUB]" class="bouton-fantome">Voir le code</a>
-      </div>
-      <div style="display:flex; gap:.6rem; margin-top:2rem; flex-wrap:wrap" aria-label="Suivre le projet">
-        <a href="[LIEN_X]" class="bouton-fantome" style="padding:.55rem 1rem; font-size:.82rem">X</a>
-        <a href="[LIEN_LINKEDIN]" class="bouton-fantome" style="padding:.55rem 1rem; font-size:.82rem">LinkedIn</a>
-        <a href="[LIEN_GITHUB]" class="bouton-fantome" style="padding:.55rem 1rem; font-size:.82rem">GitHub</a>
+<main class="enveloppe">
+
+  <section class="banniere">
+    <canvas id="particules" aria-hidden="true"></canvas>
+    <div class="banniere-corps">
+      <span class="chantier beta"><span class="point"></span><span data-t="index.badge">🚧 EN CHANTIER — RELEASE BETA PHASE 1</span></span>
+      <h1 style="margin:1.4rem 0 0"><span class="lueur-cyan" data-t="index.banniere">Bienvenue dans l'aventure !</span></h1>
+      <p class="sous-titre" data-t="index.sous">De l'impulsion à l'étincelle — Neuro-robotique open-source, IA agentique et solidarité internationale.</p>
+      <div class="banniere-actions">
+        <button type="button" class="bouton" id="activer-experience" data-t="index.cta1">Activer l'expérience & écouter Luna</button>
+        <a href="#manifeste" class="bouton-fantome" data-t="index.cta2">Lire le manifeste</a>
       </div>
     </div>
+  </section>
 
-    <aside class="verre boucle">
-      <p class="etiq" style="margin-bottom:.4rem">La boucle</p>
-      <ol>
-        <li>
-          <span class="num">01</span>
-          <div><strong>Capter</strong><span class="d">sEMG isolé galvaniquement — MyoWare 2.0 puis ADS1299.</span></div>
-        </li>
-        <li>
-          <span class="num">02</span>
-          <div><strong>Assister</strong><span class="d">Moteurs sur bus CAN et stimulation FES, avec fenêtre de blanking.</span></div>
-        </li>
-        <li>
-          <span class="num">03</span>
-          <div><strong>Répéter</strong><span class="d">Chaque séance est mesurée, rejouée, comparée.</span></div>
-        </li>
-      </ol>
-      <hr class="souligne" style="margin:1.4rem 0" />
-      <p style="font-size:.8rem; color:var(--faible); margin:0">
-        <strong style="color:var(--texte)">Prototype de recherche.</strong> Ce n'est pas un dispositif
-        médical : aucun essai sur une personne sans analyse de risques, validation électrique et avis d'éthique.
-      </p>
-    </aside>
-  </div>
-</section>
+  <section class="section" id="manifeste">
+    <div class="section-titre reveler">
+      <p class="etiq">Manifeste</p>
+      <h2 data-t="index.titre">De l'impulsion à l'étincelle</h2>
+      <p class="lead" style="margin-top:1.2rem" data-t="index.lead">Une lésion C6-C7 incomplète n'efface pas tout : l'ordre de mouvement part encore, et l'influx se fait sentir. Ce projet est né d'une image vue à la télévision, et il avance depuis, un composant à la fois.</p>
+    </div>
 
-<!-- ============================= PARCOURS ============================= -->
-<section class="enveloppe section" id="parcours">
-  <div class="section-titre reveler">
-    <p class="etiq">Parcours</p>
-    <h2>De l'Amazonie à la <span class="degrade-texte">neuro-robotique</span></h2>
-  </div>
-
-  <div class="parcours-grille">
-    <figure class="portrait reveler">
-      <div class="portrait-cadre">
-        <img src="assets/portrait.jpg" width="825" height="1100"
-             alt="Portrait de l'auteur du projet, en fauteuil, devant un jardin" />
-      </div>
-      <figcaption>Celui qui porte le projet — et qui le teste sur lui-même.</figcaption>
-    </figure>
-
-    <div class="parcours-cartes">
+    <div class="duo">
       <article class="verre carte reveler">
-        <h3>Les trois Guyanes</h3>
-        <p><em>Garimpeiro</em>, puis guide et organisateur d'expéditions en forêt amazonienne. On y apprend
-           à lire un terrain, à décider sans toutes les informations, et à repartir le lendemain.</p>
+        <h3 data-t="index.histoire_titre">Le déclic : 12 juin 2014</h3>
+        <p data-t="index.histoire_1">Coupe du monde, São Paulo. Un patient paraplégique se lève de son fauteuil et donne le coup d'envoi, porté par l'exosquelette du Dr Miguel Nicolelis. Des millions de personnes voient la scène ; une seule décide que ce sera sa vie.</p>
       </article>
       <article class="verre carte reveler">
-        <h3>2016 — C6-C7</h3>
-        <p>Un accident de voiture, une lésion médullaire incomplète. Et un détail que les comptes rendus
-           ne notent pas : l'ordre de mouvement part encore, et <strong style="color:var(--texte)">l'influx se fait sentir</strong>.</p>
-      </article>
-      <article class="verre carte reveler">
-        <h3>L'ambition sociale</h3>
-        <p>Ce prototype est la première pierre d'un projet <strong style="color:var(--texte)">entièrement
-           open source</strong> : que la rééducation neuro-robotique ne reste pas réservée à qui peut la payer.</p>
+        <p data-t="index.histoire_2">L'idée mûrit pendant des années, sans laboratoire ni budget — juste une conviction et un carnet. Puis l'IA arrive, la machine de calcul se monte, et la Phase 1 devient possible : un banc d'essai mesurable, ouvert, publié.</p>
       </article>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============================= ARCHITECTURE ============================= -->
-<section class="enveloppe section" id="architecture">
-  <div class="section-titre reveler">
-    <p class="etiq">Architecture</p>
-    <h2>Deux systèmes, <span class="degrade-texte">deux horloges</span></h2>
-    <p class="lead" style="margin-top:1.2rem">
-      Confondre le temps réel et le temps de la réflexion est la faute de conception la plus répandue
-      dans les exosquelettes de recherche. Ici, une frontière nette : le Système 1 agit, le Système 2 observe.
-    </p>
-  </div>
-
-  <div class="duo">
-    <article class="verre-clair carte reveler">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:1rem">
-        <h3>Le « P'tit Rapide »</h3>
-        <span class="mono" style="font-size:.72rem; color:var(--magenta)">&lt; 20 ms</span>
-      </div>
-      <p style="margin:.3rem 0 1rem; font-size:.9rem; color:var(--doux)">Système 1 — sur la personne, temps réel déterministe.</p>
-      <ul style="margin:0; padding-left:1.1rem; font-size:.88rem; color:var(--doux); line-height:1.9">
-        <li>sEMG isolé galvaniquement (MyoWare 2.0 / ADS1299)</li>
-        <li>Détection d'intention par seuil — <em>emplacement de modèle réservé</em></li>
-        <li>Bus CAN vers les moteurs, stimulation FES avec blanking</li>
-        <li>Arrêt réflexe matériel : couple, vitesse, butée, bouton</li>
-      </ul>
-    </article>
-
-    <article class="verre carte reveler">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:1rem">
-        <h3>Le « Penseur »</h3>
-        <span class="mono" style="font-size:.72rem; color:var(--violet)">10–100 Hz</span>
-      </div>
-      <p style="margin:.3rem 0 1rem; font-size:.9rem; color:var(--doux)">Système 2 — hors de la personne, jamais dans la boucle de commande.</p>
-      <ul style="margin:0; padding-left:1.1rem; font-size:.88rem; color:var(--doux); line-height:1.9">
-        <li>Jumeau numérique 3D (MuJoCo ; Isaac Sim selon le GPU)</li>
-        <li>Station fixe : i9 + RTX 4080 · poste nomade Linux Mint</li>
-        <li>Liaison par tunnel privé <strong style="color:var(--texte)">Tailscale</strong>, sans port ouvert</li>
-        <li>Journalisation et rejeu de chaque séance</li>
-      </ul>
-    </article>
-  </div>
-
-  <div class="verre schema reveler" style="margin-top:1.1rem">
-    <div>sEMG<br /><span class="faible" style="font-size:.68rem">MyoWare / ADS1299</span></div>
-    <div class="fleche">→</div>
-    <div>Intention<br /><span class="faible" style="font-size:.68rem">seuil · modèle vide</span></div>
-    <div class="fleche">→</div>
-    <div class="haut">Assistance<br /><span style="font-size:.68rem; opacity:.75">CAN / FES</span></div>
-    <div class="fleche">→</div>
-    <div>Mouvement<br /><span class="faible" style="font-size:.68rem">mesuré</span></div>
-    <div class="fleche">⇢</div>
-    <div>Jumeau 3D<br /><span class="faible" style="font-size:.68rem">Système 2</span></div>
-  </div>
-</section>
-
-<!-- ============================= JUMEAU 3D ============================= -->
-<section class="enveloppe section" id="jumeau">
-  <div class="section-titre reveler">
-    <p class="etiq">Jumeau numérique</p>
-    <h2>Le corps, <span class="degrade-texte">avant le métal</span></h2>
-    <p class="lead" style="margin-top:1.2rem">
-      Un exosquelette mal réglé blesse. Alors on règle sur un modèle : le signal, puis la cinématique,
-      puis le montage. Trois étapes, une seule scène — fais-la tourner.
-    </p>
-  </div>
-
-  <div class="verre reveler" style="padding:1.2rem">
-    <div class="onglets" role="group" aria-label="Étapes du jumeau numérique">
-      <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux de signaux</button>
-      <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
-      <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais &amp; capteurs</button>
+  <section class="section" id="chemin">
+    <div class="section-titre reveler">
+      <p class="etiq">Orientation</p>
+      <h2 data-t="index.orient_titre">Le chemin, étape par étape</h2>
+      <p class="lead" style="margin-top:1rem" data-t="index.orient_lead">Chaque tiroir du site correspond à une étape du projet. Tu peux les lire dans l'ordre, ou sauter à celle qui t'intéresse.</p>
     </div>
-    <div id="scene3d" class="scene-hote">
-      <noscript><p style="padding:2rem;text-align:center">La scène 3D demande JavaScript.</p></noscript>
+    <div class="orient reveler">
+      <a href="virtuel.html">
+        <span class="rang">01</span>
+        <strong data-t="virtuel.carte">Labo virtuel</strong>
+        <span class="d" data-t="virtuel.descr">Le corps avant le métal : simuler pour ne pas usiner à l'aveugle.</span>
+      </a>
+      <a href="neuroexo-ai.html">
+        <span class="rang">02</span>
+        <strong data-t="neuroexo.carte">Harnais NeuroExoAI</strong>
+        <span class="d" data-t="neuroexo.descr">La boucle dure : sEMG, FES et sécurité sous 20 ms.</span>
+      </a>
+      <a href="devkit.html">
+        <span class="rang">03</span>
+        <strong data-t="devkit.carte">Harnais DevKit-Clean</strong>
+        <span class="d" data-t="devkit.descr">L'usine logicielle qui construit tout le reste.</span>
+      </a>
+      <a href="realiastation.html">
+        <span class="rang">04</span>
+        <strong data-t="realia.carte">RealiaStation</strong>
+        <span class="d" data-t="realia.descr">Le cabinet d'étude où se pilotent les sous-agents.</span>
+      </a>
+      <a href="lunagalaxie.html">
+        <span class="rang">05</span>
+        <strong data-t="luna.carte">LunaGalaxie</strong>
+        <span class="d" data-t="luna.descr">La voix du projet, à bord du GhostSheller.</span>
+      </a>
+      <a href="meta-projet-social.html">
+        <span class="rang">06</span>
+        <strong data-t="social.carte">Projet social — l'Îlot Intégré</strong>
+        <span class="d" data-t="social.descr">Le modèle d'ONG réplicable, première pierre à Madagascar.</span>
+      </a>
+      <a href="architecte.html">
+        <span class="rang">07</span>
+        <strong data-t="archi.carte">L'Architecte</strong>
+        <span class="d" data-t="archi.descr">Une renaissance, une cause, une mission.</span>
+      </a>
+      <a href="wishlist.html">
+        <span class="rang">08</span>
+        <strong data-t="wish.carte">Wishlist matériel</strong>
+        <span class="d" data-t="wish.descr">Financer un composant précis, pas un pot commun.</span>
+      </a>
+      <a href="boutique.html">
+        <span class="rang">09</span>
+        <strong data-t="boutique.carte">Boutique de Noël</strong>
+        <span class="d" data-t="boutique.descr">Acheter comme d'habitude, financer le projet sans surcoût.</span>
+      </a>
     </div>
-    <p id="scene-legende" style="margin:1rem 0 0; font-size:.86rem; color:var(--doux)">
-      Étape 1 — Le flux : ondes EEG et sEMG, ce que les capteurs lisent avant toute décision.
-    </p>
-    <p style="margin:.3rem 0 0; font-size:.74rem; color:var(--faible)">
-      Glisse à la souris ou au doigt pour tourner la vue. Aucune donnée réelle : c'est un modèle, pas une séance.
-    </p>
-  </div>
-</section>
+  </section>
 
-<!-- ============================= FINANCEMENT ============================= -->
-<section class="enveloppe section" id="financer">
-  <div class="section-titre reveler">
-    <p class="etiq">Transparence matérielle</p>
-    <h2>J'ai déjà le moteur.<br /><span class="degrade-texte">Il manque les capteurs.</span></h2>
-    <p class="lead" style="margin-top:1.2rem">
-      L'infrastructure lourde est en place et tourne tous les jours. Ce que vous financez, ce sont
-      les <strong style="color:var(--texte)">quatre derniers maillons biométriques</strong> entre un corps et une machine.
-    </p>
-  </div>
-
-  <div class="duo">
-    <article class="verre carte reveler">
-      <p class="etiq" style="color:var(--violet)">Déjà financé, déjà en service</p>
-      <ul style="margin:1rem 0 0; padding:0; list-style:none; font-size:.88rem; line-height:1.75; color:var(--doux)">
-        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">Station de calcul IA</strong> — Linux i9 + RTX 4080, simulation et calcul lourd</li>
-        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">MacBook Pro de terrain</strong> — Linux Mint, poste nomade</li>
-        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">MacBook Air</strong> — acquisition et journal de séance</li>
-        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">Réseau maillé Tailscale</strong> — liaison chiffrée, aucun port ouvert</li>
-        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">8 To de stockage</strong> — archives hors cloud</li>
-      </ul>
-      <p style="margin:1.2rem 0 0; font-size:.78rem; color:var(--faible)">
-        Aucun de ces postes n'est à acheter : c'est pourquoi le budget demandé est de 1 350 € et non de dizaines de milliers.
+  <section class="section" id="financer" style="text-align:center">
+    <div class="verre-clair reveler" style="padding:2.6rem 1.6rem">
+      <h2 data-t="commun.soutenir">Soutenir</h2>
+      <p class="lead" style="margin:1rem auto 0">
+        Ko-fi · Tipeee · GitHub Sponsors — trois canaux ouverts, sans tout-ou-rien.
       </p>
-    </article>
-
-    <article class="verre-clair carte reveler">
-      <p class="etiq">Les maillons manquants</p>
-      <table class="prix">
-        <tr><td>Casque EEG OpenBCI + électrodes</td><td>700 €</td></tr>
-        <tr><td>Capteurs MyoWare 2.0 + câblage</td><td>150 €</td></tr>
-        <tr><td>Extension triple écran nomade</td><td>500 €</td></tr>
-        <tr><td>Module FES isolé galvaniquement</td><td style="color:var(--magenta)">à chiffrer</td></tr>
-        <tr class="total"><td>Phase 1</td><td>1 350 €</td></tr>
-      </table>
-      <p style="margin:1rem 0 0; font-size:.78rem; color:var(--faible)">
-        Estimations à confirmer par devis. Le module FES est hors Phase 1 : son isolation se conçoit, elle ne s'improvise pas.
-      </p>
-    </article>
-  </div>
-
-  <div class="verre reveler" style="padding:1.8rem; margin-top:1.1rem">
-    <h3>Soutien continu, sans tout-ou-rien</h3>
-    <p class="doux" style="font-size:.9rem; max-width:44rem; margin:.5rem 0 1.4rem">
-      Pas de campagne qui s'annule si l'objectif n'est pas atteint. Trois canaux ouverts en permanence :
-      chaque contribution reste acquise au projet, et le chantier avance au rythme de ce qui rentre.
-    </p>
-    <div class="trio">
-      <a href="[LIEN_KOFI]" class="verre canal">
-        <strong>Ko-fi</strong>
-        <p>Ponctuel ou mensuel, 0 % de commission côté plateforme, Apple Pay, international.</p>
-        <span class="balise">[LIEN_KOFI]</span>
-      </a>
-      <a href="[LIEN_TIPEEE]" class="verre canal">
-        <strong>Tipeee</strong>
-        <p>Public francophone : abonnement mensuel, contreparties, journal de bord.</p>
-        <span class="balise">[LIEN_TIPEEE]</span>
-      </a>
-      <a href="[LIEN_GITHUB_SPONSORS]" class="verre canal">
-        <strong>GitHub Sponsors</strong>
-        <p>Communauté open source : le soutien apparaît à côté du code qu'il finance.</p>
-        <span class="balise">[LIEN_GITHUB_SPONSORS]</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================= VIDÉO ============================= -->
-<section class="enveloppe section" id="video">
-  <div class="section-titre reveler">
-    <p class="etiq">Terrain</p>
-    <h2>Prises de vues — <span class="degrade-texte">Macaíba</span></h2>
-    <p class="lead" style="margin-top:1.2rem">
-      Les premières images seront tournées à Macaíba (Rio Grande do Norte). Cet emplacement attend la vidéo :
-      rien de simulé, rien de stock.
-    </p>
-  </div>
-  <div class="verre reveler" style="padding:1rem">
-    <div class="video-hote">
-      [VIDEO_MACAIBA_EMBED]
-      <div style="text-align:center; padding:1rem">
-        <p style="margin:0 0 .3rem; font-family:'Space Grotesk',sans-serif; font-weight:600">Vidéo à venir</p>
-        <p class="faible mono" style="margin:0; font-size:.7rem">[VIDEO_MACAIBA_EMBED]</p>
+      <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.6rem">
+        <a href="[LIEN_KOFI]" class="bouton">Ko-fi</a>
+        <a href="[LIEN_TIPEEE]" class="bouton-fantome">Tipeee</a>
+        <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">GitHub Sponsors</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============================= CTA ============================= -->
-<section class="enveloppe section" style="text-align:center">
-  <div class="verre-clair reveler" style="padding:3rem 2rem">
-    <h2>Suivez-moi <span class="degrade-texte">dès maintenant</span></h2>
-    <p class="lead" style="margin:1.2rem auto 0">
-      Ce projet se construit en public : les doutes, les cotes qui ne tombent pas juste, les pièces en retard.
-      Embarquer maintenant, c'est voir la machine se faire.
-    </p>
-    <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:2rem">
-      <a href="#financer" class="bouton">Soutenir le projet</a>
-      <a href="[LIEN_KOFI]" class="bouton-fantome">Ko-fi</a>
-      <a href="[LIEN_TIPEEE]" class="bouton-fantome">Tipeee</a>
-      <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">Sponsors</a>
-    </div>
-  </div>
-</section>
+</main>
 
 <footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="meta-projet-social.html">Projet social</a>
-      <a href="affiliations.html">Équipements</a>
-      <a href="shopping.html">Boutique</a>
+      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
+      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
     </div>
   </div>
+  
 </footer>
 
+<script src="traductions.js" defer></script>
+<script src="i18n.js" defer></script>
+<script src="revele.js" defer></script>
 <script src="tiroir.js" defer></script>
+<script src="audio.js" defer></script>
+<script src="particules.js" defer></script>
 <script type="module" src="systeme.js"></script>
-<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-</script>
-<script type="module">
-  import { demarrerScene } from './three-scene.js';
-  const conteneur = document.getElementById('scene3d');
-  if (conteneur) demarrerScene(conteneur, { legendeId: 'scene-legende' });
-</script>
-<script>
-  (function () {
-    var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var cibles = document.querySelectorAll('.reveler');
-    if (reduit || !('IntersectionObserver' in window)) {
-      cibles.forEach(function (e) { e.classList.add('vu'); });
-      return;
-    }
-    var o = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vu'); o.unobserve(e.target); } });
-    }, { threshold: .1 });
-    cibles.forEach(function (e) { o.observe(e); });
-  })();
-</script>
 </body>
 </html>

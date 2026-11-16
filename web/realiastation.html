@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RealiaStation — le cabinet d'étude — Neuro-Exo</title>
+<meta name="description" content="La future station de production, construite avec le DevKit : la dernière version d'Hermes et le harnais SuperAgent pour piloter une armée de sous-agen" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="realia" data-audio="assets/audio/luna-05-realiastation.mp3">
+
+<div class="ciel"></div>
+<div class="systeme" data-position="bas-droite" data-taille="340" data-opacite="0.8"></div>
+
+<header class="entete">
+  <nav class="nav">
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">N</span>
+        <span class="marque-texte">NEURO<span>EXO</span></span>
+      </a>
+      <div class="langues" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="neuroexo-ai.html">NeuroExoAI</a>
+      <a href="devkit.html">DevKit-Clean</a>
+      <a href="realiastation.html" aria-current="page">RealiaStation</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="boutique.html">Boutique</a>
+    </div>
+  </nav>
+</header>
+
+<main class="enveloppe">
+
+  <section class="section" style="padding-bottom:1.6rem">
+    <span class="chantier"><span class="point"></span><span data-t="realia.badge">🚧 EN CHANTIER — SET-UP EN PRÉPARATION</span></span>
+    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="realia.titre">RealiaStation — le cabinet d'étude</h1>
+    <p class="lead" style="margin-top:1.2rem" data-t="realia.lead">La future station de production, construite avec le DevKit : la dernière version d'Hermes et le harnais SuperAgent pour piloter une armée de sous-agents. C'est d'ici que sortira le contenu.</p>
+  </section>
+
+  <section class="section" style="padding-top:.5rem">
+    <div class="trio">
+      <article class="verre carte reveler">
+        <h3 data-t="realia.c1t">Hermes + SuperAgent</h3>
+        <p data-t="realia.c1d">Un agent qui cadre, une nuée de sous-agents qui exécutent : recherche, écriture, montage, publication.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="realia.c2t">La fabrique de LunaGalaxie</h3>
+        <p data-t="realia.c2d">La station produira les épisodes, animera l'équipage d'influenceuses virtuelles et tiendra leurs réseaux. L'audience finance ensuite les projets sociaux.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="realia.c3t">Pourquoi une station, et pas un cloud</h3>
+        <p data-t="realia.c3d">Coût maîtrisé, données chez soi, pas de dépendance à un tarif à l'usage. Le GPU tourne la nuit, comme un four.</p>
+      </article>
+    </div>
+  </section>
+
+
+  <section class="section" style="padding-top:0">
+    <div class="verre-clair reveler" style="padding:1.8rem">
+      <h2 style="font-size:1.2rem; margin-bottom:.6rem" data-t="realia.lien_titre">Et LunaGalaxie ?</h2>
+      <p class="doux" style="line-height:1.8; margin-bottom:1.1rem" data-t="realia.lien_txt">La RealiaStation est la main qui produit ; LunaGalaxie est la voix qui raconte. L'une fabrique les images et les épisodes, l'autre les porte devant le public.</p>
+      <a href="lunagalaxie.html" class="bouton-fantome" data-t="realia.lien_cta">Entrer dans le GhostSheller →</a>
+    </div>
+  </section>
+
+
+  <section class="section" style="text-align:center; padding-top:1rem">
+    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
+      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
+    </div>
+  </div>
+  
+</footer>
+
+<script src="traductions.js" defer></script>
+<script src="i18n.js" defer></script>
+<script src="revele.js" defer></script>
+<script src="tiroir.js" defer></script>
+<script src="audio.js" defer></script>
+<script type="module" src="systeme.js"></script>
+</body>
+</html>

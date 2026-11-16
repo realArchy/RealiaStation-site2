@@ -1,40 +1,45 @@
 /* ============================================================================
    Les tiroirs — une page = un tiroir de commode.
+   Dix tiroirs, dans l'ordre du cheminement du projet. Les libellés passent par
+   i18n.js quand il est chargé ; sinon on garde le français.
 
-   On lit la page normalement. Arrivé en bas, si l'on continue de tirer vers le
-   bas, la page glisse hors du meuble et la suivante entre par le haut. En haut,
-   même chose vers le haut : le tiroir précédent revient.
-
-   Trois façons de tirer : la molette (au-delà du bord, seuil de 140 px), le
-   clavier (flèches, Page↑/↓, espace), le doigt (balayage de 70 px au bord).
-   La poignée en bas fait la même chose au clic.
-
-   Aucune dépendance, aucun historique détourné : on change de page pour de bon,
-   et le bouton « retour » du navigateur fait ce qu'il doit faire.
+   Molette (au-delà du bord, 140 px), clavier, doigt (70 px), poignée au clic.
    ========================================================================== */
 
 const ORDRE = [
-  { fichier: 'index.html',              nom: 'Accueil' },
-  { fichier: 'meta-projet-social.html', nom: 'Projet social' },
-  { fichier: 'affiliations.html',       nom: 'Équipements' },
-  { fichier: 'shopping.html',           nom: 'Boutique' },
-  { fichier: 'lunagalaxie.html',        nom: 'LunaGalaxie' }
+  { fichier: 'index.html',              cle: 'nav.accueil',  nom: 'Accueil' },
+  { fichier: 'virtuel.html',            cle: 'nav.virtuel',  nom: 'Labo virtuel' },
+  { fichier: 'neuroexo-ai.html',        cle: 'nav.neuroexo', nom: 'NeuroExoAI' },
+  { fichier: 'devkit.html',             cle: 'nav.devkit',   nom: 'DevKit-Clean' },
+  { fichier: 'realiastation.html',      cle: 'nav.realia',   nom: 'RealiaStation' },
+  { fichier: 'lunagalaxie.html',        cle: 'nav.luna',     nom: 'LunaGalaxie' },
+  { fichier: 'meta-projet-social.html', cle: 'nav.social',   nom: 'Projet social' },
+  { fichier: 'architecte.html',         cle: 'nav.archi',    nom: "L'Architecte" },
+  { fichier: 'wishlist.html',           cle: 'nav.wishlist', nom: 'Wishlist' },
+  { fichier: 'boutique.html',           cle: 'nav.boutique', nom: 'Boutique' }
 ];
 
-const SEUIL_MOLETTE = 140;   // px cumulés au-delà du bord
-const SEUIL_DOIGT = 70;      // px de balayage au bord
-const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46s)
+const SEUIL_MOLETTE = 140;
+const SEUIL_DOIGT = 70;
+const DUREE_SORTIE = 430;
+
+function libelle(entree) {
+  if (window.I18N && typeof window.I18N.t === 'function') {
+    const v = window.I18N.t(entree.cle);
+    if (v) return v;
+  }
+  return entree.nom;
+}
 
 (function tiroirs() {
   const fichier = location.pathname.split('/').pop() || 'index.html';
   const i = ORDRE.findIndex(p => p.fichier === fichier);
-  if (i < 0) return;                                  // page hors commode
+  if (i < 0) return;
 
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const precedent = i > 0 ? ORDRE[i - 1] : null;
   const suivant = i < ORDRE.length - 1 ? ORDRE[i + 1] : null;
 
-  // --- animation d'entrée, si l'on vient d'un tiroir -----------------------
   const entree = sessionStorage.getItem('tiroir-entree');
   if (entree && !reduit) {
     document.body.classList.add('entree-' + entree);
@@ -45,7 +50,6 @@ const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46
   }
   sessionStorage.removeItem('tiroir-entree');
 
-  // --- sortie --------------------------------------------------------------
   let enCours = false;
   function aller(cible, sens) {
     if (!cible || enCours) return;
@@ -59,21 +63,17 @@ const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46
     }
   }
 
-  // --- position : au bord ou non -------------------------------------------
   function auBas() {
-    const marge = 4;
-    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - marge;
+    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
   }
   function enHaut() {
     return window.scrollY <= 2;
   }
 
-  // --- molette -------------------------------------------------------------
   let cumul = 0;
   let minuterie = null;
 
   window.addEventListener('wheel', (e) => {
-    // On ne s'active qu'au bord : au milieu de la page, la molette fait son travail.
     const versLeBas = e.deltaY > 0;
     if (versLeBas && !auBas()) { cumul = 0; return; }
     if (!versLeBas && !enHaut()) { cumul = 0; return; }
@@ -82,31 +82,20 @@ const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46
     clearTimeout(minuterie);
     minuterie = setTimeout(() => { cumul = 0; }, 260);
 
-    if (cumul > SEUIL_MOLETTE) {
-      cumul = 0;
-      aller(suivant, 'bas');
-    } else if (cumul < -SEUIL_MOLETTE) {
-      cumul = 0;
-      aller(precedent, 'haut');
-    }
+    if (cumul > SEUIL_MOLETTE) { cumul = 0; aller(suivant, 'bas'); }
+    else if (cumul < -SEUIL_MOLETTE) { cumul = 0; aller(precedent, 'haut'); }
   }, { passive: true });
 
-  // --- doigt ---------------------------------------------------------------
   let departY = null;
-  window.addEventListener('touchstart', (e) => {
-    departY = e.touches[0].clientY;
-  }, { passive: true });
-
+  window.addEventListener('touchstart', (e) => { departY = e.touches[0].clientY; }, { passive: true });
   window.addEventListener('touchend', (e) => {
     if (departY === null) return;
-    const fin = e.changedTouches[0].clientY;
-    const delta = departY - fin;                 // positif = doigt vers le haut
+    const delta = departY - e.changedTouches[0].clientY;
     departY = null;
     if (delta > SEUIL_DOIGT && auBas()) aller(suivant, 'bas');
     else if (delta < -SEUIL_DOIGT && enHaut()) aller(precedent, 'haut');
   }, { passive: true });
 
-  // --- clavier -------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
     const bas = e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ';
@@ -115,29 +104,23 @@ const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46
     else if (haut && enHaut()) { e.preventDefault(); aller(precedent, 'haut'); }
   });
 
-  // --- poignée -------------------------------------------------------------
   const p = document.createElement('div');
   p.className = 'poignee';
   p.setAttribute('role', 'group');
-  p.setAttribute('aria-label', 'Passer au tiroir suivant ou précédent');
 
   const btnPrec = document.createElement('button');
   btnPrec.type = 'button';
   btnPrec.textContent = '↑';
-  btnPrec.title = precedent ? 'Tiroir précédent : ' + precedent.nom : 'Aucun tiroir au-dessus';
   btnPrec.disabled = !precedent;
   btnPrec.addEventListener('click', () => aller(precedent, 'haut'));
 
   const milieu = document.createElement('span');
   milieu.className = 'suite';
-  milieu.textContent = suivant ? 'Tiroir suivant · ' + suivant.nom : 'Dernier tiroir';
-  if (suivant) milieu.addEventListener('click', () => aller(suivant, 'bas'));
 
   const btnSuiv = document.createElement('button');
   btnSuiv.type = 'button';
   btnSuiv.className = 'fleche';
   btnSuiv.textContent = '↓';
-  btnSuiv.title = suivant ? 'Tiroir suivant : ' + suivant.nom : 'Aucun tiroir en dessous';
   btnSuiv.disabled = !suivant;
   btnSuiv.addEventListener('click', () => aller(suivant, 'bas'));
 
@@ -145,10 +128,20 @@ const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46
   compte.className = 'compte';
   compte.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(ORDRE.length).padStart(2, '0');
 
+  function rafraichirLibelles() {
+    const prefixe = (window.I18N && window.I18N.t('tiroir.suivant')) || 'Tiroir suivant';
+    milieu.textContent = suivant
+      ? prefixe + ' · ' + libelle(suivant)
+      : ((window.I18N && window.I18N.t('tiroir.dernier')) || 'Dernier tiroir');
+    milieu.style.cursor = suivant ? 'pointer' : 'default';
+  }
+  milieu.addEventListener('click', () => { if (suivant) aller(suivant, 'bas'); });
+  rafraichirLibelles();
+  document.addEventListener('langue-change', rafraichirLibelles);
+
   p.append(btnPrec, milieu, btnSuiv, compte);
   document.body.appendChild(p);
 
-  // La poignée s'allume quand on arrive au bord : elle signale « ça va glisser ».
   function etatPoignee() {
     p.style.borderColor = auBas() ? 'rgba(232,121,249,.55)' : '';
     p.style.color = auBas() ? 'rgba(243,236,255,.85)' : '';
@@ -156,6 +149,5 @@ const DUREE_SORTIE = 430;    // ms — doit rester cohérent avec style.css (.46
   window.addEventListener('scroll', etatPoignee, { passive: true });
   etatPoignee();
 
-  // Exposé pour la vérification automatique.
   window.__tiroir = { index: i, suivant, precedent, aller, auBas, enHaut };
 })();

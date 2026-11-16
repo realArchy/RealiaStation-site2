@@ -3,105 +3,97 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LunaGalaxie a.k.a. GypsieLuna — Neuro-Exo</title>
-<meta name="description" content="Transmission entrante. LunaGalaxie, dite GypsieLuna : porte-parole du projet, à bord du GhostSheller." />
+<title>LunaGalaxie — Neuro-Exo</title>
+<meta name="description" content="Porte-parole et narratrice du projet. Elle voyage à bord du GhostSheller, vaisseau quantique millénaire à propulsion black-hole, entourée de son fidèl" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
-<style>
-  /* La page la plus nue du site : une transmission, pas une fiche produit. */
-  .transmission {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 2.5rem 1.5rem 5rem; position: relative; z-index: 10;
-  }
-  .entete-tx {
-    max-width: 62rem; margin: 0 auto; width: 100%;
-    display: flex; align-items: center; justify-content: space-between;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--faible);
-  }
-  .entete-tx a { color: inherit; text-decoration: none; }
-  .entete-tx a:hover { color: var(--magenta); }
-  .signal { display: inline-flex; align-items: center; gap: .5rem; color: var(--magenta); }
-
-  .tx-corps { max-width: 62rem; margin: 0 auto; width: 100%; text-align: center; padding-top: 3.5rem; }
-
-  .tx-nom {
-    font-size: clamp(2.6rem, 7.4vw, 5.2rem); letter-spacing: -.045em; line-height: .95; margin: 0;
-  }
-  .tx-alias {
-    display: block; margin-top: .7rem;
-    font-family: 'JetBrains Mono', monospace; font-size: clamp(.72rem, 1.8vw, .92rem);
-    letter-spacing: .36em; text-transform: uppercase; color: var(--magenta); font-weight: 500;
-  }
-  .tx-texte {
-    max-width: 34rem; margin: 2.2rem auto 0; font-size: 1rem; line-height: 1.85; color: var(--doux);
-  }
-  .tx-texte strong { color: var(--texte); }
-
-  .vaisseau {
-    margin: 3rem auto 0; max-width: 62rem; position: relative;
-    border-radius: 1.3rem; overflow: hidden;
-    border: 1px solid rgba(196,181,253,.28);
-    box-shadow: 0 40px 110px rgba(0,0,0,.65), 0 0 70px rgba(139,92,246,.18);
-  }
-  .vaisseau img { display: block; width: 100%; height: auto; }
-  .vaisseau::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(180deg, rgba(139,92,246,.10), rgba(232,121,249,.08));
-    mix-blend-mode: screen;
-  }
-  .legende-vaisseau {
-    margin: 1rem 0 0; font-family: 'JetBrains Mono', monospace;
-    font-size: .64rem; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--faible); text-align: center;
-  }
-  .tx-pied {
-    margin-top: 3rem; text-align: center; font-family: 'JetBrains Mono', monospace;
-    font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(243,236,255,.32);
-  }
-</style>
 </head>
-<body data-page="4">
+<body data-page="luna" data-audio="assets/audio/luna-06-ghostsheller.mp3">
 
 <div class="ciel"></div>
-<div class="systeme" data-position="bas-gauche" data-taille="300" data-opacite="0.55"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="300" data-opacite="0.8"></div>
 
-<main class="transmission">
-
-  <div class="entete-tx">
-    <a href="index.html">← Accueil</a>
-    <span class="signal"><span class="point"></span>Transmission entrante</span>
-  </div>
-
-  <div class="tx-corps">
-    <h1 class="tx-nom">
-      LunaGalaxie
-      <span class="tx-alias">a.k.a. GypsieLuna</span>
-    </h1>
-
-    <p class="tx-texte">
-      Porte-parole et narratrice du projet. Elle voyage à bord du
-      <strong>GhostSheller</strong>, vaisseau quantique millénaire à propulsion
-      <em>black-hole</em>, entourée de son fidèle équipage.
-    </p>
-
-    <figure style="margin:0">
-      <div class="vaisseau">
-        <img src="assets/ghostsheller.jpg"
-             alt="Le GhostSheller, vaisseau quantique millénaire, en orbite au-dessus d'une planète bleue"
-             width="1140" height="641" />
+<header class="entete">
+  <nav class="nav">
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">N</span>
+        <span class="marque-texte">NEURO<span>EXO</span></span>
+      </a>
+      <div class="langues" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
       </div>
-      <figcaption class="legende-vaisseau">GhostSheller — propulsion black-hole</figcaption>
-    </figure>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="neuroexo-ai.html">NeuroExoAI</a>
+      <a href="devkit.html">DevKit-Clean</a>
+      <a href="realiastation.html">RealiaStation</a>
+      <a href="lunagalaxie.html" aria-current="page">LunaGalaxie</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="boutique.html">Boutique</a>
+    </div>
+  </nav>
+</header>
 
-    <p class="tx-pied">Signal incomplet · page en construction</p>
-  </div>
+<main class="enveloppe">
+
+  <section class="section" style="padding-bottom:1rem">
+    <span class="chantier"><span class="point"></span><span data-t="luna.badge">Transmission entrante</span></span>
+    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.4rem,7vw,4.4rem); letter-spacing:-.045em" data-t="luna.titre">LunaGalaxie</h1>
+    <p class="mono" style="letter-spacing:.36em; color:var(--magenta); font-size:.8rem; margin:.7rem 0 0">A.K.A. GYPSIELUNA</p>
+    <p class="lead" style="margin-top:1.4rem; max-width:34rem" data-t="luna.lead">Porte-parole et narratrice du projet. Elle voyage à bord du GhostSheller, vaisseau quantique millénaire à propulsion black-hole, entourée de son fidèle équipage.</p>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <figure class="reveler" style="margin:0">
+      <div class="cadre-neon" style="padding:0; background:rgba(40,17,65,.9); box-shadow:none">
+        <img src="assets/ghostsheller.jpg" width="1140" height="641"
+             alt="Le GhostSheller, vaisseau quantique millénaire, en orbite au-dessus d'une planète bleue" />
+      </div>
+      <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; text-align:center; letter-spacing:.16em">
+        GHOSTSHELLER — PROPULSION BLACK-HOLE
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="verre reveler" style="padding:1.8rem">
+      <h2 style="font-size:1.2rem; margin-bottom:.6rem" data-t="luna.prod_titre">Produite par la RealiaStation</h2>
+      <p class="doux" style="line-height:1.8; margin-bottom:1.1rem" data-t="luna.prod_txt">Les épisodes, les images et les voix sont fabriqués par la station de production. L'audience qu'elle génère finance les Îlots Intégrés.</p>
+      <a href="realiastation.html" class="bouton-fantome" data-t="luna.prod_cta">Voir la station de production →</a>
+    </div>
+  </section>
 
 </main>
 
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
+      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
+    </div>
+  </div>
+  
+</footer>
+
+<script src="traductions.js" defer></script>
+<script src="i18n.js" defer></script>
+<script src="revele.js" defer></script>
 <script src="tiroir.js" defer></script>
+<script src="audio.js" defer></script>
 <script type="module" src="systeme.js"></script>
 </body>
 </html>

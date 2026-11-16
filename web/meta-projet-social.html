@@ -3,139 +3,139 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Le projet social — Neuro-Exo</title>
-<meta name="description" content="Démocratiser la rééducation neuro-robotique : plans ouverts, protocoles partagés, matériel reproductible. Page en construction." />
+<title>L'Îlot Intégré — Neuro-Exo</title>
+<meta name="description" content="Ni un hôpital, ni une ferme, ni un atelier : les trois ensemble. Un lieu où l'on rééduque, où l'on cultive, où l'on fabrique — et où les enfants handi" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
-<style>
-  .titre-grand {
-    font-size: clamp(2.4rem, 6.4vw, 4.6rem); line-height: .99;
-    letter-spacing: -.035em; margin: 1.1rem 0 0;
-  }
-  .pilier { padding: 1.6rem; }
-  .pilier h3 { margin: .9rem 0 .45rem; }
-  .pilier p { font-size: .87rem; color: var(--doux); margin: 0; line-height: 1.7; }
-  .glyphe {
-    width: 2.2rem; height: 2.2rem; border-radius: .7rem; display: grid; place-items: center;
-    font-size: .95rem; background: rgba(167,139,250,.14); border: 1px solid var(--bord);
-  }
-  .attente { margin: 1rem 0 0; padding: 0; list-style: none; }
-  .attente li {
-    display: flex; gap: .8rem; padding: .7rem 0; font-size: .89rem; color: var(--doux);
-    border-bottom: 1px solid rgba(167,139,250,.12);
-  }
-  .attente li:last-child { border-bottom: 0; }
-  .attente .tiret { color: var(--magenta); font-family: 'JetBrains Mono', monospace; }
-</style>
 </head>
-<body data-page="1">
+<body data-page="social" data-audio="assets/audio/luna-07-ilot-ong.mp3">
 
 <div class="ciel"></div>
-<div class="systeme" data-position="haut-gauche" data-taille="360" data-opacite="0.8"></div>
+<div class="systeme" data-position="haut-gauche" data-taille="340" data-opacite="0.8"></div>
 
 <header class="entete">
   <nav class="nav">
-    <a href="index.html" class="marque">
-      <span class="marque-pastille">N</span>
-      <span class="marque-texte">NEURO<span>EXO</span></span>
-    </a>
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">N</span>
+        <span class="marque-texte">NEURO<span>EXO</span></span>
+      </a>
+      <div class="langues" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
     <div class="nav-liens">
       <a href="index.html">Accueil</a>
-      <a href="meta-projet-social.html" aria-current="page">Projet social</a>
-      <a href="affiliations.html">Équipements</a>
-      <a href="shopping.html">Boutique</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="neuroexo-ai.html">NeuroExoAI</a>
+      <a href="devkit.html">DevKit-Clean</a>
+      <a href="realiastation.html">RealiaStation</a>
       <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="meta-projet-social.html" aria-current="page">Projet social</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="boutique.html">Boutique</a>
     </div>
-    <a href="index.html#financer" class="bouton">Soutenir</a>
   </nav>
 </header>
 
 <main class="enveloppe">
 
-  <section class="section" style="padding-bottom:1.5rem">
-    <span class="chantier"><span class="point"></span>Page en construction</span>
-    <h1 class="titre-grand">
-      La rééducation<br />
-      <span class="degrade-texte">ne sera pas<br />un privilège.</span>
-    </h1>
-    <p class="lead" style="margin-top:1.6rem">
-      Ce prototype n'est pas une fin. C'est la première pierre d'un projet ouvert : que demain, une
-      personne lésée médullaire au Brésil, en Guyane ou en Bretagne puisse construire et régler son
-      assistance avec des plans publics — sans dépendre d'un carnet de commandes ni d'un budget d'hôpital universitaire.
-    </p>
+  <section class="section" style="padding-bottom:1.6rem">
+    <span class="chantier"><span class="point"></span><span data-t="social.badge">🚧 EN CHANTIER — LE BUT ULTIME</span></span>
+    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="social.titre">L'Îlot Intégré</h1>
+    <p class="lead" style="margin-top:1.2rem" data-t="social.lead">Ni un hôpital, ni une ferme, ni un atelier : les trois ensemble. Un lieu où l'on rééduque, où l'on cultive, où l'on fabrique — et où les enfants handicapés et les femmes ne sont pas des bénéficiaires, mais des bâtisseurs.</p>
   </section>
 
   <section class="section" style="padding-top:.5rem">
     <div class="trio">
-      <article class="verre pilier reveler">
-        <div class="glyphe">◇</div>
-        <h3>Des plans, pas des brevets</h3>
-        <p>CAO, schémas, listes de matériaux et valeurs de réglage publiés au fur et à mesure.
-           Ce qui n'est pas publié n'existe pas pour la communauté.</p>
+      <article class="verre carte reveler">
+        <h3 data-t="social.c1t">Un modèle, pas un lieu</h3>
+        <p data-t="social.c1d">Hybride entre l'Institut du Dr Nicolelis et le Centre Songhaï : la science d'un côté, l'autonomie agricole et artisanale de l'autre. Ce qui se reproduit, c'est le protocole.</p>
       </article>
-      <article class="verre pilier reveler">
-        <div class="glyphe">◎</div>
-        <h3>Des protocoles reproductibles</h3>
-        <p>Chaque séance décrite assez précisément pour être refaite ailleurs : durée, seuils,
-           latences, ce qui a échoué. Un résultat non reproductible n'est pas un résultat.</p>
+      <article class="verre carte reveler">
+        <h3 data-t="social.c2t">Premier pilote : Madagascar</h3>
+        <p data-t="social.c2d">Une équipe locale existe déjà, et l'Architecte y a vécu en 2015 puis en 2024. On ne débarque pas : on rejoint.</p>
       </article>
-      <article class="verre pilier reveler">
-        <div class="glyphe">⌗</div>
-        <h3>Du matériel atteignable</h3>
-        <p>Priorité aux composants disponibles et documentés. Un montage à 1 350 € qui marche
-           vaut mieux qu'une plateforme à 60 000 € qui reste dans un placard.</p>
+      <article class="verre carte reveler">
+        <h3 data-t="social.c3t">Inclusion, éducation, émancipation</h3>
+        <p data-t="social.c3d">Les enfants handicapés et les femmes d'abord. Le reste du centre est construit autour de cette promesse, pas à côté.</p>
       </article>
     </div>
   </section>
 
-  <section class="section" style="padding-top:.5rem">
-    <div class="verre reveler" style="padding:2rem">
-      <p class="etiq">Ce que cette page contiendra</p>
-      <ul class="attente">
-        <li><span class="tiret">—</span> Le manifeste complet du projet social, en trois langues</li>
-        <li><span class="tiret">—</span> Les partenaires associatifs et cliniques, dès qu'ils seront signés</li>
-        <li><span class="tiret">—</span> Les retours de terrain : ce qui a été testé, par qui, avec quels moyens</li>
-        <li><span class="tiret">—</span> Un guide « construire le vôtre » avec les erreurs à ne pas refaire</li>
-        <li><span class="tiret">—</span> La politique de licence et de partage des données de séance</li>
-      </ul>
-      <p style="margin:1.4rem 0 0; font-size:.8rem; color:var(--faible)">
-        Rien de tout cela n'est encore écrit. Cette page est un engagement de transparence, pas un catalogue.
-      </p>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="social.eco_titre">Comment ça se finance, durablement</p>
+      <h2>Les quatre boucles</h2>
+    </div>
+    <div class="duo">
+      <article class="verre carte reveler">
+        <h3 data-t="social.eco_1">Import-export</h3>
+        <p data-t="social.eco_1d">Circuit court entre les territoires où le projet est présent et l'Europe.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="social.eco_2">Coopérative agricole & banque de fruits</h3>
+        <p data-t="social.eco_2d">Production, transformation, stockage : la valeur reste sur place.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="social.eco_3">FabLab PMR</h3>
+        <p data-t="social.eco_3d">Impression 3D, prothèses et pièces d'exosquelette, formées sur place.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="social.eco_4">IA, LunaGalaxie & boutique</h3>
+        <p data-t="social.eco_4d">Les revenus du virtuel paient le réel : contenu, audience, affiliation.</p>
+      </article>
     </div>
   </section>
+
+  <section class="section" style="padding-top:0">
+    <figure class="reveler" style="margin:0">
+      <div class="cadre-neon" style="padding:0; background:rgba(40,17,65,.9); box-shadow:none">
+        <div style="display:grid; place-items:center; aspect-ratio:16/9; color:var(--faible); font-family:'JetBrains Mono',monospace; font-size:.72rem">
+          [IMG_ILOT_FRANCHISE]
+        </div>
+      </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; text-align:center" data-t="social.img_leg">Infographie unifiée de l'Îlot Intégré — à remplacer par le visuel généré</figcaption>
+    </figure>
+  </section>
+
+  <section class="section" style="text-align:center; padding-top:0">
+    <a href="wishlist.html" class="bouton" data-t="social.cta">Voir ce qui manque pour démarrer</a>
+  </section>
+
 
   <section class="section" style="text-align:center; padding-top:1rem">
-    <p class="doux" style="margin-bottom:1.4rem">Le chantier avance en public. Suivez-le, ou soutenez-le.</p>
-    <a href="index.html#financer" class="bouton">Soutenir le projet</a>
-    <a href="affiliations.html" class="bouton-fantome" style="margin-left:.6rem">Voir le matériel</a>
+    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
   </section>
 
 </main>
 
 <footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="affiliations.html">Équipements</a>
-      <a href="shopping.html">Boutique</a>
+      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
+      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
     </div>
   </div>
+  
 </footer>
 
+<script src="traductions.js" defer></script>
+<script src="i18n.js" defer></script>
+<script src="revele.js" defer></script>
 <script src="tiroir.js" defer></script>
+<script src="audio.js" defer></script>
 <script type="module" src="systeme.js"></script>
-<script>
-  (function () {
-    var cibles = document.querySelectorAll('.reveler');
-    if (!('IntersectionObserver' in window)) { cibles.forEach(function (e) { e.classList.add('vu'); }); return; }
-    var o = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vu'); o.unobserve(e.target); } });
-    }, { threshold: .1 });
-    cibles.forEach(function (e) { o.observe(e); });
-  })();
-</script>
 </body>
 </html>

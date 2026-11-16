@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NeuroExoAI — le harnais temps réel — Neuro-Exo</title>
+<meta name="description" content="Le harnais de contrôle qui porte la personne : acquisition du signal, décision immédiate, commande des moteurs et de la stimulation — avec une frontiè" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="neuroexo" data-audio="assets/audio/luna-03-neuroexo.mp3">
+
+<div class="ciel"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="340" data-opacite="0.8"></div>
+
+<header class="entete">
+  <nav class="nav">
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">N</span>
+        <span class="marque-texte">NEURO<span>EXO</span></span>
+      </a>
+      <div class="langues" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="neuroexo-ai.html" aria-current="page">NeuroExoAI</a>
+      <a href="devkit.html">DevKit-Clean</a>
+      <a href="realiastation.html">RealiaStation</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="boutique.html">Boutique</a>
+    </div>
+  </nav>
+</header>
+
+<main class="enveloppe">
+
+  <section class="section" style="padding-bottom:1.6rem">
+    <span class="chantier beta"><span class="point"></span><span data-t="neuroexo.badge">🚧 EN CHANTIER — ARCHITECTURE BETA</span></span>
+    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="neuroexo.titre">NeuroExoAI — le harnais temps réel</h1>
+    <p class="lead" style="margin-top:1.2rem" data-t="neuroexo.lead">Le harnais de contrôle qui porte la personne : acquisition du signal, décision immédiate, commande des moteurs et de la stimulation — avec une frontière nette entre ce qui agit et ce qui réfléchit.</p>
+  </section>
+
+  <section class="section" style="padding-top:.5rem">
+    <div class="trio">
+      <article class="verre carte reveler">
+        <h3 data-t="neuroexo.c1t">Moins de 20 ms</h3>
+        <p data-t="neuroexo.c1d">La boucle dure ne doit jamais attendre le réseau ni un modèle. Seuil, rampe, butée : tout est borné côté matériel.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="neuroexo.c2t">Sécurité qui ne dépend pas du logiciel</h3>
+        <p data-t="neuroexo.c2d">Bouton coup-de-poing, relais à manque de courant, freins qui serrent quand le courant tombe. Un programme qui plante laisse la machine inerte.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="neuroexo.c3t">Boucle fermée sEMG / FES</h3>
+        <p data-t="neuroexo.c3d">La stimulation aveugle la mesure : une fenêtre de blanking, pilotée par le générateur et non par le logiciel, est la condition pour lire quoi que ce soit.</p>
+      </article>
+    </div>
+  </section>
+
+
+    <div class="verre reveler" style="padding:1.8rem; margin-top:2rem">
+      <p class="etiq">Journal build-in-public</p>
+      <ul class="journal">
+        <li><time>2026-11-16</time><span class="txt" data-t="neuroexo.j1">Architecture Système 1 arrêtée : deux horloges, une seule frontière, aucun modèle dans la boucle de commande.</span></li>
+        <li><time>2026-11-10</time><span class="txt" data-t="neuroexo.j2">Règles de sécurité isolées du transport : elles se testent sans portique ni alimentation.</span></li>
+        <li><time>2026-11-02</time><span class="txt" data-t="neuroexo.j3">Décision : le jumeau numérique avant l'usinage, pour ne pas payer chaque erreur en métal.</span></li>
+      </ul>
+    </div>
+  <section class="section" style="text-align:center; padding-top:1rem">
+    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
+      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
+    </div>
+  </div>
+  
+</footer>
+
+<script src="traductions.js" defer></script>
+<script src="i18n.js" defer></script>
+<script src="revele.js" defer></script>
+<script src="tiroir.js" defer></script>
+<script src="audio.js" defer></script>
+<script type="module" src="systeme.js"></script>
+</body>
+</html>
