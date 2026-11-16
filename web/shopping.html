@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Boutique — Neuro-Exo</title>
+<meta name="description" content="Le matériel du projet, prêt à commander : acquisition EMG/EEG, stimulation, capteurs de sécurité, poste nomade. Liens affiliés signalés." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .filtres { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.6rem 0 2.4rem; }
+  .filtre {
+    padding: .42rem .95rem; border-radius: 999px; text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif; font-size: .82rem; font-weight: 500;
+    color: var(--doux); background: rgba(167,139,250,.08); border: 1px solid var(--bord);
+    transition: all .2s ease;
+  }
+  .filtre:hover { color: var(--texte); border-color: rgba(232,121,249,.5); background: rgba(167,139,250,.16); }
+  .filtre.actif { color: #14061f; border-color: transparent; background: linear-gradient(100deg,#c4b5fd,#e879f9 55%,#f472b6); }
+
+  .grille-boutique {
+    display: grid; gap: 1rem; margin-top: 1.4rem;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  }
+
+  .article { display: flex; flex-direction: column; overflow: hidden; }
+  .vignette {
+    height: 118px; display: grid; place-items: center; position: relative;
+    background: radial-gradient(circle at 30% 25%, rgba(167,139,250,.28), rgba(18,6,31,.9) 70%);
+    border-bottom: 1px solid var(--bord);
+    font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: .2em;
+    color: rgba(243,236,255,.42); text-transform: uppercase;
+  }
+  .vignette.vide { background: repeating-linear-gradient(45deg, rgba(167,139,250,.05) 0 10px, transparent 10px 20px), rgba(18,6,31,.6); }
+  .corps-article { padding: 1.15rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+  .cat {
+    font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--magenta);
+  }
+  .corps-article h3 { font-size: 1rem; line-height: 1.3; }
+  .corps-article p { font-size: .82rem; color: var(--doux); margin: 0; }
+  .spec { font-size: .76rem; color: var(--faible); line-height: 1.6; }
+
+  .pied-article {
+    margin-top: auto; padding-top: .9rem; border-top: 1px solid rgba(167,139,250,.14);
+    display: flex; align-items: center; justify-content: space-between; gap: .6rem;
+  }
+  .tarif { font-family: 'JetBrains Mono', monospace; font-size: .84rem; color: var(--texte); }
+  .lien-aff {
+    font-family: 'JetBrains Mono', monospace; font-size: .62rem; letter-spacing: .04em;
+    text-decoration: none; color: var(--magenta);
+    padding: .35rem .6rem; border-radius: .4rem;
+    border: 1px solid rgba(232,121,249,.35); background: rgba(232,121,249,.08);
+    transition: all .2s ease; white-space: nowrap;
+  }
+  .lien-aff:hover { background: rgba(232,121,249,.2); border-color: rgba(232,121,249,.7); }
+
+  .note { padding: 1.3rem 1.5rem; font-size: .86rem; line-height: 1.7; color: var(--doux); }
+  .note strong { color: var(--texte); }
+
+  .section-cat { margin-top: 3rem; }
+  .section-cat > h2 { font-size: 1.5rem; margin-bottom: .4rem; }
+  .section-cat > p { font-size: .88rem; color: var(--faible); margin: 0; }
+
+  .chiffre { font-family: 'JetBrains Mono', monospace; color: var(--magenta); }
+</style>
+</head>
+<body data-page="3">
+
+<div class="ciel"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="380" data-opacite="0.75"></div>
+
+<header class="entete">
+  <nav class="nav">
+    <a href="index.html" class="marque">
+      <span class="marque-pastille">N</span>
+      <span class="marque-texte">NEURO<span>EXO</span></span>
+    </a>
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="affiliations.html">Équipements</a>
+      <a href="shopping.html" aria-current="page">Boutique</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+    </div>
+    <a href="index.html#financer" class="bouton">Soutenir</a>
+  </nav>
+</header>
+
+<main class="enveloppe">
+
+  <section class="section" style="padding-bottom:1.5rem">
+    <span class="chantier"><span class="point"></span>Emplacements prêts</span>
+    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.2rem,5vw,3.6rem)">
+      La boutique du <span class="degrade-texte">montage</span>
+    </h1>
+    <p class="lead" style="margin-top:1.2rem">
+      Tout ce qu'il faut pour refaire le banc soi-même, rangé par usage. Les liens d'achat sont des
+      liens affiliés : ils sont signalés, et ils changent quoi qu'il arrive le prix que vous payez.
+    </p>
+    <div class="filtres" role="navigation" aria-label="Catégories">
+      <a href="#acquisition" class="filtre actif">Acquisition</a>
+      <a href="#stimulation" class="filtre">Stimulation</a>
+      <a href="#securite" class="filtre">Sécurité</a>
+      <a href="#nomade" class="filtre">Poste nomade</a>
+      <a href="#outillage" class="filtre">Outillage</a>
+      <a href="#libres" class="filtre">Emplacements libres</a>
+    </div>
+  </section>
+
+  <section style="padding-bottom:1rem">
+    <div class="verre note">
+      <strong>Transparence.</strong> Aucun lien n'est encore actif — les balises sont en place et seront
+      remplacées une par une. Quand un lien sera affilié, il portera la mention « affilié », et le prix
+      affiché ici sera celui du vendeur au moment de la publication : pas d'estimation gonflée pour
+      justifier une commission. Si un composant est remplacé par un meilleur, la fiche change et la raison est écrite.
+    </div>
+  </section>
+
+  <!-- ==================== ACQUISITION ==================== -->
+  <section class="section-cat" id="acquisition">
+    <h2>Acquisition biologique</h2>
+    <p>Lire le signal : du capteur de terrain au banc de mesure.</p>
+
+    <div class="grille-boutique">
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_OPENBCI]</div>
+        <div class="corps-article">
+          <span class="cat">EEG / EMG</span>
+          <h3>Carte OpenBCI Cyton</h3>
+          <p class="spec">8 canaux (16 avec Daisy) · 250 Hz à 16 kHz · SDK Python.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 620 €</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_OPENBCI]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_MYOWARE]</div>
+        <div class="corps-article">
+          <span class="cat">Capteur de terrain</span>
+          <h3>MyoWare 2.0</h3>
+          <p class="spec">Sortie analogique + enveloppe · 3,3–5 V · électrodes jetables.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 75 € / unité</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_MYOWARE]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_ADS1299]</div>
+        <div class="corps-article">
+          <span class="cat">Banc de mesure</span>
+          <h3>ADS1299 (carte nue)</h3>
+          <p class="spec">8 canaux · 24 bits · bruit ~1 µV · SPI · isolation à concevoir.</p>
+          <div class="pied-article">
+            <span class="tarif">à chiffrer</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_ADS1299]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_ELECTRODES]</div>
+        <div class="corps-article">
+          <span class="cat">Consommable</span>
+          <h3>Électrodes &amp; gel</h3>
+          <p class="spec">Électrodes Ag/AgCl jetables, gel conducteur, câbles blindés.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 80 €</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_ELECTRODES]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ==================== STIMULATION ==================== -->
+  <section class="section-cat" id="stimulation">
+    <h2>Stimulation</h2>
+    <p>Rendre l'assistance active. Rien n'est sélectionné : c'est une décision de sécurité.</p>
+
+    <div class="grille-boutique">
+      <article class="verre article">
+        <div class="vignette">[PHOTO_FES]</div>
+        <div class="corps-article">
+          <span class="cat">FES · à sélectionner</span>
+          <h3>Module de stimulation à courant constant</h3>
+          <p class="spec">Isolation galvanique obligatoire · limitation matérielle de courant · sortie d'horloge pour le blanking.</p>
+          <div class="pied-article">
+            <span class="tarif">à chiffrer</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_FES]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette vide">[PHOTO_LIBRE]</div>
+        <div class="corps-article">
+          <span class="cat">Emplacement libre</span>
+          <h3>Second module FES</h3>
+          <p class="spec">Pour comparer deux étages de sortie avant de trancher.</p>
+          <div class="pied-article">
+            <span class="tarif">—</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_01]">affilié →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== SÉCURITÉ ==================== -->
+  <section class="section-cat" id="securite">
+    <h2>Surveillance &amp; sécurité</h2>
+    <p>Les capteurs qui arrêtent la machine — pas ceux qui la pilotent.</p>
+
+    <div class="grille-boutique">
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_BNO085]</div>
+        <div class="corps-article">
+          <span class="cat">IMU</span>
+          <h3>BNO085</h3>
+          <p class="spec">Fusion embarquée, quaternion · 100 Hz · I²C/UART. Un au thorax, un au sacrum.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 25 €</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_BNO085]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_LD19]</div>
+        <div class="corps-article">
+          <span class="cat">LiDAR 2D</span>
+          <h3>LD19</h3>
+          <p class="spec">360° · 0,02–12 m · 10 Hz · UART. Monté à 200 mm du sol.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 70 €</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LD19]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_RD03D]</div>
+        <div class="corps-article">
+          <span class="cat">Radar mmWave</span>
+          <h3>RD-03D</h3>
+          <p class="spec">Présence et vitesse radiale · 24 GHz · insensible à la lumière.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 20 €</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_RD03D]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette vide">[PHOTO_LIBRE]</div>
+        <div class="corps-article">
+          <span class="cat">Emplacement libre</span>
+          <h3>Bouton d'arrêt coup-de-poing</h3>
+          <p class="spec">Contact à ouverture, câblé en série dans la bobine du relais de sécurité.</p>
+          <div class="pied-article">
+            <span class="tarif">—</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_02]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ==================== NOMADE ==================== -->
+  <section class="section-cat" id="nomade">
+    <h2>Poste nomade</h2>
+    <p>Travailler là où le terrain est, pas seulement dans un laboratoire.</p>
+
+    <div class="grille-boutique">
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_DOCK]</div>
+        <div class="corps-article">
+          <span class="cat">Station d'accueil</span>
+          <h3>Dock Thunderbolt 3</h3>
+          <p class="spec">2 sorties vidéo minimum · alim ≥ 85 W · Ethernet.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 180 €</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_DOCK]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette">[PHOTO_ECRANS]</div>
+        <div class="corps-article">
+          <span class="cat">Affichage</span>
+          <h3>Écrans portables ×2</h3>
+          <p class="spec">15,6" · USB-C · &lt; 800 g · étui rigide.</p>
+          <div class="pied-article">
+            <span class="tarif">≈ 160 € / unité</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_ECRANS]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette vide">[PHOTO_LIBRE]</div>
+        <div class="corps-article">
+          <span class="cat">Emplacement libre</span>
+          <h3>Onduleur / batterie de secours</h3>
+          <p class="spec">Pour tenir une session de mesure quand le courant est incertain.</p>
+          <div class="pied-article">
+            <span class="tarif">—</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_03]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ==================== OUTILLAGE ==================== -->
+  <section class="section-cat" id="outillage">
+    <h2>Outillage</h2>
+    <p>Ce qui sert tous les jours sur un banc d'électronique, sans superflu.</p>
+
+    <div class="grille-boutique">
+
+      <article class="verre article">
+        <div class="vignette vide">[PHOTO_LIBRE]</div>
+        <div class="corps-article">
+          <span class="cat">Emplacement libre</span>
+          <h3>Station de soudage</h3>
+          <p class="spec">Panne fine pour CMS, réglage de température, panne de rechange.</p>
+          <div class="pied-article">
+            <span class="tarif">—</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_04]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette vide">[PHOTO_LIBRE]</div>
+        <div class="corps-article">
+          <span class="cat">Emplacement libre</span>
+          <h3>Multimètre de table</h3>
+          <p class="spec">Continuité, tension, courant — l'outil qui évite de griller une carte.</p>
+          <div class="pied-article">
+            <span class="tarif">—</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_05]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="verre article">
+        <div class="vignette vide">[PHOTO_LIBRE]</div>
+        <div class="corps-article">
+          <span class="cat">Emplacement libre</span>
+          <h3>Alimentation de laboratoire</h3>
+          <p class="spec">Double sortie, limitation de courant — indispensable avant tout essai moteur.</p>
+          <div class="pied-article">
+            <span class="tarif">—</span>
+            <a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_06]">affilié →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ==================== EMPLACEMENTS LIBRES ==================== -->
+  <section class="section-cat" id="libres">
+    <h2>Emplacements libres</h2>
+    <p>Réservés aux produits qui viendront : aucun n'est rempli pour faire du volume.</p>
+
+    <div class="grille-boutique">
+      <article class="verre article">
+        <div class="vignette vide">01</div>
+        <div class="corps-article">
+          <span class="cat">À compléter</span>
+          <h3>Emplacement libre 07</h3>
+          <p class="spec">Nom, rôle, prix et lien affilié à renseigner.</p>
+          <div class="pied-article"><span class="tarif">—</span><a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_07]">affilié →</a></div>
+        </div>
+      </article>
+      <article class="verre article">
+        <div class="vignette vide">02</div>
+        <div class="corps-article">
+          <span class="cat">À compléter</span>
+          <h3>Emplacement libre 08</h3>
+          <p class="spec">Nom, rôle, prix et lien affilié à renseigner.</p>
+          <div class="pied-article"><span class="tarif">—</span><a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_08]">affilié →</a></div>
+        </div>
+      </article>
+      <article class="verre article">
+        <div class="vignette vide">03</div>
+        <div class="corps-article">
+          <span class="cat">À compléter</span>
+          <h3>Emplacement libre 09</h3>
+          <p class="spec">Nom, rôle, prix et lien affilié à renseigner.</p>
+          <div class="pied-article"><span class="tarif">—</span><a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_09]">affilié →</a></div>
+        </div>
+      </article>
+      <article class="verre article">
+        <div class="vignette vide">04</div>
+        <div class="corps-article">
+          <span class="cat">À compléter</span>
+          <h3>Emplacement libre 10</h3>
+          <p class="spec">Nom, rôle, prix et lien affilié à renseigner.</p>
+          <div class="pied-article"><span class="tarif">—</span><a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_10]">affilié →</a></div>
+        </div>
+      </article>
+      <article class="verre article">
+        <div class="vignette vide">05</div>
+        <div class="corps-article">
+          <span class="cat">À compléter</span>
+          <h3>Emplacement libre 11</h3>
+          <p class="spec">Nom, rôle, prix et lien affilié à renseigner.</p>
+          <div class="pied-article"><span class="tarif">—</span><a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_11]">affilié →</a></div>
+        </div>
+      </article>
+      <article class="verre article">
+        <div class="vignette vide">06</div>
+        <div class="corps-article">
+          <span class="cat">À compléter</span>
+          <h3>Emplacement libre 12</h3>
+          <p class="spec">Nom, rôle, prix et lien affilié à renseigner.</p>
+          <div class="pied-article"><span class="tarif">—</span><a class="lien-aff" href="[LIEN_AFFILIE_LIBRE_12]">affilié →</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" style="text-align:center; padding-top:3rem">
+    <p class="doux" style="margin-bottom:1.4rem">
+      Les fiches techniques détaillées vivent sur la page Équipements.
+    </p>
+    <a href="affiliations.html" class="bouton-fantome">Voir les fiches techniques</a>
+    <a href="index.html#financer" class="bouton" style="margin-left:.6rem">Soutenir le projet</a>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="affiliations.html">Équipements</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+    </div>
+  </div>
+</footer>
+
+<script src="tiroir.js" defer></script>
+<script type="module" src="systeme.js"></script>
+<script>
+  (function () {
+    var cibles = document.querySelectorAll('.reveler');
+    if (!('IntersectionObserver' in window)) { cibles.forEach(function (e) { e.classList.add('vu'); }); return; }
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vu'); o.unobserve(e.target); } });
+    }, { threshold: .1 });
+    cibles.forEach(function (e) { o.observe(e); });
+  })();
+</script>
+</body>
+</html>

@@ -3,651 +3,424 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Neuro-Exo — De l'Amazonie à la neuro-robotique</title>
-<meta name="description" content="Un exosquelette open source qui capte l'intention motrice résiduelle d'une lésion C6-C7 et assiste le mouvement en boucle fermée. Prototype de recherche, rééducation neuro-robotique accessible." />
-<meta property="og:title" content="Neuro-Exo — De l'Amazonie à la neuro-robotique" />
-<meta property="og:description" content="Capter l'étincelle. Assister le mouvement. Répéter. Prototype open source de rééducation neuro-robotique." />
-<meta property="og:type" content="website" />
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          violetneon: '#8b5cf6',
-          magenta: '#ec4899',
-          lavande: '#ddd6fe',
-          cosmos: '#4c1d95'
-        },
-        fontFamily: {
-          tech: ['ui-sans-serif', 'system-ui', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif']
-        }
-      }
-    }
-  }
-</script>
+<title>Neuro-Exo — Capter l'étincelle</title>
+<meta name="description" content="Exosquelette open source de rééducation neuro-robotique : capter l'intention motrice résiduelle d'une lésion C6-C7, assister le mouvement, mesurer." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
 <style>
-  :root { color-scheme: light; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    background:
-      radial-gradient(1200px 700px at 12% -10%, #ede9fe 0%, transparent 60%),
-      radial-gradient(1000px 600px at 88% 0%, #fce7f3 0%, transparent 55%),
-      radial-gradient(900px 900px at 50% 110%, #e0e7ff 0%, transparent 60%),
-      linear-gradient(160deg, #faf5ff 0%, #f5f3ff 40%, #fdf4ff 100%);
-    color: #2e1065;
-    overflow-x: hidden;
+  /* --- accueil : compositions propres à cette page --- */
+  .heros {
+    display: grid; gap: 3rem; align-items: center;
+    padding: 3rem 0 5rem; position: relative; z-index: 10;
   }
+  @media (min-width: 980px) {
+    .heros { grid-template-columns: 1.15fr .85fr; gap: 4rem; }
+  }
+  .heros h1 { margin: 1.2rem 0 0; }
+  .heros .lead { margin-top: 1.6rem; }
 
-  /* --- houles de fond : lentes, larges, jamais devant le texte --- */
-  .blob {
-    position: fixed; border-radius: 50%; filter: blur(90px);
-    opacity: .55; pointer-events: none; z-index: 0;
-    animation: derive 26s ease-in-out infinite alternate;
+  .boucle { padding: 2rem; }
+  .boucle ol { list-style: none; margin: 1.4rem 0 0; padding: 0; }
+  .boucle li { display: flex; gap: 1rem; padding: 1rem 0; border-top: 1px solid rgba(167,139,250,.16); }
+  .boucle li:first-child { border-top: 0; padding-top: 0; }
+  .boucle li:last-child { padding-bottom: 0; }
+  .num {
+    flex-shrink: 0; width: 2rem; height: 2rem; border-radius: .6rem; display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #14061f; font-weight: 500;
+    background: linear-gradient(135deg, #c4b5fd, #e879f9);
   }
-  .blob-a { width: 46vw; height: 46vw; top: -12vw; left: -8vw;
-            background: radial-gradient(circle, #c4b5fd 0%, #a78bfa 55%, transparent 72%); }
-  .blob-b { width: 40vw; height: 40vw; top: 28vh; right: -10vw;
-            background: radial-gradient(circle, #f9a8d4 0%, #ec4899 50%, transparent 70%);
-            animation-delay: -8s; opacity: .38; }
-  .blob-c { width: 38vw; height: 38vw; bottom: -12vw; left: 25vw;
-            background: radial-gradient(circle, #a5b4fc 0%, #818cf8 50%, transparent 70%);
-            animation-delay: -15s; opacity: .32; }
-  @keyframes derive {
-    0%   { transform: translate3d(0,0,0) scale(1); }
-    100% { transform: translate3d(4vw,3vh,0) scale(1.12); }
-  }
+  .boucle strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: .98rem; }
+  .boucle span.d { display: block; font-size: .85rem; color: var(--doux); }
 
-  /* --- verre dépoli clair : la signature visuelle de la page --- */
-  .verre {
-    background: linear-gradient(150deg, rgba(255,255,255,.72), rgba(255,255,255,.42));
-    backdrop-filter: blur(18px) saturate(150%);
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
-    border: 1px solid rgba(255,255,255,.85);
-    box-shadow: 0 8px 32px rgba(139,92,246,.16), inset 0 1px 0 rgba(255,255,255,.9);
-    border-radius: 1.5rem;
-  }
-  .verre-violet {
-    background: linear-gradient(150deg, rgba(139,92,246,.14), rgba(236,72,153,.08));
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    border: 1px solid rgba(196,181,253,.9);
-    box-shadow: 0 8px 40px rgba(139,92,246,.22), inset 0 1px 0 rgba(255,255,255,.75);
-    border-radius: 1.5rem;
-  }
+  .carte { padding: 1.8rem; }
+  .carte h3 { margin-bottom: .5rem; }
+  .carte p { font-size: .9rem; color: var(--doux); margin: 0; }
 
-  /* --- lueurs --- */
-  .neon { text-shadow: 0 0 18px rgba(236,72,153,.45), 0 0 42px rgba(139,92,246,.28); }
-  .degrade-texte {
-    background: linear-gradient(100deg, #7c3aed 0%, #d946ef 45%, #ec4899 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
+  /* --- parcours : portrait + récit --- */
+  .parcours-grille { display: grid; gap: 1.6rem; align-items: start; }
+  @media (min-width: 900px) {
+    .parcours-grille { grid-template-columns: .82fr 1.18fr; gap: 2.2rem; }
   }
-  .trait-neon {
-    height: 2px; border-radius: 999px;
-    background: linear-gradient(90deg, transparent, #a78bfa, #ec4899, #a78bfa, transparent);
-    box-shadow: 0 0 12px rgba(236,72,153,.6);
+  .portrait { margin: 0; }
+  .portrait-cadre {
+    position: relative; border-radius: var(--rayon); overflow: hidden;
+    border: 1px solid rgba(196,181,253,.30);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(139,92,246,.14);
   }
-  .bouton {
-    position: relative; display: inline-flex; align-items: center; gap: .6rem;
-    padding: .95rem 1.9rem; border-radius: 999px; font-weight: 700; letter-spacing: .01em;
-    background: linear-gradient(100deg, #7c3aed, #d946ef 55%, #ec4899);
-    color: #fff; box-shadow: 0 10px 30px rgba(217,70,239,.42), 0 0 0 1px rgba(255,255,255,.25) inset;
-    transition: transform .25s ease, box-shadow .25s ease;
+  .portrait-cadre::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(139,92,246,.12), transparent 45%, rgba(18,6,31,.35));
   }
-  .bouton:hover { transform: translateY(-2px) scale(1.02);
-                  box-shadow: 0 16px 44px rgba(217,70,239,.55), 0 0 0 1px rgba(255,255,255,.35) inset; }
-  .bouton-fantome {
-    display: inline-flex; align-items: center; gap: .5rem;
-    padding: .8rem 1.4rem; border-radius: 999px; font-weight: 600; color: #6d28d9;
-    background: rgba(255,255,255,.6); border: 1px solid rgba(196,181,253,.95);
-    backdrop-filter: blur(10px); transition: all .25s ease;
+  .portrait-cadre img { display: block; width: 100%; height: auto; }
+  .portrait figcaption {
+    margin-top: .9rem; font-family: 'JetBrains Mono', monospace;
+    font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--faible); line-height: 1.7;
   }
-  .bouton-fantome:hover { background: #fff; color: #7c3aed; transform: translateY(-2px);
-                          box-shadow: 0 10px 26px rgba(139,92,246,.24); }
+  .parcours-cartes { display: grid; gap: 1rem; }
 
-  /* --- apparition au défilement --- */
-  .reveler { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
-  .reveler.vu { opacity: 1; transform: none; }
+  .schema { display: flex; gap: .6rem; overflow-x: auto; padding: 1.6rem; }
+  .schema div {
+    flex-shrink: 0; padding: .8rem 1rem; border-radius: .7rem; text-align: center;
+    font-size: .78rem; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    background: rgba(167,139,250,.10); border: 1px solid var(--bord);
+  }
+  .schema div.haut { background: linear-gradient(135deg, rgba(196,181,253,.25), rgba(232,121,249,.20)); border-color: var(--bord-fort); }
+  .schema .fleche { color: var(--magenta); font-size: .9rem; align-self: center; border: 0; background: none; padding: 0 .2rem; }
 
-  .pulse-doux { animation: pulsation 3.2s ease-in-out infinite; }
-  @keyframes pulsation { 0%,100% { opacity:.85; transform: scale(1);} 50% { opacity:1; transform: scale(1.04);} }
+  .scene-hote {
+    border-radius: var(--rayon); overflow: hidden; height: 440px;
+    background: radial-gradient(circle at 50% 35%, rgba(76,29,149,.55), rgba(18,6,31,.85));
+  }
+  .onglets { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+  .onglet {
+    padding: .5rem 1rem; border-radius: 999px; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; font-size: .84rem; font-weight: 500;
+    color: var(--doux); background: rgba(167,139,250,.08); border: 1px solid var(--bord);
+    transition: all .22s ease;
+  }
+  .onglet[aria-pressed="true"] {
+    color: #14061f; border-color: transparent;
+    background: linear-gradient(100deg, #c4b5fd, #e879f9 55%, #f472b6);
+  }
+  .onglet:hover:not([aria-pressed="true"]) { color: var(--texte); border-color: var(--bord-fort); }
 
-  .mono { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  table.prix { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  table.prix td { padding: .65rem 0; border-top: 1px solid rgba(167,139,250,.14); color: var(--doux); }
+  table.prix tr:first-child td { border-top: 0; }
+  table.prix td:last-child { text-align: right; color: var(--texte); white-space: nowrap; }
+  table.prix tr.total td { border-top: 1px solid rgba(232,121,249,.45); padding-top: 1rem; color: var(--texte); font-weight: 600; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .blob, .pulse-doux { animation: none; }
-    html { scroll-behavior: auto; }
+  .canal { display: block; padding: 1.4rem; text-decoration: none; transition: transform .22s, border-color .22s; }
+  .canal:hover { transform: translateY(-3px); border-color: rgba(232,121,249,.5); }
+  .canal p { font-size: .82rem; color: var(--doux); margin: .4rem 0 .8rem; }
+  .canal .balise { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--magenta); }
+
+  .video-hote {
+    aspect-ratio: 16/9; border-radius: var(--rayon); display: grid; place-items: center;
+    background: radial-gradient(circle at 50% 40%, rgba(76,29,149,.6), rgba(18,6,31,.9));
+    border: 1px solid var(--bord);
   }
 </style>
 </head>
-<body class="font-tech antialiased">
+<body data-page="0">
 
-<div class="blob blob-a"></div>
-<div class="blob blob-b"></div>
-<div class="blob blob-c"></div>
+<div class="ciel"></div>
+<div class="systeme" style="bottom:-9%; right:-5%" data-taille="560" data-opacite="0.72"></div>
 
-<!-- ======================= NAV ======================= -->
-<header class="relative z-20">
-  <nav class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-    <a href="#top" class="flex items-center gap-3 group shrink-0">
-      <span class="w-10 h-10 rounded-2xl grid place-items-center text-white font-black text-lg pulse-doux"
-            style="background:linear-gradient(135deg,#7c3aed,#ec4899); box-shadow:0 8px 24px rgba(217,70,239,.45)">N</span>
-      <span class="font-extrabold tracking-tight text-cosmos text-lg whitespace-nowrap">NEURO<span class="degrade-texte">EXO</span></span>
+<header class="entete">
+  <nav class="nav">
+    <a href="index.html" class="marque">
+      <span class="marque-pastille">N</span>
+      <span class="marque-texte">NEURO<span>EXO</span></span>
     </a>
-    <div class="hidden lg:flex items-center gap-5 xl:gap-7 text-sm font-semibold text-violet-900/80 whitespace-nowrap">
-      <a href="#architecture" class="hover:text-magenta transition">Architecture</a>
-      <a href="#jumeau" class="hover:text-magenta transition">Jumeau 3D</a>
-      <a href="meta-projet-social.html" class="hover:text-magenta transition">Projet social</a>
-      <a href="affiliations.html" class="hover:text-magenta transition">Équipements</a>
-      <a href="lunagalaxie.html" class="hover:text-magenta transition">LunaGalaxie</a>
+    <div class="nav-liens">
+      <a href="index.html" aria-current="page">Accueil</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="affiliations.html">Équipements</a>
+      <a href="shopping.html">Boutique</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
     </div>
-    <a href="#financer" class="bouton text-sm !py-2.5 !px-5 shrink-0">Soutenir</a>
+    <a href="#financer" class="bouton">Soutenir</a>
   </nav>
 </header>
 
-<!-- ======================= HERO ======================= -->
-<section id="top" class="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-24 md:pt-16">
-  <div class="grid lg:grid-cols-12 gap-10 items-center">
-
-    <div class="lg:col-span-7 reveler">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase
-                  text-fuchsia-700 mb-6 verre">
-        <span class="w-2 h-2 rounded-full bg-fuchsia-500 pulse-doux"></span>
-        Prototype open source · Phase 1
-      </div>
-
-      <h1 class="text-5xl md:text-7xl font-black leading-[1.02] tracking-tight text-cosmos">
-        Capter<br />
-        <span class="degrade-texte neon">l'étincelle.</span>
-      </h1>
-
-      <p class="mt-7 text-lg md:text-xl leading-relaxed text-violet-900/80 max-w-xl">
-        Une lésion médullaire <strong class="text-cosmos">C6-C7 incomplète</strong> n'efface pas tout :
-        quand je commande à mes jambes de bouger, <em>je sens l'influx descendre</em>.
-        Ce prototype capte ce signal résiduel et le rend au mouvement — en boucle fermée,
-        entre un cerveau et une machine.
+<!-- ============================= HÉROS ============================= -->
+<section class="enveloppe">
+  <div class="heros">
+    <div>
+      <span class="chantier"><span class="point"></span>Prototype open source · Phase 1</span>
+      <h1>Capter<br /><span class="degrade-texte">l'étincelle.</span></h1>
+      <p class="lead">
+        Une lésion médullaire <strong style="color:var(--texte)">C6-C7 incomplète</strong> n'efface
+        pas tout : quand je commande à mes jambes de bouger, <em>je sens l'influx descendre</em>.
+        Ce prototype capte ce signal résiduel et le rend au mouvement — en boucle fermée.
       </p>
-
-      <div class="mt-9 flex flex-wrap items-center gap-4">
-        <a href="#financer" class="bouton">
-          Soutenir le projet
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-               stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="[LIEN_GITHUB]" class="bouton-fantome">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.4-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.5.2 2.7.1 3 .8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
-          Voir le code
-        </a>
+      <div style="display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem">
+        <a href="#financer" class="bouton">Soutenir le projet</a>
+        <a href="[LIEN_GITHUB]" class="bouton-fantome">Voir le code</a>
       </div>
-
-      <!-- suivez-moi -->
-      <div class="mt-10 flex items-center gap-3 text-sm font-semibold text-violet-900/60">
-        <span class="uppercase tracking-widest text-xs">Suivez le chantier</span>
-        <span class="w-8 h-px bg-violet-300"></span>
-        <a href="[LIEN_X]" aria-label="X" class="w-10 h-10 grid place-items-center rounded-xl verre hover:scale-110 transition">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-cosmos"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.5l-5.1-6.7L5.7 22H2.5l7.6-8.7L1.2 2h6.7l4.6 6.1L18.9 2zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20z"/></svg>
-        </a>
-        <a href="[LIEN_LINKEDIN]" aria-label="LinkedIn" class="w-10 h-10 grid place-items-center rounded-xl verre hover:scale-110 transition">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-cosmos"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21H9z"/></svg>
-        </a>
-        <a href="[LIEN_GITHUB]" aria-label="GitHub" class="w-10 h-10 grid place-items-center rounded-xl verre hover:scale-110 transition">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-cosmos"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.4-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.5.2 2.7.1 3 .8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
-        </a>
+      <div style="display:flex; gap:.6rem; margin-top:2rem; flex-wrap:wrap" aria-label="Suivre le projet">
+        <a href="[LIEN_X]" class="bouton-fantome" style="padding:.55rem 1rem; font-size:.82rem">X</a>
+        <a href="[LIEN_LINKEDIN]" class="bouton-fantome" style="padding:.55rem 1rem; font-size:.82rem">LinkedIn</a>
+        <a href="[LIEN_GITHUB]" class="bouton-fantome" style="padding:.55rem 1rem; font-size:.82rem">GitHub</a>
       </div>
     </div>
 
-    <!-- carte "impulsion" -->
-    <div class="lg:col-span-5 reveler">
-      <div class="verre-violet p-7 relative overflow-hidden">
-        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full"
-             style="background:radial-gradient(circle,rgba(236,72,153,.35),transparent 68%)"></div>
-        <p class="text-xs uppercase tracking-[0.2em] font-bold text-fuchsia-700">La boucle</p>
-        <div class="mt-5 space-y-4">
-          <div class="flex items-start gap-4">
-            <span class="mono text-xs font-bold text-white px-2.5 py-1 rounded-lg shrink-0"
-                  style="background:linear-gradient(135deg,#7c3aed,#a855f7)">01</span>
-            <div>
-              <p class="font-bold text-cosmos">Capter</p>
-              <p class="text-sm text-violet-900/70">sEMG isolé galvaniquement, MyoWare 2.0 puis ADS1299.</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-4">
-            <span class="mono text-xs font-bold text-white px-2.5 py-1 rounded-lg shrink-0"
-                  style="background:linear-gradient(135deg,#a855f7,#d946ef)">02</span>
-            <div>
-              <p class="font-bold text-cosmos">Assister</p>
-              <p class="text-sm text-violet-900/70">Moteurs CAN et stimulation FES, avec blanking synchronisé.</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-4">
-            <span class="mono text-xs font-bold text-white px-2.5 py-1 rounded-lg shrink-0"
-                  style="background:linear-gradient(135deg,#d946ef,#ec4899)">03</span>
-            <div>
-              <p class="font-bold text-cosmos">Répéter</p>
-              <p class="text-sm text-violet-900/70">Chaque séance est mesurée, rejouée, comparée.</p>
-            </div>
-          </div>
-        </div>
-        <div class="trait-neon my-6"></div>
-        <p class="text-sm leading-relaxed text-violet-900/75">
-          <strong class="text-cosmos">Prototype de recherche.</strong> Ce n'est pas un dispositif médical :
-          aucun essai sur une personne sans analyse de risques, validation électrique et avis d'éthique.
-        </p>
+    <aside class="verre boucle">
+      <p class="etiq" style="margin-bottom:.4rem">La boucle</p>
+      <ol>
+        <li>
+          <span class="num">01</span>
+          <div><strong>Capter</strong><span class="d">sEMG isolé galvaniquement — MyoWare 2.0 puis ADS1299.</span></div>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <div><strong>Assister</strong><span class="d">Moteurs sur bus CAN et stimulation FES, avec fenêtre de blanking.</span></div>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <div><strong>Répéter</strong><span class="d">Chaque séance est mesurée, rejouée, comparée.</span></div>
+        </li>
+      </ol>
+      <hr class="souligne" style="margin:1.4rem 0" />
+      <p style="font-size:.8rem; color:var(--faible); margin:0">
+        <strong style="color:var(--texte)">Prototype de recherche.</strong> Ce n'est pas un dispositif
+        médical : aucun essai sur une personne sans analyse de risques, validation électrique et avis d'éthique.
+      </p>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================= PARCOURS ============================= -->
+<section class="enveloppe section" id="parcours">
+  <div class="section-titre reveler">
+    <p class="etiq">Parcours</p>
+    <h2>De l'Amazonie à la <span class="degrade-texte">neuro-robotique</span></h2>
+  </div>
+
+  <div class="parcours-grille">
+    <figure class="portrait reveler">
+      <div class="portrait-cadre">
+        <img src="assets/portrait.jpg" width="825" height="1100"
+             alt="Portrait de l'auteur du projet, en fauteuil, devant un jardin" />
       </div>
+      <figcaption>Celui qui porte le projet — et qui le teste sur lui-même.</figcaption>
+    </figure>
+
+    <div class="parcours-cartes">
+      <article class="verre carte reveler">
+        <h3>Les trois Guyanes</h3>
+        <p><em>Garimpeiro</em>, puis guide et organisateur d'expéditions en forêt amazonienne. On y apprend
+           à lire un terrain, à décider sans toutes les informations, et à repartir le lendemain.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3>2016 — C6-C7</h3>
+        <p>Un accident de voiture, une lésion médullaire incomplète. Et un détail que les comptes rendus
+           ne notent pas : l'ordre de mouvement part encore, et <strong style="color:var(--texte)">l'influx se fait sentir</strong>.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3>L'ambition sociale</h3>
+        <p>Ce prototype est la première pierre d'un projet <strong style="color:var(--texte)">entièrement
+           open source</strong> : que la rééducation neuro-robotique ne reste pas réservée à qui peut la payer.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ======================= PARCOURS ======================= -->
-<section id="parcours" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-  <div class="max-w-3xl reveler">
-    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Mon parcours</p>
-    <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
-      De l'Amazonie à la <span class="degrade-texte">neuro-robotique</span>
-    </h2>
-  </div>
-
-  <div class="mt-12 grid md:grid-cols-3 gap-6">
-    <article class="verre p-7 reveler">
-      <div class="w-12 h-12 rounded-2xl grid place-items-center mb-5 text-xl"
-           style="background:linear-gradient(135deg,#ede9fe,#fce7f3)">🌿</div>
-      <h3 class="font-bold text-lg text-cosmos">Les trois Guyanes</h3>
-      <p class="mt-3 text-sm leading-relaxed text-violet-900/75">
-        <em>Garimpeiro</em>, puis guide et organisateur d'expéditions en forêt amazonienne.
-        On y apprend trois choses : lire un terrain, décider sans toutes les informations,
-        et repartir quand même le lendemain. La R&amp;D ressemble à ça.
-      </p>
-    </article>
-
-    <article class="verre p-7 reveler">
-      <div class="w-12 h-12 rounded-2xl grid place-items-center mb-5 text-xl"
-           style="background:linear-gradient(135deg,#fce7f3,#ede9fe)">⚡</div>
-      <h3 class="font-bold text-lg text-cosmos">2016 — C6-C7</h3>
-      <p class="mt-3 text-sm leading-relaxed text-violet-900/75">
-        Un accident de voiture, une lésion médullaire incomplète. Et un détail que les
-        comptes rendus ne notent pas : l'ordre de mouvement part encore, et
-        <strong class="text-cosmos">l'influx se fait sentir</strong>.
-      </p>
-    </article>
-
-    <article class="verre p-7 reveler">
-      <div class="w-12 h-12 rounded-2xl grid place-items-center mb-5 text-xl"
-           style="background:linear-gradient(135deg,#e0e7ff,#fce7f3)">🤝</div>
-      <h3 class="font-bold text-lg text-cosmos">L'ambition sociale</h3>
-      <p class="mt-3 text-sm leading-relaxed text-violet-900/75">
-        Ce prototype est la première pierre d'un projet <strong class="text-cosmos">open source</strong> :
-        que la rééducation neuro-robotique ne reste pas réservée à qui peut la payer.
-        Plans, code et résultats publiés.
-      </p>
-    </article>
-  </div>
-</section>
-
-<!-- ======================= ARCHITECTURE ======================= -->
-<section id="architecture" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-  <div class="max-w-3xl reveler">
-    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Architecture</p>
-    <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
-      Deux systèmes, <span class="degrade-texte">deux horloges</span>
-    </h2>
-    <p class="mt-5 text-violet-900/75 leading-relaxed">
-      Confondre le temps réel et le temps de la réflexion est la faute de conception la plus
-      répandue dans les exosquelettes de recherche. Ici, les deux sont séparés par une frontière
-      nette : le Système 1 agit, le Système 2 observe.
+<!-- ============================= ARCHITECTURE ============================= -->
+<section class="enveloppe section" id="architecture">
+  <div class="section-titre reveler">
+    <p class="etiq">Architecture</p>
+    <h2>Deux systèmes, <span class="degrade-texte">deux horloges</span></h2>
+    <p class="lead" style="margin-top:1.2rem">
+      Confondre le temps réel et le temps de la réflexion est la faute de conception la plus répandue
+      dans les exosquelettes de recherche. Ici, une frontière nette : le Système 1 agit, le Système 2 observe.
     </p>
   </div>
 
-  <div class="mt-12 grid md:grid-cols-2 gap-6">
-
-    <div class="verre-violet p-8 relative overflow-hidden reveler">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-2xl font-black text-cosmos">Le « P'tit Rapide »</h3>
-        <span class="mono text-xs font-bold px-3 py-1 rounded-full bg-white/70 text-fuchsia-700 border border-fuchsia-200">&lt; 20 ms</span>
+  <div class="duo">
+    <article class="verre-clair carte reveler">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:1rem">
+        <h3>Le « P'tit Rapide »</h3>
+        <span class="mono" style="font-size:.72rem; color:var(--magenta)">&lt; 20 ms</span>
       </div>
-      <p class="text-sm text-violet-900/75 mb-5">Système 1 — sur la personne, temps réel déterministe.</p>
-      <ul class="space-y-2.5 text-sm text-violet-900/85">
-        <li class="flex gap-2"><span class="text-fuchsia-500 font-bold">›</span> sEMG isolé galvaniquement (MyoWare 2.0 / ADS1299)</li>
-        <li class="flex gap-2"><span class="text-fuchsia-500 font-bold">›</span> Détection d'intention par seuil, <em>emplacement de modèle réservé</em></li>
-        <li class="flex gap-2"><span class="text-fuchsia-500 font-bold">›</span> Bus CAN vers les moteurs de l'exosquelette</li>
-        <li class="flex gap-2"><span class="text-fuchsia-500 font-bold">›</span> FES avec fenêtre de <em>blanking</em> synchronisée</li>
-        <li class="flex gap-2"><span class="text-fuchsia-500 font-bold">›</span> Arrêt réflexe matériel : couple, vitesse, butée, bouton</li>
+      <p style="margin:.3rem 0 1rem; font-size:.9rem; color:var(--doux)">Système 1 — sur la personne, temps réel déterministe.</p>
+      <ul style="margin:0; padding-left:1.1rem; font-size:.88rem; color:var(--doux); line-height:1.9">
+        <li>sEMG isolé galvaniquement (MyoWare 2.0 / ADS1299)</li>
+        <li>Détection d'intention par seuil — <em>emplacement de modèle réservé</em></li>
+        <li>Bus CAN vers les moteurs, stimulation FES avec blanking</li>
+        <li>Arrêt réflexe matériel : couple, vitesse, butée, bouton</li>
       </ul>
-    </div>
+    </article>
 
-    <div class="verre p-8 relative overflow-hidden reveler">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-2xl font-black text-cosmos">Le « Penseur »</h3>
-        <span class="mono text-xs font-bold px-3 py-1 rounded-full bg-white/70 text-violet-700 border border-violet-200">10–100 Hz</span>
+    <article class="verre carte reveler">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:1rem">
+        <h3>Le « Penseur »</h3>
+        <span class="mono" style="font-size:.72rem; color:var(--violet)">10–100 Hz</span>
       </div>
-      <p class="text-sm text-violet-900/75 mb-5">Système 2 — hors de la personne, jamais dans la boucle de commande.</p>
-      <ul class="space-y-2.5 text-sm text-violet-900/85">
-        <li class="flex gap-2"><span class="text-violet-500 font-bold">›</span> Jumeau numérique 3D (MuJoCo ; Isaac Sim selon le GPU)</li>
-        <li class="flex gap-2"><span class="text-violet-500 font-bold">›</span> Station fixe en Bretagne : i9 + RTX 4080</li>
-        <li class="flex gap-2"><span class="text-violet-500 font-bold">›</span> Poste nomade de terrain : MacBook Linux Mint, triple écran, dock TB3</li>
-        <li class="flex gap-2"><span class="text-violet-500 font-bold">›</span> Liaison par tunnel privé <strong>Tailscale</strong>, aucun port ouvert</li>
-        <li class="flex gap-2"><span class="text-violet-500 font-bold">›</span> Journalisation et rejeu de chaque séance</li>
+      <p style="margin:.3rem 0 1rem; font-size:.9rem; color:var(--doux)">Système 2 — hors de la personne, jamais dans la boucle de commande.</p>
+      <ul style="margin:0; padding-left:1.1rem; font-size:.88rem; color:var(--doux); line-height:1.9">
+        <li>Jumeau numérique 3D (MuJoCo ; Isaac Sim selon le GPU)</li>
+        <li>Station fixe : i9 + RTX 4080 · poste nomade Linux Mint</li>
+        <li>Liaison par tunnel privé <strong style="color:var(--texte)">Tailscale</strong>, sans port ouvert</li>
+        <li>Journalisation et rejeu de chaque séance</li>
       </ul>
-    </div>
+    </article>
   </div>
 
-  <!-- schéma linéaire -->
-  <div class="mt-8 verre p-6 md:p-8 overflow-x-auto reveler">
-    <div class="flex items-center gap-3 min-w-[720px] text-xs font-semibold">
-      <div class="px-4 py-3 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white text-center">sEMG<br /><span class="font-normal opacity-80">MyoWare / ADS1299</span></div>
-      <span class="text-fuchsia-400 text-lg">→</span>
-      <div class="px-4 py-3 rounded-xl bg-white/80 border border-violet-200 text-cosmos text-center">Intention<br /><span class="font-normal text-violet-700/70">seuil (modèle : vide)</span></div>
-      <span class="text-fuchsia-400 text-lg">→</span>
-      <div class="px-4 py-3 rounded-xl bg-gradient-to-br from-fuchsia-500 to-pink-500 text-white text-center">Assistance<br /><span class="font-normal opacity-80">CAN / FES</span></div>
-      <span class="text-fuchsia-400 text-lg">→</span>
-      <div class="px-4 py-3 rounded-xl bg-white/80 border border-violet-200 text-cosmos text-center">Mouvement<br /><span class="font-normal text-violet-700/70">mesuré, journalisé</span></div>
-      <span class="text-violet-400 text-lg">⇢</span>
-      <div class="px-4 py-3 rounded-xl bg-violet-50/80 border border-violet-200 text-cosmos text-center">Jumeau 3D<br /><span class="font-normal text-violet-700/70">Système 2</span></div>
-    </div>
-  </div>
-
-  <!-- harnais -->
-  <div class="mt-8 grid md:grid-cols-2 gap-6">
-    <div class="verre p-7 reveler">
-      <h3 class="font-bold text-lg text-cosmos mb-3">Le harnais</h3>
-      <p class="text-sm leading-relaxed text-violet-900/75">
-        Pelvien et thoracique, deux points de tirage indépendants, appuis larges, aucune couture
-        sous le sacrum. Il tient la posture <em>sans</em> masquer l'intention : un harnais trop
-        rigide efface le signal postural qu'on cherche à lire.
-      </p>
-    </div>
-    <div class="verre p-7 reveler">
-      <h3 class="font-bold text-lg text-cosmos mb-3">Le portique</h3>
-      <p class="text-sm leading-relaxed text-violet-900/75">
-        Barres parallèles latérales, rail supérieur, délestage par ressorts avec dynamomètre en
-        ligne. La sécurité ne dépend pas du logiciel : bouton coup-de-poing, relais à manque de
-        courant, freins qui serrent quand le courant tombe.
-      </p>
-    </div>
+  <div class="verre schema reveler" style="margin-top:1.1rem">
+    <div>sEMG<br /><span class="faible" style="font-size:.68rem">MyoWare / ADS1299</span></div>
+    <div class="fleche">→</div>
+    <div>Intention<br /><span class="faible" style="font-size:.68rem">seuil · modèle vide</span></div>
+    <div class="fleche">→</div>
+    <div class="haut">Assistance<br /><span style="font-size:.68rem; opacity:.75">CAN / FES</span></div>
+    <div class="fleche">→</div>
+    <div>Mouvement<br /><span class="faible" style="font-size:.68rem">mesuré</span></div>
+    <div class="fleche">⇢</div>
+    <div>Jumeau 3D<br /><span class="faible" style="font-size:.68rem">Système 2</span></div>
   </div>
 </section>
 
-<!-- ======================= JUMEAU NUMÉRIQUE 3D ======================= -->
-<section id="jumeau" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-  <div class="max-w-3xl reveler">
-    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Jumeau numérique</p>
-    <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
-      Le corps, <span class="degrade-texte">avant le métal</span>
-    </h2>
-    <p class="mt-5 text-violet-900/75 leading-relaxed">
-      Un exosquelette mal réglé blesse. Alors on règle d'abord sur un modèle : le signal,
-      puis la cinématique, puis le montage. Trois étapes, une seule scène — fais-la tourner.
+<!-- ============================= JUMEAU 3D ============================= -->
+<section class="enveloppe section" id="jumeau">
+  <div class="section-titre reveler">
+    <p class="etiq">Jumeau numérique</p>
+    <h2>Le corps, <span class="degrade-texte">avant le métal</span></h2>
+    <p class="lead" style="margin-top:1.2rem">
+      Un exosquelette mal réglé blesse. Alors on règle sur un modèle : le signal, puis la cinématique,
+      puis le montage. Trois étapes, une seule scène — fais-la tourner.
     </p>
   </div>
 
-  <div class="mt-10 verre p-4 md:p-6 reveler">
-    <div class="flex flex-wrap gap-2 mb-4" role="group" aria-label="Étapes du jumeau numérique">
-      <button data-etape="0" aria-pressed="true"
-              class="px-4 py-2 rounded-full text-sm font-bold border transition"
-              style="background:linear-gradient(100deg,#7c3aed,#d946ef 55%,#ec4899); color:#fff; border-color:rgba(255,255,255,.5)">
-        1 · Flux de signaux
-      </button>
-      <button data-etape="1" aria-pressed="false"
-              class="px-4 py-2 rounded-full text-sm font-bold border transition"
-              style="background:rgba(255,255,255,.66); color:#6d28d9; border-color:rgba(196,181,253,.95)">
-        2 · Cinématique
-      </button>
-      <button data-etape="2" aria-pressed="false"
-              class="px-4 py-2 rounded-full text-sm font-bold border transition"
-              style="background:rgba(255,255,255,.66); color:#6d28d9; border-color:rgba(196,181,253,.95)">
-        3 · Harnais &amp; capteurs
-      </button>
+  <div class="verre reveler" style="padding:1.2rem">
+    <div class="onglets" role="group" aria-label="Étapes du jumeau numérique">
+      <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux de signaux</button>
+      <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
+      <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais &amp; capteurs</button>
     </div>
-
-    <div id="scene3d" class="rounded-2xl overflow-hidden"
-         style="height:440px; background:radial-gradient(circle at 50% 30%, rgba(237,233,254,.85), rgba(252,231,243,.55))">
-      <noscript><p class="p-8 text-center text-violet-800">La scène 3D demande JavaScript.</p></noscript>
+    <div id="scene3d" class="scene-hote">
+      <noscript><p style="padding:2rem;text-align:center">La scène 3D demande JavaScript.</p></noscript>
     </div>
-
-    <p id="scene-legende" class="mt-4 text-sm text-violet-900/70">
+    <p id="scene-legende" style="margin:1rem 0 0; font-size:.86rem; color:var(--doux)">
       Étape 1 — Le flux : ondes EEG et sEMG, ce que les capteurs lisent avant toute décision.
     </p>
-    <p class="mt-1 text-xs text-violet-700/55">
-      Glisse à la souris (ou au doigt) pour faire tourner la vue. Aucune donnée réelle n'est affichée :
-      c'est un modèle, pas une séance.
+    <p style="margin:.3rem 0 0; font-size:.74rem; color:var(--faible)">
+      Glisse à la souris ou au doigt pour tourner la vue. Aucune donnée réelle : c'est un modèle, pas une séance.
     </p>
   </div>
 </section>
 
-<!-- ======================= FINANCEMENT CONTINU ======================= -->
-<section id="financer" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-  <div class="max-w-3xl reveler">
-    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Transparence matérielle</p>
-    <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
-      J'ai déjà le moteur.<br /><span class="degrade-texte">Il manque les capteurs.</span>
-    </h2>
-    <p class="mt-5 text-violet-900/75 leading-relaxed">
-      L'infrastructure lourde est en place et tourne tous les jours. Ce que vous financez,
-      ce ne sont pas des serveurs ni du vent : ce sont les <strong class="text-cosmos">quatre
-      derniers maillons biométriques</strong> qui manquent entre un corps et une machine.
+<!-- ============================= FINANCEMENT ============================= -->
+<section class="enveloppe section" id="financer">
+  <div class="section-titre reveler">
+    <p class="etiq">Transparence matérielle</p>
+    <h2>J'ai déjà le moteur.<br /><span class="degrade-texte">Il manque les capteurs.</span></h2>
+    <p class="lead" style="margin-top:1.2rem">
+      L'infrastructure lourde est en place et tourne tous les jours. Ce que vous financez, ce sont
+      les <strong style="color:var(--texte)">quatre derniers maillons biométriques</strong> entre un corps et une machine.
     </p>
   </div>
 
-  <div class="mt-10 grid lg:grid-cols-2 gap-6">
-
-    <!-- ce qui existe déjà -->
-    <div class="verre p-7 reveler">
-      <div class="flex items-center gap-3 mb-5">
-        <span class="w-9 h-9 rounded-xl grid place-items-center text-white font-black"
-              style="background:linear-gradient(135deg,#7c3aed,#a855f7)">✓</span>
-        <h3 class="text-xl font-black text-cosmos">Déjà financé, déjà en service</h3>
-      </div>
-      <ul class="space-y-4 text-sm text-violet-900/85">
-        <li class="flex gap-3">
-          <span class="text-violet-500 font-bold">›</span>
-          <div>
-            <p class="font-semibold text-cosmos">Station de calcul IA — Linux i9 + RTX 4080</p>
-            <p class="text-violet-900/70">Simulation du jumeau numérique, entraînement, calcul lourd.</p>
-          </div>
-        </li>
-        <li class="flex gap-3">
-          <span class="text-violet-500 font-bold">›</span>
-          <div>
-            <p class="font-semibold text-cosmos">MacBook Pro de terrain — Linux Mint</p>
-            <p class="text-violet-900/70">Poste de travail nomade, compatible avec la chaîne de mesure.</p>
-          </div>
-        </li>
-        <li class="flex gap-3">
-          <span class="text-violet-500 font-bold">›</span>
-          <div>
-            <p class="font-semibold text-cosmos">MacBook Air — acquisition</p>
-            <p class="text-violet-900/70">Enregistrement, journal de séance, sauvegarde de terrain.</p>
-          </div>
-        </li>
-        <li class="flex gap-3">
-          <span class="text-violet-500 font-bold">›</span>
-          <div>
-            <p class="font-semibold text-cosmos">Réseau privé maillé Tailscale</p>
-            <p class="text-violet-900/70">Liaison chiffrée terrain ↔ station, sans ouvrir aucun port.</p>
-          </div>
-        </li>
-        <li class="flex gap-3">
-          <span class="text-violet-500 font-bold">›</span>
-          <div>
-            <p class="font-semibold text-cosmos">8 To de stockage souverain</p>
-            <p class="text-violet-900/70">Archivage des mesures et des plans, hors du cloud.</p>
-          </div>
-        </li>
+  <div class="duo">
+    <article class="verre carte reveler">
+      <p class="etiq" style="color:var(--violet)">Déjà financé, déjà en service</p>
+      <ul style="margin:1rem 0 0; padding:0; list-style:none; font-size:.88rem; line-height:1.75; color:var(--doux)">
+        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">Station de calcul IA</strong> — Linux i9 + RTX 4080, simulation et calcul lourd</li>
+        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">MacBook Pro de terrain</strong> — Linux Mint, poste nomade</li>
+        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">MacBook Air</strong> — acquisition et journal de séance</li>
+        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">Réseau maillé Tailscale</strong> — liaison chiffrée, aucun port ouvert</li>
+        <li style="padding:.55rem 0; border-top:1px solid rgba(167,139,250,.14)"><strong style="color:var(--texte)">8 To de stockage</strong> — archives hors cloud</li>
       </ul>
-      <div class="trait-neon my-5"></div>
-      <p class="text-xs text-violet-700/65">
-        Aucun de ces postes n'est à acheter. C'est la raison pour laquelle le budget demandé
-        est de 1 350 € et non de plusieurs dizaines de milliers.
+      <p style="margin:1.2rem 0 0; font-size:.78rem; color:var(--faible)">
+        Aucun de ces postes n'est à acheter : c'est pourquoi le budget demandé est de 1 350 € et non de dizaines de milliers.
       </p>
-    </div>
+    </article>
 
-    <!-- ce qui manque -->
-    <div class="verre-violet p-7 reveler">
-      <div class="flex items-center gap-3 mb-5">
-        <span class="w-9 h-9 rounded-xl grid place-items-center text-white font-black"
-              style="background:linear-gradient(135deg,#d946ef,#ec4899)">!</span>
-        <h3 class="text-xl font-black text-cosmos">Les maillons manquants</h3>
-      </div>
-      <table class="w-full text-sm">
-        <tbody class="text-violet-900/85">
-          <tr>
-            <td class="py-2.5">Casque EEG OpenBCI (8 canaux) + électrodes</td>
-            <td class="py-2.5 text-right mono font-semibold">700 €</td>
-          </tr>
-          <tr class="border-t border-fuchsia-200/70">
-            <td class="py-2.5">Capteurs musculaires MyoWare 2.0 + câblage</td>
-            <td class="py-2.5 text-right mono font-semibold">150 €</td>
-          </tr>
-          <tr class="border-t border-fuchsia-200/70">
-            <td class="py-2.5">Extension triple écran nomade (dock TB3 + 2 écrans)</td>
-            <td class="py-2.5 text-right mono font-semibold">500 €</td>
-          </tr>
-          <tr class="border-t border-fuchsia-200/70">
-            <td class="py-2.5">Module FES isolé galvaniquement</td>
-            <td class="py-2.5 text-right mono font-semibold text-fuchsia-700">à chiffrer</td>
-          </tr>
-          <tr class="border-t-2 border-fuchsia-300">
-            <td class="py-4 font-black text-cosmos">Phase 1</td>
-            <td class="py-4 text-right mono font-black text-fuchsia-600 text-lg">1 350 €</td>
-          </tr>
-        </tbody>
+    <article class="verre-clair carte reveler">
+      <p class="etiq">Les maillons manquants</p>
+      <table class="prix">
+        <tr><td>Casque EEG OpenBCI + électrodes</td><td>700 €</td></tr>
+        <tr><td>Capteurs MyoWare 2.0 + câblage</td><td>150 €</td></tr>
+        <tr><td>Extension triple écran nomade</td><td>500 €</td></tr>
+        <tr><td>Module FES isolé galvaniquement</td><td style="color:var(--magenta)">à chiffrer</td></tr>
+        <tr class="total"><td>Phase 1</td><td>1 350 €</td></tr>
       </table>
-      <p class="mt-4 text-xs text-violet-700/65">
-        Estimations à confirmer par devis. Le module FES est hors Phase 1 : il demande une
-        isolation électrique qui se conçoit, elle ne s'improvise pas.
+      <p style="margin:1rem 0 0; font-size:.78rem; color:var(--faible)">
+        Estimations à confirmer par devis. Le module FES est hors Phase 1 : son isolation se conçoit, elle ne s'improvise pas.
       </p>
-    </div>
+    </article>
   </div>
 
-  <!-- cagnottes continues -->
-  <div class="mt-6 verre p-7 md:p-9 reveler">
-    <div class="max-w-2xl">
-      <h3 class="text-xl font-black text-cosmos">Soutien continu, sans tout-ou-rien</h3>
-      <p class="mt-2 text-sm text-violet-900/75 leading-relaxed">
-        Pas de campagne qui s'annule si l'objectif n'est pas atteint. Trois canaux ouverts en
-        permanence : chaque contribution reste acquise au projet, quelle que soit son ampleur,
-        et le chantier avance au rythme de ce qui rentre.
-      </p>
-    </div>
-
-    <div class="mt-7 grid md:grid-cols-3 gap-4">
-      <a href="[LIEN_KOFI]" class="verre p-5 hover:-translate-y-1 transition block no-underline">
-        <p class="font-black text-cosmos">Ko-fi</p>
-        <p class="mt-1 text-xs text-violet-900/70 leading-relaxed">
-          Soutien ponctuel ou mensuel. 0 % de commission côté plateforme, Apple&nbsp;Pay, international.
-        </p>
-        <p class="mt-3 text-xs font-bold text-fuchsia-600">[LIEN_KOFI]</p>
+  <div class="verre reveler" style="padding:1.8rem; margin-top:1.1rem">
+    <h3>Soutien continu, sans tout-ou-rien</h3>
+    <p class="doux" style="font-size:.9rem; max-width:44rem; margin:.5rem 0 1.4rem">
+      Pas de campagne qui s'annule si l'objectif n'est pas atteint. Trois canaux ouverts en permanence :
+      chaque contribution reste acquise au projet, et le chantier avance au rythme de ce qui rentre.
+    </p>
+    <div class="trio">
+      <a href="[LIEN_KOFI]" class="verre canal">
+        <strong>Ko-fi</strong>
+        <p>Ponctuel ou mensuel, 0 % de commission côté plateforme, Apple Pay, international.</p>
+        <span class="balise">[LIEN_KOFI]</span>
       </a>
-      <a href="[LIEN_TIPEEE]" class="verre p-5 hover:-translate-y-1 transition block no-underline">
-        <p class="font-black text-cosmos">Tipeee</p>
-        <p class="mt-1 text-xs text-violet-900/70 leading-relaxed">
-          Pour le public francophone : abonnement mensuel, contreparties et journal de bord.
-        </p>
-        <p class="mt-3 text-xs font-bold text-fuchsia-600">[LIEN_TIPEEE]</p>
+      <a href="[LIEN_TIPEEE]" class="verre canal">
+        <strong>Tipeee</strong>
+        <p>Public francophone : abonnement mensuel, contreparties, journal de bord.</p>
+        <span class="balise">[LIEN_TIPEEE]</span>
       </a>
-      <a href="[LIEN_GITHUB_SPONSORS]" class="verre p-5 hover:-translate-y-1 transition block no-underline">
-        <p class="font-black text-cosmos">GitHub Sponsors</p>
-        <p class="mt-1 text-xs text-violet-900/70 leading-relaxed">
-          Pour la communauté open source : le soutien est visible à côté du code qu'il finance.
-        </p>
-        <p class="mt-3 text-xs font-bold text-fuchsia-600">[LIEN_GITHUB_SPONSORS]</p>
+      <a href="[LIEN_GITHUB_SPONSORS]" class="verre canal">
+        <strong>GitHub Sponsors</strong>
+        <p>Communauté open source : le soutien apparaît à côté du code qu'il finance.</p>
+        <span class="balise">[LIEN_GITHUB_SPONSORS]</span>
       </a>
-    </div>
-
-    <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-violet-700/60">
-      <span><strong class="text-cosmos">Ce qui est publié :</strong> mesures brutes, schémas, échecs.</span>
-      <span><strong class="text-cosmos">Ce qui n'est pas promis :</strong> aucun résultat médical.</span>
     </div>
   </div>
 </section>
 
-<!-- ======================= VIDEO ======================= -->
-<section id="video" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-  <div class="max-w-3xl reveler">
-    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Terrain</p>
-    <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
-      Prises de vues — <span class="degrade-texte">Macaíba</span>
-    </h2>
-    <p class="mt-5 text-violet-900/75 leading-relaxed">
-      Les premières images seront tournées à Macaíba (Rio Grande do Norte). Cet emplacement
-      attend la vidéo : rien de simulé, rien de stock.
+<!-- ============================= VIDÉO ============================= -->
+<section class="enveloppe section" id="video">
+  <div class="section-titre reveler">
+    <p class="etiq">Terrain</p>
+    <h2>Prises de vues — <span class="degrade-texte">Macaíba</span></h2>
+    <p class="lead" style="margin-top:1.2rem">
+      Les premières images seront tournées à Macaíba (Rio Grande do Norte). Cet emplacement attend la vidéo :
+      rien de simulé, rien de stock.
     </p>
   </div>
-
-  <div class="mt-10 verre p-4 md:p-6 reveler">
-    <div class="aspect-video rounded-2xl grid place-items-center relative overflow-hidden"
-         style="background:linear-gradient(135deg,#ede9fe,#fbcfe8 55%,#ddd6fe)">
+  <div class="verre reveler" style="padding:1rem">
+    <div class="video-hote">
       [VIDEO_MACAIBA_EMBED]
-      <div class="text-center px-6">
-        <div class="w-16 h-16 mx-auto rounded-full grid place-items-center mb-4 pulse-doux"
-             style="background:linear-gradient(135deg,#7c3aed,#ec4899); box-shadow:0 12px 40px rgba(217,70,239,.5)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <p class="font-bold text-cosmos">Vidéo à venir</p>
-        <p class="text-sm text-violet-900/60 mt-1">Emplacement réservé : <span class="mono text-xs">[VIDEO_MACAIBA_EMBED]</span></p>
+      <div style="text-align:center; padding:1rem">
+        <p style="margin:0 0 .3rem; font-family:'Space Grotesk',sans-serif; font-weight:600">Vidéo à venir</p>
+        <p class="faible mono" style="margin:0; font-size:.7rem">[VIDEO_MACAIBA_EMBED]</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======================= CTA FINAL ======================= -->
-<section class="relative z-10 max-w-4xl mx-auto px-6 py-24 text-center">
-  <div class="verre-violet p-10 md:p-14 reveler">
-    <h2 class="text-3xl md:text-5xl font-black tracking-tight text-cosmos leading-tight">
-      Suivez-moi <span class="degrade-texte">dès maintenant</span>
-    </h2>
-    <p class="mt-5 text-violet-900/75 max-w-xl mx-auto leading-relaxed">
-      Ce projet se construit en public : les doutes, les cotes qui ne tombent pas juste,
-      les pièces qui arrivent en retard. Embarquer maintenant, c'est voir la machine se faire.
+<!-- ============================= CTA ============================= -->
+<section class="enveloppe section" style="text-align:center">
+  <div class="verre-clair reveler" style="padding:3rem 2rem">
+    <h2>Suivez-moi <span class="degrade-texte">dès maintenant</span></h2>
+    <p class="lead" style="margin:1.2rem auto 0">
+      Ce projet se construit en public : les doutes, les cotes qui ne tombent pas juste, les pièces en retard.
+      Embarquer maintenant, c'est voir la machine se faire.
     </p>
-    <div class="mt-8 flex flex-wrap justify-center gap-4">
+    <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:2rem">
       <a href="#financer" class="bouton">Soutenir le projet</a>
       <a href="[LIEN_KOFI]" class="bouton-fantome">Ko-fi</a>
       <a href="[LIEN_TIPEEE]" class="bouton-fantome">Tipeee</a>
-      <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">GitHub Sponsors</a>
+      <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">Sponsors</a>
     </div>
   </div>
 </section>
 
-<!-- ======================= FOOTER ======================= -->
-<footer class="relative z-10 border-t border-violet-200/70 mt-10">
-  <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col gap-6">
-    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold text-violet-900/70">
-      <a href="meta-projet-social.html" class="hover:text-magenta transition">Le projet social</a>
-      <a href="affiliations.html" class="hover:text-magenta transition">Équipements &amp; affiliations</a>
-      <a href="lunagalaxie.html" class="hover:text-magenta transition">LunaGalaxie</a>
-      <a href="#jumeau" class="hover:text-magenta transition">Jumeau 3D</a>
-    </div>
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-violet-900/60">
-      <p><strong class="text-cosmos">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
-      <div class="flex items-center gap-5">
-        <a href="[LIEN_GITHUB]" class="hover:text-magenta transition">GitHub</a>
-        <a href="[LIEN_X]" class="hover:text-magenta transition">X</a>
-        <a href="[LIEN_LINKEDIN]" class="hover:text-magenta transition">LinkedIn</a>
-        <a href="[LIEN_SITE]" class="hover:text-magenta transition">Site</a>
-      </div>
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="affiliations.html">Équipements</a>
+      <a href="shopping.html">Boutique</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
     </div>
   </div>
 </footer>
 
+<script src="tiroir.js" defer></script>
+<script type="module" src="systeme.js"></script>
 <script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-  }
-}
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <script type="module">
-  // Scène 3D : chargée seulement si son conteneur existe, et sans bloquer la page
-  // si le réseau refuse le CDN — la page reste lisible, la scène reste vide.
   import { demarrerScene } from './three-scene.js';
   const conteneur = document.getElementById('scene3d');
-  if (conteneur) {
-    demarrerScene(conteneur, { legendeId: 'scene-legende' });
-  }
+  if (conteneur) demarrerScene(conteneur, { legendeId: 'scene-legende' });
 </script>
 <script>
-  // Apparition douce au défilement — désactivée si l'utilisateur préfère moins de mouvement.
   (function () {
     var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var cibles = document.querySelectorAll('.reveler');
@@ -655,12 +428,10 @@
       cibles.forEach(function (e) { e.classList.add('vu'); });
       return;
     }
-    var obs = new IntersectionObserver(function (entrees) {
-      entrees.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('vu'); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.12 });
-    cibles.forEach(function (e) { obs.observe(e); });
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vu'); o.unobserve(e.target); } });
+    }, { threshold: .1 });
+    cibles.forEach(function (e) { o.observe(e); });
   })();
 </script>
 </body>

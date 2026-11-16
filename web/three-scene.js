@@ -41,7 +41,7 @@ export function demarrerScene(conteneur, options = {}) {
     return null;
   }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setClearColor(0x000000, 0);
   conteneur.appendChild(renderer.domElement);
   renderer.domElement.style.display = 'block';
@@ -54,7 +54,7 @@ export function demarrerScene(conteneur, options = {}) {
   camera.lookAt(0, 0.72, 0);
 
   // --- lumières : deux sources colorées, pas d'ombre (inutile ici) ---
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x8b5cf6, 1.35));
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x6d28d9, 1.05));
   const dir = new THREE.DirectionalLight(0xffffff, 1.1);
   dir.position.set(3, 6, 4);
   scene.add(dir);
@@ -68,16 +68,16 @@ export function demarrerScene(conteneur, options = {}) {
   // --- support : sol discret, pour que les objets ne flottent pas ---
   const sol = new THREE.Mesh(
     new THREE.CircleGeometry(3.4, 64),
-    new THREE.MeshBasicMaterial({ color: 0xddd6fe, transparent: true, opacity: 0.28 })
+    new THREE.MeshBasicMaterial({ color: 0x6d28d9, transparent: true, opacity: 0.22 })
   );
   sol.rotation.x = -Math.PI / 2;
   sol.position.y = -1.15;
   scene.add(sol);
 
-  const grille = new THREE.GridHelper(6.4, 16, 0xc4b5fd, 0xe9d5ff);
+  const grille = new THREE.GridHelper(6.4, 16, 0x8b5cf6, 0x4c1d95);
   grille.position.y = -1.14;
   grille.material.transparent = true;
-  grille.material.opacity = 0.35;
+  grille.material.opacity = 0.30;
   scene.add(grille);
 
   const racine = new THREE.Group();
