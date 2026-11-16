@@ -322,20 +322,18 @@ def page_virtuel() -> str:
   <section class="section" style="padding-top:0">
     <div class="duo reveler">
       <figure style="margin:0">
-        <div class="cadre-neon" style="padding:0; background:rgba(40,17,65,.9); box-shadow:none">
-          <div style="display:grid; place-items:center; aspect-ratio:4/3; color:var(--faible); font-family:'JetBrains Mono',monospace; font-size:.7rem">
-            {PAGES['virtuel']['img1']}
-          </div>
+        <div class="cadre-neon" style="padding:0">
+          <img src="assets/exo-appareil.jpg" width="1600" height="900" loading="lazy"
+               alt="Planche de l'exosquelette de rééducation assistée : vue d'ensemble et détails techniques" />
         </div>
-        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem" data-t="virtuel.img1_leg">{t('virtuel.img1_leg')}</figcaption>
+        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6" data-t="virtuel.img1_leg">{t('virtuel.img1_leg')}</figcaption>
       </figure>
       <figure style="margin:0">
-        <div class="cadre-neon" style="padding:0; background:rgba(40,17,65,.9); box-shadow:none">
-          <div style="display:grid; place-items:center; aspect-ratio:4/3; color:var(--faible); font-family:'JetBrains Mono',monospace; font-size:.7rem">
-            {PAGES['virtuel']['img2']}
-          </div>
+        <div class="cadre-neon" style="padding:0">
+          <img src="assets/rampe-securite.jpg" width="1600" height="900" loading="lazy"
+               alt="Rampe de rééducation à la marche assistée et son portique de sécurité" />
         </div>
-        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem" data-t="virtuel.img2_leg">{t('virtuel.img2_leg')}</figcaption>
+        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6" data-t="virtuel.img2_leg">{t('virtuel.img2_leg')}</figcaption>
       </figure>
     </div>
   </section>
@@ -374,10 +372,9 @@ def page_social() -> str:
 
   <section class="section" style="padding-top:0">
     <figure class="reveler" style="margin:0">
-      <div class="cadre-neon" style="padding:0; background:rgba(40,17,65,.9); box-shadow:none">
-        <div style="display:grid; place-items:center; aspect-ratio:16/9; color:var(--faible); font-family:'JetBrains Mono',monospace; font-size:.72rem">
-          {p['img']}
-        </div>
+      <div class="cadre-neon" style="padding:0">
+        <img src="assets/ilot-integre.jpg" width="1600" height="900" loading="lazy"
+             alt="Infographie de l'Îlot Intégré : modèle d'ONG réplicable, agriculture, coopérative, fablab, clinique de rééducation" />
       </div>
       <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; text-align:center" data-t="social.img_leg">{t('social.img_leg')}</figcaption>
     </figure>
@@ -583,7 +580,19 @@ def main() -> None:
     pages = {
         "index": page_index(),
         "virtuel": page_virtuel(),
-        "neuroexo": page_cartes("neuroexo", 3, journal_n=3),
+        "neuroexo": page_cartes("neuroexo", 3, journal_n=3, extra="""
+  <section class="section" style="padding-top:0">
+    <figure class="reveler" style="margin:0">
+      <div class="cadre-neon" style="padding:0">
+        <img src="assets/simulation-biomecanique.jpg" width="1600" height="900" loading="lazy"
+             alt="Simulation biomécanique en temps réel : squelette articulé et flux nerveux projetés" />
+      </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; text-align:center; line-height:1.6">
+        Simulation biomécanique en temps réel — ce que le Système 2 observe
+      </figcaption>
+    </figure>
+  </section>
+"""),
         "devkit": page_cartes("devkit", 3, journal_n=2),
         "realia": page_cartes("realia", 3, extra=f"""
   <section class="section" style="padding-top:0">
