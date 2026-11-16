@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Le projet social — Neuro-Exo</title>
+<meta name="description" content="Démocratiser la rééducation neuro-robotique : plans ouverts, protocoles partagés, matériel reproductible. Page en construction." />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .titre-chantier {
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    line-height: .98; font-weight: 900; letter-spacing: -.03em; margin: 1rem 0 0;
+  }
+  .grille-piliers {
+    display: grid; gap: 1rem; margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .pilier { padding: 1.6rem; }
+  .pilier h3 { margin: .9rem 0 .4rem; font-size: 1.05rem; color: var(--cosmos); }
+  .pilier p { margin: 0; font-size: .88rem; line-height: 1.6; color: rgba(46,16,101,.75); }
+  .puce {
+    width: 2.1rem; height: 2.1rem; border-radius: .8rem; display: grid; place-items: center;
+    font-size: 1rem; background: linear-gradient(135deg,#ede9fe,#fce7f3);
+  }
+  .liste-attente { margin: 1rem 0 0; padding: 0; list-style: none; }
+  .liste-attente li {
+    display: flex; gap: .7rem; padding: .65rem 0; font-size: .9rem;
+    color: rgba(46,16,101,.8); border-bottom: 1px dashed rgba(196,181,253,.7);
+  }
+  .liste-attente li:last-child { border-bottom: 0; }
+  .liste-attente .croix { color: #c084fc; font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div class="blob blob-a"></div>
+<div class="blob blob-b"></div>
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="marque">
+      <span class="marque-pastille">N</span>
+      <span class="marque-texte">NEURO<span class="degrade-texte">EXO</span></span>
+    </a>
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+      <a href="index.html#jumeau">Jumeau 3D</a>
+      <a href="meta-projet-social.html" aria-current="page">Projet social</a>
+      <a href="affiliations.html">Équipements</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+    </div>
+    <a href="index.html#financer" class="bouton" style="font-size:.85rem; padding:.6rem 1.2rem;">Soutenir</a>
+  </nav>
+</header>
+
+<main class="enveloppe">
+
+  <section class="section" style="padding-bottom:2rem">
+    <span class="chantier"><span class="point"></span>Page en construction</span>
+    <h1 class="titre-chantier">
+      La rééducation<br />
+      <span class="degrade-texte">ne sera pas<br />un privilège.</span>
+    </h1>
+    <p style="max-width:38rem; margin-top:1.6rem; font-size:1.08rem; line-height:1.75; color:rgba(46,16,101,.8)">
+      Ce prototype n'est pas une fin. C'est la première pierre d'un projet ouvert : que
+      demain, une personne lésée médullaire au Brésil, en Guyane ou en Bretagne puisse
+      construire et régler son assistance avec des plans publics — sans dépendre d'un
+      carnet de commandes ni d'un budget d'hôpital universitaire.
+    </p>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="grille-piliers">
+      <div class="verre pilier">
+        <div class="puce">📐</div>
+        <h3>Des plans, pas des brevets</h3>
+        <p>CAO, schémas, listes de matériaux et valeurs de réglage publiés au fur et à mesure.
+           Ce qui n'est pas publié n'existe pas pour la communauté.</p>
+      </div>
+      <div class="verre pilier">
+        <div class="puce">🔬</div>
+        <h3>Des protocoles reproductibles</h3>
+        <p>Chaque séance décrite assez précisément pour être refaite ailleurs : durée, seuils,
+           latences, ce qui a échoué. Un résultat non reproductible n'est pas un résultat.</p>
+      </div>
+      <div class="verre pilier">
+        <div class="puce">🧰</div>
+        <h3>Du matériel atteignable</h3>
+        <p>Priorité aux composants disponibles et documentés. Un montage à 1 350 € qui marche
+           vaut mieux qu'une plateforme à 60 000 € qui reste dans un placard.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="verre" style="padding:2rem">
+      <p class="etiq">Ce que cette page contiendra</p>
+      <ul class="liste-attente">
+        <li><span class="croix">—</span> Le manifeste complet du projet social, en trois langues</li>
+        <li><span class="croix">—</span> Les partenaires associatifs et cliniques, dès qu'ils seront signés</li>
+        <li><span class="croix">—</span> Les retours de terrain : ce qui a été testé, par qui, avec quels moyens</li>
+        <li><span class="croix">—</span> Un guide « construire le vôtre » avec les erreurs à ne pas refaire</li>
+        <li><span class="croix">—</span> La politique de licence et de partage des données de séance</li>
+      </ul>
+      <p style="margin:1.4rem 0 0; font-size:.82rem; color:rgba(46,16,101,.6)">
+        Rien de tout cela n'est encore écrit. Cette page est un engagement de transparence,
+        pas un catalogue.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="text-align:center; padding-top:1rem">
+    <p style="color:rgba(46,16,101,.75); margin-bottom:1.4rem">
+      Le chantier avance en public. Suivez-le, ou soutenez-le.
+    </p>
+    <a href="index.html#financer" class="bouton">Soutenir le projet</a>
+    <a href="index.html" class="bouton-fantome" style="margin-left:.6rem">Retour à l'accueil</a>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:var(--cosmos)">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
+    <div style="display:flex; gap:1.2rem">
+      <a href="affiliations.html">Équipements</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var cibles = document.querySelectorAll('.reveler');
+    if (!('IntersectionObserver' in window)) { cibles.forEach(function (e) { e.classList.add('vu'); }); return; }
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vu'); o.unobserve(e.target); } });
+    }, { threshold: .12 });
+    cibles.forEach(function (e) { o.observe(e); });
+  })();
+</script>
+</body>
+</html>

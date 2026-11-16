@@ -63,6 +63,36 @@ structures, module slots — so models can be plugged in later without rewriting
 architecture. This isn't selling a promise of intelligence; it's funding an honest
 test bench.
 
+### What I already own — and what you are not funding
+
+The heavy infrastructure **already exists and runs every day**:
+
+| Already in service | What it does |
+|---|---|
+| Linux AI workstation **i9 + RTX 4080** | digital twin simulation, heavy compute |
+| **Field MacBook Pro** on Linux Mint | mobile workstation |
+| **Acquisition MacBook Air** | recording, session log, field backup |
+| **Tailscale** private mesh | encrypted field ↔ workstation link, no open ports |
+| **8 TB** of sovereign storage | archive of measurements and drawings, off-cloud |
+
+What's missing are the **four biometric links**: the EEG headset, the muscle
+sensors, the isolated stimulation module, and the triple-screen extension for
+working on the move. No servers, no GPUs.
+
+### Continuous support — no all-or-nothing
+
+The campaign is not cancelled if the goal isn't reached. Three channels stay open
+permanently, and **every contribution stays with the project**:
+
+| Channel | For whom | What it brings |
+|---|---|---|
+| **[LIEN_KOFI]** | international, one-off or monthly | 0 % platform fee, Apple Pay, €3 or €300 |
+| **[LIEN_TIPEEE]** | French-speaking audience | monthly subscription, rewards, build log |
+| **[LIEN_GITHUB_SPONSORS]** | open-source community | support shown next to the code it funds |
+
+At 40 % of the goal, 40 % of the hardware gets bought — the EEG headset first, the
+displays after. The purchase order is public and follows technical priority.
+
 ---
 
 ## Technical case: simulate in 3D before you machine metal

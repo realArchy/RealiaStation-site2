@@ -130,18 +130,19 @@
 <!-- ======================= NAV ======================= -->
 <header class="relative z-20">
   <nav class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-    <a href="#top" class="flex items-center gap-3 group">
+    <a href="#top" class="flex items-center gap-3 group shrink-0">
       <span class="w-10 h-10 rounded-2xl grid place-items-center text-white font-black text-lg pulse-doux"
             style="background:linear-gradient(135deg,#7c3aed,#ec4899); box-shadow:0 8px 24px rgba(217,70,239,.45)">N</span>
-      <span class="font-extrabold tracking-tight text-cosmos text-lg">NEURO<span class="degrade-texte">EXO</span></span>
+      <span class="font-extrabold tracking-tight text-cosmos text-lg whitespace-nowrap">NEURO<span class="degrade-texte">EXO</span></span>
     </a>
-    <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-violet-900/80">
-      <a href="#parcours" class="hover:text-magenta transition">Parcours</a>
+    <div class="hidden lg:flex items-center gap-5 xl:gap-7 text-sm font-semibold text-violet-900/80 whitespace-nowrap">
       <a href="#architecture" class="hover:text-magenta transition">Architecture</a>
-      <a href="#budget" class="hover:text-magenta transition">Budget</a>
-      <a href="#video" class="hover:text-magenta transition">Vidéo</a>
+      <a href="#jumeau" class="hover:text-magenta transition">Jumeau 3D</a>
+      <a href="meta-projet-social.html" class="hover:text-magenta transition">Projet social</a>
+      <a href="affiliations.html" class="hover:text-magenta transition">Équipements</a>
+      <a href="lunagalaxie.html" class="hover:text-magenta transition">LunaGalaxie</a>
     </div>
-    <a href="[LIEN_CROWDFUNDING]" class="bouton text-sm !py-2.5 !px-5">Soutenir</a>
+    <a href="#financer" class="bouton text-sm !py-2.5 !px-5 shrink-0">Soutenir</a>
   </nav>
 </header>
 
@@ -169,8 +170,8 @@
       </p>
 
       <div class="mt-9 flex flex-wrap items-center gap-4">
-        <a href="[LIEN_CROWDFUNDING]" class="bouton">
-          Financer la Phase 1
+        <a href="#financer" class="bouton">
+          Soutenir le projet
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -366,72 +367,196 @@
   </div>
 </section>
 
-<!-- ======================= BUDGET ======================= -->
-<section id="budget" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
+<!-- ======================= JUMEAU NUMÉRIQUE 3D ======================= -->
+<section id="jumeau" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
   <div class="max-w-3xl reveler">
-    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Transparence</p>
+    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Jumeau numérique</p>
     <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
-      Phase 1 — <span class="degrade-texte mono">1 350 €</span>
+      Le corps, <span class="degrade-texte">avant le métal</span>
     </h2>
     <p class="mt-5 text-violet-900/75 leading-relaxed">
-      Le labo R&amp;D nomade. Rien de superflu : de quoi acquérir, mesurer et travailler en
-      déplacement, pour que l'expédition et le développement avancent ensemble.
+      Un exosquelette mal réglé blesse. Alors on règle d'abord sur un modèle : le signal,
+      puis la cinématique, puis le montage. Trois étapes, une seule scène — fais-la tourner.
     </p>
   </div>
 
-  <div class="mt-10 grid lg:grid-cols-5 gap-6">
-    <div class="lg:col-span-3 verre p-7 reveler">
+  <div class="mt-10 verre p-4 md:p-6 reveler">
+    <div class="flex flex-wrap gap-2 mb-4" role="group" aria-label="Étapes du jumeau numérique">
+      <button data-etape="0" aria-pressed="true"
+              class="px-4 py-2 rounded-full text-sm font-bold border transition"
+              style="background:linear-gradient(100deg,#7c3aed,#d946ef 55%,#ec4899); color:#fff; border-color:rgba(255,255,255,.5)">
+        1 · Flux de signaux
+      </button>
+      <button data-etape="1" aria-pressed="false"
+              class="px-4 py-2 rounded-full text-sm font-bold border transition"
+              style="background:rgba(255,255,255,.66); color:#6d28d9; border-color:rgba(196,181,253,.95)">
+        2 · Cinématique
+      </button>
+      <button data-etape="2" aria-pressed="false"
+              class="px-4 py-2 rounded-full text-sm font-bold border transition"
+              style="background:rgba(255,255,255,.66); color:#6d28d9; border-color:rgba(196,181,253,.95)">
+        3 · Harnais &amp; capteurs
+      </button>
+    </div>
+
+    <div id="scene3d" class="rounded-2xl overflow-hidden"
+         style="height:440px; background:radial-gradient(circle at 50% 30%, rgba(237,233,254,.85), rgba(252,231,243,.55))">
+      <noscript><p class="p-8 text-center text-violet-800">La scène 3D demande JavaScript.</p></noscript>
+    </div>
+
+    <p id="scene-legende" class="mt-4 text-sm text-violet-900/70">
+      Étape 1 — Le flux : ondes EEG et sEMG, ce que les capteurs lisent avant toute décision.
+    </p>
+    <p class="mt-1 text-xs text-violet-700/55">
+      Glisse à la souris (ou au doigt) pour faire tourner la vue. Aucune donnée réelle n'est affichée :
+      c'est un modèle, pas une séance.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= FINANCEMENT CONTINU ======================= -->
+<section id="financer" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
+  <div class="max-w-3xl reveler">
+    <p class="text-xs uppercase tracking-[0.25em] font-bold text-fuchsia-600">Transparence matérielle</p>
+    <h2 class="mt-3 text-4xl md:text-5xl font-black tracking-tight text-cosmos">
+      J'ai déjà le moteur.<br /><span class="degrade-texte">Il manque les capteurs.</span>
+    </h2>
+    <p class="mt-5 text-violet-900/75 leading-relaxed">
+      L'infrastructure lourde est en place et tourne tous les jours. Ce que vous financez,
+      ce ne sont pas des serveurs ni du vent : ce sont les <strong class="text-cosmos">quatre
+      derniers maillons biométriques</strong> qui manquent entre un corps et une machine.
+    </p>
+  </div>
+
+  <div class="mt-10 grid lg:grid-cols-2 gap-6">
+
+    <!-- ce qui existe déjà -->
+    <div class="verre p-7 reveler">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-9 h-9 rounded-xl grid place-items-center text-white font-black"
+              style="background:linear-gradient(135deg,#7c3aed,#a855f7)">✓</span>
+        <h3 class="text-xl font-black text-cosmos">Déjà financé, déjà en service</h3>
+      </div>
+      <ul class="space-y-4 text-sm text-violet-900/85">
+        <li class="flex gap-3">
+          <span class="text-violet-500 font-bold">›</span>
+          <div>
+            <p class="font-semibold text-cosmos">Station de calcul IA — Linux i9 + RTX 4080</p>
+            <p class="text-violet-900/70">Simulation du jumeau numérique, entraînement, calcul lourd.</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-violet-500 font-bold">›</span>
+          <div>
+            <p class="font-semibold text-cosmos">MacBook Pro de terrain — Linux Mint</p>
+            <p class="text-violet-900/70">Poste de travail nomade, compatible avec la chaîne de mesure.</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-violet-500 font-bold">›</span>
+          <div>
+            <p class="font-semibold text-cosmos">MacBook Air — acquisition</p>
+            <p class="text-violet-900/70">Enregistrement, journal de séance, sauvegarde de terrain.</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-violet-500 font-bold">›</span>
+          <div>
+            <p class="font-semibold text-cosmos">Réseau privé maillé Tailscale</p>
+            <p class="text-violet-900/70">Liaison chiffrée terrain ↔ station, sans ouvrir aucun port.</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-violet-500 font-bold">›</span>
+          <div>
+            <p class="font-semibold text-cosmos">8 To de stockage souverain</p>
+            <p class="text-violet-900/70">Archivage des mesures et des plans, hors du cloud.</p>
+          </div>
+        </li>
+      </ul>
+      <div class="trait-neon my-5"></div>
+      <p class="text-xs text-violet-700/65">
+        Aucun de ces postes n'est à acheter. C'est la raison pour laquelle le budget demandé
+        est de 1 350 € et non de plusieurs dizaines de milliers.
+      </p>
+    </div>
+
+    <!-- ce qui manque -->
+    <div class="verre-violet p-7 reveler">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-9 h-9 rounded-xl grid place-items-center text-white font-black"
+              style="background:linear-gradient(135deg,#d946ef,#ec4899)">!</span>
+        <h3 class="text-xl font-black text-cosmos">Les maillons manquants</h3>
+      </div>
       <table class="w-full text-sm">
-        <thead>
-          <tr class="text-left text-xs uppercase tracking-wider text-violet-700/60">
-            <th class="pb-3">Poste</th>
-            <th class="pb-3 text-right">Montant</th>
-          </tr>
-        </thead>
         <tbody class="text-violet-900/85">
-          <tr class="border-t border-violet-200/70">
-            <td class="py-3">OpenBCI — acquisition EEG/EMG recherche</td>
-            <td class="py-3 text-right mono font-semibold">~ 700 €</td>
+          <tr>
+            <td class="py-2.5">Casque EEG OpenBCI (8 canaux) + électrodes</td>
+            <td class="py-2.5 text-right mono font-semibold">700 €</td>
           </tr>
-          <tr class="border-t border-violet-200/70">
-            <td class="py-3">Triple écran + dock Thunderbolt 3 (poste nomade)</td>
-            <td class="py-3 text-right mono font-semibold">~ 500 €</td>
+          <tr class="border-t border-fuchsia-200/70">
+            <td class="py-2.5">Capteurs musculaires MyoWare 2.0 + câblage</td>
+            <td class="py-2.5 text-right mono font-semibold">150 €</td>
           </tr>
-          <tr class="border-t border-violet-200/70">
-            <td class="py-3">MyoWare 2.0 (capteurs EMG + câblage)</td>
-            <td class="py-3 text-right mono font-semibold">~ 150 €</td>
+          <tr class="border-t border-fuchsia-200/70">
+            <td class="py-2.5">Extension triple écran nomade (dock TB3 + 2 écrans)</td>
+            <td class="py-2.5 text-right mono font-semibold">500 €</td>
+          </tr>
+          <tr class="border-t border-fuchsia-200/70">
+            <td class="py-2.5">Module FES isolé galvaniquement</td>
+            <td class="py-2.5 text-right mono font-semibold text-fuchsia-700">à chiffrer</td>
           </tr>
           <tr class="border-t-2 border-fuchsia-300">
-            <td class="py-4 font-black text-cosmos">Total Phase 1</td>
+            <td class="py-4 font-black text-cosmos">Phase 1</td>
             <td class="py-4 text-right mono font-black text-fuchsia-600 text-lg">1 350 €</td>
           </tr>
         </tbody>
       </table>
-      <p class="mt-4 text-xs text-violet-700/60">
-        Les frais de plateforme et les contreparties matérielles ne sont pas inclus dans ce total.
+      <p class="mt-4 text-xs text-violet-700/65">
+        Estimations à confirmer par devis. Le module FES est hors Phase 1 : il demande une
+        isolation électrique qui se conçoit, elle ne s'improvise pas.
+      </p>
+    </div>
+  </div>
+
+  <!-- cagnottes continues -->
+  <div class="mt-6 verre p-7 md:p-9 reveler">
+    <div class="max-w-2xl">
+      <h3 class="text-xl font-black text-cosmos">Soutien continu, sans tout-ou-rien</h3>
+      <p class="mt-2 text-sm text-violet-900/75 leading-relaxed">
+        Pas de campagne qui s'annule si l'objectif n'est pas atteint. Trois canaux ouverts en
+        permanence : chaque contribution reste acquise au projet, quelle que soit son ampleur,
+        et le chantier avance au rythme de ce qui rentre.
       </p>
     </div>
 
-    <div class="lg:col-span-2 verre-violet p-7 reveler">
-      <h3 class="font-bold text-cosmos mb-4">Feuille de route</h3>
-      <ol class="space-y-4 text-sm">
-        <li class="flex gap-3">
-          <span class="mono text-xs font-bold text-white px-2 py-1 rounded-lg h-fit" style="background:#7c3aed">P0</span>
-          <div><p class="font-semibold text-cosmos">Conception</p><p class="text-violet-900/70">Architecture, analyse de risques, choix composants.</p></div>
-        </li>
-        <li class="flex gap-3">
-          <span class="mono text-xs font-bold text-white px-2 py-1 rounded-lg h-fit" style="background:#a855f7">P1</span>
-          <div><p class="font-semibold text-cosmos">Labo nomade</p><p class="text-violet-900/70">Le matériel ci-contre, embarqué.</p></div>
-        </li>
-        <li class="flex gap-3 opacity-70">
-          <span class="mono text-xs font-bold text-white px-2 py-1 rounded-lg h-fit" style="background:#d946ef">P2</span>
-          <div><p class="font-semibold text-cosmos">Banc Système 1</p><p class="text-violet-900/70">EMG propre, boucle &lt; 20 ms, sécurité.</p></div>
-        </li>
-        <li class="flex gap-3 opacity-50">
-          <span class="mono text-xs font-bold text-white px-2 py-1 rounded-lg h-fit" style="background:#ec4899">P3</span>
-          <div><p class="font-semibold text-cosmos">Harnais passif</p><p class="text-violet-900/70">Portique, délestage, capteurs.</p></div>
-        </li>
-      </ol>
+    <div class="mt-7 grid md:grid-cols-3 gap-4">
+      <a href="[LIEN_KOFI]" class="verre p-5 hover:-translate-y-1 transition block no-underline">
+        <p class="font-black text-cosmos">Ko-fi</p>
+        <p class="mt-1 text-xs text-violet-900/70 leading-relaxed">
+          Soutien ponctuel ou mensuel. 0 % de commission côté plateforme, Apple&nbsp;Pay, international.
+        </p>
+        <p class="mt-3 text-xs font-bold text-fuchsia-600">[LIEN_KOFI]</p>
+      </a>
+      <a href="[LIEN_TIPEEE]" class="verre p-5 hover:-translate-y-1 transition block no-underline">
+        <p class="font-black text-cosmos">Tipeee</p>
+        <p class="mt-1 text-xs text-violet-900/70 leading-relaxed">
+          Pour le public francophone : abonnement mensuel, contreparties et journal de bord.
+        </p>
+        <p class="mt-3 text-xs font-bold text-fuchsia-600">[LIEN_TIPEEE]</p>
+      </a>
+      <a href="[LIEN_GITHUB_SPONSORS]" class="verre p-5 hover:-translate-y-1 transition block no-underline">
+        <p class="font-black text-cosmos">GitHub Sponsors</p>
+        <p class="mt-1 text-xs text-violet-900/70 leading-relaxed">
+          Pour la communauté open source : le soutien est visible à côté du code qu'il finance.
+        </p>
+        <p class="mt-3 text-xs font-bold text-fuchsia-600">[LIEN_GITHUB_SPONSORS]</p>
+      </a>
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-violet-700/60">
+      <span><strong class="text-cosmos">Ce qui est publié :</strong> mesures brutes, schémas, échecs.</span>
+      <span><strong class="text-cosmos">Ce qui n'est pas promis :</strong> aucun résultat médical.</span>
     </div>
   </div>
 </section>
@@ -476,26 +601,51 @@
       les pièces qui arrivent en retard. Embarquer maintenant, c'est voir la machine se faire.
     </p>
     <div class="mt-8 flex flex-wrap justify-center gap-4">
-      <a href="[LIEN_CROWDFUNDING]" class="bouton">Soutenir la Phase 1</a>
-      <a href="[LIEN_X]" class="bouton-fantome">Suivre sur X</a>
-      <a href="[LIEN_LINKEDIN]" class="bouton-fantome">LinkedIn</a>
+      <a href="#financer" class="bouton">Soutenir le projet</a>
+      <a href="[LIEN_KOFI]" class="bouton-fantome">Ko-fi</a>
+      <a href="[LIEN_TIPEEE]" class="bouton-fantome">Tipeee</a>
+      <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">GitHub Sponsors</a>
     </div>
   </div>
 </section>
 
 <!-- ======================= FOOTER ======================= -->
 <footer class="relative z-10 border-t border-violet-200/70 mt-10">
-  <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-violet-900/60">
-    <p><strong class="text-cosmos">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
-    <div class="flex items-center gap-5">
-      <a href="[LIEN_GITHUB]" class="hover:text-magenta transition">GitHub</a>
-      <a href="[LIEN_X]" class="hover:text-magenta transition">X</a>
-      <a href="[LIEN_LINKEDIN]" class="hover:text-magenta transition">LinkedIn</a>
-      <a href="[LIEN_SITE]" class="hover:text-magenta transition">Site</a>
+  <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col gap-6">
+    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold text-violet-900/70">
+      <a href="meta-projet-social.html" class="hover:text-magenta transition">Le projet social</a>
+      <a href="affiliations.html" class="hover:text-magenta transition">Équipements &amp; affiliations</a>
+      <a href="lunagalaxie.html" class="hover:text-magenta transition">LunaGalaxie</a>
+      <a href="#jumeau" class="hover:text-magenta transition">Jumeau 3D</a>
+    </div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-violet-900/60">
+      <p><strong class="text-cosmos">NEUROEXO</strong> — projet open source · prototype de recherche, non dispositif médical</p>
+      <div class="flex items-center gap-5">
+        <a href="[LIEN_GITHUB]" class="hover:text-magenta transition">GitHub</a>
+        <a href="[LIEN_X]" class="hover:text-magenta transition">X</a>
+        <a href="[LIEN_LINKEDIN]" class="hover:text-magenta transition">LinkedIn</a>
+        <a href="[LIEN_SITE]" class="hover:text-magenta transition">Site</a>
+      </div>
     </div>
   </div>
 </footer>
 
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+  // Scène 3D : chargée seulement si son conteneur existe, et sans bloquer la page
+  // si le réseau refuse le CDN — la page reste lisible, la scène reste vide.
+  import { demarrerScene } from './three-scene.js';
+  const conteneur = document.getElementById('scene3d');
+  if (conteneur) {
+    demarrerScene(conteneur, { legendeId: 'scene-legende' });
+  }
+</script>
 <script>
   // Apparition douce au défilement — désactivée si l'utilisateur préfère moins de mouvement.
   (function () {

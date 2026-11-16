@@ -78,7 +78,7 @@ faire — pas lire un communiqué à la fin.
 
 🔗 Le site : [LIEN_SITE]
 💻 Le code : [LIEN_GITHUB]
-🚀 La campagne : [LIEN_CROWDFUNDING]
+🚀 La campagne : [LIEN_KOFI] · [LIEN_TIPEEE] · [LIEN_GITHUB_SPONSORS]
 🎥 Les premières images, tournées à Macaíba : [VIDEO_MACAIBA]
 
 #Neurotechnologie #OpenSource #Exosquelette #Rééducation #Neuroplasticité

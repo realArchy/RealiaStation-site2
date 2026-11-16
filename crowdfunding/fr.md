@@ -63,6 +63,25 @@ structures de messages, emplacements de modules — pour que les modèles se
 branchent plus tard sans réécrire l'architecture. On ne vend pas une promesse
 d'intelligence : on finance un banc d'essai honnête.
 
+### Ce que je possède déjà — et que vous ne financez pas
+
+C'est le point le plus important de cette campagne, et il mérite d'être dit
+franchement : **l'infrastructure lourde est déjà là, et elle tourne.**
+
+| Déjà en service | Ce qu'elle fait |
+|---|---|
+| Station de calcul IA Linux **i9 + RTX 4080** | simulation du jumeau numérique, calcul lourd, entraînement |
+| **MacBook Pro de terrain** sous Linux Mint | poste de travail nomade, compatible avec la chaîne de mesure |
+| **MacBook Air** d'acquisition | enregistrement, journal de séance, sauvegarde de terrain |
+| Réseau privé maillé **Tailscale** | liaison chiffrée terrain ↔ station, sans ouvrir un port |
+| **8 To** de stockage souverain | archivage des mesures et des plans, hors cloud |
+
+Vous ne financez donc ni serveur, ni GPU, ni infrastructure réseau. Vous financez
+les **quatre derniers maillons biométriques** : le casque EEG, les capteurs
+musculaires, le module de stimulation isolé, et de quoi travailler à trois écrans
+en déplacement. C'est toute la différence entre « donnez-moi de quoi démarrer »
+et « il me manque ceci, précisément ».
+
 ---
 
 ## Justification technique : pourquoi entraîner en 3D avant d'usiner
@@ -108,7 +127,23 @@ travail de terrain.
 
 ---
 
-## Paliers (Stretch Goals)
+## Soutien continu — pas de tout-ou-rien
+
+Cette campagne ne s'annule pas si l'objectif n'est pas atteint. Trois canaux sont
+ouverts en permanence, et **chaque contribution reste acquise au projet** :
+
+| Canal | Pour qui | Ce qu'il apporte |
+|---|---|---|
+| **[LIEN_KOFI]** | international, ponctuel ou mensuel | 0 % de commission côté plateforme, Apple Pay, contributions de 3 € comme de 300 € |
+| **[LIEN_TIPEEE]** | public francophone | abonnement mensuel, contreparties, journal de bord |
+| **[LIEN_GITHUB_SPONSORS]** | communauté open source | le soutien apparaît à côté du code qu'il finance |
+
+Pourquoi ce choix : une campagne tout-ou-rien transforme un manque de 200 € en
+échec total, et un échec total en projet arrêté. Ici, 40 % de l'objectif finance
+40 % du matériel — le casque EEG avant les écrans, les capteurs avant le reste.
+L'ordre des achats est public, et il suit la priorité technique, pas l'urgence.
+
+### Ce que débloquent les paliers suivants
 
 | Palier | Ce que ça débloque |
 |---|---|

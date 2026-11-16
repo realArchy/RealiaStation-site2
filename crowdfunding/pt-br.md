@@ -65,6 +65,36 @@ estruturas de mensagem, espaços de módulo — para que os modelos entrem depoi
 reescrever a arquitetura. Não se está vendendo uma promessa de inteligência; está
 se financiando uma bancada de testes honesta.
 
+### O que eu já tenho — e que vocês não estão financiando
+
+A infraestrutura pesada **já existe e já funciona**:
+
+| Já em serviço | Para que serve |
+|---|---|
+| Estação de cálculo IA Linux **i9 + RTX 4080** | simulação do gêmeo digital, cálculo pesado |
+| **MacBook Pro de campo** com Linux Mint | posto de trabalho nômade |
+| **MacBook Air** de aquisição | registro, diário de sessão, backup de campo |
+| Rede privada em malha **Tailscale** | ligação cifrada campo ↔ estação, sem abrir porta |
+| **8 TB** de armazenamento próprio | arquivo das medidas e dos desenhos, fora da nuvem |
+
+O que falta são **quatro elos biométricos**: o capacete EEG, os sensores
+musculares, o módulo de estimulação isolado e a extensão de três telas para
+trabalhar em deslocamento. Nada de servidor, nada de GPU.
+
+### Apoio contínuo — sem tudo-ou-nada
+
+A campanha não é cancelada se a meta não for atingida. Três canais ficam abertos
+permanentemente, e **cada contribuição fica com o projeto**:
+
+| Canal | Para quem | O que traz |
+|---|---|---|
+| **[LIEN_KOFI]** | internacional | 0 % de comissão da plataforma, Apple Pay, de 3 € a 300 € |
+| **[LIEN_TIPEEE]** | público francófono | assinatura mensal, recompensas, diário de bordo |
+| **[LIEN_GITHUB_SPONSORS]** | comunidade open source | o apoio aparece ao lado do código que financia |
+
+Com 40 % da meta, compra-se 40 % do material — o capacete EEG primeiro, as telas
+depois. A ordem das compras é pública e segue a prioridade técnica.
+
 ---
 
 ## Justificativa técnica: por que treinar em 3D antes de usinar

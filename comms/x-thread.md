@@ -77,7 +77,7 @@ nomade. De quoi transformer une sensation en banc d'essai mesurable.
 
 Tout sera publié : code, plans, mesures, échecs.
 
-🚀 [LIEN_CROWDFUNDING]
+🚀 [LIEN_KOFI] · [LIEN_TIPEEE] · [LIEN_GITHUB_SPONSORS]
 🔗 [LIEN_SITE]
 🎥 [VIDEO_MACAIBA]
 
