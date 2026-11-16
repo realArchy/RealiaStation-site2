@@ -1,15 +1,17 @@
-"""Génère les dix pages du site et le dictionnaire i18n.
+"""Génère les dix pages — mise en page en split-screen.
 
-Une seule source (contenu_1.py + contenu_2.py), quatre langues :
-  - le français est écrit en dur dans le HTML (lisible sans JavaScript, indexable) ;
-  - l'anglais, le portugais et le chinois sont dans i18n.js, appliqués au chargement.
+Chaque section de contenu est une grille à deux colonnes : le texte d'un côté,
+le visuel de l'autre, en alternance. Aucune section n'empile « tout le texte
+puis toutes les images ».
 
-Chaque texte traduisible porte `data-t="cle"`. Les clés sont identiques partout.
+Le français est écrit dans le HTML (lisible sans JavaScript, indexable) ;
+l'anglais, le portugais et le chinois sont dans traductions.js.
 """
 from __future__ import annotations
 
 import json
 import pathlib
+import random
 import sys
 
 RACINE = pathlib.Path("/home/realia/projects/neuro-exo-project/web")
@@ -20,18 +22,17 @@ from contenu_2 import PAGES  # noqa: E402
 
 FR = "fr"
 
-# page -> (fichier, clé audio, position du motif, taille motif)
 ORDRE = [
-    ("index", "index.html", "luna-01-aventure", "bas-droite", 560),
-    ("virtuel", "virtuel.html", "luna-02-virtuel", "haut-gauche", 340),
-    ("neuroexo", "neuroexo-ai.html", "luna-03-neuroexo", "bas-gauche", 340),
-    ("devkit", "devkit.html", "luna-04-devkit", "haut-droite", 320),
-    ("realia", "realiastation.html", "luna-05-realiastation", "bas-droite", 340),
-    ("luna", "lunagalaxie.html", "luna-06-ghostsheller", "bas-gauche", 300),
-    ("social", "meta-projet-social.html", "luna-07-ilot-ong", "haut-gauche", 340),
-    ("archi", "architecte.html", "luna-08-architecte", "bas-droite", 340),
-    ("wish", "wishlist.html", "luna-09-wishlist", "haut-droite", 320),
-    ("boutique", "boutique.html", "luna-10-noel", "bas-gauche", 340),
+    ("index", "index.html", "luna-01-aventure"),
+    ("virtuel", "virtuel.html", "luna-02-virtuel"),
+    ("neuroexo", "neuroexo-ai.html", "luna-03-neuroexo"),
+    ("devkit", "devkit.html", "luna-04-devkit"),
+    ("realia", "realiastation.html", "luna-05-realiastation"),
+    ("luna", "lunagalaxie.html", "luna-06-ghostsheller"),
+    ("social", "meta-projet-social.html", "luna-07-ilot-ong"),
+    ("archi", "architecte.html", "luna-08-architecte"),
+    ("wish", "wishlist.html", "luna-09-wishlist"),
+    ("boutique", "boutique.html", "luna-10-noel"),
 ]
 
 TOUS = {**NAV, **ACCUEIL}
@@ -45,36 +46,24 @@ for _f, _cle, _t, _d in ORIENT:
 
 
 def t(cle: str) -> str:
-    """Texte français (langue écrite en dur)."""
     return TOUS[cle][FR]
 
 
-def e(cle: str) -> str:
-    return (TOUS[cle][FR]
-            .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+def e(s: str) -> str:
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-NAV_HTML = """    <div class="nav-liens">
-      <a href="index.html"{a0}>%s</a>
-      <a href="virtuel.html"{a1}>%s</a>
-      <a href="neuroexo-ai.html"{a2}>%s</a>
-      <a href="devkit.html"{a3}>%s</a>
-      <a href="realiastation.html"{a4}>%s</a>
-      <a href="lunagalaxie.html"{a5}>%s</a>
-      <a href="meta-projet-social.html"{a6}>%s</a>
-      <a href="architecte.html"{a7}>%s</a>
-      <a href="wishlist.html"{a8}>%s</a>
-      <a href="boutique.html"{a9}>%s</a>
-    </div>""" % tuple(t(f"nav.{k}") for k in
-                     ("accueil", "virtuel", "neuroexo", "devkit", "realia",
-                      "luna", "social", "archi", "wishlist", "boutique"))
-
-
+# ---------------------------------------------------------------------------
+# Fragments communs
+# ---------------------------------------------------------------------------
 def nav(page: str) -> str:
     idx = [p[0] for p in ORDRE].index(page)
-    liens = NAV_HTML
-    for i in range(10):
-        liens = liens.replace("{a%d}" % i, ' aria-current="page"' if i == idx else "")
+    cles = ("accueil", "virtuel", "neuroexo", "devkit", "realia",
+            "luna", "social", "archi", "wishlist", "boutique")
+    liens = []
+    for i, (cle, (pid, f, _a)) in enumerate(zip(cles, ORDRE)):
+        courant = ' aria-current="page"' if i == idx else ""
+        liens.append(f'      <a href="{f}"{courant}>{t("nav." + cle)}</a>')
     return f"""<header class="entete">
   <nav class="nav">
     <div class="nav-haut">
@@ -90,7 +79,9 @@ def nav(page: str) -> str:
       </div>
       <a href="index.html#financer" class="bouton">{t('commun.soutenir')}</a>
     </div>
-{liens}
+    <div class="nav-liens">
+{chr(10).join(liens)}
+    </div>
   </nav>
 </header>"""
 
@@ -98,9 +89,8 @@ def nav(page: str) -> str:
 def pied(extra: str = "") -> str:
     return f"""<footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">{t('commun.nonmed')}</span></p>
+    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">{t('commun.nonmed')}</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="affiliations.html" data-t="commun.pied_liens">{t('commun.pied_liens')}</a>
       <a href="wishlist.html" data-t="nav.wishlist">{t('nav.wishlist')}</a>
       <a href="boutique.html" data-t="nav.boutique">{t('nav.boutique')}</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
@@ -110,13 +100,12 @@ def pied(extra: str = "") -> str:
 </footer>"""
 
 
-def scripts(page: str, audio: str, particules: bool = False) -> str:
-    part = '\n<script src="particules.js" defer></script>' if particules else ""
+def scripts(particules: bool = False) -> str:
     return f"""<script src="traductions.js" defer></script>
 <script src="i18n.js" defer></script>
 <script src="revele.js" defer></script>
 <script src="tiroir.js" defer></script>
-<script src="audio.js" defer></script>{part}
+<script src="audio.js" defer></script>
 <script type="module" src="systeme.js"></script>"""
 
 
@@ -134,68 +123,91 @@ def tete(titre: str, description: str) -> str:
 <link rel="stylesheet" href="style.css" />"""
 
 
-def enveloppe(page: str, corps: str, audio: str, titre_page: str,
-              description: str, particules: bool = False, extra_pied: str = "") -> str:
-    idx, _, _, pos, taille = [p for p in ORDRE if p[0] == page][0]
+def enveloppe(page: str, corps: str, titre_page: str, description: str,
+              interne: bool = True, extra_pied: str = "") -> str:
+    audio = [p for p in ORDRE if p[0] == page][0][2]
+    classe = "enveloppe interne" if interne else "enveloppe"
     return f"""{tete(titre_page, description)}
 </head>
-<body data-page="{idx}" data-audio="assets/audio/{audio}.mp3">
+<body data-page="{page}" data-audio="assets/audio/{audio}.mp3">
 
 <div class="ciel"></div>
-{('<canvas id="particules" aria-hidden="true"></canvas>' if particules else '')}
-<div class="systeme" data-position="{pos}" data-taille="{taille}" data-opacite="0.8"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
 
 {nav(page)}
 
-<main class="enveloppe">
+<main class="{classe}">
 {corps}
 </main>
 
 {pied(extra_pied)}
 
-{scripts(page, audio, particules)}
+{scripts()}
 </body>
 </html>
 """
 
 
+# ---------------------------------------------------------------------------
+# Blocs
+# ---------------------------------------------------------------------------
+def bloc(texte: str, visuel: str, inverse: bool = False) -> str:
+    sens = " inverse" if inverse else ""
+    return f"""  <section class="split{sens}">
+    <div class="split-texte reveler">
+{texte}
+    </div>
+    <div class="split-visuel reveler">
+{visuel}
+    </div>
+  </section>"""
+
+
+def img(nom: str, alt: str, legende: str = "") -> str:
+    cap = (f'\n      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">{legende}</figcaption>'
+           if legende else "")
+    return f"""      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/{nom}" alt="{alt}" loading="lazy" />
+        </div>{cap}
+      </figure>"""
+
+
+def panneau(titre: str, lignes: list, accent: str = "cyan") -> str:
+    """Visuel de remplacement : une console stylisée, sans image."""
+    couleur = "var(--cyan)" if accent == "cyan" else "var(--magenta)"
+    corps = "\n".join(
+        f'          <div style="display:flex; gap:.6rem; font-family:\'JetBrains Mono\',monospace; font-size:.78rem; color:var(--doux)">'
+        f'<span style="color:{couleur}">›</span><span>{e(l)}</span></div>'
+        for l in lignes)
+    return f"""      <div class="profondeur cadre-neon">
+        <div style="padding:1.5rem; background:#08030f; border-radius:calc(var(--rayon) - 2px); min-height:260px">
+          <p class="mono" style="font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:{couleur}; margin-bottom:1rem">{e(titre)}</p>
+{corps}
+        </div>
+      </div>"""
+
+
 def badge(page: str) -> str:
-    p = PAGES[page]
-    return (f'    <span class="{p["classe"]}"><span class="point"></span>'
+    p = PAGES.get(page)
+    if not p:
+        return ""
+    return (f'      <span class="{p["classe"]}"><span class="point"></span>'
             f'<span data-t="{page}.badge">{t(page + ".badge")}</span></span>')
 
 
-def cartes(page: str, items: list, colonnes: int = 3) -> str:
-    blocs = []
-    for i, (ct, cd) in enumerate(items, 1):
-        blocs.append(f"""      <article class="verre carte reveler">
-        <h3 data-t="{page}.c{i}t">{t(f'{page}.c{i}t')}</h3>
-        <p data-t="{page}.c{i}d">{t(f'{page}.c{i}d')}</p>
-      </article>""")
-    classe = "trio" if colonnes == 3 else "duo"
-    return f'    <div class="{classe}">\n' + "\n".join(blocs) + "\n    </div>"
+def titre_h1(page: str, taille: str = "clamp(2.2rem,4.4vw,3.4rem)") -> str:
+    return f'      <h1 style="font-size:{taille}; margin:1.1rem 0 0" data-t="{page}.titre">{t(page + ".titre")}</h1>'
 
 
-def journal(page: str, n: int = 3) -> str:
-    lignes = []
-    for i in range(1, n + 1):
-        cle = f"{page}.j{i}"
-        if cle not in TOUS:
-            continue
-        texte = t(cle)
-        date = texte.split(" — ")[0]
-        reste = texte[len(date) + 3:] if " — " in texte else texte
-        lignes.append(f"        <li><time>{date}</time><span class=\"txt\" data-t=\"{cle}\">{reste}</span></li>")
-    return f"""    <div class="verre reveler" style="padding:1.8rem; margin-top:2rem">
-      <p class="etiq">{t(page + '.journal_titre')}</p>
-      <ul class="journal">
-{chr(10).join(lignes)}
-      </ul>
-    </div>"""
+def chap(page: str, n: int, inverse: bool = False, visuel: str = "") -> str:
+    texte = f"""      <h2 data-t="{page}.c{n}t">{t(f'{page}.c{n}t')}</h2>
+      <p data-t="{page}.c{n}d">{t(f'{page}.c{n}d')}</p>"""
+    return bloc(texte, visuel or panneau(t(f"{page}.c{n}t"), [t(f"{page}.c{n}d")[:80] + "…"]), inverse)
 
 
 # ===========================================================================
-# Pages
+# 1. Accueil
 # ===========================================================================
 def page_index() -> str:
     orient = []
@@ -207,37 +219,41 @@ def page_index() -> str:
       </a>""")
 
     corps = f"""
-  <section class="banniere">
-    <div class="banniere-corps">
+  <section class="hero">
+    <canvas id="hero3d" aria-hidden="true"></canvas>
+    <div class="hero-contenu">
       <span class="chantier beta"><span class="point"></span><span data-t="index.badge">{t('index.badge')}</span></span>
-      <h1 style="margin:1.4rem 0 0"><span class="lueur-cyan" data-t="index.banniere">{t('index.banniere')}</span></h1>
+      <h1 data-t="index.banniere">{t('index.banniere')}</h1>
       <p class="sous-titre" data-t="index.sous">{t('index.sous')}</p>
-      <div class="banniere-actions">
+      <div class="hero-actions">
         <button type="button" class="bouton" id="activer-experience" data-t="index.cta1">{t('index.cta1')}</button>
         <a href="#manifeste" class="bouton-fantome" data-t="index.cta2">{t('index.cta2')}</a>
       </div>
     </div>
+    <div class="hero-indice">Scroll<span></span></div>
   </section>
 
-  <section class="section" id="manifeste">
-    <div class="section-titre reveler">
-      <p class="etiq">Manifeste</p>
+  <div id="manifeste"></div>
+"""
+    corps += bloc(
+        f"""      <p class="etiq">Manifeste</p>
       <h2 data-t="index.titre">{t('index.titre')}</h2>
-      <p class="lead" style="margin-top:1.2rem" data-t="index.lead">{t('index.lead')}</p>
-    </div>
+      <p class="lead" data-t="index.lead">{t('index.lead')}</p>""",
+        img("simulation-biomecanique.jpg",
+            "Simulation biomécanique en temps réel : squelette articulé et flux nerveux projetés",
+            "Simulation biomécanique — ce que le Système 2 observe"))
 
-    <div class="duo">
-      <article class="verre carte reveler">
-        <h3 data-t="index.histoire_titre">{t('index.histoire_titre')}</h3>
-        <p data-t="index.histoire_1">{t('index.histoire_1')}</p>
-      </article>
-      <article class="verre carte reveler">
-        <p data-t="index.histoire_2">{t('index.histoire_2')}</p>
-      </article>
-    </div>
-  </section>
+    corps += bloc(
+        f"""      <h2 data-t="index.histoire_titre">{t('index.histoire_titre')}</h2>
+      <p data-t="index.histoire_1">{t('index.histoire_1')}</p>
+      <p data-t="index.histoire_2">{t('index.histoire_2')}</p>""",
+        img("exo-appareil.jpg",
+            "Planche de l'exosquelette de rééducation assistée",
+            "L'appareil — planche technique"),
+        inverse=True)
 
-  <section class="section" id="chemin">
+    corps += f"""
+  <section class="section">
     <div class="section-titre reveler">
       <p class="etiq">Orientation</p>
       <h2 data-t="index.orient_titre">{t('index.orient_titre')}</h2>
@@ -249,97 +265,80 @@ def page_index() -> str:
   </section>
 
   <section class="section" id="financer" style="text-align:center">
-    <div class="verre-clair reveler" style="padding:2.6rem 1.6rem">
+    <div class="verre-clair reveler" style="padding:2.8rem 1.6rem">
       <h2 data-t="commun.soutenir">{t('commun.soutenir')}</h2>
-      <p class="lead" style="margin:1rem auto 0">
-        Ko-fi · Tipeee · GitHub Sponsors — trois canaux ouverts, sans tout-ou-rien.
-      </p>
-      <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.6rem">
+      <p class="lead" style="margin:1rem auto 0">Ko-fi · Tipeee · GitHub Sponsors — trois canaux ouverts, sans tout-ou-rien.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.8rem">
         <a href="[LIEN_KOFI]" class="bouton">Ko-fi</a>
-        <a href="[LIEN_TIPEEE]" class="bouton-fantome">Tipeee</a>
+        <a href="[LIEN_TIPTEEE]" class="bouton-fantome">Tipeee</a>
         <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">GitHub Sponsors</a>
       </div>
     </div>
   </section>
 """
-    return enveloppe("index", corps, "luna-01-aventure",
-                     "Capter l'étincelle",
-                     "Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale. De l'impulsion à l'étincelle.",
-                     particules=True)
+    html = enveloppe("index", corps, "Capter l'étincelle",
+                     "Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale.",
+                     interne=False)
+    return html.replace("</body>", """<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+  import { demarrerHero } from './hero3d.js';
+  demarrerHero(document.getElementById('hero3d'));
+</script>
+<script>
+  (function () {
+    const b = document.getElementById('activer-experience');
+    if (b) b.addEventListener('click', () => {
+      if (window.LUNA) window.LUNA.jouer();
+      const c = document.getElementById('manifeste');
+      if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  })();
+</script>
+</body>""")
 
 
-def page_cartes(page: str, nb: int = 3, journal_n: int = 0, extra: str = "",
-                images: str = "") -> str:
-    p = PAGES[page]
-    items = [(f"{page}.c{i}t", f"{page}.c{i}d") for i in range(1, nb + 1)]
-    corps = f"""
-  <section class="section" style="padding-bottom:1.6rem">
-{badge(page)}
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="{page}.titre">{t(page + '.titre')}</h1>
-    <p class="lead" style="margin-top:1.2rem" data-t="{page}.lead">{t(page + '.lead')}</p>
-  </section>
-
-  <section class="section" style="padding-top:.5rem">
-{cartes(page, items)}
-  </section>
-{images}
-{extra}
-"""
-    if journal_n:
-        corps += journaux(page, journal_n)
-    corps += f"""
-  <section class="section" style="text-align:center; padding-top:1rem">
-    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">{t('commun.soutenir')}</a>
-  </section>
-"""
-    return enveloppe(page, corps, p["fichier"].replace(".html", "") and [o for o in ORDRE if o[0] == page][0][2],
-                     t(page + ".titre")[:60], t(page + ".lead")[:150])
-
-
-def journaux(page: str, n: int) -> str:
-    return journal(page, n)
-
-
+# ===========================================================================
+# Pages de contenu
+# ===========================================================================
 def page_virtuel() -> str:
-    images = f"""
-  <section class="section" style="padding-top:0">
-    <div class="verre reveler" style="padding:1.2rem">
-      <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem" role="group" aria-label="Étapes du jumeau">
-        <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux de signaux</button>
-        <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
-        <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais &amp; capteurs</button>
-      </div>
-      <div id="scene3d" style="border-radius:1rem; overflow:hidden; height:420px; background:radial-gradient(circle at 50% 35%, rgba(76,29,149,.55), rgba(18,6,31,.85))"></div>
-      <p id="scene-legende" style="margin:.9rem 0 0; font-size:.84rem; color:var(--doux)">
-        Étape 1 — Le flux : ondes EEG et sEMG, ce que les capteurs lisent avant toute décision.
-      </p>
-      <p style="margin:.25rem 0 0; font-size:.72rem; color:var(--faible)">
-        Glisse à la souris ou au doigt pour tourner la vue. Aucune donnée réelle : c'est un modèle, pas une séance.
-      </p>
-    </div>
-  </section>
+    scene = """      <div class="profondeur verre" style="padding:1rem">
+        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.9rem" role="group">
+          <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux</button>
+          <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
+          <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais</button>
+        </div>
+        <div id="scene3d" style="border-radius:.7rem; overflow:hidden; height:340px; background:radial-gradient(circle at 50% 35%, rgba(40,10,60,.8), #08030f)"></div>
+        <p id="scene-legende" style="margin:.8rem 0 0; font-size:.82rem; color:var(--doux)">Étape 1 — le flux de signaux.</p>
+      </div>"""
 
-  <section class="section" style="padding-top:0">
-    <div class="duo reveler">
-      <figure style="margin:0">
-        <div class="cadre-neon" style="padding:0">
-          <img src="assets/exo-appareil.jpg" width="1600" height="900" loading="lazy"
-               alt="Planche de l'exosquelette de rééducation assistée : vue d'ensemble et détails techniques" />
-        </div>
-        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6" data-t="virtuel.img1_leg">{t('virtuel.img1_leg')}</figcaption>
-      </figure>
-      <figure style="margin:0">
-        <div class="cadre-neon" style="padding:0">
-          <img src="assets/rampe-securite.jpg" width="1600" height="900" loading="lazy"
-               alt="Rampe de rééducation à la marche assistée et son portique de sécurité" />
-        </div>
-        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6" data-t="virtuel.img2_leg">{t('virtuel.img2_leg')}</figcaption>
-      </figure>
-    </div>
-  </section>
-"""
-    html = page_cartes("virtuel", 3, images=images)
-    html = html.replace("</body>", """<script type="importmap">
+    corps = bloc(
+        f"""{badge('virtuel')}
+      <h1 style="margin:1.1rem 0 0" data-t="virtuel.titre">{t('virtuel.titre')}</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="virtuel.lead">{t('virtuel.lead')}</p>""",
+        img("simulation-biomecanique.jpg",
+            "Simulation biomécanique en temps réel", "Le jumeau numérique en mouvement"))
+
+    corps += bloc(
+        f"""      <h2 data-t="virtuel.c1t">{t('virtuel.c1t')}</h2>
+      <p data-t="virtuel.c1d">{t('virtuel.c1d')}</p>""",
+        img("exo-appareil.jpg", "Planche de l'exosquelette", "L'appareil, avant l'usinage"),
+        inverse=True)
+
+    corps += bloc(
+        f"""      <h2 data-t="virtuel.c2t">{t('virtuel.c2t')}</h2>
+      <p data-t="virtuel.c2d">{t('virtuel.c2d')}</p>""",
+        scene)
+
+    corps += bloc(
+        f"""      <h2 data-t="virtuel.c3t">{t('virtuel.c3t')}</h2>
+      <p data-t="virtuel.c3d">{t('virtuel.c3d')}</p>""",
+        img("rampe-securite.jpg", "Rampe de rééducation et portique de sécurité", "La rampe et son portique"),
+        inverse=True)
+
+    html = enveloppe("virtuel", corps, t("virtuel.titre"), t("virtuel.lead")[:150])
+    return html.replace("</body>", """<script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <script type="module">
@@ -348,162 +347,201 @@ def page_virtuel() -> str:
   if (c) demarrerScene(c, { legendeId: 'scene-legende' });
 </script>
 </body>""")
-    return html
+
+
+def page_simple(page: str, visuel1: str, visuel2: str, journal_n: int = 0, extra: str = "") -> str:
+    p = PAGES[page]
+    corps = bloc(
+        f"""{badge(page)}
+      <h1 style="margin:1.1rem 0 0" data-t="{page}.titre">{t(page + '.titre')}</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="{page}.lead">{t(page + '.lead')}</p>""",
+        visuel1)
+
+    corps += bloc(
+        f"""      <h2 data-t="{page}.c1t">{t(page + '.c1t')}</h2>
+      <p data-t="{page}.c1d">{t(page + '.c1d')}</p>
+      <h2 style="margin-top:2rem; font-size:1.5rem" data-t="{page}.c2t">{t(page + '.c2t')}</h2>
+      <p data-t="{page}.c2d">{t(page + '.c2d')}</p>""",
+        visuel2, inverse=True)
+
+    corps += bloc(
+        f"""      <h2 data-t="{page}.c3t">{t(page + '.c3t')}</h2>
+      <p data-t="{page}.c3d">{t(page + '.c3d')}</p>""",
+        panneau(t(f"{page}.c3t"), [t(f"{page}.c3t"), "—", t(f"{page}.c3d")[:90]]),
+    )
+
+    if journal_n:
+        lignes = []
+        for i in range(1, journal_n + 1):
+            cle = f"{page}.j{i}"
+            if cle not in TOUS:
+                continue
+            txt = t(cle)
+            date, reste = (txt.split(" — ", 1) + [""])[:2] if " — " in txt else (txt, "")
+            lignes.append(f'        <li><time>{date}</time><span class="txt" data-t="{cle}">{reste}</span></li>')
+        corps += f"""
+  <section class="section">
+    <p class="etiq" data-t="{page}.journal_titre">{t(page + '.journal_titre')}</p>
+    <div class="verre reveler" style="padding:1.6rem">
+      <ul class="journal">
+{chr(10).join(lignes)}
+      </ul>
+    </div>
+  </section>"""
+
+    corps += extra
+    corps += f"""
+  <section class="section" style="text-align:center">
+    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">{t('commun.soutenir')}</a>
+  </section>
+"""
+    return enveloppe(page, corps, t(page + ".titre")[:60], t(page + ".lead")[:150])
+
+
+def page_luna() -> str:
+    p = PAGES["luna"]
+    visuel = img("ghostsheller.jpg",
+                 "Le GhostSheller, vaisseau quantique millénaire en orbite",
+                 "GhostSheller — propulsion black-hole")
+    corps = bloc(
+        f"""{badge('luna')}
+      <h1 style="margin:1.1rem 0 0; font-size:clamp(2.6rem,6vw,4.4rem); letter-spacing:-.045em" data-t="luna.titre">{t('luna.titre')}</h1>
+      <p class="mono" style="letter-spacing:.36em; color:var(--magenta); font-size:.8rem; margin:.7rem 0 0">A.K.A. GYPSIELUNA</p>
+      <p class="lead" style="margin-top:1.4rem" data-t="luna.lead">{t('luna.lead')}</p>""",
+        visuel)
+
+    corps += bloc(
+        f"""      <h2 data-t="luna.prod_titre">{t('luna.prod_titre')}</h2>
+      <p data-t="luna.prod_txt">{t('luna.prod_txt')}</p>
+      <a href="realiastation.html" class="bouton-fantome" data-t="luna.prod_cta">{t('luna.prod_cta')}</a>""",
+        panneau("REALIASTATION — PRODUCTION", ["épisodes", "voix et images", "réseaux", "audience → Îlots"]),
+        inverse=True)
+    return enveloppe("luna", corps, t("luna.titre"), t("luna.lead")[:150])
 
 
 def page_social() -> str:
     p = PAGES["social"]
-    eco = []
-    for i in range(1, 5):
-        eco.append(f"""      <article class="verre carte reveler">
+    corps = bloc(
+        f"""{badge('social')}
+      <h1 style="margin:1.1rem 0 0" data-t="social.titre">{t('social.titre')}</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="social.lead">{t('social.lead')}</p>""",
+        img("ilot-integre.jpg",
+            "Infographie de l'Îlot Intégré, modèle d'ONG réplicable",
+            "L'Îlot Intégré — infographie"))
+
+    corps += bloc(
+        f"""      <h2 data-t="social.c1t">{t('social.c1t')}</h2>
+      <p data-t="social.c1d">{t('social.c1d')}</p>
+      <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c2t">{t('social.c2t')}</h2>
+      <p data-t="social.c2d">{t('social.c2d')}</p>
+      <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c3t">{t('social.c3t')}</h2>
+      <p data-t="social.c3d">{t('social.c3d')}</p>""",
+        panneau("MADAGASCAR — PILOTE 2027", ["équipe locale", "école inclusive", "clinique neuro-réadapt",
+                                             "fablab PMR", "export & coopérative"], accent="magenta"),
+        inverse=True)
+
+    boucles = "\n".join(
+        f"""      <article class="verre carte reveler">
         <h3 data-t="social.eco_{i}">{t(f'social.eco_{i}')}</h3>
         <p data-t="social.eco_{i}d">{t(f'social.eco_{i}d')}</p>
-      </article>""")
-    extra = f"""
-  <section class="section" style="padding-top:1rem">
-    <div class="section-titre reveler">
-      <p class="etiq" data-t="social.eco_titre">{t('social.eco_titre')}</p>
-      <h2>Les quatre boucles</h2>
-    </div>
-    <div class="duo">
-{chr(10).join(eco)}
+      </article>""" for i in range(1, 5))
+    corps += f"""
+  <section class="section">
+    <p class="etiq" data-t="social.eco_titre">{t('social.eco_titre')}</p>
+    <div class="duo" style="margin-top:1.4rem">
+{boucles}
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
-    <figure class="reveler" style="margin:0">
-      <div class="cadre-neon" style="padding:0">
-        <img src="assets/ilot-integre.jpg" width="1600" height="900" loading="lazy"
-             alt="Infographie de l'Îlot Intégré : modèle d'ONG réplicable, agriculture, coopérative, fablab, clinique de rééducation" />
-      </div>
-      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; text-align:center" data-t="social.img_leg">{t('social.img_leg')}</figcaption>
-    </figure>
-  </section>
-
-  <section class="section" style="text-align:center; padding-top:0">
+  <section class="section" style="text-align:center">
     <a href="wishlist.html" class="bouton" data-t="social.cta">{t('social.cta')}</a>
   </section>
 """
-    return page_cartes("social", 3, extra=extra)
+    return enveloppe("social", corps, t("social.titre"), t("social.lead")[:150])
 
 
 def page_archi() -> str:
     p = PAGES["archi"]
-    corps = f"""
-  <section class="section" style="padding-bottom:1.2rem">
-{badge('archi')}
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(1.9rem,4.4vw,3.1rem)" data-t="archi.titre">{t('archi.titre')}</h1>
-  </section>
-
-  <section class="section" style="padding-top:0; padding-bottom:2rem">
-    <div class="duo" style="align-items:start">
-      <figure class="reveler" style="margin:0">
+    visuel = """      <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-          <img src="assets/portrait.jpg" width="825" height="1100"
-               alt="Portrait de l'Architecte, en fauteuil, devant un jardin" />
+          <img src="assets/portrait.jpg" alt="Portrait de l'Architecte, en fauteuil" loading="lazy" />
         </div>
         <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; letter-spacing:.1em" data-t="archi.photo_leg">{t('archi.photo_leg')}</figcaption>
-      </figure>
+      </figure>""".replace("{t('archi.photo_leg')}", t("archi.photo_leg"))
 
-      <div class="reveler">
-        <p style="font-size:1rem; line-height:1.8; color:var(--doux); font-style:italic" data-t="archi.intro">{t('archi.intro')}</p>
-      </div>
+    corps = bloc(
+        f"""{badge('archi')}
+      <h1 style="margin:1.1rem 0 0" data-t="archi.titre">{t('archi.titre')}</h1>
+      <p style="margin-top:1.4rem; font-style:italic; color:var(--doux)" data-t="archi.intro">{t('archi.intro')}</p>""",
+        visuel)
+
+    for h, ps in (("h1", ("p1", "p2")), ("h2", ("p3", "p4", "p5")), ("h3", ("p6", "p7", "p8"))):
+        paras = "\n".join(f'      <p data-t="archi.{k}">{t("archi." + k)}</p>' for k in ps)
+        corps += f"""
+  <section class="section">
+    <div class="verre reveler" style="padding:2rem">
+      <h2 style="font-size:1.5rem; margin-bottom:1rem" data-t="archi.{h}">{t('archi.' + h)}</h2>
+{paras}
     </div>
-  </section>
+  </section>"""
 
-  <section class="section" style="padding-top:0">
-    <div class="verre reveler" style="padding:1.8rem">
-      <h2 style="font-size:1.35rem; margin-bottom:.9rem" data-t="archi.h1">{t('archi.h1')}</h2>
-      <p class="doux" style="line-height:1.85" data-t="archi.p1">{t('archi.p1')}</p>
-      <p class="doux" style="line-height:1.85; margin-bottom:0" data-t="archi.p2">{t('archi.p2')}</p>
-    </div>
-
-    <div class="verre reveler" style="padding:1.8rem; margin-top:1rem">
-      <h2 style="font-size:1.35rem; margin-bottom:.9rem" data-t="archi.h2">{t('archi.h2')}</h2>
-      <p class="doux" style="line-height:1.85" data-t="archi.p3">{t('archi.p3')}</p>
-      <p class="doux" style="line-height:1.85" data-t="archi.p4">{t('archi.p4')}</p>
-      <p class="doux" style="line-height:1.85; margin-bottom:0" data-t="archi.p5">{t('archi.p5')}</p>
-    </div>
-
-    <div class="verre reveler" style="padding:1.8rem; margin-top:1rem">
-      <h2 style="font-size:1.35rem; margin-bottom:.9rem" data-t="archi.h3">{t('archi.h3')}</h2>
-      <p class="doux" style="line-height:1.85" data-t="archi.p6">{t('archi.p6')}</p>
-      <p class="doux" style="line-height:1.85" data-t="archi.p7">{t('archi.p7')}</p>
-      <p class="doux" style="line-height:1.85; margin-bottom:0" data-t="archi.p8">{t('archi.p8')}</p>
-    </div>
-  </section>
-
-  <section class="section" style="text-align:center; padding-top:0">
+    corps += f"""
+  <section class="section" style="text-align:center">
     <a href="meta-projet-social.html" class="bouton" data-t="archi.cta">{t('archi.cta')}</a>
   </section>
 """
-    return enveloppe("archi", corps, "luna-08-architecte",
-                     t("archi.titre")[:60], t("archi.intro")[:150])
+    return enveloppe("archi", corps, t("archi.titre")[:60], t("archi.intro")[:150])
 
 
 def page_wishlist() -> str:
-    p = PAGES["wish"]
-    lignes = []
     prix = {"1": "≈ 2 000 €", "2": "≈ 185 €", "3": "≈ 45 €", "4": "≈ 120 €"}
-    for i in range(1, 5):
-        lignes.append(f"""      <div class="ligne-wish">
+    lignes = "\n".join(f"""      <div class="ligne-wish">
         <span class="n">{i:02d}</span>
         <div>
           <h3 data-t="wish.l{i}">{t(f'wish.l{i}')}</h3>
           <p data-t="wish.l{i}d">{t(f'wish.l{i}d')}</p>
         </div>
         <span class="prix">{prix[str(i)]}</span>
-      </div>""")
+      </div>""" for i in range(1, 5))
 
-    corps = f"""
-  <section class="section" style="padding-bottom:1.4rem">
-{badge('wish')}
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="wish.titre">{t('wish.titre')}</h1>
-    <p class="lead" style="margin-top:1.2rem" data-t="wish.lead">{t('wish.lead')}</p>
-  </section>
+    visuel = f"""      <div class="profondeur verre" style="padding:1.6rem">
+{lignes}
+      </div>"""
 
-  <section class="section" style="padding-top:0">
-    <div class="verre reveler" style="padding:1.6rem">
-{chr(10).join(lignes)}
-    </div>
-
-    <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.8rem">
-      <a href="[LIEN_LISTE_AMAZON]" class="bouton" data-t="wish.bouton_amazon">{t('wish.bouton_amazon')}</a>
-      <a href="[LIEN_KOFI]" class="bouton-fantome" data-t="wish.cagnottes">{t('wish.cagnottes')}</a>
-    </div>
-
-    <p class="mentions" style="margin-top:1.8rem; text-align:center" data-t="wish.note">{t('wish.note')}</p>
-  </section>
-"""
-    return enveloppe("wish", corps, "luna-09-wishlist", t("wish.titre")[:60], t("wish.lead")[:150])
+    corps = bloc(
+        f"""{badge('wish')}
+      <h1 style="margin:1.1rem 0 0" data-t="wish.titre">{t('wish.titre')}</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="wish.lead">{t('wish.lead')}</p>
+      <div style="display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.8rem">
+        <a href="[LIEN_LISTE_AMAZON]" class="bouton" data-t="wish.bouton_amazon">{t('wish.bouton_amazon')}</a>
+        <a href="[LIEN_KOFI]" class="bouton-fantome" data-t="wish.cagnottes">{t('wish.cagnottes')}</a>
+      </div>
+      <p class="mentions" style="margin-top:1.6rem" data-t="wish.note">{t('wish.note')}</p>""",
+        visuel)
+    return enveloppe("wish", corps, t("wish.titre"), t("wish.lead")[:150])
 
 
 def page_boutique() -> str:
-    p = PAGES["boutique"]
     ampoules = "".join('        <span class="ampoule"></span>\n' for _ in range(22))
-    # flocons : positions et vitesses tirées une fois à la génération, figées
-    # dans le HTML — pas de JavaScript pour une décoration.
-    import random as _r
-    _r.seed(7)
+    random.seed(7)
     flocons = "".join(
-        f'    <span class="flocon" style="left:{_r.randint(2, 98)}%; '
-        f'animation-duration:{_r.randint(11, 22)}s; animation-delay:-{_r.randint(0, 20)}s; '
-        f'width:{_r.choice([3,4,5,6])}px; height:{_r.choice([3,4,5,6])}px"></span>\n'
+        f'    <span class="flocon" style="left:{random.randint(2, 98)}%; '
+        f'animation-duration:{random.randint(11, 22)}s; animation-delay:-{random.randint(0, 20)}s; '
+        f'width:{random.choice([3,4,5,6])}px; height:{random.choice([3,4,5,6])}px"></span>\n'
         for _ in range(16))
-    vitrines = []
+
     liens = {"1": "[LIEN_AFFILIE_AMAZON_TECH]", "2": "[LIEN_AFFILIE_MAKER]",
              "3": "[LIEN_AFFILIE_LIVRES]", "4": "[LIEN_AFFILIE_GENERAL]"}
     emojis = {"1": "🎧", "2": "🛠️", "3": "📚", "4": "🎁"}
-    for i in range(1, 5):
-        vitrines.append(f"""      <a class="verre vitrine" href="{liens[str(i)]}">
-        <span class="emoji">{emojis[str(i)]}</span>
-        <h3 data-t="boutique.v{i}">{t(f'boutique.v{i}')}</h3>
-        <p data-t="boutique.v{i}d">{t(f'boutique.v{i}d')}</p>
-        <span class="balise">{liens[str(i)]}</span>
-      </a>""")
+    vitrines = "\n".join(f"""        <a class="verre vitrine" href="{liens[str(i)]}">
+          <span class="emoji">{emojis[str(i)]}</span>
+          <h3 data-t="boutique.v{i}">{t(f'boutique.v{i}')}</h3>
+          <p data-t="boutique.v{i}d">{t(f'boutique.v{i}d')}</p>
+          <span class="balise">{liens[str(i)]}</span>
+        </a>""" for i in range(1, 5))
 
     enseignes = "".join(
-        f'      <a href="[LIEN_AFFILIE_{n}]" class="bouton-fantome" style="opacity:.55">{lbl}</a>\n'
+        f'        <a href="[LIEN_AFFILIE_{n}]" class="bouton-fantome">{lbl}</a>\n'
         for n, lbl in (("AMAZON", "Amazon"), ("FNAC", "Fnac"), ("CDISCOUNT", "Cdiscount"),
                        ("ALIEXPRESS", "AliExpress"), ("CULTURA", "Cultura")))
 
@@ -512,97 +550,59 @@ def page_boutique() -> str:
 {ampoules}  </div>
   <div class="flocons" aria-hidden="true">
 {flocons}  </div>
+"""
+    corps += bloc(
+        f"""{badge('boutique')}
+      <h1 style="margin:1.1rem 0 0" data-t="boutique.titre">{t('boutique.titre')}</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="boutique.lead">{t('boutique.lead')}</p>
+      <p class="etiq" style="margin-top:2rem" data-t="boutique.enseignes_titre">{t('boutique.enseignes_titre')}</p>
+      <p style="font-size:.95rem" data-t="boutique.enseignes">{t('boutique.enseignes')}</p>
+      <div style="display:flex; flex-wrap:wrap; gap:.6rem">
+{enseignes}      </div>""",
+        f"""      <div class="vitrines" style="grid-template-columns:1fr; gap:.9rem">
+{vitrines}
+      </div>""")
 
-  <section class="section" style="padding-top:1rem; padding-bottom:1.4rem">
-{badge('boutique')}
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.2rem,5.4vw,3.8rem)" data-t="boutique.titre">{t('boutique.titre')}</h1>
-    <p class="lead" style="margin-top:1.2rem" data-t="boutique.lead">{t('boutique.lead')}</p>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="vitrines">
-{chr(10).join(vitrines)}
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <p class="etiq" data-t="boutique.enseignes_titre">{t('boutique.enseignes_titre')}</p>
-    <p class="doux" style="font-size:.86rem; margin:-.4rem 0 1.2rem" data-t="boutique.enseignes">{t('boutique.enseignes')}</p>
-    <div style="display:flex; flex-wrap:wrap; gap:.6rem">
-{enseignes}    </div>
-  </section>
-
-  <section class="section" style="text-align:center; padding-top:0">
-    <p class="doux" style="margin-bottom:1.2rem" data-t="boutique.noel">{t('boutique.noel')}</p>
+    corps += f"""
+  <section class="section" style="text-align:center">
+    <p style="margin-bottom:1.2rem" data-t="boutique.noel">{t('boutique.noel')}</p>
     <a href="index.html#financer" class="bouton" data-t="commun.soutenir">{t('commun.soutenir')}</a>
+    <p class="mentions" style="margin-top:2rem" data-t="boutique.mention">{t('boutique.mention')}</p>
   </section>
 """
-    extra = f'<p class="mentions" data-t="boutique.mention" style="padding:0 1.5rem 2rem; text-align:center">{t("boutique.mention")}</p>'
-    return enveloppe("boutique", corps, "luna-10-noel", t("boutique.titre")[:60],
-                     t("boutique.lead")[:150], extra_pied=extra)
+    return enveloppe("boutique", corps, t("boutique.titre")[:60], t("boutique.lead")[:150])
 
 
-def page_luna() -> str:
-    p = PAGES["luna"]
-    corps = f"""
-  <section class="section" style="padding-bottom:1rem">
-{badge('luna')}
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.4rem,7vw,4.4rem); letter-spacing:-.045em" data-t="luna.titre">{t('luna.titre')}</h1>
-    <p class="mono" style="letter-spacing:.36em; color:var(--magenta); font-size:.8rem; margin:.7rem 0 0">A.K.A. GYPSIELUNA</p>
-    <p class="lead" style="margin-top:1.4rem; max-width:34rem" data-t="luna.lead">{t('luna.lead')}</p>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <figure class="reveler" style="margin:0">
-      <div class="cadre-neon" style="padding:0; background:rgba(40,17,65,.9); box-shadow:none">
-        <img src="assets/ghostsheller.jpg" width="1140" height="641"
-             alt="Le GhostSheller, vaisseau quantique millénaire, en orbite au-dessus d'une planète bleue" />
-      </div>
-      <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; text-align:center; letter-spacing:.16em">
-        GHOSTSHELLER — PROPULSION BLACK-HOLE
-      </figcaption>
-    </figure>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="verre reveler" style="padding:1.8rem">
-      <h2 style="font-size:1.2rem; margin-bottom:.6rem" data-t="luna.prod_titre">{t('luna.prod_titre')}</h2>
-      <p class="doux" style="line-height:1.8; margin-bottom:1.1rem" data-t="luna.prod_txt">{t('luna.prod_txt')}</p>
-      <a href="realiastation.html" class="bouton-fantome" data-t="luna.prod_cta">{t('luna.prod_cta')}</a>
-    </div>
-  </section>
-"""
-    return enveloppe("luna", corps, "luna-06-ghostsheller", t("luna.titre"),
-                     t("luna.lead")[:150])
-
-
+# ===========================================================================
 def main() -> None:
     pages = {
         "index": page_index(),
         "virtuel": page_virtuel(),
-        "neuroexo": page_cartes("neuroexo", 3, journal_n=3, extra="""
-  <section class="section" style="padding-top:0">
-    <figure class="reveler" style="margin:0">
-      <div class="cadre-neon" style="padding:0">
-        <img src="assets/simulation-biomecanique.jpg" width="1600" height="900" loading="lazy"
-             alt="Simulation biomécanique en temps réel : squelette articulé et flux nerveux projetés" />
-      </div>
-      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; text-align:center; line-height:1.6">
-        Simulation biomécanique en temps réel — ce que le Système 2 observe
-      </figcaption>
-    </figure>
-  </section>
-"""),
-        "devkit": page_cartes("devkit", 3, journal_n=2),
-        "realia": page_cartes("realia", 3, extra=f"""
-  <section class="section" style="padding-top:0">
+        "neuroexo": page_simple(
+            "neuroexo",
+            img("simulation-biomecanique.jpg", "Simulation biomécanique temps réel", "Système 2 — observation"),
+            img("exo-appareil.jpg", "Planche de l'exosquelette", "L'appareil de rééducation"),
+            journal_n=3),
+        "devkit": page_simple(
+            "devkit",
+            panneau("DEVKIT-CLEAN — ÉTAT", ["planner local : prêt", "coder local : prêt",
+                                            "outils : 66", "secrets : 0", "branche : release"]),
+            panneau("CHASSE AUX SECRETS", ["arbre : 0 constat", "historique : 0 constat",
+                                           "gitleaks : 3 faux positifs", "filter-repo : prêt"], accent="magenta"),
+            journal_n=2),
+        "realia": page_simple(
+            "realia",
+            panneau("REALIASTATION — RÔLES", ["hermes : orchestration", "superagent : sous-agents",
+                                              "contenu : épisodes", "réseaux : Luna"]),
+            panneau("PRODUCTION LUNA", ["scénario", "images", "voix", "montage", "publication"], accent="magenta"),
+            extra="""  <section class="section">
     <div class="verre-clair reveler" style="padding:1.8rem">
-      <h2 style="font-size:1.2rem; margin-bottom:.6rem" data-t="realia.lien_titre">{t('realia.lien_titre')}</h2>
-      <p class="doux" style="line-height:1.8; margin-bottom:1.1rem" data-t="realia.lien_txt">{t('realia.lien_txt')}</p>
-      <a href="lunagalaxie.html" class="bouton-fantome" data-t="realia.lien_cta">{t('realia.lien_cta')}</a>
+      <h2 style="font-size:1.3rem; margin-bottom:.6rem" data-t="realia.lien_titre">%s</h2>
+      <p data-t="realia.lien_txt">%s</p>
+      <a href="lunagalaxie.html" class="bouton-fantome" data-t="realia.lien_cta">%s</a>
     </div>
   </section>
-"""),
+""" % (t("realia.lien_titre"), t("realia.lien_txt"), t("realia.lien_cta"))),
         "luna": page_luna(),
         "social": page_social(),
         "archi": page_archi(),
@@ -615,17 +615,13 @@ def main() -> None:
         (RACINE / fichier).write_text(html, encoding="utf-8")
         print(f"  {fichier:26s} {len(html):>7} o")
 
-    # --- dictionnaire i18n : uniquement les trois autres langues ---
     trad = {}
     for cle, valeurs in TOUS.items():
         trad[cle] = {"en": valeurs["en"], "pt": valeurs["pt"], "zh": valeurs["zh"]}
-
-    # libellés d'interface produit par le script
     trad["tiroir.suivant"] = {"en": "Next drawer", "pt": "Próxima gaveta", "zh": "下一个抽屉"}
     trad["tiroir.dernier"] = {"en": "Last drawer", "pt": "Última gaveta", "zh": "最后一个抽屉"}
 
-    js = ("/* Généré par _source/generer.py — ne pas éditer à la main.\n"
-          "   Traductions EN / PT / ZH. Le français est écrit dans le HTML. */\n"
+    js = ("/* Généré par _source/generer.py — ne pas éditer à la main. */\n"
           "window.TRADUCTIONS = ")
     js += json.dumps(trad, ensure_ascii=False, indent=0).replace("\n", "")
     js += ";\n"

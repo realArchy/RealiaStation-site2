@@ -13,8 +13,7 @@
 <body data-page="boutique" data-audio="assets/audio/luna-10-noel.mp3">
 
 <div class="ciel"></div>
-
-<div class="systeme" data-position="bas-gauche" data-taille="340" data-opacite="0.8"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
 
 <header class="entete">
   <nav class="nav">
@@ -46,7 +45,7 @@
   </nav>
 </header>
 
-<main class="enveloppe">
+<main class="enveloppe interne">
 
   <div class="guirlande" aria-hidden="true">
         <span class="ampoule"></span>
@@ -90,72 +89,68 @@
     <span class="flocon" style="left:98%; animation-duration:16s; animation-delay:-4s; width:6px; height:6px"></span>
     <span class="flocon" style="left:7%; animation-duration:21s; animation-delay:-2s; width:5px; height:5px"></span>
   </div>
-
-  <section class="section" style="padding-top:1rem; padding-bottom:1.4rem">
-    <span class="chantier"><span class="point"></span><span data-t="boutique.badge">🎄 BOUTIQUE SOLIDAIRE — NOËL</span></span>
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.2rem,5.4vw,3.8rem)" data-t="boutique.titre">Faites vos courses de Noël !</h1>
-    <p class="lead" style="margin-top:1.2rem" data-t="boutique.lead">Ce n'est pas une liste d'achats pour le projet. Tu fais tes courses comme d'habitude, au prix habituel, et la plateforme reverse une commission pour financer Neuro-Exo et sa future ONG. Zéro euro de plus pour toi.</p>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="vitrines">
-      <a class="verre vitrine" href="[LIEN_AFFILIE_AMAZON_TECH]">
-        <span class="emoji">🎧</span>
-        <h3 data-t="boutique.v1">Cadeaux high-tech & gadgets IA</h3>
-        <p data-t="boutique.v1d">Pour celles et ceux qui veulent comprendre l'IA en la touchant.</p>
-        <span class="balise">[LIEN_AFFILIE_AMAZON_TECH]</span>
-      </a>
-      <a class="verre vitrine" href="[LIEN_AFFILIE_MAKER]">
-        <span class="emoji">🛠️</span>
-        <h3 data-t="boutique.v2">Atelier maker, électronique & impression 3D</h3>
-        <p data-t="boutique.v2d">Fers à souder, microcontrôleurs, filaments : la boîte à outils du projet.</p>
-        <span class="balise">[LIEN_AFFILIE_MAKER]</span>
-      </a>
-      <a class="verre vitrine" href="[LIEN_AFFILIE_LIVRES]">
-        <span class="emoji">📚</span>
-        <h3 data-t="boutique.v3">Livres, science-fiction & neurosciences</h3>
-        <p data-t="boutique.v3d">Ce qui a nourri le projet, et ce qui le nourrira encore.</p>
-        <span class="balise">[LIEN_AFFILIE_LIVRES]</span>
-      </a>
-      <a class="verre vitrine" href="[LIEN_AFFILIE_GENERAL]">
-        <span class="emoji">🎁</span>
-        <h3 data-t="boutique.v4">Maison, jouets & idées famille</h3>
-        <p data-t="boutique.v4d">Les cadeaux qui n'ont rien à voir avec la tech, et c'est très bien.</p>
-        <span class="balise">[LIEN_AFFILIE_GENERAL]</span>
-      </a>
+  <section class="split">
+    <div class="split-texte reveler">
+      <span class="chantier"><span class="point"></span><span data-t="boutique.badge">🎄 BOUTIQUE SOLIDAIRE — NOËL</span></span>
+      <h1 style="margin:1.1rem 0 0" data-t="boutique.titre">Faites vos courses de Noël !</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="boutique.lead">Ce n'est pas une liste d'achats pour le projet. Tu fais tes courses comme d'habitude, au prix habituel, et la plateforme reverse une commission pour financer Neuro-Exo et sa future ONG. Zéro euro de plus pour toi.</p>
+      <p class="etiq" style="margin-top:2rem" data-t="boutique.enseignes_titre">Les enseignes</p>
+      <p style="font-size:.95rem" data-t="boutique.enseignes">Boutons activés au fur et à mesure des validations de comptes partenaires.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:.6rem">
+        <a href="[LIEN_AFFILIE_AMAZON]" class="bouton-fantome">Amazon</a>
+        <a href="[LIEN_AFFILIE_FNAC]" class="bouton-fantome">Fnac</a>
+        <a href="[LIEN_AFFILIE_CDISCOUNT]" class="bouton-fantome">Cdiscount</a>
+        <a href="[LIEN_AFFILIE_ALIEXPRESS]" class="bouton-fantome">AliExpress</a>
+        <a href="[LIEN_AFFILIE_CULTURA]" class="bouton-fantome">Cultura</a>
+      </div>
+    </div>
+    <div class="split-visuel reveler">
+      <div class="vitrines" style="grid-template-columns:1fr; gap:.9rem">
+        <a class="verre vitrine" href="[LIEN_AFFILIE_AMAZON_TECH]">
+          <span class="emoji">🎧</span>
+          <h3 data-t="boutique.v1">Cadeaux high-tech & gadgets IA</h3>
+          <p data-t="boutique.v1d">Pour celles et ceux qui veulent comprendre l'IA en la touchant.</p>
+          <span class="balise">[LIEN_AFFILIE_AMAZON_TECH]</span>
+        </a>
+        <a class="verre vitrine" href="[LIEN_AFFILIE_MAKER]">
+          <span class="emoji">🛠️</span>
+          <h3 data-t="boutique.v2">Atelier maker, électronique & impression 3D</h3>
+          <p data-t="boutique.v2d">Fers à souder, microcontrôleurs, filaments : la boîte à outils du projet.</p>
+          <span class="balise">[LIEN_AFFILIE_MAKER]</span>
+        </a>
+        <a class="verre vitrine" href="[LIEN_AFFILIE_LIVRES]">
+          <span class="emoji">📚</span>
+          <h3 data-t="boutique.v3">Livres, science-fiction & neurosciences</h3>
+          <p data-t="boutique.v3d">Ce qui a nourri le projet, et ce qui le nourrira encore.</p>
+          <span class="balise">[LIEN_AFFILIE_LIVRES]</span>
+        </a>
+        <a class="verre vitrine" href="[LIEN_AFFILIE_GENERAL]">
+          <span class="emoji">🎁</span>
+          <h3 data-t="boutique.v4">Maison, jouets & idées famille</h3>
+          <p data-t="boutique.v4d">Les cadeaux qui n'ont rien à voir avec la tech, et c'est très bien.</p>
+          <span class="balise">[LIEN_AFFILIE_GENERAL]</span>
+        </a>
+      </div>
     </div>
   </section>
-
-  <section class="section" style="padding-top:0">
-    <p class="etiq" data-t="boutique.enseignes_titre">Les enseignes</p>
-    <p class="doux" style="font-size:.86rem; margin:-.4rem 0 1.2rem" data-t="boutique.enseignes">Boutons activés au fur et à mesure des validations de comptes partenaires.</p>
-    <div style="display:flex; flex-wrap:wrap; gap:.6rem">
-      <a href="[LIEN_AFFILIE_AMAZON]" class="bouton-fantome" style="opacity:.55">Amazon</a>
-      <a href="[LIEN_AFFILIE_FNAC]" class="bouton-fantome" style="opacity:.55">Fnac</a>
-      <a href="[LIEN_AFFILIE_CDISCOUNT]" class="bouton-fantome" style="opacity:.55">Cdiscount</a>
-      <a href="[LIEN_AFFILIE_ALIEXPRESS]" class="bouton-fantome" style="opacity:.55">AliExpress</a>
-      <a href="[LIEN_AFFILIE_CULTURA]" class="bouton-fantome" style="opacity:.55">Cultura</a>
-    </div>
-  </section>
-
-  <section class="section" style="text-align:center; padding-top:0">
-    <p class="doux" style="margin-bottom:1.2rem" data-t="boutique.noel">Joyeux Noël — et merci de faire vivre le projet en achetant ce dont tu as besoin.</p>
+  <section class="section" style="text-align:center">
+    <p style="margin-bottom:1.2rem" data-t="boutique.noel">Joyeux Noël — et merci de faire vivre le projet en achetant ce dont tu as besoin.</p>
     <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
+    <p class="mentions" style="margin-top:2rem" data-t="boutique.mention">En tant que Partenaire des programmes d'affiliation mentionnés, Neuro-Exo réalise un bénéfice sur les achats remplissant les conditions requises, sans aucun frais supplémentaire pour l'acheteur.</p>
   </section>
 
 </main>
 
 <footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
       <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
       <a href="boutique.html" data-t="nav.boutique">Boutique</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
     </div>
   </div>
-  <p class="mentions" data-t="boutique.mention" style="padding:0 1.5rem 2rem; text-align:center">En tant que Partenaire des programmes d'affiliation mentionnés, Neuro-Exo réalise un bénéfice sur les achats remplissant les conditions requises, sans aucun frais supplémentaire pour l'acheteur.</p>
+  
 </footer>
 
 <script src="traductions.js" defer></script>

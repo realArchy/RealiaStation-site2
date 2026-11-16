@@ -13,8 +13,7 @@
 <body data-page="neuroexo" data-audio="assets/audio/luna-03-neuroexo.mp3">
 
 <div class="ciel"></div>
-
-<div class="systeme" data-position="bas-gauche" data-taille="340" data-opacite="0.8"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
 
 <header class="entete">
   <nav class="nav">
@@ -46,53 +45,63 @@
   </nav>
 </header>
 
-<main class="enveloppe">
-
-  <section class="section" style="padding-bottom:1.6rem">
-    <span class="chantier beta"><span class="point"></span><span data-t="neuroexo.badge">🚧 EN CHANTIER — ARCHITECTURE BETA</span></span>
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="neuroexo.titre">NeuroExoAI — le harnais temps réel</h1>
-    <p class="lead" style="margin-top:1.2rem" data-t="neuroexo.lead">Le harnais de contrôle qui porte la personne : acquisition du signal, décision immédiate, commande des moteurs et de la stimulation — avec une frontière nette entre ce qui agit et ce qui réfléchit.</p>
-  </section>
-
-  <section class="section" style="padding-top:.5rem">
-    <div class="trio">
-      <article class="verre carte reveler">
-        <h3 data-t="neuroexo.c1t">Moins de 20 ms</h3>
-        <p data-t="neuroexo.c1d">La boucle dure ne doit jamais attendre le réseau ni un modèle. Seuil, rampe, butée : tout est borné côté matériel.</p>
-      </article>
-      <article class="verre carte reveler">
-        <h3 data-t="neuroexo.c2t">Sécurité qui ne dépend pas du logiciel</h3>
-        <p data-t="neuroexo.c2d">Bouton coup-de-poing, relais à manque de courant, freins qui serrent quand le courant tombe. Un programme qui plante laisse la machine inerte.</p>
-      </article>
-      <article class="verre carte reveler">
-        <h3 data-t="neuroexo.c3t">Boucle fermée sEMG / FES</h3>
-        <p data-t="neuroexo.c3d">La stimulation aveugle la mesure : une fenêtre de blanking, pilotée par le générateur et non par le logiciel, est la condition pour lire quoi que ce soit.</p>
-      </article>
+<main class="enveloppe interne">
+  <section class="split">
+    <div class="split-texte reveler">
+      <span class="chantier beta"><span class="point"></span><span data-t="neuroexo.badge">🚧 EN CHANTIER — ARCHITECTURE BETA</span></span>
+      <h1 style="margin:1.1rem 0 0" data-t="neuroexo.titre">NeuroExoAI — le harnais temps réel</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="neuroexo.lead">Le harnais de contrôle qui porte la personne : acquisition du signal, décision immédiate, commande des moteurs et de la stimulation — avec une frontière nette entre ce qui agit et ce qui réfléchit.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/simulation-biomecanique.jpg" alt="Simulation biomécanique temps réel" loading="lazy" />
+        </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">Système 2 — observation</figcaption>
+      </figure>
+    </div>
+  </section>  <section class="split inverse">
+    <div class="split-texte reveler">
+      <h2 data-t="neuroexo.c1t">Moins de 20 ms</h2>
+      <p data-t="neuroexo.c1d">La boucle dure ne doit jamais attendre le réseau ni un modèle. Seuil, rampe, butée : tout est borné côté matériel.</p>
+      <h2 style="margin-top:2rem; font-size:1.5rem" data-t="neuroexo.c2t">Sécurité qui ne dépend pas du logiciel</h2>
+      <p data-t="neuroexo.c2d">Bouton coup-de-poing, relais à manque de courant, freins qui serrent quand le courant tombe. Un programme qui plante laisse la machine inerte.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/exo-appareil.jpg" alt="Planche de l'exosquelette" loading="lazy" />
+        </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">L'appareil de rééducation</figcaption>
+      </figure>
+    </div>
+  </section>  <section class="split">
+    <div class="split-texte reveler">
+      <h2 data-t="neuroexo.c3t">Boucle fermée sEMG / FES</h2>
+      <p data-t="neuroexo.c3d">La stimulation aveugle la mesure : une fenêtre de blanking, pilotée par le générateur et non par le logiciel, est la condition pour lire quoi que ce soit.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <div class="profondeur cadre-neon">
+        <div style="padding:1.5rem; background:#08030f; border-radius:calc(var(--rayon) - 2px); min-height:260px">
+          <p class="mono" style="font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin-bottom:1rem">Boucle fermée sEMG / FES</p>
+          <div style="display:flex; gap:.6rem; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--doux)"><span style="color:var(--cyan)">›</span><span>Boucle fermée sEMG / FES</span></div>
+          <div style="display:flex; gap:.6rem; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--doux)"><span style="color:var(--cyan)">›</span><span>—</span></div>
+          <div style="display:flex; gap:.6rem; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--doux)"><span style="color:var(--cyan)">›</span><span>La stimulation aveugle la mesure : une fenêtre de blanking, pilotée par le générateur et n</span></div>
+        </div>
+      </div>
     </div>
   </section>
-
-
-  <section class="section" style="padding-top:0">
-    <figure class="reveler" style="margin:0">
-      <div class="cadre-neon" style="padding:0">
-        <img src="assets/simulation-biomecanique.jpg" width="1600" height="900" loading="lazy"
-             alt="Simulation biomécanique en temps réel : squelette articulé et flux nerveux projetés" />
-      </div>
-      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; text-align:center; line-height:1.6">
-        Simulation biomécanique en temps réel — ce que le Système 2 observe
-      </figcaption>
-    </figure>
-  </section>
-
-    <div class="verre reveler" style="padding:1.8rem; margin-top:2rem">
-      <p class="etiq">Journal build-in-public</p>
+  <section class="section">
+    <p class="etiq" data-t="neuroexo.journal_titre">Journal build-in-public</p>
+    <div class="verre reveler" style="padding:1.6rem">
       <ul class="journal">
         <li><time>2026-11-16</time><span class="txt" data-t="neuroexo.j1">Architecture Système 1 arrêtée : deux horloges, une seule frontière, aucun modèle dans la boucle de commande.</span></li>
         <li><time>2026-11-10</time><span class="txt" data-t="neuroexo.j2">Règles de sécurité isolées du transport : elles se testent sans portique ni alimentation.</span></li>
         <li><time>2026-11-02</time><span class="txt" data-t="neuroexo.j3">Décision : le jumeau numérique avant l'usinage, pour ne pas payer chaque erreur en métal.</span></li>
       </ul>
     </div>
-  <section class="section" style="text-align:center; padding-top:1rem">
+  </section>
+  <section class="section" style="text-align:center">
     <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
   </section>
 
@@ -100,9 +109,8 @@
 
 <footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
       <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
       <a href="boutique.html" data-t="nav.boutique">Boutique</a>
       <a href="[LIEN_GITHUB]">GitHub</a>

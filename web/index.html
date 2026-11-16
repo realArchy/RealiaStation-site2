@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Capter l'étincelle — Neuro-Exo</title>
-<meta name="description" content="Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale. De l'impulsion à l'étincelle." />
+<meta name="description" content="Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -13,8 +13,7 @@
 <body data-page="index" data-audio="assets/audio/luna-01-aventure.mp3">
 
 <div class="ciel"></div>
-<canvas id="particules" aria-hidden="true"></canvas>
-<div class="systeme" data-position="bas-droite" data-taille="560" data-opacite="0.8"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
 
 <header class="entete">
   <nav class="nav">
@@ -48,37 +47,51 @@
 
 <main class="enveloppe">
 
-  <section class="banniere">
-    <div class="banniere-corps">
+  <section class="hero">
+    <canvas id="hero3d" aria-hidden="true"></canvas>
+    <div class="hero-contenu">
       <span class="chantier beta"><span class="point"></span><span data-t="index.badge">🚧 EN CHANTIER — RELEASE BETA PHASE 1</span></span>
-      <h1 style="margin:1.4rem 0 0"><span class="lueur-cyan" data-t="index.banniere">Bienvenue dans l'aventure !</span></h1>
+      <h1 data-t="index.banniere">Bienvenue dans l'aventure !</h1>
       <p class="sous-titre" data-t="index.sous">De l'impulsion à l'étincelle — Neuro-robotique open-source, IA agentique et solidarité internationale.</p>
-      <div class="banniere-actions">
+      <div class="hero-actions">
         <button type="button" class="bouton" id="activer-experience" data-t="index.cta1">Activer l'expérience & écouter Luna</button>
         <a href="#manifeste" class="bouton-fantome" data-t="index.cta2">Lire le manifeste</a>
       </div>
     </div>
+    <div class="hero-indice">Scroll<span></span></div>
   </section>
 
-  <section class="section" id="manifeste">
-    <div class="section-titre reveler">
+  <div id="manifeste"></div>
+  <section class="split">
+    <div class="split-texte reveler">
       <p class="etiq">Manifeste</p>
       <h2 data-t="index.titre">De l'impulsion à l'étincelle</h2>
-      <p class="lead" style="margin-top:1.2rem" data-t="index.lead">Une lésion C6-C7 incomplète n'efface pas tout : l'ordre de mouvement part encore, et l'influx se fait sentir. Ce projet est né d'une image vue à la télévision, et il avance depuis, un composant à la fois.</p>
+      <p class="lead" data-t="index.lead">Une lésion C6-C7 incomplète n'efface pas tout : l'ordre de mouvement part encore, et l'influx se fait sentir. Ce projet est né d'une image vue à la télévision, et il avance depuis, un composant à la fois.</p>
     </div>
-
-    <div class="duo">
-      <article class="verre carte reveler">
-        <h3 data-t="index.histoire_titre">Le déclic : 12 juin 2014</h3>
-        <p data-t="index.histoire_1">Coupe du monde, São Paulo. Un patient paraplégique se lève de son fauteuil et donne le coup d'envoi, porté par l'exosquelette du Dr Miguel Nicolelis. Des millions de personnes voient la scène ; une seule décide que ce sera sa vie.</p>
-      </article>
-      <article class="verre carte reveler">
-        <p data-t="index.histoire_2">L'idée mûrit pendant des années, sans laboratoire ni budget — juste une conviction et un carnet. Puis l'IA arrive, la machine de calcul se monte, et la Phase 1 devient possible : un banc d'essai mesurable, ouvert, publié.</p>
-      </article>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/simulation-biomecanique.jpg" alt="Simulation biomécanique en temps réel : squelette articulé et flux nerveux projetés" loading="lazy" />
+        </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">Simulation biomécanique — ce que le Système 2 observe</figcaption>
+      </figure>
+    </div>
+  </section>  <section class="split inverse">
+    <div class="split-texte reveler">
+      <h2 data-t="index.histoire_titre">Le déclic : 12 juin 2014</h2>
+      <p data-t="index.histoire_1">Coupe du monde, São Paulo. Un patient paraplégique se lève de son fauteuil et donne le coup d'envoi, porté par l'exosquelette du Dr Miguel Nicolelis. Des millions de personnes voient la scène ; une seule décide que ce sera sa vie.</p>
+      <p data-t="index.histoire_2">L'idée mûrit pendant des années, sans laboratoire ni budget — juste une conviction et un carnet. Puis l'IA arrive, la machine de calcul se monte, et la Phase 1 devient possible : un banc d'essai mesurable, ouvert, publié.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/exo-appareil.jpg" alt="Planche de l'exosquelette de rééducation assistée" loading="lazy" />
+        </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">L'appareil — planche technique</figcaption>
+      </figure>
     </div>
   </section>
-
-  <section class="section" id="chemin">
+  <section class="section">
     <div class="section-titre reveler">
       <p class="etiq">Orientation</p>
       <h2 data-t="index.orient_titre">Le chemin, étape par étape</h2>
@@ -134,14 +147,12 @@
   </section>
 
   <section class="section" id="financer" style="text-align:center">
-    <div class="verre-clair reveler" style="padding:2.6rem 1.6rem">
+    <div class="verre-clair reveler" style="padding:2.8rem 1.6rem">
       <h2 data-t="commun.soutenir">Soutenir</h2>
-      <p class="lead" style="margin:1rem auto 0">
-        Ko-fi · Tipeee · GitHub Sponsors — trois canaux ouverts, sans tout-ou-rien.
-      </p>
-      <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.6rem">
+      <p class="lead" style="margin:1rem auto 0">Ko-fi · Tipeee · GitHub Sponsors — trois canaux ouverts, sans tout-ou-rien.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.8rem">
         <a href="[LIEN_KOFI]" class="bouton">Ko-fi</a>
-        <a href="[LIEN_TIPEEE]" class="bouton-fantome">Tipeee</a>
+        <a href="[LIEN_TIPTEEE]" class="bouton-fantome">Tipeee</a>
         <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">GitHub Sponsors</a>
       </div>
     </div>
@@ -151,9 +162,8 @@
 
 <footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
       <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
       <a href="boutique.html" data-t="nav.boutique">Boutique</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
@@ -167,7 +177,23 @@
 <script src="revele.js" defer></script>
 <script src="tiroir.js" defer></script>
 <script src="audio.js" defer></script>
-<script src="particules.js" defer></script>
 <script type="module" src="systeme.js"></script>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+  import { demarrerHero } from './hero3d.js';
+  demarrerHero(document.getElementById('hero3d'));
+</script>
+<script>
+  (function () {
+    const b = document.getElementById('activer-experience');
+    if (b) b.addEventListener('click', () => {
+      if (window.LUNA) window.LUNA.jouer();
+      const c = document.getElementById('manifeste');
+      if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  })();
+</script>
 </body>
 </html>

@@ -13,8 +13,7 @@
 <body data-page="virtuel" data-audio="assets/audio/luna-02-virtuel.mp3">
 
 <div class="ciel"></div>
-
-<div class="systeme" data-position="haut-gauche" data-taille="340" data-opacite="0.8"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
 
 <header class="entete">
   <nav class="nav">
@@ -46,80 +45,70 @@
   </nav>
 </header>
 
-<main class="enveloppe">
-
-  <section class="section" style="padding-bottom:1.6rem">
-    <span class="chantier"><span class="point"></span><span data-t="virtuel.badge">🚧 EN CHANTIER — LANCEMENT DÈS FINANCEMENT</span></span>
-    <h1 style="margin:1.1rem 0 0; font-size:clamp(2.1rem,5vw,3.6rem)" data-t="virtuel.titre">Le corps avant le métal</h1>
-    <p class="lead" style="margin-top:1.2rem" data-t="virtuel.lead">Régler un exosquelette sur une personne, c'est usiner une pièce par essai. Dans un simulateur, c'est changer un nombre. Voilà pourquoi le jumeau numérique passe avant la première vis.</p>
-  </section>
-
-  <section class="section" style="padding-top:.5rem">
-    <div class="trio">
-      <article class="verre carte reveler">
-        <h3 data-t="virtuel.c1t">Pourquoi simuler d'abord</h3>
-        <p data-t="virtuel.c1d">La cinématique de hanche et de genou dépend de la morphologie. Tester ces réglages sur un banc virtuel évite d'usiner dix pièces fausses.</p>
-      </article>
-      <article class="verre carte reveler">
-        <h3 data-t="virtuel.c2t">MuJoCo d'abord, Isaac Sim ensuite</h3>
-        <p data-t="virtuel.c2d">MuJoCo tourne sur le poste de terrain et donne des contacts crédibles. Isaac Sim apporte le rendu et la vision, quand le GPU suit.</p>
-      </article>
-      <article class="verre carte reveler">
-        <h3 data-t="virtuel.c3t">Ce qui sera publié</h3>
-        <p data-t="virtuel.c3d">Modèles, paramètres de séance et courbes de latence : de quoi refaire la manipulation ailleurs, y compris quand ça rate.</p>
-      </article>
+<main class="enveloppe interne">
+  <section class="split">
+    <div class="split-texte reveler">
+      <span class="chantier"><span class="point"></span><span data-t="virtuel.badge">🚧 EN CHANTIER — LANCEMENT DÈS FINANCEMENT</span></span>
+      <h1 style="margin:1.1rem 0 0" data-t="virtuel.titre">Le corps avant le métal</h1>
+      <p class="lead" style="margin-top:1.2rem" data-t="virtuel.lead">Régler un exosquelette sur une personne, c'est usiner une pièce par essai. Dans un simulateur, c'est changer un nombre. Voilà pourquoi le jumeau numérique passe avant la première vis.</p>
     </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="verre reveler" style="padding:1.2rem">
-      <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem" role="group" aria-label="Étapes du jumeau">
-        <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux de signaux</button>
-        <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
-        <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais &amp; capteurs</button>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/simulation-biomecanique.jpg" alt="Simulation biomécanique en temps réel" loading="lazy" />
+        </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">Le jumeau numérique en mouvement</figcaption>
+      </figure>
+    </div>
+  </section>  <section class="split inverse">
+    <div class="split-texte reveler">
+      <h2 data-t="virtuel.c1t">Pourquoi simuler d'abord</h2>
+      <p data-t="virtuel.c1d">La cinématique de hanche et de genou dépend de la morphologie. Tester ces réglages sur un banc virtuel évite d'usiner dix pièces fausses.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/exo-appareil.jpg" alt="Planche de l'exosquelette" loading="lazy" />
+        </div>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">L'appareil, avant l'usinage</figcaption>
+      </figure>
+    </div>
+  </section>  <section class="split">
+    <div class="split-texte reveler">
+      <h2 data-t="virtuel.c2t">MuJoCo d'abord, Isaac Sim ensuite</h2>
+      <p data-t="virtuel.c2d">MuJoCo tourne sur le poste de terrain et donne des contacts crédibles. Isaac Sim apporte le rendu et la vision, quand le GPU suit.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <div class="profondeur verre" style="padding:1rem">
+        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.9rem" role="group">
+          <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux</button>
+          <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
+          <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais</button>
+        </div>
+        <div id="scene3d" style="border-radius:.7rem; overflow:hidden; height:340px; background:radial-gradient(circle at 50% 35%, rgba(40,10,60,.8), #08030f)"></div>
+        <p id="scene-legende" style="margin:.8rem 0 0; font-size:.82rem; color:var(--doux)">Étape 1 — le flux de signaux.</p>
       </div>
-      <div id="scene3d" style="border-radius:1rem; overflow:hidden; height:420px; background:radial-gradient(circle at 50% 35%, rgba(76,29,149,.55), rgba(18,6,31,.85))"></div>
-      <p id="scene-legende" style="margin:.9rem 0 0; font-size:.84rem; color:var(--doux)">
-        Étape 1 — Le flux : ondes EEG et sEMG, ce que les capteurs lisent avant toute décision.
-      </p>
-      <p style="margin:.25rem 0 0; font-size:.72rem; color:var(--faible)">
-        Glisse à la souris ou au doigt pour tourner la vue. Aucune donnée réelle : c'est un modèle, pas une séance.
-      </p>
     </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="duo reveler">
-      <figure style="margin:0">
-        <div class="cadre-neon" style="padding:0">
-          <img src="assets/exo-appareil.jpg" width="1600" height="900" loading="lazy"
-               alt="Planche de l'exosquelette de rééducation assistée : vue d'ensemble et détails techniques" />
+  </section>  <section class="split inverse">
+    <div class="split-texte reveler">
+      <h2 data-t="virtuel.c3t">Ce qui sera publié</h2>
+      <p data-t="virtuel.c3d">Modèles, paramètres de séance et courbes de latence : de quoi refaire la manipulation ailleurs, y compris quand ça rate.</p>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/rampe-securite.jpg" alt="Rampe de rééducation et portique de sécurité" loading="lazy" />
         </div>
-        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6" data-t="virtuel.img1_leg">Croquis de l'exosquelette — à remplacer par le visuel généré</figcaption>
-      </figure>
-      <figure style="margin:0">
-        <div class="cadre-neon" style="padding:0">
-          <img src="assets/rampe-securite.jpg" width="1600" height="900" loading="lazy"
-               alt="Rampe de rééducation à la marche assistée et son portique de sécurité" />
-        </div>
-        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6" data-t="virtuel.img2_leg">Rampe et portique de sécurité — à remplacer par le visuel généré</figcaption>
+      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">La rampe et son portique</figcaption>
       </figure>
     </div>
   </section>
-
-
-
-  <section class="section" style="text-align:center; padding-top:1rem">
-    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
-  </section>
-
 </main>
 
 <footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:var(--texte)">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="affiliations.html" data-t="commun.pied_liens">Équipements</a>
       <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
       <a href="boutique.html" data-t="nav.boutique">Boutique</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
