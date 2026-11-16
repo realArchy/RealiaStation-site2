@@ -142,6 +142,7 @@ def enveloppe(page: str, corps: str, audio: str, titre_page: str,
 <body data-page="{idx}" data-audio="assets/audio/{audio}.mp3">
 
 <div class="ciel"></div>
+{('<canvas id="particules" aria-hidden="true"></canvas>' if particules else '')}
 <div class="systeme" data-position="{pos}" data-taille="{taille}" data-opacite="0.8"></div>
 
 {nav(page)}
@@ -207,7 +208,6 @@ def page_index() -> str:
 
     corps = f"""
   <section class="banniere">
-    <canvas id="particules" aria-hidden="true"></canvas>
     <div class="banniere-corps">
       <span class="chantier beta"><span class="point"></span><span data-t="index.badge">{t('index.badge')}</span></span>
       <h1 style="margin:1.4rem 0 0"><span class="lueur-cyan" data-t="index.banniere">{t('index.banniere')}</span></h1>
