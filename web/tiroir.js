@@ -21,7 +21,9 @@ const ORDRE = [
 
 const SEUIL_MOLETTE = 140;
 const SEUIL_DOIGT = 70;
-const DUREE_SORTIE = 430;
+const DUREE_SORTIE = 210;
+//: si le navigateur gère les transitions inter-documents, on ne double pas l'effet
+const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-transition-name: none');
 
 function libelle(entree) {
   if (window.I18N && typeof window.I18N.t === 'function') {
@@ -54,12 +56,14 @@ function libelle(entree) {
   function aller(cible, sens) {
     if (!cible || enCours) return;
     enCours = true;
+    if (TRANSITION_NATIVE || reduit) {
+      location.href = cible.fichier;       // le compositeur s'occupe de l'animation
+      return;
+    }
     if (!reduit) {
       sessionStorage.setItem('tiroir-entree', sens);
       document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
       setTimeout(() => { location.href = cible.fichier; }, DUREE_SORTIE);
-    } else {
-      location.href = cible.fichier;
     }
   }
 

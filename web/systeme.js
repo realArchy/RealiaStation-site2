@@ -63,7 +63,23 @@ class Systeme {
     ];
 
     this.t0 = performance.now();
+    this.defile = false;
+    this.visible = true;
     this.dessiner = this.dessiner.bind(this);
+
+    // Deux économies simples : ne rien peindre pendant un défilement, et rien
+    // du tout quand le motif est sorti de l'écran.
+    let minuteur = null;
+    window.addEventListener('scroll', () => {
+      this.defile = true;
+      clearTimeout(minuteur);
+      minuteur = setTimeout(() => { this.defile = false; }, 180);
+    }, { passive: true });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((es) => {
+        es.forEach(e => { this.visible = e.isIntersecting; });
+      }).observe(hote);
+    }
 
     if (this.reduit) this.dessiner(0);
     else requestAnimationFrame(this.dessiner);
@@ -192,7 +208,12 @@ class Systeme {
 
     // 30 images par seconde : au-delà, l'œil ne voit pas la différence sur des
     // orbites aussi lentes, et le processeur graphique le paie.
-    if (!this.reduit) setTimeout(() => requestAnimationFrame(this.dessiner), 33);
+    if (this.reduit) return;
+    if (this.defile || !this.visible) {
+      setTimeout(() => requestAnimationFrame(this.dessiner), 200);
+      return;
+    }
+    setTimeout(() => requestAnimationFrame(this.dessiner), 33);
   }
 }
 

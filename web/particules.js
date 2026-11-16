@@ -25,6 +25,15 @@
   let noeuds = [];
   let enPause = false;
   let dernier = 0;
+  // Pendant un défilement, le fil principal doit servir au défilement, pas au
+  // décor : on cesse de dessiner tant que ça bouge, et on reprend 180 ms après.
+  let defile = false;
+  let minuterieDefile = null;
+  window.addEventListener('scroll', () => {
+    defile = true;
+    clearTimeout(minuterieDefile);
+    minuterieDefile = setTimeout(() => { defile = false; dernier = 0; }, 180);
+  }, { passive: true });
   const souris = { x: -9999, y: -9999, actif: false };
 
   function dimensionner() {
@@ -100,6 +109,7 @@
   function boucle(temps) {
     if (enPause) return;
     requestAnimationFrame(boucle);
+    if (defile) return;                 // on ne peint pas pendant le défilement
     if (temps - dernier < 33) return;   // 30 i/s, pas plus
     dernier = temps;
     dessiner(temps);
@@ -121,7 +131,10 @@
   });
 
   dimensionner();
-  if (reduit) dessiner(0);
+  // Sur téléphone, un canvas plein écran animé coûte plus qu'il n'apporte : on
+  // peint une image fixe. Le champ d'étoiles CSS suffit à donner la profondeur.
+  const petitEcran = window.matchMedia('(max-width: 700px)').matches;
+  if (reduit || petitEcran) dessiner(0);
   else requestAnimationFrame(boucle);
 
   const bouton = document.getElementById('activer-experience');
