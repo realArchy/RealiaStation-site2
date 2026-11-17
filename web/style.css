@@ -803,7 +803,7 @@ main.enveloppe { padding-bottom: 6rem; }
   padding-left: 1rem;
 }
 .rail a {
-  font-family: 'Space Grotesk', sans-serif; font-size: .82rem;
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem;
   color: rgba(216, 210, 230, .62); text-decoration: none;
   padding: .3rem 0 .3rem .9rem; border-right: 2px solid transparent;
   transition: color .2s ease, border-color .2s ease;

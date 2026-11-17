@@ -405,15 +405,16 @@ export function demarrerHero(canvas) {
     feuille.textContent = `
       @keyframes montee-lettre {
         0%   { transform: scale(1); }
-        ${pct(0.25)}% { transform: scale(1.18); }
-        ${pct(DUREE_ECLAT)}% { transform: scale(1); }
+        ${pct(0.12)}% { transform: scale(1.25); }
+        ${pct(0.62)}% { transform: scale(1.25); }   /* plateau : l'éclat tient */
+        ${pct(1.00)}% { transform: scale(1); }
         100% { transform: scale(1); }
       }
       @keyframes lueur-lettre {
         0%   { opacity: 0; }
-        ${pct(0.25)}% { opacity: 1; }
-        ${pct(0.9)}% { opacity: .85; }
-        ${pct(DUREE_ECLAT)}% { opacity: 0; }
+        ${pct(0.12)}% { opacity: 1; }
+        ${pct(0.62)}% { opacity: 1; }
+        ${pct(1.05)}% { opacity: 0; }
         100% { opacity: 0; }
       }
 `;

@@ -202,6 +202,8 @@ h1, h2, h3,
   color: transparent;
   opacity: 0;
   pointer-events: none;
+  /* Le halo suit l'opacité du calque : il n'y a rien à recalculer par image. */
+  text-shadow: 0 0 7px #fff, 0 0 16px #fff, 0 0 30px rgba(255, 232, 160, 1), 0 0 52px rgba(255, 210, 110, .8);
   will-change: opacity;
   /* Pas de drop-shadow ici : mesuré, ce filtre sur 75 pseudo-éléments coûtait
      2 images par seconde et faisait varier l'intervalle de 3,3 ms. Le dégradé
@@ -234,9 +236,10 @@ h1, h2, h3,
 .circuit-el { position: relative; }
 
 /* Effet Dock : l'élément grossit lui-même et s'éclaire, sans aucun cadre.
-   transform et filter brightness : deux propriétés composées par le GPU. */
+   On ne touche PAS à display : le forcer en inline-block cassait le flex du
+   logo (le N repassait au-dessus du mot). Les éléments concernés sont déjà
+   inline-flex, flex, grid ou block ; seul le rail a besoin d'un inline-block. */
 .circuit-el {
-  display: inline-block;
   transform-origin: 50% 55%;
   will-change: transform, filter;
   animation: dock-circuit var(--cycle, 26s) ease-in-out infinite;
@@ -244,16 +247,24 @@ h1, h2, h3,
 }
 
 @keyframes dock-circuit {
-  0%   { transform: scale(1);    filter: brightness(1); }
-  /* la montée se cale sur la même fenêtre que l'éclat des lettres */
-  0.9% { transform: scale(1.18); filter: brightness(1.55); }
-  2.2% { transform: scale(1.06); filter: brightness(1.2); }
-  3.6% { transform: scale(1);    filter: brightness(1); }
-  100% { transform: scale(1);    filter: brightness(1); }
+  0%   { transform: scale(1);    filter: brightness(1);   text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+  /* même fenêtre que les lettres : montée 0,13 s, plateau 0,5 s, retour 0,8 s */
+  0.5% {
+    transform: scale(1.25); filter: brightness(2.5);
+    text-shadow: 0 0 10px #fff, 0 0 22px #fff, 0 0 38px rgba(255, 232, 160, .95);
+  }
+  2.0% {
+    transform: scale(1.25); filter: brightness(2.5);
+    text-shadow: 0 0 10px #fff, 0 0 22px #fff, 0 0 38px rgba(255, 232, 160, .95);
+  }
+  3.2% { transform: scale(1);    filter: brightness(1);   text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+  100% { transform: scale(1);    filter: brightness(1);   text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
 }
 
 /* en défilement, l'impulsion quitte les menus fixes et passe au contenu */
 html.en-defilement .circuit-el { animation: none; transform: none; filter: none; }
+
+.rail a { display: inline-block; }
 
 
 /* ============================================ lumière au défilement
@@ -276,46 +287,57 @@ html.en-defilement .circuit-el { animation: none; transform: none; filter: none;
 }
 
 
-/* ================================================ tout flotte, rien n'encadre
-   Les étiquettes, le menu, le logo, les drapeaux et le bouton Soutenir
-   perdent leur boîte : plus de fond, plus de filet, plus d'ombre portée.
-   Seuls le texte et son halo restent — l'effet Dock s'en charge. */
-.entete .langues,
-.entete .marque-pastille,
-.entete .bouton,
-.hero .play-music {
-  background: none;
-  border: 0;
-  box-shadow: none;
+/* ============================================= boutons et logo : on restaure
+   Seul le grand rectangle de la colonne de gauche devait disparaître. Chaque
+   bouton garde son dessin : pastille violette du logo, pilule jaune du badge,
+   contour sombre de Play Music, pilule violette de Soutenir. */
+
+.entete .marque {
+  display: inline-flex;      /* le N et le mot sur la même ligne */
+  align-items: center;
+  gap: .6rem;
 }
 
 .entete .marque-pastille {
-  /* le N garde son dégradé d'origine : c'est la marque, pas un cadre */
+  width: 2rem; height: 2rem;
+  border-radius: .5rem;
+  display: grid; place-items: center;
   background: linear-gradient(135deg, #6d28d9, #a855f7);
   color: #fff;
-  text-shadow: none;
-  box-shadow: 0 0 16px rgba(139, 92, 246, .45);
+  box-shadow: 0 0 18px rgba(139, 92, 246, .55);
 }
 
-.entete .bouton {
-  /* Soutenir reste violet : seule la pastille disparaît, pas sa couleur */
-  color: #c4b5fd;
-  padding: .2rem .1rem;
-  text-shadow: 0 0 10px rgba(139, 92, 246, .6), 0 1px 3px rgba(0, 0, 0, .85);
-}
-
-.entete .langues button {
-  background: none;
+.badge-hero {
+  background: var(--fluo, #eaff00);
+  color: #0a0a12;
   border: 0;
-  box-shadow: none;
-  padding: .15rem .2rem;
+  border-radius: 999px;
+  padding: .32rem .8rem;
+  font-weight: 800;
+  text-shadow: none;
+  box-shadow: 0 0 18px rgba(230, 255, 0, .35);
 }
 
 .hero .play-music {
+  background: rgba(20, 10, 30, .85);
   color: #f4e6b8;
-  padding: .25rem .2rem;
-  text-shadow: 0 0 10px rgba(252, 246, 186, .45), 0 1px 3px rgba(0, 0, 0, .8);
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .45);
 }
 
-/* un lien de menu n'a jamais de fond, même survolé */
-.rail a { background: none; }
+.entete .nav-haut > .bouton,
+.entete .bouton {
+  background: linear-gradient(135deg, #6d28d9, #a855f7);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: .42rem 1.05rem;
+  box-shadow: 0 0 22px rgba(139, 92, 246, .5);
+}
+
+.entete .langues {
+  background: none;          /* les drapeaux restent nus */
+  border: 0;
+  box-shadow: none;
+}
