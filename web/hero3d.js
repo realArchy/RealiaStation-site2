@@ -15,8 +15,8 @@
 
 import * as THREE from 'three';
 
-const CYAN = 0x00f5ff;
-const MAGENTA = 0xff007f;
+const CYAN = 0x8b5cf6;   // violet
+const MAGENTA = 0xd4af37;   // or
 
 export function demarrerHero(canvas) {
   if (!canvas) return;

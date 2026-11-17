@@ -243,6 +243,7 @@ def page_index() -> str:
   <section class="hero">
     <canvas id="hero3d" aria-hidden="true"></canvas>
     <div class="hero-contenu">
+      <p class="bienvenue" data-t="index.bienvenue">{t('index.bienvenue')}</p>
       <span class="chantier beta"><span class="point"></span><span data-t="index.badge">{t('index.badge')}</span></span>
       <h1 data-t="index.banniere">{t('index.banniere')}</h1>
       <p class="sous-titre" data-t="index.sous">{t('index.sous')}</p>
@@ -372,6 +373,28 @@ def page_virtuel() -> str:
   if (c) demarrerScene(c, { legendeId: 'scene-legende' });
 </script>
 </body>""")
+
+
+REALIDEVKIT_CHIFFRES = """
+  <section class="section">
+    <p class="etiq">RealiDevKit en chiffres</p>
+    <div class="chiffres">
+      <div class="chiffre"><strong>66</strong><span>outils branchés</span></div>
+      <div class="chiffre"><strong>16</strong><span>fiches de rôle</span></div>
+      <div class="chiffre"><strong>2</strong><span>modèles qui se relaient</span></div>
+      <div class="chiffre"><strong>16 Go</strong><span>de VRAM, une seule carte</span></div>
+      <div class="chiffre"><strong>0</strong><span>appel sortant nécessaire</span></div>
+      <div class="chiffre"><strong>0</strong><span>secret dans les fichiers servis</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="verre reveler" style="padding:1.8rem">
+      <p class="etiq" style="margin-bottom:.8rem">Ce que ça change, concrètement</p>
+      <p style="margin:0 0 .9rem">Un projet de trois semaines se mène sans jamais sortir un fichier du disque : le brief reste sur la station, les modèles aussi, les résultats aussi. Le jour où la machine s'éteint, il ne reste rien à révoquer chez un prestataire.</p>
+      <p style="margin:0">Et parce que le swarm écrit la preuve de ce qu'il avance — un test, une mesure, un journal — on peut relire six mois plus tard <em>pourquoi</em> une décision a été prise, pas seulement laquelle.</p>
+    </div>
+  </section>
+"""
 
 
 def page_simple(page: str, visuel1: str, visuel2: str, journal_n: int = 0, extra: str = "") -> str:
@@ -666,8 +689,8 @@ def page_blueprint() -> str:
         '      <div class="profondeur" style="display:grid; place-items:center; gap:1.4rem">\n'
         '        <div class="donut" role="img" aria-label="40 % trésorerie, 30 % rendement, 20 % R&D, 10 % mécénat"></div>\n'
         '        <div class="legende-donut">\n'
-        f'          <span><i style="background:#00f5ff"></i>40 % <em data-t="blueprint.w40">{t("blueprint.w40")}</em></span>\n'
-        f'          <span><i style="background:#ff007f"></i>30 % <em data-t="blueprint.w30">{t("blueprint.w30")}</em></span>\n'
+        f'          <span><i style="background:#8b5cf6"></i>40 % <em data-t="blueprint.w40">{t("blueprint.w40")}</em></span>\n'
+        f'          <span><i style="background:#d4af37"></i>30 % <em data-t="blueprint.w30">{t("blueprint.w30")}</em></span>\n'
         f'          <span><i style="background:#a855f7"></i>20 % <em data-t="blueprint.w20">{t("blueprint.w20")}</em></span>\n'
         f'          <span><i style="background:#ffd166"></i>10 % <em data-t="blueprint.w10">{t("blueprint.w10")}</em></span>\n'
         '        </div>\n'
@@ -844,12 +867,12 @@ def main() -> None:
         "devkit": page_simple(
             "devkit",
             img("devkit-usine.jpg",
-                "Couloir de serveurs aux lignes de lumière cyan et magenta",
+                "Couloir de serveurs aux lignes de lumière violette et dorée",
                 "L'usine logicielle"),
             img("devkit-coffre.jpg",
-                "Coffre ouvert et vide sous une lumière magenta",
+                "Coffre ouvert et vide sous une lumière dorée",
                 "Ce qu'on retire avant de publier"),
-            journal_n=2),
+            journal_n=2, extra=REALIDEVKIT_CHIFFRES),
         "realia": page_simple(
             "realia",
             img("realia-station.jpg",

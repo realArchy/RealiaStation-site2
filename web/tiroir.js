@@ -10,7 +10,7 @@ const ORDRE = [
   { fichier: 'index.html',              cle: 'nav.accueil',  nom: 'Accueil' },
   { fichier: 'virtuel.html',            cle: 'nav.virtuel',  nom: 'Labo virtuel' },
   { fichier: 'neuroexo-ai.html',        cle: 'nav.neuroexo', nom: 'NeuroExoAI' },
-  { fichier: 'devkit.html',             cle: 'nav.devkit',   nom: 'DevKit-Clean' },
+  { fichier: 'devkit.html',             cle: 'nav.devkit',   nom: 'RealiDevKit' },
   { fichier: 'realiastation.html',      cle: 'nav.realia',   nom: 'RealiaStation' },
   { fichier: 'lunagalaxie.html',        cle: 'nav.luna',     nom: 'LunaGalaxie' },
   { fichier: 'meta-projet-social.html', cle: 'nav.social',   nom: 'Projet social' },
@@ -150,7 +150,7 @@ function libelle(entree) {
 
   function etatPoignee() {
     const enBas = window.scrollY + window.innerHeight >= hauteurPage - 4;
-    p.style.borderColor = enBas ? 'rgba(255,0,127,.55)' : '';
+    p.style.borderColor = enBas ? 'rgba(212,175,55,.55)' : '';
     p.style.color = enBas ? 'rgba(255,255,255,.9)' : '';
   }
   window.addEventListener('scroll', etatPoignee, { passive: true });
