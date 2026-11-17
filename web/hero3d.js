@@ -1,28 +1,27 @@
 /* ============================================================================
-   HERO 3D — la Terre vue satellite, le Soleil, et cinq phares.
+   HERO 3D — la Terre vue satellite, la Lune, le Soleil lointain, et une
+   impulsion qui court sur le titre.
 
-   Ce que la scène raconte :
-     · la Terre tourne d'ouest en est, un tour en 30 s, inclinée à 23,5° ;
-     · un Soleil chaud l'éclaire depuis le fond à gauche : un côté jour, un côté
-       nuit où les villes s'allument ;
-     · cinq balises GPS tournent avec elle. Quand l'une passe face au visiteur,
-       son faisceau s'allume et le titre s'éclaire — le pays projette sa lumière
-       sur le projet.
+   La scène :
+     · Terre NASA Blue Marble (texture locale 4096×2048), nuages, halo
+       atmosphérique, côté jour / côté nuit avec les villes allumées ;
+     · inclinaison 23,5°, rotation ouest → est, un tour en 30 s ;
+     · Lune texturée en haut à droite, Soleil en bas à gauche, très loin ;
+     · cinq balises aux coordonnées des sites du projet.
 
-   Choix tenus pour la fluidité (leçon des versions précédentes) : une seule
-   géométrie par objet, 30 i/s, pause pendant le défilement et hors écran, rien
-   du tout si `prefers-reduced-motion`.
+   L'impulsion du titre est indépendante des pays : une tête lumineuse avance
+   de lettre en lettre, la lettre survolée grossit et passe en or métallique.
+
+   Fluidité : 30 i/s, pause au défilement, hors écran et onglet caché, rien du
+   tout si `prefers-reduced-motion`.
    ========================================================================== */
 
 import * as THREE from './vendor/three.module.js';
 
 const TOUR_SECONDES = 30;
-// rotation initiale pour que la Chine (121° E) soit de face au chargement
-// rotation initiale : la Chine (121° E) est de face au chargement, donc l'onde
-// d'impulsion part du mot « De » dès l'arrivée du visiteur.
-const DEPART_ROTATION = (149 * Math.PI) / 180;
 const INCLINAISON = 23.5;
 const RAYON = 2;
+const LETTRES_PAR_SECONDE = 7.5;
 
 const SOLEIL = new THREE.Vector3(-9, 5.5, 9).normalize();
 
@@ -45,7 +44,7 @@ const BALISES = [
   { nom: 'Cayenne', lat: 4.92, lon: -52.31, couleur: 0x20c997 },
 ];
 
-/* halo dessiné une fois dans un canvas : pas de texture à télécharger */
+/* halo dessiné une fois dans un canvas : aucune texture à télécharger */
 function textureHalo() {
   const c = document.createElement('canvas');
   c.width = c.height = 256;
@@ -84,7 +83,8 @@ export function demarrerHero(canvas) {
 
   /* ---------------------------------------------------------- lumières */
   scene.add(new THREE.AmbientLight(0x1b2536, 0.42));
-  // Lumière chaude venue du BAS-GAUCHE, très loin : c'est le Soleil lointain.
+  // lumière chaude venue du bas-gauche, décalée d'un peu devant : sinon la Lune
+  // nous montre sa face nuit et l'on ne voit aucun cratère
   const lumiereSoleil = new THREE.DirectionalLight(0xffe2b8, 3.4);
   lumiereSoleil.position.set(-20, -12, -6);
   scene.add(lumiereSoleil);
@@ -94,10 +94,7 @@ export function demarrerHero(canvas) {
     map: textureHalo(), blending: THREE.AdditiveBlending,
     depthWrite: false, transparent: true,
   }));
-  // Le Soleil est placé pour être VU en haut à gauche ; la lumière, elle,
-// vient de sa direction réelle (SOLEIL), sinon la Terre serait plate.
-  // Bas à gauche, très loin sur l'axe Z : il paraît PLUS PETIT que la Lune.
-  // C'est une étoile lointaine, pas une lampe de studio.
+  // bas à gauche, très loin : il paraît plus petit que la Lune
   soleil.position.set(-10.5, -6.8, -38);
   soleil.scale.setScalar(4.2);
   scene.add(soleil);
@@ -141,9 +138,7 @@ export function demarrerHero(canvas) {
       void main() {
         vec3 n = normalize(vNormalW);
 
-        // relief léger : le gradient de luminance de la texture sert de bosse.
-        // (approximation tangentielle, invisible à cette distance, mais elle
-        //  casse l'aspect « autocollant » des continents)
+        // relief léger : le gradient de luminance de la texture sert de bosse
         float hC = texture2D(jour, vUv).r;
         float hX = texture2D(jour, vUv + vec2(pasUv.x, 0.0)).r;
         float hY = texture2D(jour, vUv + vec2(0.0, pasUv.y)).r;
@@ -158,8 +153,7 @@ export function demarrerHero(canvas) {
         vec3 cNuit = texture2D(nuit, vUv).rgb;
 
         vec3 nuitCol = cNuit * 1.9 + vec3(0.010, 0.016, 0.038);
-        // les océans d'une vraie texture satellite sont très sombres :
-        // on expose franchement, sinon la planète se lit comme un trou noir.
+        // les océans d'une vraie texture satellite sont très sombres
         vec3 jourCol = cJour * (0.85 + 2.6 * max(d, 0.0));
         vec3 col = mix(nuitCol, jourCol, lumiere);
 
@@ -206,8 +200,7 @@ export function demarrerHero(canvas) {
 
   /* ------------------------------------------------------------------ Lune
      Plan intermédiaire, en haut à droite : plus grosse que le Soleil lointain,
-     éclairée sur son flanc gauche par la même lumière que la Terre. Clin d'œil
-     à LunaGalaxie. */
+     éclairée sur son flanc gauche par la même lumière que la Terre. */
   const lune = new THREE.Mesh(
     new THREE.SphereGeometry(0.62, 64, 64),
     new THREE.MeshStandardMaterial({
@@ -276,7 +269,6 @@ export function demarrerHero(canvas) {
       materiauTerre.uniforms.nuit.value = lumieres;
     }
     if (!atmos || !lumieres) {
-      // pas de texture : une sphère bleue correcte plutôt qu'un vide
       const bleu = new THREE.DataTexture(new Uint8Array([18, 40, 78]), 1, 1);
       bleu.needsUpdate = true;
       if (!atmos) materiauTerre.uniforms.jour.value = bleu;
@@ -284,7 +276,6 @@ export function demarrerHero(canvas) {
     }
     materiauTerre.needsUpdate = true;
 
-    // la Lune attend sa texture ici : elle est créée plus haut, on la branche
     if (luneMap && lune) {
       luneMap.colorSpace = THREE.SRGBColorSpace;
       lune.material.map = luneMap;
@@ -299,13 +290,58 @@ export function demarrerHero(canvas) {
     }
   });
 
+  /* ------------------------------------------------------------------------
+     L'impulsion, lettre par lettre.
+     Chaque lettre du titre devient un <span>. Une tête lumineuse avance de
+     gauche à droite ; la lettre qu'elle survole grossit et passe en or
+     métallique, puis elle rend sa place à la voisine. Aucun lien avec les
+     pays : c'est un influx qui court sur la phrase, en boucle.
+     ---------------------------------------------------------------------- */
+  const base = document.querySelector('.hero-titre h1');
+  let lettres = [];          // { boite, or }
+
+  /* Chaque lettre devient une petite boîte à deux couches superposées :
+     une blanche et une dorée. Les deux sont dans le même <span>, donc elles
+     ne peuvent pas se désaligner — contrairement à une copie du titre entier. */
+  function decouper(el) {
+    const texte = el.textContent;
+    el.textContent = '';
+    const paquets = [];
+    for (const ch of texte) {
+      const c = ch === ' ' ? '\u00a0' : ch;
+      const boite = document.createElement('span');
+      boite.className = 'lettre';
+      // la lettre dorée est un pseudo-élément (content: attr(data-c)) : elle
+      // n'entre donc PAS dans textContent, sinon un second découpage relisait
+      // le texte doublé et empilait chaque lettre deux fois.
+      boite.dataset.c = c;
+      boite.textContent = c;
+      el.appendChild(boite);
+      paquets.push({ boite });
+    }
+    return paquets;
+  }
+
+  if (base) {
+    lettres = decouper(base);
+
+    // i18n réécrit le textContent : on redécoupe. Le test d'intégrité évite
+    // que l'observateur (asynchrone) se rappelle lui-même en boucle.
+    const texteLettres = () => lettres.map((l) => l.boite.textContent).join('');
+    new MutationObserver(() => {
+      const intact = base.children.length === lettres.length
+                     && base.textContent === texteLettres();
+      if (intact || !base.textContent.trim()) return;
+      lettres = decouper(base);
+    }).observe(base, { childList: true, characterData: true, subtree: true });
+  }
+
   /* --------------------------------------------------------- animation */
   const horloge = new THREE.Clock();
   const racine = document.documentElement;
   const positionMonde = new THREE.Vector3();
   const avant = new THREE.Vector3(0, 0, 1);
   const vec = new THREE.Vector3();
-  const AXE_Y = new THREE.Vector3(0, 1, 0);
 
   let phareLisse = 0;
   let derniere = 0;
@@ -328,55 +364,6 @@ export function demarrerHero(canvas) {
     }, { threshold: 0.01 }).observe(canvas);
   }
 
-  /* ------------------------------------------------------------------------
-     L'impulsion : une onde lumineuse qui traverse le titre de gauche à droite,
-     calée sur la longitude qui passe face au visiteur.
-
-     Chine (121° E) → Madagascar (46° E) → France (2° E) → Brésil (35° O).
-     Quand la Chine arrive face à nous, l'onde part du mot « De » ; quand le
-     Brésil arrive, elle atteint « l'étincelle ».
-     ---------------------------------------------------------------------- */
-  const DEPART_LON = 121;     // Chine
-  const ARRIVEE_LON = -35;    // Brésil
-  const COURSE = DEPART_LON - ARRIVEE_LON;   // 156° de longitude
-
-  const copies = [];
-  function poserCopie() {
-    // Le clone est un FRÈRE du titre, dans la même cellule de grille : il hérite
-    // donc exactement de sa boîte et de son alignement. Un clone enfant aurait
-    // pollué le textContent observé par i18n.
-    const el = document.querySelector('.hero-titre h1');
-    if (!el || el.dataset.copie === '1') return;
-    const clone = el.cloneNode(true);
-    clone.classList.add('pulse-copie');
-    clone.setAttribute('aria-hidden', 'true');
-    clone.removeAttribute('id');
-    clone.dataset.copie = '1';
-    el.parentElement.appendChild(clone);
-    copies.push({ source: el, clone });
-    new MutationObserver(() => { clone.textContent = el.textContent; })
-      .observe(el, { childList: true, characterData: true, subtree: true });
-  }
-  poserCopie();
-
-  // une lueur locale qui suit l'onde
-  let lueur = null;
-  // La lueur vit DANS le titre : elle en prend exactement la largeur. Posée
-  // dans le conteneur, elle traversait toute la page et débordait sur la barre
-  // de gauche.
-  // La lueur est une cellule de la MÊME grille que le titre : elle prend donc
-  // sa taille exacte. Dans le <h1> elle se faisait effacer par i18n, qui
-  // réécrit le textContent des éléments marqués data-t.
-  const hote = document.querySelector('.hero-titre');
-  if (hote) {
-    lueur = document.createElement('div');
-    lueur.className = 'pulse-lueur';
-    lueur.setAttribute('aria-hidden', 'true');
-    hote.appendChild(lueur);
-  }
-
-  let pulseLisse = 0;
-
   function boucle(t) {
     requestAnimationFrame(boucle);
     if (enPause || defile || !visible) return;
@@ -385,12 +372,11 @@ export function demarrerHero(canvas) {
 
     const temps = horloge.getElapsedTime();
     if (!reduit) {
-      // Départ calé : la Chine est face au visiteur à l'ouverture de la page,
-      // donc l'onde part du mot « De » dès qu'on arrive.
-      terre.rotation.y = DEPART_ROTATION + temps * (Math.PI * 2 / TOUR_SECONDES);
+      terre.rotation.y = temps * (Math.PI * 2 / TOUR_SECONDES);
       nuages.rotation.y = temps * (Math.PI * 2 / (TOUR_SECONDES * 1.28));
     }
 
+    // halo des balises : il ne s'allume que côté face
     let max = 0;
     for (const b of balises) {
       b.point.getWorldPosition(positionMonde);
@@ -405,20 +391,23 @@ export function demarrerHero(canvas) {
       if (puissance > max) max = puissance;
     }
 
-    // montée et descente douces : 0,035 par image à 30 i/s ≈ 1 s de transition
     phareLisse += (max - phareLisse) * 0.035;
     racine.style.setProperty('--phare', phareLisse.toFixed(3));
     materiauTerre.uniforms.phare.value = phareLisse;
 
-    // longitude face au visiteur : -90° au départ, puis elle décroît
-    const alpha = terre.rotation.y * 180 / Math.PI;
-    let lonFace = ((-90 - alpha) % 360 + 540) % 360 - 180;   // dans [-180, 180]
-    let avance = ((DEPART_LON - lonFace) % 360 + 360) % 360; // 0 = Chine de face
-    const enCours = avance <= COURSE;
-    const cible = enCours ? avance / COURSE : 1;   // au repos, l'onde reste au bout
-    pulseLisse += (cible - pulseLisse) * 0.12;
-    racine.style.setProperty('--pulse-pos', Math.min(1, Math.max(0, pulseLisse)).toFixed(4));
-    racine.style.setProperty('--pulse-on', enCours ? '1' : '0');
+    // ---- la tête lumineuse court sur les lettres, en boucle
+    const n = lettres.length;
+    if (n) {
+      const periode = n / LETTRES_PAR_SECONDE;
+      const tete = (temps % periode) * LETTRES_PAR_SECONDE;
+      for (let i = 0; i < n; i++) {
+        const dist = Math.abs(i - tete);
+        const f = Math.max(0, 1 - dist / 1.7);
+        const douce = f * f * (3 - 2 * f);            // lissage
+        lettres[i].boite.style.transform = `scale(${(1 + 0.30 * douce).toFixed(3)})`;
+        lettres[i].boite.style.setProperty('--or', douce.toFixed(3));
+      }
+    }
 
     rendu.render(scene, camera);
   }
@@ -429,6 +418,7 @@ export function demarrerHero(canvas) {
   window.__hero3d = {
     scene, camera, rendu,
     balises: balises.length,
+    lettres: () => lettres.length,
     textures: () => ({
       jour: !!materiauTerre.uniforms.jour.value,
       nuit: !!materiauTerre.uniforms.nuit.value,

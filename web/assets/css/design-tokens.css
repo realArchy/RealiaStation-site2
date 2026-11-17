@@ -155,84 +155,37 @@ h1, h2, h3,
 }
 
 
-/* ================================================== onde d'impulsion du titre
-   Le titre et le sous-titre sont dupliqués (aria-hidden) et repeints par un
-   dégradé dont la position suit --pulse-pos, écrite par la scène 3D à chaque
-   image. L'onde traverse la phrase de gauche à droite au rythme de la Terre :
-   Chine en face → elle part du « De » ; Brésil en face → elle atteint
-   « l'étincelle ». */
-.hero-titre h1.pulse-copie {
-  /* même cellule de grille que le titre : aucune position absolue, sinon la
-     copie prend toute la largeur du conteneur et le texte se décale. */
-  pointer-events: none;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  text-shadow: none;
-  filter: none;
-  opacity: calc(var(--pulse-on, 0) * .95);
-  transition: opacity .25s linear;
-  background-image: linear-gradient(
-    90deg,
-    transparent calc(var(--pulse-pos, 0) * 100% - 9%),
-    rgba(0, 245, 255, .55) calc(var(--pulse-pos, 0) * 100% - 4%),
-    #ffffff calc(var(--pulse-pos, 0) * 100%),
-    rgba(255, 236, 170, .95) calc(var(--pulse-pos, 0) * 100% + 3.5%),
-    transparent calc(var(--pulse-pos, 0) * 100% + 9%)
-  );
+/* ============================================ impulsion lettre par lettre
+   Chaque lettre est une boîte de deux couches superposées : une blanche, une
+   dorée. La scène 3D avance une tête lumineuse : la lettre grossit un peu et
+   sa couche dorée s'allume. Aucune copie du titre, donc aucun désalignement
+   possible. */
+.hero-titre h1 .lettre {
+  display: inline-block;
+  position: relative;
+  transform-origin: 50% 62%;
+  will-change: transform;
+  line-height: 1;
+}
+
+.hero-titre h1 .lettre::after {
+  content: attr(data-c);
+  position: absolute;
+  inset: 0;
+  background-image: var(--degrade-or);
   -webkit-background-clip: text;
   background-clip: text;
-}
-
-/* le sous-titre est en bas du hero : sa copie doit s'aligner sur lui */
-.hero-soustitre { position: relative; }
-
-/* lueur locale qui accompagne l'onde */
-.pulse-lueur {
-  /* même cellule que le titre : la lueur fait exactement sa largeur */
-  grid-area: 1 / 1;
-  justify-self: stretch;
-  align-self: stretch;
-  position: relative;
-  margin: -35% 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: calc(var(--pulse-on, 0) * .9);
-  transition: opacity .25s linear;
-  /* ellipse de taille fixe : un cercle « farthest-corner » débordait de la
-     boîte et laissait voir deux bords droits. */
-  background: radial-gradient(
-    ellipse 190px 110px at calc(var(--pulse-pos, 0) * 100%) 50%,
-    rgba(255, 255, 255, .26) 0%,
-    rgba(0, 245, 255, .16) 42%,
-    rgba(255, 200, 90, .08) 62%,
-    transparent 78%
-  );
-  mix-blend-mode: screen;
-}
-
-
-/* le titre et son clone occupent la même cellule : superposition exacte */
-.hero-titre > h1,
-.hero-titre > h1.pulse-copie { grid-area: 1 / 1; }
-
-.hero-titre h1.pulse-copie {
-  opacity: calc(var(--pulse-on, 0) * .95);
-  color: transparent;
   -webkit-text-fill-color: transparent;
-  text-shadow: none;
-  filter: none;
+  color: transparent;
+  opacity: var(--or, 0);
   pointer-events: none;
+  filter: drop-shadow(0 0 14px rgba(252, 246, 186, .55));
 }
 
-/* le sous-titre, lui, n'a pas besoin de clone : son dégradé d'or reçoit une
-   couche de plus, la bande lumineuse, qui se déplace avec --pulse-pos */
+/* le sous-titre reste en or plein, sans onde */
 .hero-soustitre {
-  background-image:
-    linear-gradient(90deg,
-      transparent calc(var(--pulse-pos, 0) * 100% - 9%),
-      rgba(0, 245, 255, .80) calc(var(--pulse-pos, 0) * 100% - 4%),
-      #ffffff calc(var(--pulse-pos, 0) * 100%),
-      rgba(255, 236, 170, .95) calc(var(--pulse-pos, 0) * 100% + 3.5%),
-      transparent calc(var(--pulse-pos, 0) * 100% + 9%)),
-    var(--degrade-or);
+  background-image: none;
+  background: var(--degrade-or);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
