@@ -361,6 +361,12 @@ export function demarrerHero(canvas) {
 
   // une lueur locale qui suit l'onde
   let lueur = null;
+  // La lueur vit DANS le titre : elle en prend exactement la largeur. Posée
+  // dans le conteneur, elle traversait toute la page et débordait sur la barre
+  // de gauche.
+  // La lueur est une cellule de la MÊME grille que le titre : elle prend donc
+  // sa taille exacte. Dans le <h1> elle se faisait effacer par i18n, qui
+  // réécrit le textContent des éléments marqués data-t.
   const hote = document.querySelector('.hero-titre');
   if (hote) {
     lueur = document.createElement('div');
