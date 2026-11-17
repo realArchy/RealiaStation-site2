@@ -160,7 +160,9 @@ h1, h2, h3,
    dorée. La scène 3D avance une tête lumineuse : la lettre grossit un peu et
    sa couche dorée s'allume. Aucune copie du titre, donc aucun désalignement
    possible. */
-.hero-titre h1 .lettre {
+.hero .bienvenue .lettre,
+.hero-titre h1 .lettre,
+.hero-soustitre .lettre {
   display: inline-block;
   position: relative;
   transform-origin: 50% 62%;
@@ -168,7 +170,15 @@ h1, h2, h3,
   line-height: 1;
 }
 
-.hero-titre h1 .lettre::after {
+/* les textes déjà dorés (bienvenue, sous-titre) reçoivent une version plus
+   claire : un flash blanc-or plutôt qu'un or sur or */
+.lettre-clair::after {
+  background-image: linear-gradient(135deg, #FFFFFF 0%, #FCF6BA 35%, #FFFFFF 60%, #E8C25A 85%, #FFFFFF 100%) !important;
+}
+
+.hero .bienvenue .lettre::after,
+.hero-titre h1 .lettre::after,
+.hero-soustitre .lettre::after {
   content: attr(data-c);
   position: absolute;
   inset: 0;

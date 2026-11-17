@@ -297,44 +297,71 @@ export function demarrerHero(canvas) {
      métallique, puis elle rend sa place à la voisine. Aucun lien avec les
      pays : c'est un influx qui court sur la phrase, en boucle.
      ---------------------------------------------------------------------- */
-  const base = document.querySelector('.hero-titre h1');
-  let lettres = [];          // { boite, or }
+  /* ------------------------------------------------------------------------
+     L'impulsion, en un seul parcours : elle démarre sur le message de
+     bienvenue, descend sur le titre, puis sur le sous-titre, et recommence.
+     Aucun lien avec la rotation de la Terre : c'est une course à son propre
+     rythme, qui relie les trois blocs comme un influx.
+     ---------------------------------------------------------------------- */
+  const VITESSE_LETTRES = 9;        // lettres par seconde
+  const CIBLES = [
+    { sel: '.hero .bienvenue', clair: true },
+    { sel: '.hero-titre h1', clair: false },
+    { sel: '.hero-soustitre', clair: true },
+  ];
 
-  /* Chaque lettre devient une petite boîte à deux couches superposées :
-     une blanche et une dorée. Les deux sont dans le même <span>, donc elles
-     ne peuvent pas se désaligner — contrairement à une copie du titre entier. */
-  function decouper(el) {
+  let parcours = [];                // { boite, ou }
+
+  function decouper(el, clair) {
     const texte = el.textContent;
+    // on mémorise le texte d'origine : avec les espaces laissés en nœuds de
+    // texte, comparer aux seules lettres provoquerait une reconstruction
+    // infinie par l'observateur.
+    el.dataset.texteSource = texte;
     el.textContent = '';
     const paquets = [];
     for (const ch of texte) {
-      const c = ch === ' ' ? '\u00a0' : ch;
+      if (ch === ' ' || ch === '\u00a0') {   // le HTML écrit des espaces insécables
+        // les espaces ne sont pas des étapes : sinon l'impulsion passe un
+        // cinquième de son temps sur des lettres invisibles
+        el.appendChild(document.createTextNode('\u00a0'));
+        continue;
+      }
+      const c = ch;
       const boite = document.createElement('span');
-      boite.className = 'lettre';
-      // la lettre dorée est un pseudo-élément (content: attr(data-c)) : elle
-      // n'entre donc PAS dans textContent, sinon un second découpage relisait
-      // le texte doublé et empilait chaque lettre deux fois.
+      boite.className = 'lettre' + (clair ? ' lettre-clair' : '');
+      // la version lumineuse est un pseudo-élément (content: attr(data-c)) :
+      // elle n'entre pas dans textContent, sinon un second découpage relirait
+      // un texte doublé.
       boite.dataset.c = c;
       boite.textContent = c;
       el.appendChild(boite);
-      paquets.push({ boite });
+      paquets.push(boite);
     }
     return paquets;
   }
 
-  if (base) {
-    lettres = decouper(base);
+  CIBLES.forEach((cible) => {
+    const el = document.querySelector(cible.sel);
+    if (!el) return;
+    cible.el = el;
+    cible.lettres = decouper(el, cible.clair);
 
-    // i18n réécrit le textContent : on redécoupe. Le test d'intégrité évite
-    // que l'observateur (asynchrone) se rappelle lui-même en boucle.
-    const texteLettres = () => lettres.map((l) => l.boite.textContent).join('');
+    // i18n réécrit le textContent : on redécoupe. MutationObserver étant
+    // asynchrone, on compare le texte et l'on vérifie que les spans sont là.
     new MutationObserver(() => {
-      const intact = base.children.length === lettres.length
-                     && base.textContent === texteLettres();
-      if (intact || !base.textContent.trim()) return;
-      lettres = decouper(base);
-    }).observe(base, { childList: true, characterData: true, subtree: true });
+      const intact = el.textContent === el.dataset.texteSource;
+      if (intact || !el.textContent.trim()) return;
+      cible.lettres = decouper(el, cible.clair);
+      reconstruire();
+    }).observe(el, { childList: true, characterData: true, subtree: true });
+  });
+
+  function reconstruire() {
+    parcours = [];
+    CIBLES.forEach((c) => { if (c.lettres) parcours.push(...c.lettres); });
   }
+  reconstruire();
 
   /* --------------------------------------------------------- animation */
   const horloge = new THREE.Clock();
@@ -395,17 +422,18 @@ export function demarrerHero(canvas) {
     racine.style.setProperty('--phare', phareLisse.toFixed(3));
     materiauTerre.uniforms.phare.value = phareLisse;
 
-    // ---- la tête lumineuse court sur les lettres, en boucle
-    const n = lettres.length;
+    // ---- la tête lumineuse parcourt bienvenue → titre → sous-titre
+    const n = parcours.length;
     if (n) {
-      const periode = n / LETTRES_PAR_SECONDE;
-      const tete = (temps % periode) * LETTRES_PAR_SECONDE;
+      const periode = n / VITESSE_LETTRES;
+      const tete = (temps % periode) * VITESSE_LETTRES;
       for (let i = 0; i < n; i++) {
         const dist = Math.abs(i - tete);
         const f = Math.max(0, 1 - dist / 1.7);
         const douce = f * f * (3 - 2 * f);            // lissage
-        lettres[i].boite.style.transform = `scale(${(1 + 0.30 * douce).toFixed(3)})`;
-        lettres[i].boite.style.setProperty('--or', douce.toFixed(3));
+        const b = parcours[i];
+        b.style.transform = `scale(${(1 + 0.28 * douce).toFixed(3)})`;
+        b.style.setProperty('--or', douce.toFixed(3));
       }
     }
 
@@ -418,7 +446,7 @@ export function demarrerHero(canvas) {
   window.__hero3d = {
     scene, camera, rendu,
     balises: balises.length,
-    lettres: () => lettres.length,
+    lettres: () => parcours.length,
     textures: () => ({
       jour: !!materiauTerre.uniforms.jour.value,
       nuit: !!materiauTerre.uniforms.nuit.value,
