@@ -73,7 +73,9 @@ export function demarrerHero(canvas) {
   } catch (e) {
     return null; // pas de WebGL : le décor CSS reste, rien ne casse
   }
-  rendu.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  // 1,5 suffit : au-delà, on paie des pixels que l'œil ne distingue pas
+  // sur une sphère lissée, et le fill rate grimpe en flèche.
+  rendu.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   rendu.setClearColor(0x000000, 0);
   rendu.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -255,7 +257,7 @@ export function demarrerHero(canvas) {
   const charger = (url) => new Promise((ok) => chargeur.load(url, ok, undefined, () => ok(null)));
 
   Promise.all([
-    charger('assets/img/earth-satellite.jpg'),      // NASA Blue Marble, 4096×2048
+    charger('assets/img/earth-satellite.webp'),     // NASA Blue Marble, 4096×2048
     charger('vendor/earth/earth_lights_2048.png'),
     charger('vendor/earth/earth_clouds_1024.png'),
     charger('assets/img/moon.jpg'),
@@ -360,6 +362,11 @@ export function demarrerHero(canvas) {
   function reconstruire() {
     parcours = [];
     CIBLES.forEach((c) => { if (c.lettres) parcours.push(...c.lettres); });
+    // Chaque lettre reçoit son rang : le CSS s'en sert pour décaler son
+    // animation. Plus aucune écriture de style par image.
+    parcours.forEach((b, i) => b.style.setProperty('--i', i));
+    document.documentElement.style.setProperty('--pas', (parcours.length / VITESSE_LETTRES) / Math.max(1, parcours.length) + 's');
+    document.documentElement.style.setProperty('--cycle', (parcours.length / VITESSE_LETTRES) + 's');
   }
   reconstruire();
 
@@ -394,8 +401,7 @@ export function demarrerHero(canvas) {
   function boucle(t) {
     requestAnimationFrame(boucle);
     if (enPause || defile || !visible) return;
-    if (t - derniere < 33) return;      // 30 i/s
-    derniere = t;
+    derniere = t;                      // 60 i/s : le compositeur suit l'écran
 
     const temps = horloge.getElapsedTime();
     if (!reduit) {
@@ -421,21 +427,6 @@ export function demarrerHero(canvas) {
     phareLisse += (max - phareLisse) * 0.035;
     racine.style.setProperty('--phare', phareLisse.toFixed(3));
     materiauTerre.uniforms.phare.value = phareLisse;
-
-    // ---- la tête lumineuse parcourt bienvenue → titre → sous-titre
-    const n = parcours.length;
-    if (n) {
-      const periode = n / VITESSE_LETTRES;
-      const tete = (temps % periode) * VITESSE_LETTRES;
-      for (let i = 0; i < n; i++) {
-        const dist = Math.abs(i - tete);
-        const f = Math.max(0, 1 - dist / 1.7);
-        const douce = f * f * (3 - 2 * f);            // lissage
-        const b = parcours[i];
-        b.style.transform = `scale(${(1 + 0.28 * douce).toFixed(3)})`;
-        b.style.setProperty('--or', douce.toFixed(3));
-      }
-    }
 
     rendu.render(scene, camera);
   }
