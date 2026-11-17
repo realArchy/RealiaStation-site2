@@ -37,7 +37,10 @@ class Systeme {
     });
 
     this.canvas = document.createElement('canvas');
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // Surclassement systématique : le canvas est toujours dessiné au moins au
+    // double de sa taille affichée. Sur un écran à 1x, cela revient à un
+    // anticrénelage par suréchantillonnage — les orbites cessent d'être floues.
+    const dpr = Math.max(2, Math.min(window.devicePixelRatio || 1, 3));
     this.canvas.width = this.taille * dpr;
     this.canvas.height = this.taille * dpr;
     this.canvas.style.width = '100%';
