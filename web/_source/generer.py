@@ -117,6 +117,7 @@ def scripts(particules: bool = False) -> str:
 <script src="tiroir.js?v={VERSION}" defer></script>
 <script src="audio.js?v={VERSION}" defer></script>
 <script type="module" src="systeme.js?v={VERSION}"></script>
+  <script src="impulsion.js?v={VERSION}" defer></script>
   <script src="lumiere-scroll.js?v={VERSION}" defer></script>
   <script src="vendor/lenis.min.js?v={VERSION}" defer></script>
   <script src="defilement-doux.js?v={VERSION}" defer></script>"""
