@@ -400,7 +400,6 @@ export function demarrerHero(canvas) {
 
   /* --------------------------------------------------------- animation */
   const horloge = new THREE.Clock();
-  const racine = document.documentElement;
   const positionMonde = new THREE.Vector3();
   const avant = new THREE.Vector3(0, 0, 1);
   const vec = new THREE.Vector3();
@@ -452,8 +451,9 @@ export function demarrerHero(canvas) {
       if (puissance > max) max = puissance;
     }
 
+    // L'éclat du limbe reste interne au shader : aucune variable CSS n'est
+    // écrite, donc aucune repeinte du titre à chaque image.
     phareLisse += (max - phareLisse) * 0.035;
-    racine.style.setProperty('--phare', phareLisse.toFixed(3));
     materiauTerre.uniforms.phare.value = phareLisse;
 
     rendu.render(scene, camera);

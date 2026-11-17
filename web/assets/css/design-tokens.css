@@ -133,27 +133,10 @@ h1, h2, h3,
   box-shadow: 0 0 0 3px rgba(248, 255, 0, .22), 0 0 18px var(--fluo-2);
 }
 
-/* ======================================= éclairage du titre par les phares
-   La scène 3D écrit --phare (0 → 1) selon la balise qui passe face à l'écran.
-   Le titre et le sous-titre s'allument avec elle, sans que le JS touche au
-   style de chaque élément. */
-.hero-titre h1 {
-  font-weight: 900;
-  letter-spacing: -.01em;
-  text-shadow:
-    0 0 34px rgba(5, 2, 10, .92),
-    0 4px 18px rgba(0, 0, 0, .85);
-  filter:
-    brightness(calc(1 + var(--phare, 0) * .32))
-    drop-shadow(0 0 calc(14px + var(--phare, 0) * 34px) rgba(252, 246, 186, calc(.25 + var(--phare, 0) * .45)));
-  transition: filter .12s linear;
-}
-.hero-soustitre {
-  filter:
-    drop-shadow(0 0 16px rgba(252, 246, 186, .40))
-    brightness(calc(1 + var(--phare, 0) * .28));
-}
-
+/* Le titre n'est plus éclairé par les phares de la Terre : la variable --phare
+   changeait à chaque image et forçait un recalcul du filtre sur tout le bloc
+   de titre — un repeint complet, 60 fois par seconde. L'impulsion du texte est
+   désormais totalement indépendante de la rotation. */
 
 /* ============================================ impulsion lettre par lettre
    Optimisation : plus AUCUNE écriture de style par image. Chaque lettre porte
