@@ -731,12 +731,14 @@ main.enveloppe { padding-bottom: 6rem; }
    Le message de bienvenue monte et grossit, le badge passe en haut à gauche
    en orange fluo, le titre se coupe en deux (titre + sous-titre), et la liste
    des pages quitte l'en-tête pour un rail vertical à droite. */
-.hero { padding: 3.4rem 1.4rem 5rem; align-items: start; }
+.hero { padding: 3.5rem 1.4rem 5rem; align-items: start; }
 
 .hero .bienvenue {
   font-size: clamp(1.15rem, 2.3vw, 1.95rem);
   letter-spacing: .3em;
-  margin: 0 0 2.6rem;
+  margin: 0 0 1.6rem;
+  color: #c9a227;
+  text-shadow: 0 0 20px rgba(201, 162, 39, .38);
 }
 
 .hero h1 {
@@ -785,12 +787,12 @@ main.enveloppe { padding-bottom: 6rem; }
 /* badge de chantier : haut à gauche, orange fluo */
 .badge-hero {
   position: absolute; top: 5.1rem; left: 1.5rem; z-index: 20;
-  color: #ff7a00; border-color: rgba(255, 122, 0, .62);
-  background: rgba(255, 122, 0, .12);
-  box-shadow: 0 0 22px rgba(255, 122, 0, .38);
-  text-shadow: 0 0 14px rgba(255, 122, 0, .55);
+  color: #eaff00; border-color: rgba(234, 255, 0, .55);
+  background: rgba(234, 255, 0, .10);
+  box-shadow: 0 0 22px rgba(234, 255, 0, .34);
+  text-shadow: 0 0 14px rgba(234, 255, 0, .6);
 }
-.badge-hero .point { background: #ff7a00; box-shadow: 0 0 0 3px rgba(255, 122, 0, .22); }
+.badge-hero .point { background: #eaff00; box-shadow: 0 0 0 3px rgba(234, 255, 0, .22); }
 
 /* rail des pages, à droite */
 .rail {
@@ -838,7 +840,7 @@ main.enveloppe { padding-bottom: 6rem; }
    sur la même verticale. */
 :root { --marge-gauche: clamp(1.2rem, 6vw, 8rem); }
 
-.hero { place-items: center; }
+.hero { place-items: start center; }
 .hero-contenu { text-align: center; margin: 0 auto; }
 
 /* ---------------------------------------------------- barre latérale gauche
