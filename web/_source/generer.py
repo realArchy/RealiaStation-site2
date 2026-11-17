@@ -243,18 +243,18 @@ def page_index() -> str:
     corps = f"""
   <section class="hero">
     <canvas id="hero3d" aria-hidden="true"></canvas>
-    <div class="hero-gauche">
+    <aside class="barre-gauche" aria-label="Statut et actions">
       <span class="chantier badge-hero"><span class="point"></span><span data-t="index.badge">{t('index.badge')}</span></span>
-      <p class="bienvenue" data-t="index.bienvenue">{t('index.bienvenue')}</p>
       <a href="#manifeste" class="lien-gauche" data-t="index.cta2">{t('index.cta2')}</a>
-    </div>
+      <button type="button" class="play-music" id="play-music" data-t="index.cta_music">{t('index.cta_music')}</button>
+    </aside>
     <div class="hero-contenu">
+      <p class="bienvenue" data-t="index.bienvenue">{t('index.bienvenue')}</p>
       <h1 data-t="index.titre_1">{t('index.titre_1')}</h1>
       <p class="hero-soustitre" data-t="index.titre_2">{t('index.titre_2')}</p>
     </div>
-    <button type="button" class="play-music" id="play-music" data-t="index.cta_music">{t('index.cta_music')}</button>
     <div class="hero-indice">Scroll<span></span></div>
-  </section>
+    </section>
 
   <div id="manifeste"></div>
 """
