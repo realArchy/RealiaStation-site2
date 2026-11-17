@@ -722,8 +722,9 @@ main.enveloppe { padding-bottom: 6rem; }
    grand écran. Celle-ci est globale. */
 .bouton-EnTete,
 .entete .nav-haut > .bouton {
-  padding: .36rem .95rem; font-size: .78rem; line-height: 1.3;
-  box-shadow: 0 0 14px rgba(212, 175, 55, .32);
+  padding: .36rem .95rem; font-size: .82rem; line-height: 1.3;
+  /* aucune pastille : la couleur et le halo du texte suffisent */
+  background: none; border: 0; box-shadow: none;
 }
 
 
@@ -731,7 +732,7 @@ main.enveloppe { padding-bottom: 6rem; }
    Le message de bienvenue monte et grossit, le badge passe en haut à gauche
    en orange fluo, le titre se coupe en deux (titre + sous-titre), et la liste
    des pages quitte l'en-tête pour un rail vertical à droite. */
-.hero { padding: 3.5rem 1.4rem 5rem; align-items: start; }
+.hero { padding: 6.6rem 1.4rem 5rem; align-items: start; }
 
 .hero .bienvenue {
   font-size: clamp(1.15rem, 2.3vw, 1.95rem);

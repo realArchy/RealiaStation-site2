@@ -203,7 +203,7 @@ export function demarrerHero(canvas) {
       emissive: 0x0a0a12, emissiveIntensity: 1,
     }),
   );
-  lune.position.set(4.9, 2.55, -2.2);
+  lune.position.set(5.8, 2.95, -2.4);
   lune.rotation.z = THREE.MathUtils.degToRad(-11);
   scene.add(lune);
 
