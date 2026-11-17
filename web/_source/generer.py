@@ -13,6 +13,7 @@ import json
 import pathlib
 import random
 import sys
+import time
 
 RACINE = pathlib.Path("/home/realia/projects/neuro-exo-project/web")
 sys.path.insert(0, str(RACINE / "_source"))
@@ -24,6 +25,9 @@ from contenu_3 import BLUEPRINT  # noqa: E402
 PAGES["blueprint"] = BLUEPRINT
 
 FR = "fr"
+
+#: incrémenté à chaque génération — sert de cache-buster
+VERSION = time.strftime("%Y%m%d%H%M")
 
 ORDRE = [
     ("index", "index.html", "luna-01-aventure"),
@@ -105,12 +109,12 @@ def pied(extra: str = "") -> str:
 
 
 def scripts(particules: bool = False) -> str:
-    return f"""<script src="traductions.js" defer></script>
-<script src="i18n.js" defer></script>
-<script src="revele.js" defer></script>
-<script src="tiroir.js" defer></script>
-<script src="audio.js" defer></script>
-<script type="module" src="systeme.js"></script>"""
+    return f"""<script src="traductions.js?v={VERSION}" defer></script>
+<script src="i18n.js?v={VERSION}" defer></script>
+<script src="revele.js?v={VERSION}" defer></script>
+<script src="tiroir.js?v={VERSION}" defer></script>
+<script src="audio.js?v={VERSION}" defer></script>
+<script type="module" src="systeme.js?v={VERSION}"></script>"""
 
 
 def tete(titre: str, description: str) -> str:
@@ -124,7 +128,7 @@ def tete(titre: str, description: str) -> str:
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css" />"""
+<link rel="stylesheet" href="style.css?v={VERSION}" />"""
 
 
 def enveloppe(page: str, corps: str, titre_page: str, description: str,
@@ -296,7 +300,7 @@ def page_index() -> str:
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <script type="module">
-  import { demarrerHero } from './hero3d.js';
+  import { demarrerHero } from './hero3d.js?v={VERSION}';
   demarrerHero(document.getElementById('hero3d'));
 </script>
 <script>
@@ -355,7 +359,7 @@ def page_virtuel() -> str:
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <script type="module">
-  import { demarrerScene } from './three-scene.js';
+  import { demarrerScene } from './three-scene.js?v={VERSION}';
   const c = document.getElementById('scene3d');
   if (c) demarrerScene(c, { legendeId: 'scene-legende' });
 </script>
