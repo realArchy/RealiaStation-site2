@@ -69,13 +69,17 @@ export function demarrerHero(canvas) {
 
   let rendu;
   try {
-    rendu = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    // antialias désactivé : sur une sphère lissée à cette taille, l'écart est
+  // invisible, et le coût par pixel baisse nettement (surtout sous Firefox).
+  rendu = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
   } catch (e) {
     return null; // pas de WebGL : le décor CSS reste, rien ne casse
   }
-  // 1,5 suffit : au-delà, on paie des pixels que l'œil ne distingue pas
-  // sur une sphère lissée, et le fill rate grimpe en flèche.
-  rendu.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  // 1 : on rend exactement à la taille affichée. Au-delà, on paie des pixels
+  // que l'œil ne distingue pas et le fill rate grimpe en flèche.
+  // On part à la taille affichée ; la qualité s'adapte ensuite toute seule
+  // si les images coûtent trop cher (voir le veilleur de cadence).
+  rendu.setPixelRatio(1);
   rendu.setClearColor(0x000000, 0);
   rendu.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -159,18 +163,18 @@ export function demarrerHero(canvas) {
       }`,
   });
 
-  const globe = new THREE.Mesh(new THREE.SphereGeometry(RAYON, 64, 64), materiauTerre);
+  const globe = new THREE.Mesh(new THREE.SphereGeometry(RAYON, 48, 48), materiauTerre);
   terre.add(globe);
 
   const materiauNuages = new THREE.MeshBasicMaterial({
     color: 0xffffff, transparent: true, opacity: 0,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
-  const nuages = new THREE.Mesh(new THREE.SphereGeometry(RAYON * 1.012, 48, 48), materiauNuages);
+  const nuages = new THREE.Mesh(new THREE.SphereGeometry(RAYON * 1.012, 32, 32), materiauNuages);
   terre.add(nuages);
 
   const atmosphere = new THREE.Mesh(
-    new THREE.SphereGeometry(RAYON * 1.045, 48, 48),
+    new THREE.SphereGeometry(RAYON * 1.045, 32, 32),
     new THREE.ShaderMaterial({
       transparent: true, blending: THREE.AdditiveBlending,
       side: THREE.BackSide, depthWrite: false,
@@ -297,7 +301,7 @@ export function demarrerHero(canvas) {
      Aucun lien avec la rotation de la Terre : c'est une course à son propre
      rythme, qui relie les trois blocs comme un influx.
      ---------------------------------------------------------------------- */
-  const VITESSE_PX = 82;            // pixels par seconde : le tempo du sous-titre
+  const DUREE_PHRASE = 5.8;         // secondes pour traverser une phrase
   const CIBLES = [
     { sel: '.hero .bienvenue', clair: true },
     { sel: '.hero-titre h1', clair: false },
@@ -363,13 +367,24 @@ export function demarrerHero(canvas) {
     // sous-titre, donc à cadence de lettres égale le titre filait deux fois
     // plus vite à l'écran. À vitesse constante en pixels, les trois phrases
     // ont le tempo du sous-titre.
-    let cumul = 0;
-    parcours.forEach((b) => {
-      b.style.animationDelay = (cumul / VITESSE_PX).toFixed(3) + 's';
-      cumul += b.offsetWidth || 20;
+    // Chaque phrase est traversée en DUREE_PHRASE secondes : le tempo du
+    // sous-titre, appliqué aux deux autres. À vitesse constante en pixels,
+    // le titre (deux fois plus large) mettait deux fois plus longtemps et
+    // paraissait lent.
+    let depart = 0;
+    CIBLES.forEach((c) => {
+      const ls = c.lettres || [];
+      if (!ls.length) return;
+      const largeur = ls.reduce((a, b) => a + (b.offsetWidth || 20), 0);
+      let cum = 0;
+      ls.forEach((b) => {
+        b.style.animationDelay = (depart + (cum / largeur) * DUREE_PHRASE).toFixed(3) + 's';
+        cum += b.offsetWidth || 20;
+      });
+      depart += DUREE_PHRASE;
     });
 
-    const cycle = cumul / VITESSE_PX;
+    const cycle = depart;
     document.documentElement.style.setProperty('--cycle', cycle.toFixed(2) + 's');
 
     // Les pourcentages des images-clés dépendent de la durée du cycle :
@@ -425,10 +440,60 @@ export function demarrerHero(canvas) {
     }, { threshold: 0.01 }).observe(canvas);
   }
 
+  /* Veilleur de cadence.
+     La scène mesure son propre coût : si les images s'espacent, elle se
+     dégrade par paliers (résolution, nuages) et, en dernier recours, elle
+     s'immobilise sur la dernière image rendue. Mieux vaut une planète fixe
+     qu'une page qui saccade. */
+  let niveau = 2;                 // 2 = complet, 1 = dégradé, 0 = figé
+  let cumulIntervalle = 0;
+  let nbImages = 0;
+  let precedente = 0;
+  let chauffe = 0;                // on ignore le démarrage (textures, polices)
+  let alertes = 0;                // il faut deux fenêtres lentes de suite
+
+  // Paliers : on ne fige jamais la planète, on espace ses images. Une sphère
+  // qui tourne à 12°/s reste fluide à 20 i/s, et le fil principal retrouve de
+  // l'air pour les animations du texte.
+  const INTERVALLES = { 2: 33, 1: 50, 0: 66 };
+
+  function degrader() {
+    if (niveau > 0) niveau--;
+    if (niveau <= 1) {
+      rendu.setPixelRatio(0.6);
+      nuages.visible = false;
+      dimensionner();
+    }
+  }
+
   function boucle(t) {
     requestAnimationFrame(boucle);
+
+    // Mesure AVANT tout filtrage : c'est l'intervalle réel entre deux images
+    // du navigateur, pas l'écart entre deux rendus de la sphère.
+    if (chauffe < 90) {
+      chauffe++;                    // démarrage : textures, polices, mise en page
+    } else if (precedente) {
+      cumulIntervalle += t - precedente;
+      nbImages++;
+      if (nbImages >= 30) {
+        const moyenne = cumulIntervalle / nbImages;
+        if (moyenne > 22) {
+          alertes++;
+          if (alertes >= 2) { degrader(); alertes = 0; }
+        } else {
+          alertes = 0;
+        }
+        cumulIntervalle = 0;
+        nbImages = 0;
+      }
+    }
+    precedente = t;
+
     if (enPause || defile || !visible) return;
-    derniere = t;                      // 60 i/s : le compositeur suit l'écran
+    if (t - derniere < INTERVALLES[niveau]) return;
+    derniere = t;
+
 
     const temps = horloge.getElapsedTime();
     if (!reduit) {
@@ -466,6 +531,7 @@ export function demarrerHero(canvas) {
     scene, camera, rendu,
     balises: balises.length,
     lettres: () => parcours.length,
+    niveau: () => niveau,
     textures: () => ({
       jour: !!materiauTerre.uniforms.jour.value,
       nuit: !!materiauTerre.uniforms.nuit.value,
