@@ -50,9 +50,9 @@ NAV = {
 # 1. Accueil
 # ---------------------------------------------------------------------------
 ACCUEIL = {
-    "index.badge": T("🚧 EN CHANTIER — RELEASE BETA PHASE 1",
-                     "🚧 WORK IN PROGRESS — PHASE 1 BETA RELEASE",
-                     "🚧 EM OBRAS — LANÇAMENTO BETA FASE 1",
+    "index.badge": T("🚧 EN CHANTIER — WEBSITE ÉVOLUTIF",
+                     "🚧 WORK IN PROGRESS — EVOLVING WEBSITE",
+                     "🚧 EM OBRAS — SITE EM EVOLUÇÃO",
                      "🚧 建设中 — 第一阶段 Beta 发布"),
     "index.bienvenue": T("Bienvenue dans l'aventure !",
                          "Welcome to the adventure!",

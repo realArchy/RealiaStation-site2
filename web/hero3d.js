@@ -69,7 +69,7 @@ export function demarrerHero(canvas) {
 
   let rendu;
   try {
-    rendu = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    rendu = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   } catch (e) {
     return null; // pas de WebGL : le décor CSS reste, rien ne casse
   }
@@ -115,7 +115,7 @@ export function demarrerHero(canvas) {
       nuit: { value: null },
       soleil: { value: SOLEIL.clone() },
       phare: { value: 0 },
-      pasUv: { value: new THREE.Vector2(1 / 4096, 1 / 2048) },
+      pasUv: { value: new THREE.Vector2(1 / 2048, 1 / 1024) },
     },
     vertexShader: /* glsl */`
       varying vec2 vUv;
@@ -140,14 +140,6 @@ export function demarrerHero(canvas) {
       void main() {
         vec3 n = normalize(vNormalW);
 
-        // relief léger : le gradient de luminance de la texture sert de bosse
-        float hC = texture2D(jour, vUv).r;
-        float hX = texture2D(jour, vUv + vec2(pasUv.x, 0.0)).r;
-        float hY = texture2D(jour, vUv + vec2(0.0, pasUv.y)).r;
-        vec3 tangente = normalize(cross(vec3(0.0, 1.0, 0.0), n) + vec3(1e-5));
-        vec3 bitangente = normalize(cross(n, tangente));
-        n = normalize(n + tangente * (hC - hX) * 9.0 + bitangente * (hC - hY) * 9.0);
-
         float d = dot(n, normalize(soleil));
         float lumiere = smoothstep(-0.28, 0.32, d);
 
@@ -167,18 +159,18 @@ export function demarrerHero(canvas) {
       }`,
   });
 
-  const globe = new THREE.Mesh(new THREE.SphereGeometry(RAYON, 96, 96), materiauTerre);
+  const globe = new THREE.Mesh(new THREE.SphereGeometry(RAYON, 64, 64), materiauTerre);
   terre.add(globe);
 
   const materiauNuages = new THREE.MeshBasicMaterial({
     color: 0xffffff, transparent: true, opacity: 0,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
-  const nuages = new THREE.Mesh(new THREE.SphereGeometry(RAYON * 1.012, 72, 72), materiauNuages);
+  const nuages = new THREE.Mesh(new THREE.SphereGeometry(RAYON * 1.012, 48, 48), materiauNuages);
   terre.add(nuages);
 
   const atmosphere = new THREE.Mesh(
-    new THREE.SphereGeometry(RAYON * 1.045, 64, 64),
+    new THREE.SphereGeometry(RAYON * 1.045, 48, 48),
     new THREE.ShaderMaterial({
       transparent: true, blending: THREE.AdditiveBlending,
       side: THREE.BackSide, depthWrite: false,
@@ -257,7 +249,7 @@ export function demarrerHero(canvas) {
   const charger = (url) => new Promise((ok) => chargeur.load(url, ok, undefined, () => ok(null)));
 
   Promise.all([
-    charger('assets/img/earth-satellite.webp'),     // NASA Blue Marble, 4096×2048
+    charger('assets/img/earth-satellite-2k.webp'),  // NASA Blue Marble, 2048×1024
     charger('vendor/earth/earth_lights_2048.png'),
     charger('vendor/earth/earth_clouds_1024.png'),
     charger('assets/img/moon.jpg'),
@@ -305,7 +297,7 @@ export function demarrerHero(canvas) {
      Aucun lien avec la rotation de la Terre : c'est une course à son propre
      rythme, qui relie les trois blocs comme un influx.
      ---------------------------------------------------------------------- */
-  const VITESSE_LETTRES = 4.5;      // lettres par seconde (moitié tempo)
+  const VITESSE_PX = 82;            // pixels par seconde : le tempo du sous-titre
   const CIBLES = [
     { sel: '.hero .bienvenue', clair: true },
     { sel: '.hero-titre h1', clair: false },
@@ -359,14 +351,50 @@ export function demarrerHero(canvas) {
     }).observe(el, { childList: true, characterData: true, subtree: true });
   });
 
+  const DUREE_ECLAT = 1.4;          // secondes pendant lesquelles une lettre reste allumée
+
   function reconstruire() {
     parcours = [];
     CIBLES.forEach((c) => { if (c.lettres) parcours.push(...c.lettres); });
-    // Chaque lettre reçoit son rang : le CSS s'en sert pour décaler son
-    // animation. Plus aucune écriture de style par image.
-    parcours.forEach((b, i) => b.style.setProperty('--i', i));
-    document.documentElement.style.setProperty('--pas', (parcours.length / VITESSE_LETTRES) / Math.max(1, parcours.length) + 's');
-    document.documentElement.style.setProperty('--cycle', (parcours.length / VITESSE_LETTRES) + 's');
+    if (!parcours.length) return;
+
+    // Le délai de chaque lettre est proportionnel à la DISTANCE PARCOURUE, pas
+    // à son rang : une lettre du titre est deux fois plus large que celle du
+    // sous-titre, donc à cadence de lettres égale le titre filait deux fois
+    // plus vite à l'écran. À vitesse constante en pixels, les trois phrases
+    // ont le tempo du sous-titre.
+    let cumul = 0;
+    parcours.forEach((b) => {
+      b.style.animationDelay = (cumul / VITESSE_PX).toFixed(3) + 's';
+      cumul += b.offsetWidth || 20;
+    });
+
+    const cycle = cumul / VITESSE_PX;
+    document.documentElement.style.setProperty('--cycle', cycle.toFixed(2) + 's');
+
+    // Les pourcentages des images-clés dépendent de la durée du cycle :
+    // on les recalcule pour que l'éclat dure toujours ~1,4 s.
+    const pct = (t) => Math.min(100, (t / cycle) * 100).toFixed(3);
+    let feuille = document.getElementById('impulsion-images');
+    if (!feuille) {
+      feuille = document.createElement('style');
+      feuille.id = 'impulsion-images';
+      document.head.appendChild(feuille);
+    }
+    feuille.textContent = `
+      @keyframes montee-lettre {
+        0%   { transform: translateY(0); }
+        ${pct(0.25)}% { transform: translateY(-5px); }
+        ${pct(DUREE_ECLAT)}% { transform: translateY(0); }
+        100% { transform: translateY(0); }
+      }
+      @keyframes lueur-lettre {
+        0%   { opacity: 0; }
+        ${pct(0.25)}% { opacity: 1; }
+        ${pct(0.9)}% { opacity: .85; }
+        ${pct(DUREE_ECLAT)}% { opacity: 0; }
+        100% { opacity: 0; }
+      }`;
   }
   reconstruire();
 

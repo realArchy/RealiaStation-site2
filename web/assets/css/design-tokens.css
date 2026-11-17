@@ -113,20 +113,20 @@ h1, h2, h3,
 }
 
 /* L'étiquette de chantier passe au jaune fluo, cœur blanc et triple halo. */
-.badge-hero,
+.badge-hero {
+  /* fond plein, lettres noires : le halo de néon rendait le texte flou */
+  color: #05020A;
+  font-weight: 700;
+  text-shadow: none;
+}
 .badge-hero .point {
-  color: var(--fluo);
-  text-shadow:
-    0 0 5px  #FFFFFF,
-    0 0 15px var(--fluo-2),
-    0 0 30px var(--fluo-3);
+  background: #05020A;
+  box-shadow: none;
 }
 .badge-hero {
-  border-color: var(--fluo);
-  background: rgba(248, 255, 0, .07);
-  box-shadow:
-    0 0 12px rgba(230, 255, 0, .50),
-    inset 0 0 8px rgba(230, 255, 0, .22);
+  border: 1px solid rgba(248, 255, 0, .9);
+  background: var(--fluo);
+  box-shadow: 0 0 18px rgba(230, 255, 0, .45);
 }
 .badge-hero .point {
   background: var(--fluo);
@@ -170,7 +170,7 @@ h1, h2, h3,
   position: relative;
   will-change: transform, opacity;
   animation: montee-lettre var(--cycle) ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * var(--pas));
+  /* le délai est écrit par le JS, proportionnel à la distance en pixels */
 }
 
 @keyframes montee-lettre {
@@ -213,9 +213,11 @@ h1, h2, h3,
   opacity: 0;
   pointer-events: none;
   will-change: opacity;
-  filter: drop-shadow(0 0 10px rgba(252, 246, 186, .5));
+  /* Pas de drop-shadow ici : mesuré, ce filtre sur 75 pseudo-éléments coûtait
+     2 images par seconde et faisait varier l'intervalle de 3,3 ms. Le dégradé
+     doré suffit à l'éclat. */
   animation: lueur-lettre var(--cycle) ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * var(--pas));
+  animation-delay: inherit;   /* même départ que sa lettre */
 }
 
 @keyframes lueur-lettre {
