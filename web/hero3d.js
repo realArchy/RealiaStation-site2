@@ -303,7 +303,7 @@ export function demarrerHero(canvas) {
      Aucun lien avec la rotation de la Terre : c'est une course à son propre
      rythme, qui relie les trois blocs comme un influx.
      ---------------------------------------------------------------------- */
-  const VITESSE_LETTRES = 9;        // lettres par seconde
+  const VITESSE_LETTRES = 4.5;      // lettres par seconde (moitié tempo)
   const CIBLES = [
     { sel: '.hero .bienvenue', clair: true },
     { sel: '.hero-titre h1', clair: false },
