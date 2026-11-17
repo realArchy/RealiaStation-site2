@@ -725,3 +725,98 @@ main.enveloppe { padding-bottom: 6rem; }
   padding: .36rem .95rem; font-size: .78rem; line-height: 1.3;
   box-shadow: 0 0 14px rgba(212, 175, 55, .32);
 }
+
+
+/* ================================================== hero : nouvelle donne
+   Le message de bienvenue monte et grossit, le badge passe en haut à gauche
+   en orange fluo, le titre se coupe en deux (titre + sous-titre), et la liste
+   des pages quitte l'en-tête pour un rail vertical à droite. */
+.hero { padding: 5.2rem 1.4rem 5rem; align-items: start; }
+
+.hero .bienvenue {
+  font-size: clamp(1.15rem, 2.3vw, 1.95rem);
+  letter-spacing: .3em;
+  margin: 0 0 3.2rem;
+  padding-top: 1.2rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 5.8vw, 4.9rem);
+  max-width: none;
+  margin: 0;
+}
+
+.hero-soustitre {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.15rem, 2.1vw, 1.75rem);
+  font-weight: 400; letter-spacing: .01em;
+  color: #e8c25a;
+  margin: 1.1rem 0 0;
+  text-shadow: 0 0 22px rgba(212, 175, 55, .35);
+}
+
+.hero-bas { text-align: left; margin-top: 2.6rem; }
+
+.lien-gauche {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace; font-size: .82rem;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #fff; text-decoration: none;
+  border-bottom: 1px solid rgba(212, 175, 55, .65);
+  padding-bottom: .35rem;
+  transition: color .2s ease, border-color .2s ease;
+}
+.lien-gauche:hover { color: #d4af37; }
+
+.play-music {
+  position: absolute; left: 1.6rem; bottom: 2.2rem; z-index: 20;
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem 1.05rem; border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace; font-size: .78rem;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  color: #f4e6b8; background: rgba(20, 10, 30, .85);
+  border: 1px solid rgba(212, 175, 55, .45);
+  box-shadow: 0 0 18px rgba(212, 175, 55, .25);
+  transition: color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.play-music::before { content: "▶"; font-size: .7rem; color: #d4af37; }
+.play-music:hover { color: #fff; border-color: rgba(212, 175, 55, .9); box-shadow: 0 0 26px rgba(212, 175, 55, .45); }
+.play-music.joue::before { content: "❚❚"; }
+
+/* badge de chantier : haut à gauche, orange fluo */
+.badge-hero {
+  position: absolute; top: 5.1rem; left: 1.5rem; z-index: 20;
+  color: #ff7a00; border-color: rgba(255, 122, 0, .62);
+  background: rgba(255, 122, 0, .12);
+  box-shadow: 0 0 22px rgba(255, 122, 0, .38);
+  text-shadow: 0 0 14px rgba(255, 122, 0, .55);
+}
+.badge-hero .point { background: #ff7a00; box-shadow: 0 0 0 3px rgba(255, 122, 0, .22); }
+
+/* rail des pages, à droite */
+.rail {
+  position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%);
+  z-index: 45;
+  display: flex; flex-direction: column; align-items: flex-end; gap: .18rem;
+  padding-left: 1rem;
+}
+.rail a {
+  font-family: 'Space Grotesk', sans-serif; font-size: .82rem;
+  color: rgba(216, 210, 230, .62); text-decoration: none;
+  padding: .3rem 0 .3rem .9rem; border-right: 2px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+.rail a:hover { color: #fff; }
+.rail a[aria-current="page"] {
+  color: #fff; border-right-color: #d4af37;
+  text-shadow: 0 0 16px rgba(212, 175, 55, .55);
+}
+@media (max-width: 1240px) { .rail { display: none; } }
+
+
+/* Le rail occupe la droite : le contenu lui laisse la place au lieu de passer
+   dessous (l'image du haut touchait les libellés). */
+@media (min-width: 1241px) {
+  main.enveloppe { padding-right: 9.5rem; }
+}

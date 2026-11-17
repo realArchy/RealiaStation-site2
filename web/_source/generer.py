@@ -88,11 +88,12 @@ def nav(page: str) -> str:
       </div>
       <a href="index.html#financer" class="bouton">{t('commun.soutenir')}</a>
     </div>
-    <div class="nav-liens">
-{chr(10).join(liens)}
-    </div>
   </nav>
-</header>"""
+</header>
+
+<nav class="rail" aria-label="Pages">
+{chr(10).join(liens)}
+</nav>"""
 
 
 def pied(extra: str = "") -> str:
@@ -242,16 +243,14 @@ def page_index() -> str:
     corps = f"""
   <section class="hero">
     <canvas id="hero3d" aria-hidden="true"></canvas>
+    <span class="chantier badge-hero"><span class="point"></span><span data-t="index.badge">{t('index.badge')}</span></span>
     <div class="hero-contenu">
       <p class="bienvenue" data-t="index.bienvenue">{t('index.bienvenue')}</p>
-      <span class="chantier beta"><span class="point"></span><span data-t="index.badge">{t('index.badge')}</span></span>
-      <h1 data-t="index.banniere">{t('index.banniere')}</h1>
-      <p class="sous-titre" data-t="index.sous">{t('index.sous')}</p>
-      <div class="hero-actions">
-        <button type="button" class="bouton" id="activer-experience" data-t="index.cta1">{t('index.cta1')}</button>
-        <a href="#manifeste" class="bouton-fantome" data-t="index.cta2">{t('index.cta2')}</a>
-      </div>
+      <h1 data-t="index.titre_1">{t('index.titre_1')}</h1>
+      <p class="hero-soustitre" data-t="index.titre_2">{t('index.titre_2')}</p>
+      <div class="hero-bas"><a href="#manifeste" class="lien-gauche" data-t="index.cta2">{t('index.cta2')}</a></div>
     </div>
+    <button type="button" class="play-music" id="play-music" data-t="index.cta_music">{t('index.cta_music')}</button>
     <div class="hero-indice">Scroll<span></span></div>
   </section>
 
@@ -307,7 +306,7 @@ def page_index() -> str:
 </script>
 <script>
   (function () {
-    const b = document.getElementById('activer-experience');
+    const b = document.getElementById('play-music');
     if (b) b.addEventListener('click', () => {
       if (window.LUNA) window.LUNA.jouer();
       const c = document.getElementById('manifeste');
