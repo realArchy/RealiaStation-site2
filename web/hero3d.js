@@ -13,7 +13,7 @@
    - DPR plafonné à 1.5, et rien du tout si `prefers-reduced-motion`.
    ========================================================================== */
 
-import * as THREE from 'three';
+import * as THREE from './vendor/three.module.js';
 
 const CYAN = 0x8b5cf6;   // violet
 const MAGENTA = 0xd4af37;   // or

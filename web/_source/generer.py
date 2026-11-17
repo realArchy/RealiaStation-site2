@@ -301,10 +301,7 @@ def page_index() -> str:
     html = enveloppe("index", corps, "Capter l'étincelle",
                      "Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale.",
                      interne=False)
-    return html.replace("</body>", """<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-</script>
-<script type="module">
+    return html.replace("</body>", """<script type="module">
   import { demarrerHero } from './hero3d.js?v={VERSION}';
   demarrerHero(document.getElementById('hero3d'));
 </script>
@@ -364,10 +361,7 @@ def page_virtuel() -> str:
         inverse=True)
 
     html = enveloppe("virtuel", corps, t("virtuel.titre"), t("virtuel.lead")[:150])
-    return html.replace("</body>", """<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-</script>
-<script type="module">
+    return html.replace("</body>", """<script type="module">
   import { demarrerScene } from './three-scene.js?v={VERSION}';
   const c = document.getElementById('scene3d');
   if (c) demarrerScene(c, { legendeId: 'scene-legende' });

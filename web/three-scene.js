@@ -15,13 +15,13 @@
      recréé à chaque image.
    ========================================================================== */
 
-import * as THREE from 'three';
+import * as THREE from './vendor/three.module.js';
 
 const COULEURS = {
   violet: 0x7c3aed,
   violetClair: 0xa78bfa,
-  magenta: 0xec4899,
-  fuchsia: 0xd946ef,
+  or: 0xd4af37,
+  orClair: 0xe8c25a,
   lavande: 0xddd6fe,
   encre: 0x4c1d95
 };
@@ -58,7 +58,7 @@ export function demarrerScene(conteneur, options = {}) {
   const dir = new THREE.DirectionalLight(0xffffff, 1.1);
   dir.position.set(3, 6, 4);
   scene.add(dir);
-  const neon = new THREE.PointLight(COULEURS.magenta, 2.2, 14);
+  const neon = new THREE.PointLight(COULEURS.or, 2.2, 14);
   neon.position.set(-2.6, 2.2, 2.4);
   scene.add(neon);
   const halo = new THREE.PointLight(COULEURS.violetClair, 1.8, 14);
@@ -102,7 +102,7 @@ export function demarrerScene(conteneur, options = {}) {
   }
 
   const ondes = [
-    onde(COULEURS.magenta, 0.50, 1.8, 2.1, 0.58, 1.0),
+    onde(COULEURS.or, 0.50, 1.8, 2.1, 0.58, 1.0),
     onde(COULEURS.violetClair, 0.40, 2.6, 1.5, -0.02, 0.95),
     onde(COULEURS.lavande, 0.30, 3.4, 1.1, -0.62, 0.9)
   ];
@@ -129,8 +129,8 @@ export function demarrerScene(conteneur, options = {}) {
     emissive: new THREE.Color(COULEURS.violet), emissiveIntensity: 0.18
   });
   const matArticulation = new THREE.MeshStandardMaterial({
-    color: COULEURS.magenta, metalness: 0.6, roughness: 0.25,
-    emissive: new THREE.Color(COULEURS.magenta), emissiveIntensity: 0.55
+    color: COULEURS.or, metalness: 0.6, roughness: 0.25,
+    emissive: new THREE.Color(COULEURS.or), emissiveIntensity: 0.55
   });
 
   function os(longueur, rayon = 0.055) {
@@ -192,8 +192,8 @@ export function demarrerScene(conteneur, options = {}) {
     color: 0x9f7aea, metalness: 0.7, roughness: 0.25
   });
   const matSangle = new THREE.MeshStandardMaterial({
-    color: COULEURS.magenta, metalness: 0.2, roughness: 0.6,
-    emissive: new THREE.Color(COULEURS.magenta), emissiveIntensity: 0.25
+    color: COULEURS.or, metalness: 0.2, roughness: 0.6,
+    emissive: new THREE.Color(COULEURS.or), emissiveIntensity: 0.25
   });
 
   // deux montants + rail supérieur
@@ -262,7 +262,7 @@ export function demarrerScene(conteneur, options = {}) {
   etape3.add(bulle);
 
   const noeuds = [];
-  const matNoeud = new THREE.MeshBasicMaterial({ color: COULEURS.magenta });
+  const matNoeud = new THREE.MeshBasicMaterial({ color: COULEURS.or });
   const positionsCapteurs = [
     [0, 1.52, 0.16],   // IMU thorax
     [0, 0.82, 0.22],   // IMU bassin
