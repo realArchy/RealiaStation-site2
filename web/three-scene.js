@@ -346,7 +346,16 @@ export function demarrerScene(conteneur, options = {}) {
   // --- boucle d'animation ---
   const horloge = new THREE.Clock();
 
-  function animer() {
+  /* 30 images par seconde au lieu de 60 : une onde qui défile à cette vitesse
+     ne se voit pas plus lente, et le fil principal respire. Mesuré par
+     Lighthouse : cette scène pesait 11 s de travail sur le fil principal. */
+  let derniereImage = 0;
+
+  function animer(horodatage) {
+    requestAnimationFrame(animer);
+    if (horodatage && horodatage - derniereImage < 33) return;
+    derniereImage = horodatage || 0;
+
     const t = horloge.getElapsedTime();
     const dt = Math.min(horloge.getDelta(), 0.05);
 
@@ -409,9 +418,8 @@ export function demarrerScene(conteneur, options = {}) {
     racine.rotation.x = rotX;
 
     renderer.render(scene, camera);
-    requestAnimationFrame(animer);
   }
-  animer();
+  requestAnimationFrame(animer);
 
   // exposé pour la vérification automatique
   window.__scene3d = {

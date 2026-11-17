@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import pathlib
 import random
+import re
 import sys
 import time
 
@@ -184,8 +185,11 @@ def img(nom: str, alt: str, legende: str = "") -> str:
     largeur, hauteur = (825, 1100) if portrait else (1600, 900)
     return f"""      <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-          <img src="assets/{nom}" alt="{alt}" width="{largeur}" height="{hauteur}"
+          <picture>
+              <source srcset="assets/{nom.rsplit('.', 1)[0]}.webp" type="image/webp" />
+              <img src="assets/{nom}" alt="{alt}" width="{largeur}" height="{hauteur}"
                class="cadre{portrait}" loading="lazy" decoding="async" />
+            </picture>
         </div>{cap}
       </figure>"""
 
@@ -322,9 +326,9 @@ def page_index() -> str:
 def page_virtuel() -> str:
     scene = """      <div class="profondeur verre" style="padding:1rem">
         <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.9rem" role="group">
-          <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux</button>
-          <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
-          <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais</button>
+          <button type="button" class="onglet" data-etape="0" aria-pressed="true">1 · Flux</button>
+          <button type="button" class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
+          <button type="button" class="onglet" data-etape="2" aria-pressed="false">3 · Harnais</button>
         </div>
         <div id="scene3d" style="border-radius:.7rem; overflow:hidden; height:340px; background:radial-gradient(circle at 50% 35%, rgba(40,10,60,.8), #08030f)"></div>
         <p id="scene-legende" style="margin:.8rem 0 0; font-size:.82rem; color:var(--doux)">Étape 1 — le flux de signaux.</p>
@@ -806,6 +810,26 @@ def page_blueprint() -> str:
 
 
 # ===========================================================================
+def nettoyer_html(html: str) -> str:
+    """Deux corrections que html-validate signalait sur les douze pages.
+
+    1. `<meta />`, `<link />`, `<img />` : la barre oblique finale est une
+       syntaxe XHTML. En HTML5 on ferme sans, et le navigateur n'a rien à
+       deviner.
+    2. `&` nu dans le texte doit s'écrire `&amp;`, sinon il est lu comme le
+       début d'une entité.
+    """
+    html = re.sub(r"<(meta|link|img|br|source|input)((?:[^>])*?)\s*/>", r"<\1\2>", html)
+    html = re.sub(r"&(?!(?:[a-zA-Z][a-zA-Z0-9]{1,10}|#\d{1,6}|#x[0-9a-fA-F]{1,6});)", "&amp;", html)
+    # Les deux imports de modules vivent dans des blocs qui ne sont pas des
+    # f-strings : le numéro de version y restait écrit « {VERSION} », donc le
+    # navigateur demandait « hero3d.js?v={VERSION} » et récoltait un 404.
+    html = html.replace("{VERSION}", VERSION)
+    # espaces en fin de ligne : invisibles à l'écran, signalés par le validateur
+    html = "\n".join(ligne.rstrip() for ligne in html.split("\n"))
+    return html
+
+
 def main() -> None:
     pages = {
         "index": page_index(),
@@ -852,7 +876,7 @@ def main() -> None:
 
     for page, html in pages.items():
         fichier = [p for p in ORDRE if p[0] == page][0][1]
-        (RACINE / fichier).write_text(html, encoding="utf-8")
+        (RACINE / fichier).write_text(nettoyer_html(html), encoding="utf-8")
         print(f"  {fichier:26s} {len(html):>7} o")
 
     trad = {}
@@ -866,6 +890,11 @@ def main() -> None:
     js += json.dumps(trad, ensure_ascii=False, indent=0).replace("\n", "")
     js += ";\n"
     (RACINE / "traductions.js").write_text(js, encoding="utf-8")
+
+    # Balayage final : les pages écrites à la main (affiliations.html) passent
+    # par le même nettoyage, sinon elles gardent la syntaxe XHTML.
+    for f in RACINE.glob("*.html"):
+        f.write_text(nettoyer_html(f.read_text(encoding="utf-8")), encoding="utf-8")
     print(f"  traductions.js             {len(js):>7} o ({len(trad)} clés)")
 
 

@@ -262,8 +262,8 @@ a  { color: var(--cyan); }
 .enveloppe { position: relative; z-index: 10; max-width: var(--largeur); margin: 0 auto; padding: 0 1.4rem; }
 /* Toute image réserve sa place : sans largeur et hauteur connues, la page
    saute de la hauteur de l'image au moment où elle se charge. */
-.cadre-neon > img { aspect-ratio: 16 / 9; width: 100%; height: auto; object-fit: cover; }
-.cadre-neon > img.portrait { aspect-ratio: 3 / 4; object-fit: cover; }
+.cadre-neon img { aspect-ratio: 16 / 9; width: 100%; height: auto; object-fit: cover; }
+.cadre-neon img.portrait { aspect-ratio: 3 / 4; object-fit: cover; }
 
 /* La barre est fixe : les pages sans hero réservent sa hauteur. */
 .enveloppe.interne { padding-top: 8.5rem; }
@@ -283,6 +283,11 @@ a  { color: var(--cyan); }
 .split-texte .lead { margin-bottom: 1.4rem; }
 .split-visuel { position: relative; perspective: 1000px; }
 
+/* Sans min-width:0, une colonne de grille refuse de descendre sous la largeur
+   intrinsèque de son contenu : une image de 1600 px élargissait la colonne et
+   poussait le texte dans un couloir de 150 px. */
+.split-texte, .split-visuel { min-width: 0; }
+
 /* profondeur 3D au survol : le visuel se redresse vers l'observateur */
 .profondeur {
   transform-style: preserve-3d;
@@ -301,11 +306,15 @@ a  { color: var(--cyan); }
   background: linear-gradient(135deg, var(--cyan), var(--magenta) 55%, var(--cyan));
   box-shadow: 0 0 30px rgba(0, 245, 255, .22), 0 0 60px rgba(255, 0, 127, .18);
 }
-.cadre-neon > img, .cadre-neon > div, .cadre-neon > canvas {
+.cadre-neon img, .cadre-neon picture, .cadre-neon > div, .cadre-neon > canvas {
   display: block; width: 100%; border-radius: calc(var(--rayon) - 2px);
   max-height: 460px; object-fit: contain; background: #08030f;
 }
-.cadre-neon > img { object-fit: cover; }
+.cadre-neon img { object-fit: cover; }
+
+/* Les images sont désormais dans un <picture> : les sélecteurs d'enfant direct
+   ne les atteignaient plus, et une image de 1600 px débordait la colonne. */
+.cadre-neon picture { display: block; width: 100%; }
 
 /* ---------------------------------------------------------------------------
    Cartes, listes, badges
@@ -537,8 +546,11 @@ a  { color: var(--cyan); }
    ------------------------------------------------------------------------- */
 /* L'état caché n'existe QUE si le JavaScript l'a demandé. Sans lui, le texte
    reste lisible : une animation ne doit jamais pouvoir retenir le contenu. */
-html.revele-js .reveler { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
-html.revele-js .reveler.vu { opacity: 1; transform: none; }
+/* Apparition : le mouvement seul, jamais la transparence.
+   Une transition d'opacité laissait le texte à 32 % pendant la lecture — sur un
+   fond chargé, cela veut dire illisible. Le glissement suffit à donner la vie. */
+html.revele-js .reveler { transform: translateY(14px); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+html.revele-js .reveler.vu { transform: none; }
 
 /* ---------------------------------------------------------------------------
    Transitions de page

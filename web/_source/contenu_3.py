@@ -11,7 +11,7 @@ BLUEPRINT = {
                "📐 蓝图 V2 — 治理与透明"),
     "classe": "chantier",
 
-    "titre": T("Transparence & architecture de l'écosystème Realia (V2)",
+    "titre": T("Transparence & architecture Realia V2",
                "Transparency & architecture of the Realia ecosystem (V2)",
                "Transparência e arquitetura do ecossistema Realia (V2)",
                "Realia 生态的透明与架构（V2）"),

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Le corps avant le métal — Neuro-Exo</title>
-<meta name="description" content="Régler un exosquelette sur une personne, c'est usiner une pièce par essai. Dans un simulateur, c'est changer un nombre. Voilà pourquoi le jumeau numér" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=202611171533" />
+<meta name="description" content="Régler un exosquelette sur une personne, c'est usiner une pièce par essai. Dans un simulateur, c'est changer un nombre. Voilà pourquoi le jumeau numér">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=202611171609">
 </head>
 <body data-page="virtuel" data-audio="assets/audio/luna-02-virtuel.mp3">
 
@@ -56,8 +56,11 @@
     <div class="split-visuel reveler">
       <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-          <img src="assets/simulation-biomecanique.jpg" alt="Simulation biomécanique en temps réel" width="1600" height="900"
-               class="cadre" loading="lazy" decoding="async" />
+          <picture>
+              <source srcset="assets/simulation-biomecanique.webp" type="image/webp">
+              <img src="assets/simulation-biomecanique.jpg" alt="Simulation biomécanique en temps réel" width="1600" height="900"
+               class="cadre" loading="lazy" decoding="async">
+            </picture>
         </div>
       <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">Le jumeau numérique en mouvement</figcaption>
       </figure>
@@ -70,8 +73,11 @@
     <div class="split-visuel reveler">
       <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-          <img src="assets/virtuel-cinematique.jpg" alt="Squelette filaire articulé, hanche et genou en surbrillance" width="1600" height="900"
-               class="cadre" loading="lazy" decoding="async" />
+          <picture>
+              <source srcset="assets/virtuel-cinematique.webp" type="image/webp">
+              <img src="assets/virtuel-cinematique.jpg" alt="Squelette filaire articulé, hanche et genou en surbrillance" width="1600" height="900"
+               class="cadre" loading="lazy" decoding="async">
+            </picture>
         </div>
       <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">La cinématique, avant l'usinage</figcaption>
       </figure>
@@ -84,9 +90,9 @@
     <div class="split-visuel reveler">
       <div class="profondeur verre" style="padding:1rem">
         <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.9rem" role="group">
-          <button class="onglet" data-etape="0" aria-pressed="true">1 · Flux</button>
-          <button class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
-          <button class="onglet" data-etape="2" aria-pressed="false">3 · Harnais</button>
+          <button type="button" class="onglet" data-etape="0" aria-pressed="true">1 · Flux</button>
+          <button type="button" class="onglet" data-etape="1" aria-pressed="false">2 · Cinématique</button>
+          <button type="button" class="onglet" data-etape="2" aria-pressed="false">3 · Harnais</button>
         </div>
         <div id="scene3d" style="border-radius:.7rem; overflow:hidden; height:340px; background:radial-gradient(circle at 50% 35%, rgba(40,10,60,.8), #08030f)"></div>
         <p id="scene-legende" style="margin:.8rem 0 0; font-size:.82rem; color:var(--doux)">Étape 1 — le flux de signaux.</p>
@@ -100,8 +106,11 @@
     <div class="split-visuel reveler">
       <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-          <img src="assets/virtuel-latence.jpg" alt="Courbe de latence sous son seuil sur un écran technique" width="1600" height="900"
-               class="cadre" loading="lazy" decoding="async" />
+          <picture>
+              <source srcset="assets/virtuel-latence.webp" type="image/webp">
+              <img src="assets/virtuel-latence.jpg" alt="Courbe de latence sous son seuil sur un écran technique" width="1600" height="900"
+               class="cadre" loading="lazy" decoding="async">
+            </picture>
         </div>
       <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">La latence, mesurée et publiée</figcaption>
       </figure>
@@ -118,20 +127,20 @@
       <a href="[LIEN_GITHUB]">GitHub</a>
     </div>
   </div>
-  
+
 </footer>
 
-<script src="traductions.js?v=202611171533" defer></script>
-<script src="i18n.js?v=202611171533" defer></script>
-<script src="revele.js?v=202611171533" defer></script>
-<script src="tiroir.js?v=202611171533" defer></script>
-<script src="audio.js?v=202611171533" defer></script>
-<script type="module" src="systeme.js?v=202611171533"></script>
+<script src="traductions.js?v=202611171609" defer></script>
+<script src="i18n.js?v=202611171609" defer></script>
+<script src="revele.js?v=202611171609" defer></script>
+<script src="tiroir.js?v=202611171609" defer></script>
+<script src="audio.js?v=202611171609" defer></script>
+<script type="module" src="systeme.js?v=202611171609"></script>
 <script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <script type="module">
-  import { demarrerScene } from './three-scene.js?v={VERSION}';
+  import { demarrerScene } from './three-scene.js?v=202611171609';
   const c = document.getElementById('scene3d');
   if (c) demarrerScene(c, { legendeId: 'scene-legende' });
 </script>
