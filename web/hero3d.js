@@ -17,6 +17,10 @@
 import * as THREE from './vendor/three.module.js';
 
 const TOUR_SECONDES = 30;
+// rotation initiale pour que la Chine (121° E) soit de face au chargement
+// rotation initiale : la Chine (121° E) est de face au chargement, donc l'onde
+// d'impulsion part du mot « De » dès l'arrivée du visiteur.
+const DEPART_ROTATION = (149 * Math.PI) / 180;
 const INCLINAISON = 23.5;
 const RAYON = 2;
 
@@ -324,6 +328,49 @@ export function demarrerHero(canvas) {
     }, { threshold: 0.01 }).observe(canvas);
   }
 
+  /* ------------------------------------------------------------------------
+     L'impulsion : une onde lumineuse qui traverse le titre de gauche à droite,
+     calée sur la longitude qui passe face au visiteur.
+
+     Chine (121° E) → Madagascar (46° E) → France (2° E) → Brésil (35° O).
+     Quand la Chine arrive face à nous, l'onde part du mot « De » ; quand le
+     Brésil arrive, elle atteint « l'étincelle ».
+     ---------------------------------------------------------------------- */
+  const DEPART_LON = 121;     // Chine
+  const ARRIVEE_LON = -35;    // Brésil
+  const COURSE = DEPART_LON - ARRIVEE_LON;   // 156° de longitude
+
+  const copies = [];
+  function poserCopie() {
+    // Le clone est un FRÈRE du titre, dans la même cellule de grille : il hérite
+    // donc exactement de sa boîte et de son alignement. Un clone enfant aurait
+    // pollué le textContent observé par i18n.
+    const el = document.querySelector('.hero-titre h1');
+    if (!el || el.dataset.copie === '1') return;
+    const clone = el.cloneNode(true);
+    clone.classList.add('pulse-copie');
+    clone.setAttribute('aria-hidden', 'true');
+    clone.removeAttribute('id');
+    clone.dataset.copie = '1';
+    el.parentElement.appendChild(clone);
+    copies.push({ source: el, clone });
+    new MutationObserver(() => { clone.textContent = el.textContent; })
+      .observe(el, { childList: true, characterData: true, subtree: true });
+  }
+  poserCopie();
+
+  // une lueur locale qui suit l'onde
+  let lueur = null;
+  const hote = document.querySelector('.hero-titre');
+  if (hote) {
+    lueur = document.createElement('div');
+    lueur.className = 'pulse-lueur';
+    lueur.setAttribute('aria-hidden', 'true');
+    hote.appendChild(lueur);
+  }
+
+  let pulseLisse = 0;
+
   function boucle(t) {
     requestAnimationFrame(boucle);
     if (enPause || defile || !visible) return;
@@ -332,7 +379,9 @@ export function demarrerHero(canvas) {
 
     const temps = horloge.getElapsedTime();
     if (!reduit) {
-      terre.rotation.y = temps * (Math.PI * 2 / TOUR_SECONDES);
+      // Départ calé : la Chine est face au visiteur à l'ouverture de la page,
+      // donc l'onde part du mot « De » dès qu'on arrive.
+      terre.rotation.y = DEPART_ROTATION + temps * (Math.PI * 2 / TOUR_SECONDES);
       nuages.rotation.y = temps * (Math.PI * 2 / (TOUR_SECONDES * 1.28));
     }
 
@@ -354,6 +403,16 @@ export function demarrerHero(canvas) {
     phareLisse += (max - phareLisse) * 0.035;
     racine.style.setProperty('--phare', phareLisse.toFixed(3));
     materiauTerre.uniforms.phare.value = phareLisse;
+
+    // longitude face au visiteur : -90° au départ, puis elle décroît
+    const alpha = terre.rotation.y * 180 / Math.PI;
+    let lonFace = ((-90 - alpha) % 360 + 540) % 360 - 180;   // dans [-180, 180]
+    let avance = ((DEPART_LON - lonFace) % 360 + 360) % 360; // 0 = Chine de face
+    const enCours = avance <= COURSE;
+    const cible = enCours ? avance / COURSE : 1;   // au repos, l'onde reste au bout
+    pulseLisse += (cible - pulseLisse) * 0.12;
+    racine.style.setProperty('--pulse-pos', Math.min(1, Math.max(0, pulseLisse)).toFixed(4));
+    racine.style.setProperty('--pulse-on', enCours ? '1' : '0');
 
     rendu.render(scene, camera);
   }
