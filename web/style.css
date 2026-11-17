@@ -839,18 +839,24 @@ main.enveloppe { padding-bottom: 6rem; }
    sur la même verticale. */
 :root { --marge-gauche: clamp(1.2rem, 6vw, 8rem); }
 
-.hero { place-items: start; }
-.hero-contenu {
-  text-align: left;
-  margin-left: var(--marge-gauche);
-  margin-right: auto;
-  max-width: min(62rem, calc(100% - var(--marge-gauche) - 11rem));
+.hero { place-items: center; }
+.hero-contenu { text-align: center; margin: 0 auto; }
+
+/* Les trois étiquettes forment une colonne à part, hors du bloc central :
+   badge de chantier, message de bienvenue, lien vers le manifeste. */
+.hero-gauche {
+  position: absolute; z-index: 20;
+  left: clamp(1.1rem, 2.6vw, 2.6rem); top: 6.4rem;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 1.5rem; max-width: 22rem; text-align: left;
 }
-.hero .bienvenue { text-align: left; }
-.hero h1, .hero-soustitre { text-align: left; }
-.hero-bas { text-align: left; }
-.badge-hero { left: var(--marge-gauche); }
-.play-music { left: var(--marge-gauche); }
+.hero-gauche .badge-hero { position: static; white-space: nowrap; }
+.hero-gauche .bienvenue {
+  margin: 0; text-align: left;
+  font-size: clamp(.82rem, 1.05vw, 1rem);
+  letter-spacing: .22em; line-height: 1.7;
+}
+.hero-gauche .lien-gauche { margin: 0; }
 
 /* ---------------------------------------------- rail : effet Dock de macOS
    La page survolée grossit en partant de son bord droit, comme une icône du
