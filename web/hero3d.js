@@ -404,10 +404,10 @@ export function demarrerHero(canvas) {
     }
     feuille.textContent = `
       @keyframes montee-lettre {
-        0%   { transform: translateY(0); }
-        ${pct(0.25)}% { transform: translateY(-5px); }
-        ${pct(DUREE_ECLAT)}% { transform: translateY(0); }
-        100% { transform: translateY(0); }
+        0%   { transform: scale(1); }
+        ${pct(0.25)}% { transform: scale(1.18); }
+        ${pct(DUREE_ECLAT)}% { transform: scale(1); }
+        100% { transform: scale(1); }
       }
       @keyframes lueur-lettre {
         0%   { opacity: 0; }
@@ -416,13 +416,7 @@ export function demarrerHero(canvas) {
         ${pct(DUREE_ECLAT)}% { opacity: 0; }
         100% { opacity: 0; }
       }
-      @keyframes eclat-circuit {
-        0%   { opacity: 0; }
-        ${pct(0.12)}% { opacity: 1; }
-        ${pct(0.6)}% { opacity: .55; }
-        ${pct(1.0)}% { opacity: 0; }
-        100% { opacity: 0; }
-      }`;
+`;
   }
   reconstruire();
 

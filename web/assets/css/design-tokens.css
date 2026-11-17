@@ -124,9 +124,14 @@ h1, h2, h3,
   box-shadow: none;
 }
 .badge-hero {
-  border: 1px solid rgba(248, 255, 0, .9);
-  background: var(--fluo);
-  box-shadow: 0 0 18px rgba(230, 255, 0, .45);
+  border: 0;
+  background: none;
+  box-shadow: none;
+  /* lisible sur le fond étoilé sans cadre : le halo porte le contraste */
+  text-shadow:
+    0 0 6px rgba(248, 255, 0, .85),
+    0 0 18px rgba(230, 255, 0, .55),
+    0 1px 3px rgba(0, 0, 0, .9);
 }
 .badge-hero .point {
   background: var(--fluo);
@@ -226,21 +231,27 @@ h1, h2, h3,
    On n'anime que l'opacité d'un pseudo-élément : rien ne se recalcule. */
 .circuit-el { position: relative; }
 
-.circuit-el::before {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow:
-    0 0 0 1px rgba(212, 175, 55, .85),
-    0 0 22px rgba(252, 246, 186, .55),
-    inset 0 0 14px rgba(212, 175, 55, .35);
-  opacity: 0;
-  will-change: opacity;
-  animation: eclat-circuit var(--cycle, 17s) ease-in-out infinite;
+/* Effet Dock : l'élément grossit lui-même et s'éclaire, sans aucun cadre.
+   transform et filter brightness : deux propriétés composées par le GPU. */
+.circuit-el {
+  display: inline-block;
+  transform-origin: 50% 55%;
+  will-change: transform, filter;
+  animation: dock-circuit var(--cycle, 26s) ease-in-out infinite;
   animation-delay: var(--d, 0s);
 }
+
+@keyframes dock-circuit {
+  0%   { transform: scale(1);    filter: brightness(1); }
+  /* la montée se cale sur la même fenêtre que l'éclat des lettres */
+  0.9% { transform: scale(1.18); filter: brightness(1.55); }
+  2.2% { transform: scale(1.06); filter: brightness(1.2); }
+  3.6% { transform: scale(1);    filter: brightness(1); }
+  100% { transform: scale(1);    filter: brightness(1); }
+}
+
+/* en défilement, l'impulsion quitte les menus fixes et passe au contenu */
+html.en-defilement .circuit-el { animation: none; transform: none; filter: none; }
 
 
 /* ============================================ lumière au défilement
@@ -248,24 +259,57 @@ h1, h2, h3,
    s'éteint. Une seule couche animée en opacité, rien pendant le scroll. */
 .eclaire { position: relative; }
 
-.eclaire::after {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow:
-    0 0 0 1px rgba(212, 175, 55, .75),
-    0 0 26px rgba(252, 246, 186, .42),
-    inset 0 0 18px rgba(212, 175, 55, .22);
-  opacity: 0;
-  will-change: opacity;
-  animation: eclat-defilement 1.6s ease-out 1 forwards;
+.eclaire {
+  display: inline-block;
+  transform-origin: 50% 50%;
+  will-change: transform, filter;
+  animation: eclat-defilement 1.6s ease-out 1;
 }
 
 @keyframes eclat-defilement {
-  0%   { opacity: 0; }
-  16%  { opacity: 1; }
-  52%  { opacity: .45; }
-  100% { opacity: 0; }
+  0%   { transform: scale(1);    filter: brightness(1); }
+  14%  { transform: scale(1.045); filter: brightness(1.5); }
+  46%  { transform: scale(1.015); filter: brightness(1.18); }
+  100% { transform: scale(1);    filter: brightness(1); }
 }
+
+
+/* ================================================ tout flotte, rien n'encadre
+   Les étiquettes, le menu, le logo, les drapeaux et le bouton Soutenir
+   perdent leur boîte : plus de fond, plus de filet, plus d'ombre portée.
+   Seuls le texte et son halo restent — l'effet Dock s'en charge. */
+.entete .langues,
+.entete .marque-pastille,
+.entete .bouton,
+.hero .play-music {
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.entete .marque-pastille {
+  color: var(--or-2);
+  text-shadow: 0 0 16px rgba(252, 246, 186, .55);
+}
+
+.entete .bouton {
+  color: var(--fluo);
+  padding: .2rem .1rem;
+  text-shadow: 0 0 8px rgba(248, 255, 0, .5), 0 1px 3px rgba(0, 0, 0, .8);
+}
+
+.entete .langues button {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: .15rem .2rem;
+}
+
+.hero .play-music {
+  color: #f4e6b8;
+  padding: .25rem .2rem;
+  text-shadow: 0 0 10px rgba(252, 246, 186, .45), 0 1px 3px rgba(0, 0, 0, .8);
+}
+
+/* un lien de menu n'a jamais de fond, même survolé */
+.rail a { background: none; }
