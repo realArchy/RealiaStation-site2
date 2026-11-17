@@ -568,7 +568,7 @@ def page_wishlist() -> str:
     lignes = "\n".join(f"""      <div class="ligne-wish">
         <span class="n">{i:02d}</span>
         <div>
-          <h3 data-t="wish.l{i}">{t(f'wish.l{i}')}</h3>
+          <h2 data-t="wish.l{i}">{t(f'wish.l{i}')}</h2>
           <p data-t="wish.l{i}d">{t(f'wish.l{i}d')}</p>
         </div>
         <span class="prix">{prix[str(i)]}</span>
@@ -613,7 +613,7 @@ def page_boutique() -> str:
     emojis = {"1": "🎧", "2": "🛠️", "3": "📚", "4": "🎁"}
     vitrines = "\n".join(f"""        <a class="verre vitrine" href="{liens[str(i)]}">
           <span class="emoji">{emojis[str(i)]}</span>
-          <h3 data-t="boutique.v{i}">{t(f'boutique.v{i}')}</h3>
+          <h2 data-t="boutique.v{i}">{t(f'boutique.v{i}')}</h2>
           <p data-t="boutique.v{i}d">{t(f'boutique.v{i}d')}</p>
           <span class="balise">{liens[str(i)]}</span>
         </a>""" for i in range(1, 5))

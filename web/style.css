@@ -435,7 +435,7 @@ a  { color: var(--cyan); }
 .onglet {
   padding: .55rem 1.1rem; border-radius: 999px; cursor: pointer;
   font-family: 'Space Grotesk', sans-serif; font-size: .88rem; font-weight: 600;
-  color: var(--doux); background: rgba(5, 2, 10, .8); border: 1px solid var(--bord);
+  color: #ffffff; background: #0b0416; border: 1px solid var(--bord);
   transition: all .2s ease;
 }
 .onglet[aria-pressed="true"] {

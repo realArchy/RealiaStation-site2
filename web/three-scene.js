@@ -296,14 +296,9 @@ export function demarrerScene(conteneur, options = {}) {
   function choisir(i) {
     courante = i;
     etapes.forEach((e, k) => { e.visible = k === i; });
-    boutons.forEach((b, k) => {
-      b.setAttribute('aria-pressed', k === i ? 'true' : 'false');
-      b.style.background = k === i
-        ? 'linear-gradient(100deg,#7c3aed,#d946ef 55%,#ec4899)'
-        : 'rgba(255,255,255,.66)';
-      b.style.color = k === i ? '#fff' : '#6d28d9';
-      b.style.borderColor = k === i ? 'rgba(255,255,255,.5)' : 'rgba(196,181,253,.95)';
-    });
+    // Les couleurs restent dans la feuille de style. Écrites ici en ligne, elles
+    // gardaient l'ancienne palette violette : contraste 3,04, sous le seuil de 4,5.
+    boutons.forEach((b, k) => b.setAttribute('aria-pressed', k === i ? 'true' : 'false'));
     if (legende) legende.textContent = legendes[i];
   }
   boutons.forEach((b, k) => b.addEventListener('click', () => choisir(k)));
