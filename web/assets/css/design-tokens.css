@@ -218,3 +218,54 @@ h1, h2, h3,
   -webkit-background-clip: text;
   background-clip: text;
 }
+
+
+/* =============================================== le circuit : étiquettes
+   Les éléments qui ne sont pas du texte suivi (liens du rail, boutons,
+   badge, logo, drapeaux) reçoivent un halo doré qui s'allume à leur tour.
+   On n'anime que l'opacité d'un pseudo-élément : rien ne se recalcule. */
+.circuit-el { position: relative; }
+
+.circuit-el::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, .85),
+    0 0 22px rgba(252, 246, 186, .55),
+    inset 0 0 14px rgba(212, 175, 55, .35);
+  opacity: 0;
+  will-change: opacity;
+  animation: eclat-circuit var(--cycle, 17s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+
+/* ============================================ lumière au défilement
+   Chaque élément de contenu s'allume une fois à l'entrée dans l'écran, puis
+   s'éteint. Une seule couche animée en opacité, rien pendant le scroll. */
+.eclaire { position: relative; }
+
+.eclaire::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, .75),
+    0 0 26px rgba(252, 246, 186, .42),
+    inset 0 0 18px rgba(212, 175, 55, .22);
+  opacity: 0;
+  will-change: opacity;
+  animation: eclat-defilement 1.6s ease-out 1 forwards;
+}
+
+@keyframes eclat-defilement {
+  0%   { opacity: 0; }
+  16%  { opacity: 1; }
+  52%  { opacity: .45; }
+  100% { opacity: 0; }
+}

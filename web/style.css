@@ -953,3 +953,10 @@ main.enveloppe { padding-bottom: 6rem; }
 }
 .hero-titre { z-index: 5; }
 .hero-titre h1 { position: relative; z-index: 2; }
+
+
+/* Le contenu des sections ne doit pas passer SOUS la barre latérale fixe :
+   on lui réserve la même colonne que le hero. */
+@media (min-width: 1100px) {
+  main.enveloppe { padding-left: calc(var(--largeur-barre) + 1rem); }
+}

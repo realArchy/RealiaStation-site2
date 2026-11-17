@@ -118,7 +118,6 @@ export function demarrerHero(canvas) {
       jour: { value: null },
       nuit: { value: null },
       soleil: { value: SOLEIL.clone() },
-      phare: { value: 0 },
       pasUv: { value: new THREE.Vector2(1 / 2048, 1 / 1024) },
     },
     vertexShader: /* glsl */`
@@ -136,7 +135,6 @@ export function demarrerHero(canvas) {
       uniform sampler2D jour;
       uniform sampler2D nuit;
       uniform vec3 soleil;
-      uniform float phare;
       uniform vec2 pasUv;
       varying vec2 vUv;
       varying vec3 vNormalW;
@@ -157,7 +155,6 @@ export function demarrerHero(canvas) {
 
         float limbe = pow(1.0 - max(dot(n, normalize(vViewDir)), 0.0), 3.0);
         col += vec3(0.16, 0.48, 1.0) * limbe * (0.45 + 0.55 * lumiere);
-        col += vec3(1.0, 0.88, 0.55) * phare * limbe * 0.22;
 
         gl_FragColor = vec4(col, 1.0);
       }`,
@@ -225,15 +222,8 @@ export function demarrerHero(canvas) {
     point.position.copy(normale.clone().multiplyScalar(RAYON * 1.005));
     groupeBalises.add(point);
 
-    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: textureHalo(), color: b.couleur, transparent: true,
-      blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.2,
-    }));
-    halo.position.copy(normale.clone().multiplyScalar(RAYON * 1.01));
-    halo.scale.setScalar(0.34);
-    groupeBalises.add(halo);
-
-    return { ...b, point, halo, phase: Math.random() * Math.PI * 2 };
+    point.material.transparent = true;
+    return { ...b, point, phase: Math.random() * Math.PI * 2 };
   });
 
   /* ------------------------------------------------------------ cadrage */
@@ -296,43 +286,44 @@ export function demarrerHero(canvas) {
      pays : c'est un influx qui court sur la phrase, en boucle.
      ---------------------------------------------------------------------- */
   /* ------------------------------------------------------------------------
-     L'impulsion, en un seul parcours : elle démarre sur le message de
-     bienvenue, descend sur le titre, puis sur le sous-titre, et recommence.
-     Aucun lien avec la rotation de la Terre : c'est une course à son propre
-     rythme, qui relie les trois blocs comme un influx.
+     LE CIRCUIT DE L'IMPULSION
+     Un influx qui fait le tour de l'interface, dans cet ordre :
+       1. « BIENVENUE DANS L'AVENTURE ! »
+       2. le titre, jusqu'à « l'étincelle »
+       3. le sous-titre, jusqu'à « avenir »
+       4. le rail de droite, du haut vers le bas (Accueil → Boutique)
+       5. les étiquettes de gauche, du bas vers le haut
+          (Play Music → Lire le manifeste → le badge)
+       6. la barre du haut : logo, drapeaux, bouton Soutenir
+     puis retour au message de bienvenue. Aucun lien avec la Terre.
+     Tout passe par animation-delay : aucune écriture de style par image.
      ---------------------------------------------------------------------- */
-  const DUREE_PHRASE = 5.8;         // secondes pour traverser une phrase
+  const DUREE_PHRASE = 5.8;         // traversée d'une phrase (tempo validé)
+  const DUREE_ETIQUETTE = 0.42;     // un lien, un badge, un bouton
+  const DUREE_ECLAT = 1.4;          // durée d'allumage d'une lettre
+
   const CIBLES = [
     { sel: '.hero .bienvenue', clair: true },
     { sel: '.hero-titre h1', clair: false },
     { sel: '.hero-soustitre', clair: true },
   ];
 
-  let parcours = [];                // { boite, ou }
+  let parcours = [];
 
   function decouper(el, clair) {
     const texte = el.textContent;
-    // on mémorise le texte d'origine : avec les espaces laissés en nœuds de
-    // texte, comparer aux seules lettres provoquerait une reconstruction
-    // infinie par l'observateur.
     el.dataset.texteSource = texte;
     el.textContent = '';
     const paquets = [];
     for (const ch of texte) {
-      if (ch === ' ' || ch === '\u00a0') {   // le HTML écrit des espaces insécables
-        // les espaces ne sont pas des étapes : sinon l'impulsion passe un
-        // cinquième de son temps sur des lettres invisibles
+      if (ch === ' ' || ch === '\u00a0') {
         el.appendChild(document.createTextNode('\u00a0'));
         continue;
       }
-      const c = ch;
       const boite = document.createElement('span');
       boite.className = 'lettre' + (clair ? ' lettre-clair' : '');
-      // la version lumineuse est un pseudo-élément (content: attr(data-c)) :
-      // elle n'entre pas dans textContent, sinon un second découpage relirait
-      // un texte doublé.
-      boite.dataset.c = c;
-      boite.textContent = c;
+      boite.dataset.c = ch;
+      boite.textContent = ch;
       el.appendChild(boite);
       paquets.push(boite);
     }
@@ -345,8 +336,6 @@ export function demarrerHero(canvas) {
     cible.el = el;
     cible.lettres = decouper(el, cible.clair);
 
-    // i18n réécrit le textContent : on redécoupe. MutationObserver étant
-    // asynchrone, on compare le texte et l'on vérifie que les spans sont là.
     new MutationObserver(() => {
       const intact = el.textContent === el.dataset.texteSource;
       if (intact || !el.textContent.trim()) return;
@@ -355,27 +344,28 @@ export function demarrerHero(canvas) {
     }).observe(el, { childList: true, characterData: true, subtree: true });
   });
 
-  const DUREE_ECLAT = 1.4;          // secondes pendant lesquelles une lettre reste allumée
+  /* place une liste d'éléments dans la timeline, un par un */
+  function etiqueter(elements, depart) {
+    let t = depart;
+    elements.forEach((el) => {
+      el.classList.add('circuit-el');
+      el.style.setProperty('--d', t.toFixed(3) + 's');
+      t += DUREE_ETIQUETTE;
+    });
+    return t;
+  }
 
   function reconstruire() {
     parcours = [];
     CIBLES.forEach((c) => { if (c.lettres) parcours.push(...c.lettres); });
-    if (!parcours.length) return;
 
-    // Le délai de chaque lettre est proportionnel à la DISTANCE PARCOURUE, pas
-    // à son rang : une lettre du titre est deux fois plus large que celle du
-    // sous-titre, donc à cadence de lettres égale le titre filait deux fois
-    // plus vite à l'écran. À vitesse constante en pixels, les trois phrases
-    // ont le tempo du sous-titre.
-    // Chaque phrase est traversée en DUREE_PHRASE secondes : le tempo du
-    // sous-titre, appliqué aux deux autres. À vitesse constante en pixels,
-    // le titre (deux fois plus large) mettait deux fois plus longtemps et
-    // paraissait lent.
     let depart = 0;
+
+    // 1-3 : les trois phrases, traversées en DUREE_PHRASE chacune
     CIBLES.forEach((c) => {
       const ls = c.lettres || [];
       if (!ls.length) return;
-      const largeur = ls.reduce((a, b) => a + (b.offsetWidth || 20), 0);
+      const largeur = ls.reduce((a, b) => a + (b.offsetWidth || 20), 0) || 1;
       let cum = 0;
       ls.forEach((b) => {
         b.style.animationDelay = (depart + (cum / largeur) * DUREE_PHRASE).toFixed(3) + 's';
@@ -384,11 +374,27 @@ export function demarrerHero(canvas) {
       depart += DUREE_PHRASE;
     });
 
+    // 4 : le rail de droite, de haut en bas
+    depart = etiqueter([...document.querySelectorAll('.rail a')], depart);
+
+    // 5 : les étiquettes de gauche, de bas en haut
+    depart = etiqueter(
+      ['.play-music', '.lien-gauche', '.badge-hero']
+        .map((s) => document.querySelector(s)).filter(Boolean),
+      depart,
+    );
+
+    // 6 : la barre du haut — logo, drapeaux, Soutenir
+    depart = etiqueter(
+      [document.querySelector('.marque'),
+       ...document.querySelectorAll('.langues button'),
+       document.querySelector('.nav-haut .bouton')].filter(Boolean),
+      depart,
+    );
+
     const cycle = depart;
     document.documentElement.style.setProperty('--cycle', cycle.toFixed(2) + 's');
 
-    // Les pourcentages des images-clés dépendent de la durée du cycle :
-    // on les recalcule pour que l'éclat dure toujours ~1,4 s.
     const pct = (t) => Math.min(100, (t / cycle) * 100).toFixed(3);
     let feuille = document.getElementById('impulsion-images');
     if (!feuille) {
@@ -409,6 +415,13 @@ export function demarrerHero(canvas) {
         ${pct(0.9)}% { opacity: .85; }
         ${pct(DUREE_ECLAT)}% { opacity: 0; }
         100% { opacity: 0; }
+      }
+      @keyframes eclat-circuit {
+        0%   { opacity: 0; }
+        ${pct(0.12)}% { opacity: 1; }
+        ${pct(0.6)}% { opacity: .55; }
+        ${pct(1.0)}% { opacity: 0; }
+        100% { opacity: 0; }
       }`;
   }
   reconstruire();
@@ -419,7 +432,6 @@ export function demarrerHero(canvas) {
   const avant = new THREE.Vector3(0, 0, 1);
   const vec = new THREE.Vector3();
 
-  let phareLisse = 0;
   let derniere = 0;
   let enPause = false;
   let defile = false;
@@ -501,25 +513,13 @@ export function demarrerHero(canvas) {
       nuages.rotation.y = temps * (Math.PI * 2 / (TOUR_SECONDES * 1.28));
     }
 
-    // halo des balises : il ne s'allume que côté face
-    let max = 0;
+    // Les cinq points scintillent chacun à son rythme, sans jamais dépendre
+    // de la face visible ni projeter de faisceau.
     for (const b of balises) {
-      b.point.getWorldPosition(positionMonde);
-      vec.copy(positionMonde).normalize();
-      const face = vec.dot(avant);
-      const puissance = THREE.MathUtils.smoothstep(face, 0.02, 0.72);
-      const pulsation = 0.72 + 0.28 * Math.sin(temps * 2.2 + b.phase);
-
-      b.halo.material.opacity = 0.05 + puissance * 0.42 * pulsation;
-      b.halo.scale.setScalar(0.14 + puissance * 0.28 * pulsation);
-      b.point.scale.setScalar(0.75 + puissance * 0.55 * pulsation);
-      if (puissance > max) max = puissance;
+      const t = 0.5 + 0.5 * Math.sin(temps * 1.6 + b.phase);
+      b.point.material.opacity = 0.45 + 0.5 * t;
+      b.point.scale.setScalar(0.7 + 0.5 * t);
     }
-
-    // L'éclat du limbe reste interne au shader : aucune variable CSS n'est
-    // écrite, donc aucune repeinte du titre à chaque image.
-    phareLisse += (max - phareLisse) * 0.035;
-    materiauTerre.uniforms.phare.value = phareLisse;
 
     rendu.render(scene, camera);
   }
