@@ -820,3 +820,49 @@ main.enveloppe { padding-bottom: 6rem; }
 @media (min-width: 1241px) {
   main.enveloppe { padding-right: 9.5rem; }
 }
+
+
+/* ---------------------------------------------- drapeaux de langue ----- */
+.langues button { padding: .18rem .4rem; }
+.langues .drapeau {
+  font-size: 1.34rem; line-height: 1;
+  /* Linux rend les drapeaux via Noto Color Emoji ; sans lui, ce sont deux
+     lettres capitales régionales qui s'affichent — d'où le filet de sécurité. */
+  font-family: 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+  filter: saturate(1.05);
+}
+.langues button[aria-pressed="true"] .drapeau { filter: none; }
+
+/* ---------------------------------------------- hero aligné vraiment à gauche
+   Le bloc ne flotte plus au centre : tout part de la marge gauche, comme une
+   colonne éditoriale. Les trois étiquettes (bienvenue, badge, manifeste) sont
+   sur la même verticale. */
+:root { --marge-gauche: clamp(1.2rem, 6vw, 8rem); }
+
+.hero { place-items: start; }
+.hero-contenu {
+  text-align: left;
+  margin-left: var(--marge-gauche);
+  margin-right: auto;
+  max-width: min(62rem, calc(100% - var(--marge-gauche) - 11rem));
+}
+.hero .bienvenue { text-align: left; }
+.hero h1, .hero-soustitre { text-align: left; }
+.hero-bas { text-align: left; }
+.badge-hero { left: var(--marge-gauche); }
+.play-music { left: var(--marge-gauche); }
+
+/* ---------------------------------------------- rail : effet Dock de macOS
+   La page survolée grossit en partant de son bord droit, comme une icône du
+   Dock. transform seul : aucun recalcul de mise en page. */
+.rail a {
+  transform-origin: right center;
+  transition: transform .18s cubic-bezier(.2, .8, .2, 1), color .18s ease;
+}
+.rail a:hover, .rail a:focus-visible {
+  transform: scale(1.22);
+  color: #fff;
+  letter-spacing: .01em;
+}
+.rail:hover a:not(:hover) { opacity: .55; }
+.rail a { opacity: 1; transition: transform .18s cubic-bezier(.2,.8,.2,1), color .18s ease, opacity .2s ease; }

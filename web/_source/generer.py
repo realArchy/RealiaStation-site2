@@ -81,10 +81,10 @@ def nav(page: str) -> str:
         <span class="marque-texte">NEURO<span>EXO</span></span>
       </a>
       <div class="langues" role="group" aria-label="Langue">
-        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
-        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+        <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
+        <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
+        <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
+        <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>
       </div>
       <a href="index.html#financer" class="bouton">{t('commun.soutenir')}</a>
     </div>
