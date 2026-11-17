@@ -243,17 +243,17 @@ def page_index() -> str:
         f"""      <p class="etiq">Manifeste</p>
       <h2 data-t="index.titre">{t('index.titre')}</h2>
       <p class="lead" data-t="index.lead">{t('index.lead')}</p>""",
-        img("simulation-biomecanique.jpg",
-            "Simulation biomécanique en temps réel : squelette articulé et flux nerveux projetés",
-            "Simulation biomécanique — ce que le Système 2 observe"))
+        img("index-declic.jpg",
+            "Silhouette dans un exosquelette face à un stade illuminé",
+            "Le déclic — 12 juin 2014"))
 
     corps += bloc(
         f"""      <h2 data-t="index.histoire_titre">{t('index.histoire_titre')}</h2>
       <p data-t="index.histoire_1">{t('index.histoire_1')}</p>
       <p data-t="index.histoire_2">{t('index.histoire_2')}</p>""",
-        img("exo-appareil.jpg",
-            "Planche de l'exosquelette de rééducation assistée",
-            "L'appareil — planche technique"),
+        img("index-etincelle.jpg",
+            "Deux électrodes posées sur une peau, une étincelle cyan entre elles",
+            "L'étincelle résiduelle"),
         inverse=True)
 
     corps += f"""
@@ -440,8 +440,9 @@ def page_social() -> str:
       <p data-t="social.c2d">{t('social.c2d')}</p>
       <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c3t">{t('social.c3t')}</h2>
       <p data-t="social.c3d">{t('social.c3d')}</p>""",
-        panneau("MADAGASCAR — PILOTE 2027", ["équipe locale", "école inclusive", "clinique neuro-réadapt",
-                                             "fablab PMR", "export & coopérative"], accent="magenta"),
+        img("social-madagascar.jpg",
+            "Vue aérienne du terrain et de ses bâtiments à Madagascar",
+            "Le terrain du premier pilote"),
         inverse=True)
 
     boucles = "\n".join(
@@ -508,9 +509,9 @@ def page_wishlist() -> str:
         <span class="prix">{prix[str(i)]}</span>
       </div>""" for i in range(1, 5))
 
-    visuel = f"""      <div class="profondeur verre" style="padding:1.6rem">
-{lignes}
-      </div>"""
+    visuel = img("wish-materiel.jpg",
+                 "Les quatre composants de la wishlist alignés sur fond noir",
+                 "Les quatre maillons manquants")
 
     corps = bloc(
         f"""{badge('wish')}
@@ -522,6 +523,14 @@ def page_wishlist() -> str:
       </div>
       <p class="mentions" style="margin-top:1.6rem" data-t="wish.note">{t('wish.note')}</p>""",
         visuel)
+
+    corps += f"""
+  <section class="section">
+    <div class="verre reveler" style="padding:1.6rem">
+{lignes}
+    </div>
+  </section>
+"""
     return enveloppe("wish", corps, t("wish.titre"), t("wish.lead")[:150])
 
 
@@ -563,11 +572,18 @@ def page_boutique() -> str:
       <p style="font-size:.95rem" data-t="boutique.enseignes">{t('boutique.enseignes')}</p>
       <div style="display:flex; flex-wrap:wrap; gap:.6rem">
 {enseignes}      </div>""",
-        f"""      <div class="vitrines" style="grid-template-columns:1fr; gap:.9rem">
-{vitrines}
-      </div>""")
+        img("boutique-cadeaux.jpg",
+            "Cadeaux de Noël sous une lumière néon magenta et cyan",
+            "Noël cyberpunk"))
 
     corps += f"""
+  <section class="section">
+    <p class="etiq">Vitrines</p>
+    <div class="vitrines" style="margin-top:1.4rem">
+{vitrines}
+    </div>
+  </section>
+
   <section class="section" style="text-align:center">
     <p style="margin-bottom:1.2rem" data-t="boutique.noel">{t('boutique.noel')}</p>
     <a href="index.html#financer" class="bouton" data-t="commun.soutenir">{t('commun.soutenir')}</a>
@@ -691,6 +707,22 @@ def page_blueprint() -> str:
     </div>
   </section>
 
+  <section class="split inverse">
+    <div class="split-texte reveler">
+      <p class="etiq">Réseau</p>
+      <h2 data-t="blueprint.archi_titre">{t('blueprint.archi_titre')}</h2>
+      <p data-t="blueprint.archi_lead">{t('blueprint.archi_lead')}</p>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/blueprint-reseau.jpg" alt="Réseau de R'Station reliées par des arcs lumineux" loading="lazy" />
+        </div>
+        <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem">R'Station Network — modèle réticulaire</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="section">
     <div class="section-titre reveler">
       <p class="etiq">Roadmap</p>
@@ -731,8 +763,9 @@ def main() -> None:
             journal_n=2),
         "realia": page_simple(
             "realia",
-            panneau("REALIASTATION — RÔLES", ["hermes : orchestration", "superagent : sous-agents",
-                                              "contenu : épisodes", "réseaux : Luna"]),
+            img("realia-production.jpg",
+                "Chaîne de production holographique : écrans, storyboards et onde audio",
+                "La fabrique de contenu"),
             panneau("PRODUCTION LUNA", ["scénario", "images", "voix", "montage", "publication"], accent="magenta"),
             extra="""  <section class="section">
     <div class="verre-clair reveler" style="padding:1.8rem">
