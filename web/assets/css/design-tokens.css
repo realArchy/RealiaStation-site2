@@ -1,0 +1,155 @@
+/* ============================================================================
+   DESIGN TOKENS — Neuro-Exo
+   Une seule source pour la palette et les typographies. Ce fichier est chargé
+   APRÈS style.css : ses variables gagnent, et les pages ne peuvent plus
+   dériver vers un jaune plat ou un doré approximatif.
+
+   Règle de la maison :
+     · l'or est un DÉGRADÉ métallique à cinq nuances — jamais #ffd700, jamais
+       « yellow » ;
+     · le jaune fluo a un cœur quasi blanc et trois halos — jamais un citron
+       fade ;
+     · le fond est abyssal, les accents sont magenta et cyan.
+   ============================================================================ */
+
+/* Orbitron pour les titres, Space Grotesk pour le texte. */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+  /* --- fond spatial ------------------------------------------------------ */
+  --abysse:            #05020A;
+  --abysse-2:          #0A0410;
+  --panneau:           rgba(10, 4, 16, .82);
+
+  /* --- or métallique : les cinq nuances du dégradé ----------------------- */
+  --or-1:              #BF953F;
+  --or-2:              #FCF6BA;
+  --or-3:              #B38728;
+  --or-4:              #FBF5B7;
+  --or-5:              #AA771C;
+  --or:                #BF953F;
+  --degrade-or:        linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+
+  /* --- jaune fluo électrique -------------------------------------------- */
+  --fluo:              #F8FF00;
+  --fluo-2:            #E6FF00;
+  --fluo-3:            #CCFF00;
+
+  /* --- accents néon (banque de couleurs) --------------------------------
+     Nommés à part : ils ne remplacent pas le violet/or déjà en place sur le
+     site. On les appelle quand un élément doit flasher magenta ou cyan. */
+  --accent-magenta:    #FF007F;
+  --lueur-magenta:     0 0 25px rgba(255, 0, 127, .65);
+  --accent-cyan:       #00F5FF;
+  --lueur-cyan:        0 0 25px rgba(0, 245, 255, .65);
+
+  /* --- texte ------------------------------------------------------------- */
+  --texte:             #FFFFFF;
+  --doux:              #D8D2E6;
+  --faible:            #918AA8;
+
+  /* --- typographies ------------------------------------------------------ */
+  --font-titre:        'Orbitron', 'Space Grotesk', system-ui, sans-serif;
+  --font-texte:        'Space Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* --- intensité des phares, pilotée par la scène 3D (0 → 1) ------------- */
+  --phare:             0;
+}
+
+/* ============================================================ or métallique */
+.text-gold-metallic {
+  background: var(--degrade-or);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(252, 246, 186, .45));
+}
+
+/* ======================================================= jaune fluo néon */
+.neon-yellow-fluo {
+  color: var(--fluo);
+  text-shadow:
+    0 0 5px  #FFFFFF,
+    0 0 15px var(--fluo-2),
+    0 0 30px var(--fluo-3),
+    0 0 45px rgba(204, 255, 0, .60);
+}
+
+.border-yellow-fluo {
+  border: 1px solid var(--fluo);
+  box-shadow:
+    0 0 12px rgba(230, 255, 0, .50),
+    inset 0 0 8px rgba(230, 255, 0, .25);
+}
+
+/* ============================================================= typographie */
+body,
+p,
+li,
+a,
+button,
+input,
+figcaption {
+  font-family: var(--font-texte);
+}
+
+h1, h2, h3,
+.hero-titre h1,
+.hero-soustitre {
+  font-family: var(--font-titre);
+}
+
+/* Le message de bienvenue et le sous-titre portent l'or métallique. */
+.hero .bienvenue,
+.hero-soustitre {
+  text-shadow: none;
+  background: var(--degrade-or);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 16px rgba(252, 246, 186, .40));
+}
+
+/* L'étiquette de chantier passe au jaune fluo, cœur blanc et triple halo. */
+.badge-hero,
+.badge-hero .point {
+  color: var(--fluo);
+  text-shadow:
+    0 0 5px  #FFFFFF,
+    0 0 15px var(--fluo-2),
+    0 0 30px var(--fluo-3);
+}
+.badge-hero {
+  border-color: var(--fluo);
+  background: rgba(248, 255, 0, .07);
+  box-shadow:
+    0 0 12px rgba(230, 255, 0, .50),
+    inset 0 0 8px rgba(230, 255, 0, .22);
+}
+.badge-hero .point {
+  background: var(--fluo);
+  box-shadow: 0 0 0 3px rgba(248, 255, 0, .22), 0 0 18px var(--fluo-2);
+}
+
+/* ======================================= éclairage du titre par les phares
+   La scène 3D écrit --phare (0 → 1) selon la balise qui passe face à l'écran.
+   Le titre et le sous-titre s'allument avec elle, sans que le JS touche au
+   style de chaque élément. */
+.hero-titre h1 {
+  font-weight: 900;
+  letter-spacing: -.01em;
+  text-shadow:
+    0 0 34px rgba(5, 2, 10, .92),
+    0 4px 18px rgba(0, 0, 0, .85);
+  filter:
+    brightness(calc(1 + var(--phare, 0) * .32))
+    drop-shadow(0 0 calc(14px + var(--phare, 0) * 34px) rgba(252, 246, 186, calc(.25 + var(--phare, 0) * .45)));
+  transition: filter .12s linear;
+}
+.hero-soustitre {
+  filter:
+    drop-shadow(0 0 16px rgba(252, 246, 186, .40))
+    brightness(calc(1 + var(--phare, 0) * .28));
+}

@@ -942,3 +942,14 @@ main.enveloppe { padding-bottom: 6rem; }
 }
 .hero-soustitre { grid-row: 3; margin: 0 0 3.4rem; }
 .hero-indice { grid-row: 3; align-self: end; justify-self: center; }
+
+
+/* Le titre passe sur la planète : un voile radial sombre derrière lui garde la
+   lisibilité sans masquer la Terre. */
+.hero-titre::before {
+  content: ""; position: absolute; inset: -30% -8%;
+  background: radial-gradient(closest-side, rgba(5, 2, 10, .78), rgba(5, 2, 10, .42) 55%, transparent 80%);
+  z-index: 0; pointer-events: none;
+}
+.hero-titre { z-index: 5; }
+.hero-titre h1 { position: relative; z-index: 2; }

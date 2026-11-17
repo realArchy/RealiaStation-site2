@@ -1,212 +1,350 @@
 /* ============================================================================
-   Hero — réseau neuronal 3D (Three.js) + bascule de perspective du titre.
+   HERO 3D — la Terre vue satellite, le Soleil, et cinq phares.
 
-   Le réseau occupe le fond du hero : des nœuds répartis sur une sphère, reliés
-   quand ils sont proches, tournant lentement. La souris incline l'ensemble et
-   allume les nœuds qu'elle approche.
+   Ce que la scène raconte :
+     · la Terre tourne d'ouest en est, un tour en 30 s, inclinée à 23,5° ;
+     · un Soleil chaud l'éclaire depuis le fond à gauche : un côté jour, un côté
+       nuit où les villes s'allument ;
+     · cinq balises GPS tournent avec elle. Quand l'une passe face au visiteur,
+       son faisceau s'allume et le titre s'éclaire — le pays projette sa lumière
+       sur le projet.
 
-   Choix tenus pour la fluidité (leçon des versions précédentes) :
-   - une seule géométrie d'arêtes, calculée une fois, jamais reconstruite ;
-   - cadence plafonnée à 30 i/s, pause dès que l'onglet est caché ou que le hero
-     sort de l'écran ;
-   - pas de rendu pendant un défilement ;
-   - DPR plafonné à 1.5, et rien du tout si `prefers-reduced-motion`.
+   Choix tenus pour la fluidité (leçon des versions précédentes) : une seule
+   géométrie par objet, 30 i/s, pause pendant le défilement et hors écran, rien
+   du tout si `prefers-reduced-motion`.
    ========================================================================== */
 
 import * as THREE from './vendor/three.module.js';
 
-const CYAN = 0x8b5cf6;   // violet
-const MAGENTA = 0xd4af37;   // or
+const TOUR_SECONDES = 30;
+const INCLINAISON = 23.5;
+const RAYON = 2;
+
+const SOLEIL = new THREE.Vector3(-9, 5.5, 9).normalize();
+
+/* lat/lon → point sur la sphère, repère Three.js (Y vers le haut) */
+function surLaSphere(lat, lon, rayon) {
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lon + 180) * Math.PI / 180;
+  return new THREE.Vector3(
+    -rayon * Math.sin(phi) * Math.cos(theta),
+    rayon * Math.cos(phi),
+    rayon * Math.sin(phi) * Math.sin(theta),
+  );
+}
+
+const BALISES = [
+  { nom: 'Natal', lat: -5.85, lon: -35.35, couleur: 0xff007f },
+  { nom: 'Mahajanga', lat: -15.71, lon: 46.31, couleur: 0xd6a92a },
+  { nom: 'Shanghai', lat: 31.23, lon: 121.47, couleur: 0x00f5ff },
+  { nom: 'Paris', lat: 48.85, lon: 2.35, couleur: 0xfcf6ba },
+  { nom: 'Cayenne', lat: 4.92, lon: -52.31, couleur: 0x20c997 },
+];
+
+/* halo dessiné une fois dans un canvas : pas de texture à télécharger */
+function textureHalo() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  const d = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  d.addColorStop(0.00, 'rgba(255,255,245,1)');
+  d.addColorStop(0.12, 'rgba(255,226,150,0.92)');
+  d.addColorStop(0.32, 'rgba(255,170,60,0.38)');
+  d.addColorStop(0.62, 'rgba(255,120,20,0.10)');
+  d.addColorStop(1.00, 'rgba(255,90,0,0)');
+  g.fillStyle = d;
+  g.fillRect(0, 0, 256, 256);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
 
 export function demarrerHero(canvas) {
-  if (!canvas) return;
+  if (!canvas) return null;
 
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let renderer;
+  let rendu;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    rendu = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   } catch (e) {
-    return; // pas de WebGL : le décor CSS reste, rien ne casse
+    return null; // pas de WebGL : le décor CSS reste, rien ne casse
   }
-
-  const parent = canvas.parentElement;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-  renderer.setClearColor(0x000000, 0);
+  rendu.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  rendu.setClearColor(0x000000, 0);
+  rendu.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 100);
-  camera.position.set(0, 0, 7.2);
+  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 200);
+  camera.position.set(0, 0.25, 10.2);
 
-  const groupe = new THREE.Group();
-  scene.add(groupe);
+  /* ---------------------------------------------------------- lumières */
+  scene.add(new THREE.AmbientLight(0x223047, 0.6));
+  const lumiereSoleil = new THREE.DirectionalLight(0xffe6bd, 2.2);
+  lumiereSoleil.position.copy(SOLEIL.clone().multiplyScalar(20));
+  scene.add(lumiereSoleil);
 
-  // --- nœuds : répartition de Fibonacci sur une sphère, avec du bruit -------
-  const N = 64;
-  const positions = [];
-  const couleurs = [];
-  const or = new THREE.Color(CYAN);
-  const mag = new THREE.Color(MAGENTA);
-
-  for (let i = 0; i < N; i++) {
-    const phi = Math.acos(1 - 2 * (i + 0.5) / N);
-    const theta = Math.PI * (1 + Math.sqrt(5)) * i;
-    const r = 2.15 + (Math.random() - 0.5) * 0.32;
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.sin(phi) * Math.sin(theta);
-    const z = r * Math.cos(phi);
-    positions.push(x, y, z);
-    const c = or.clone().lerp(mag, (z + r) / (2 * r));
-    couleurs.push(c.r, c.g, c.b);
-  }
-
-  const geoNoeuds = new THREE.BufferGeometry();
-  geoNoeuds.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geoNoeuds.setAttribute('color', new THREE.Float32BufferAttribute(couleurs, 3));
-
-  // sprite rond, dessiné une fois : pas de texture à télécharger
-  const tex = (() => {
-    const c = document.createElement('canvas');
-    c.width = c.height = 64;
-    const g = c.getContext('2d');
-    const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grd.addColorStop(0, 'rgba(255,255,255,1)');
-    grd.addColorStop(0.35, 'rgba(255,255,255,.85)');
-    grd.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = grd;
-    g.fillRect(0, 0, 64, 64);
-    const t = new THREE.CanvasTexture(c);
-    t.colorSpace = THREE.SRGBColorSpace;
-    return t;
-  })();
-
-  const points = new THREE.Points(geoNoeuds, new THREE.PointsMaterial({
-    size: 0.13, map: tex, vertexColors: true, transparent: true,
-    depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
+  /* ------------------------------------------------------------ Soleil */
+  const soleil = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: textureHalo(), blending: THREE.AdditiveBlending,
+    depthWrite: false, transparent: true,
   }));
-  groupe.add(points);
+  // Le Soleil est placé pour être VU en haut à gauche ; la lumière, elle,
+// vient de sa direction réelle (SOLEIL), sinon la Terre serait plate.
+// Loin derrière, en haut à gauche : il entre dans le champ (le cône de
+// vision s'élargit avec la distance) et passe derrière la Terre.
+soleil.position.set(-13, 8.5, -30);
+  soleil.scale.setScalar(14);
+  scene.add(soleil);
 
-  // --- arêtes : paires proches, calculées une seule fois --------------------
-  const seuil = 1.35;
-  const segments = [];
-  const segCouleurs = [];
-  for (let i = 0; i < N; i++) {
-    for (let j = i + 1; j < N; j++) {
-      const ax = positions[i * 3], ay = positions[i * 3 + 1], az = positions[i * 3 + 2];
-      const bx = positions[j * 3], by = positions[j * 3 + 1], bz = positions[j * 3 + 2];
-      const d = Math.hypot(ax - bx, ay - by, az - bz);
-      if (d < seuil) {
-        segments.push(ax, ay, az, bx, by, bz);
-        const ca = new THREE.Color(couleurs[i * 3], couleurs[i * 3 + 1], couleurs[i * 3 + 2]);
-        const cb = new THREE.Color(couleurs[j * 3], couleurs[j * 3 + 1], couleurs[j * 3 + 2]);
-        segCouleurs.push(ca.r, ca.g, ca.b, cb.r, cb.g, cb.b);
-      }
-    }
-  }
-  const geoAretes = new THREE.BufferGeometry();
-  geoAretes.setAttribute('position', new THREE.Float32BufferAttribute(segments, 3));
-  geoAretes.setAttribute('color', new THREE.Float32BufferAttribute(segCouleurs, 3));
+  /* ----------------------------------------------------- groupes Terre */
+  const inclinaison = new THREE.Group();
+  inclinaison.rotation.z = THREE.MathUtils.degToRad(INCLINAISON);
+  scene.add(inclinaison);
 
-  const aretes = new THREE.LineSegments(geoAretes, new THREE.LineBasicMaterial({
-    vertexColors: true, transparent: true, opacity: 0.32, blending: THREE.AdditiveBlending
-  }));
-  groupe.add(aretes);
+  const terre = new THREE.Group();
+  inclinaison.add(terre);
 
-  // --- halo derrière le réseau ---------------------------------------------
-  const halo = new THREE.Mesh(
-    new THREE.SphereGeometry(2.9, 24, 18),
-    new THREE.MeshBasicMaterial({ color: MAGENTA, transparent: true, opacity: 0.045, side: THREE.BackSide })
+  const materiauTerre = new THREE.ShaderMaterial({
+    uniforms: {
+      jour: { value: null },
+      nuit: { value: null },
+      soleil: { value: SOLEIL.clone() },
+      phare: { value: 0 },
+    },
+    vertexShader: /* glsl */`
+      varying vec2 vUv;
+      varying vec3 vNormalW;
+      varying vec3 vViewDir;
+      void main() {
+        vUv = uv;
+        vec4 monde = modelMatrix * vec4(position, 1.0);
+        vNormalW = normalize(mat3(modelMatrix) * normal);
+        vViewDir = normalize(cameraPosition - monde.xyz);
+        gl_Position = projectionMatrix * viewMatrix * monde;
+      }`,
+    fragmentShader: /* glsl */`
+      uniform sampler2D jour;
+      uniform sampler2D nuit;
+      uniform vec3 soleil;
+      uniform float phare;
+      varying vec2 vUv;
+      varying vec3 vNormalW;
+      varying vec3 vViewDir;
+      void main() {
+        vec3 n = normalize(vNormalW);
+        float d = dot(n, normalize(soleil));
+        float lumiere = smoothstep(-0.28, 0.32, d);
+
+        vec3 cJour = texture2D(jour, vUv).rgb;
+        vec3 cNuit = texture2D(nuit, vUv).rgb;
+
+        vec3 nuitCol = cNuit * 1.5 + vec3(0.012, 0.020, 0.045);
+        // les océans d'une vraie texture satellite sont très sombres :
+        // on expose franchement, sinon la planète se lit comme un trou noir.
+        vec3 jourCol = cJour * (0.55 + 2.0 * max(d, 0.0));
+        vec3 col = mix(nuitCol, jourCol, lumiere);
+
+        float limbe = pow(1.0 - max(dot(n, normalize(vViewDir)), 0.0), 3.0);
+        col += vec3(0.16, 0.48, 1.0) * limbe * (0.45 + 0.55 * lumiere);
+        col += vec3(1.0, 0.88, 0.55) * phare * limbe * 0.22;
+
+        gl_FragColor = vec4(col, 1.0);
+      }`,
+  });
+
+  const globe = new THREE.Mesh(new THREE.SphereGeometry(RAYON, 96, 96), materiauTerre);
+  terre.add(globe);
+
+  const materiauNuages = new THREE.MeshBasicMaterial({
+    color: 0xffffff, transparent: true, opacity: 0,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  });
+  const nuages = new THREE.Mesh(new THREE.SphereGeometry(RAYON * 1.012, 72, 72), materiauNuages);
+  terre.add(nuages);
+
+  const atmosphere = new THREE.Mesh(
+    new THREE.SphereGeometry(RAYON * 1.045, 64, 64),
+    new THREE.ShaderMaterial({
+      transparent: true, blending: THREE.AdditiveBlending,
+      side: THREE.BackSide, depthWrite: false,
+      vertexShader: /* glsl */`
+        varying vec3 vN; varying vec3 vV;
+        void main() {
+          vN = normalize(normalMatrix * normal);
+          vec4 mv = modelViewMatrix * vec4(position, 1.0);
+          vV = normalize(-mv.xyz);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: /* glsl */`
+        varying vec3 vN; varying vec3 vV;
+        void main() {
+          float i = pow(0.68 - dot(vN, vV), 3.2);
+          gl_FragColor = vec4(0.24, 0.58, 1.0, 1.0) * clamp(i, 0.0, 1.0) * 0.75;
+        }`,
+    }),
   );
-  groupe.add(halo);
+  inclinaison.add(atmosphere);
 
-  // --- interaction ---------------------------------------------------------
-  const souris = { x: 0, y: 0, tx: 0, ty: 0 };
-  window.addEventListener('pointermove', (e) => {
-    souris.tx = (e.clientX / window.innerWidth) * 2 - 1;
-    souris.ty = (e.clientY / window.innerHeight) * 2 - 1;
-  }, { passive: true });
+  /* ----------------------------------------------------------- balises */
+  const groupeBalises = new THREE.Group();
+  terre.add(groupeBalises);
 
-  // --- bascule 3D du bloc titre -------------------------------------------
-  const contenu = document.querySelector('.hero-contenu');
-  if (contenu && !reduit) {
-    let rx = 0, ry = 0, cibleX = 0, cibleY = 0;
-    window.addEventListener('pointermove', (e) => {
-      const px = (e.clientX / window.innerWidth) * 2 - 1;
-      const py = (e.clientY / window.innerHeight) * 2 - 1;
-      cibleY = px * 6;      // degrés
-      cibleX = -py * 4;
-    }, { passive: true });
-    (function incliner() {
-      rx += (cibleX - rx) * 0.06;
-      ry += (cibleY - ry) * 0.06;
-      contenu.style.transform =
-        'perspective(1200px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
-      requestAnimationFrame(incliner);
-    })();
-  }
+  const coneGeo = new THREE.CylinderGeometry(0.006, 0.11, 1.6, 16, 1, true);
+  const balises = BALISES.map((b) => {
+    const pos = surLaSphere(b.lat, b.lon, RAYON);
+    const normale = pos.clone().normalize();
 
-  // --- dimension et cadence ------------------------------------------------
+    const point = new THREE.Mesh(
+      new THREE.SphereGeometry(0.028, 12, 12),
+      new THREE.MeshBasicMaterial({ color: b.couleur }),
+    );
+    point.position.copy(normale.clone().multiplyScalar(RAYON * 1.005));
+    groupeBalises.add(point);
+
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: textureHalo(), color: b.couleur, transparent: true,
+      blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.2,
+    }));
+    halo.position.copy(normale.clone().multiplyScalar(RAYON * 1.01));
+    halo.scale.setScalar(0.34);
+    groupeBalises.add(halo);
+
+    // Le cône est un « phare » : il ne suit pas la normale de la surface, il
+    // pointe vers le visiteur. Il vit donc dans la scène, pas dans la Terre.
+    const cone = new THREE.Mesh(coneGeo, new THREE.MeshBasicMaterial({
+      color: b.couleur, transparent: true, opacity: 0,
+      blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+    }));
+    scene.add(cone);
+
+    return { ...b, point, halo, cone, phase: Math.random() * Math.PI * 2 };
+  });
+
+  /* ------------------------------------------------------------ cadrage */
   function dimensionner() {
-    const l = parent.clientWidth || window.innerWidth;
-    const h = parent.clientHeight || window.innerHeight;
-    renderer.setSize(l, h, false);
+    const l = canvas.clientWidth || window.innerWidth;
+    const h = canvas.clientHeight || window.innerHeight;
+    rendu.setSize(l, h, false);
     camera.aspect = l / h;
     camera.updateProjectionMatrix();
   }
   dimensionner();
-  if ('ResizeObserver' in window) new ResizeObserver(dimensionner).observe(parent);
+  if ('ResizeObserver' in window) new ResizeObserver(dimensionner).observe(canvas);
   else window.addEventListener('resize', dimensionner);
 
+  /* ---------------------------------------------------------- textures */
+  const chargeur = new THREE.TextureLoader();
+  const charger = (url) => new Promise((ok) => chargeur.load(url, ok, undefined, () => ok(null)));
+
+  Promise.all([
+    charger('vendor/earth/earth_atmos_2048.jpg'),
+    charger('vendor/earth/earth_lights_2048.png'),
+    charger('vendor/earth/earth_clouds_1024.png'),
+  ]).then(([atmos, lumieres, nuageMap]) => {
+    if (atmos) {
+      atmos.colorSpace = THREE.SRGBColorSpace;
+      materiauTerre.uniforms.jour.value = atmos;
+    }
+    if (lumieres) {
+      lumieres.colorSpace = THREE.SRGBColorSpace;
+      materiauTerre.uniforms.nuit.value = lumieres;
+    }
+    if (!atmos || !lumieres) {
+      // pas de texture : une sphère bleue correcte plutôt qu'un vide
+      const bleu = new THREE.DataTexture(new Uint8Array([18, 40, 78]), 1, 1);
+      bleu.needsUpdate = true;
+      if (!atmos) materiauTerre.uniforms.jour.value = bleu;
+      if (!lumieres) materiauTerre.uniforms.nuit.value = bleu;
+    }
+    materiauTerre.needsUpdate = true;
+
+    if (nuageMap) {
+      nuageMap.colorSpace = THREE.SRGBColorSpace;
+      materiauNuages.map = nuageMap;
+      materiauNuages.opacity = 0.42;
+      materiauNuages.needsUpdate = true;
+    }
+  });
+
+  /* --------------------------------------------------------- animation */
+  const horloge = new THREE.Clock();
+  const racine = document.documentElement;
+  const positionMonde = new THREE.Vector3();
+  const avant = new THREE.Vector3(0, 0, 1);
+  const vec = new THREE.Vector3();
+  const AXE_Y = new THREE.Vector3(0, 1, 0);
+
+  let phareLisse = 0;
+  let derniere = 0;
   let enPause = false;
   let defile = false;
-  let dernier = 0;
   let minuteur = null;
+  let visible = true;
 
   window.addEventListener('scroll', () => {
     defile = true;
     clearTimeout(minuteur);
-    minuteur = setTimeout(() => { defile = false; dernier = 0; }, 180);
+    minuteur = setTimeout(() => { defile = false; derniere = 0; }, 180);
   }, { passive: true });
 
   document.addEventListener('visibilitychange', () => { enPause = document.hidden; });
 
-  // Le hero sort de l'écran dès qu'on descend : inutile de continuer à rendre.
-  let heroVisible = true;
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) {
-      es.forEach(function (e) { heroVisible = e.isIntersecting; });
-    }, { threshold: 0.01 }).observe(canvas.parentElement);
+    new IntersectionObserver((es) => {
+      es.forEach((e) => { visible = e.isIntersecting; });
+    }, { threshold: 0.01 }).observe(canvas);
   }
-
-  const horloge = new THREE.Clock();
 
   function boucle(t) {
     requestAnimationFrame(boucle);
-    if (enPause || defile || !heroVisible) return;
-    if (t - dernier < 33) return;         // 30 i/s
-    dernier = t;
+    if (enPause || defile || !visible) return;
+    if (t - derniere < 33) return;      // 30 i/s
+    derniere = t;
 
-    const dt = Math.min(horloge.getDelta(), 0.05);
+    const temps = horloge.getElapsedTime();
+    if (!reduit) {
+      terre.rotation.y = temps * (Math.PI * 2 / TOUR_SECONDES);
+      nuages.rotation.y = temps * (Math.PI * 2 / (TOUR_SECONDES * 1.28));
+    }
 
-    // la souris incline et décale légèrement l'ensemble
-    souris.x += (souris.tx - souris.x) * 0.05;
-    souris.y += (souris.ty - souris.y) * 0.05;
+    let max = 0;
+    for (const b of balises) {
+      b.point.getWorldPosition(positionMonde);
+      vec.copy(positionMonde).normalize();
+      const face = vec.dot(avant);
+      const puissance = THREE.MathUtils.smoothstep(face, 0.02, 0.72);
+      const pulsation = 0.72 + 0.28 * Math.sin(temps * 2.2 + b.phase);
 
-    groupe.rotation.y += dt * 0.16;
-    groupe.rotation.x = souris.y * 0.22;
-    groupe.position.x = souris.x * 0.35;
+      // le faisceau part de la balise et vient vers la caméra
+      vec.copy(camera.position).sub(positionMonde).normalize();
+      b.cone.position.copy(positionMonde).addScaledVector(vec, 0.95);
+      b.cone.quaternion.setFromUnitVectors(AXE_Y, vec);
+      b.cone.material.opacity = puissance * 0.34 * pulsation;
+      b.halo.material.opacity = 0.16 + puissance * 0.78 * pulsation;
+      b.halo.scale.setScalar(0.30 + puissance * 0.62 * pulsation);
+      b.point.scale.setScalar(0.8 + puissance * 0.9 * pulsation);
+      if (puissance > max) max = puissance;
+    }
 
-    halo.rotation.y -= dt * 0.06;
+    phareLisse += (max - phareLisse) * 0.08;
+    racine.style.setProperty('--phare', phareLisse.toFixed(3));
+    materiauTerre.uniforms.phare.value = phareLisse;
 
-    renderer.render(scene, camera);
+    rendu.render(scene, camera);
   }
 
-  if (reduit) {
-    renderer.render(scene, camera);
-  } else {
-    requestAnimationFrame(boucle);
-  }
+  if (reduit) rendu.render(scene, camera);
+  else requestAnimationFrame(boucle);
 
-  window.__hero3d = { prete: true, noeuds: N, aretes: segments.length / 6 };
-  return { scene, camera, renderer };
+  window.__hero3d = {
+    scene, camera, rendu,
+    balises: balises.length,
+    textures: () => ({
+      jour: !!materiauTerre.uniforms.jour.value,
+      nuit: !!materiauTerre.uniforms.nuit.value,
+      nuages: !!materiauNuages.map,
+    }),
+  };
+  return window.__hero3d;
 }

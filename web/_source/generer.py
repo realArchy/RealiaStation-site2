@@ -130,7 +130,10 @@ def tete(titre: str, description: str) -> str:
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v={VERSION}" />"""
+<link rel="stylesheet" href="style.css?v={VERSION}" />
+  <!-- banque de couleurs et typographies : chargée après style.css pour
+       que ses variables gagnent -->
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v={VERSION}" />"""
 
 
 def enveloppe(page: str, corps: str, titre_page: str, description: str,
