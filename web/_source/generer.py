@@ -168,11 +168,20 @@ def bloc(texte: str, visuel: str, inverse: bool = False) -> str:
 
 
 def img(nom: str, alt: str, legende: str = "") -> str:
+    """Image avec largeur et hauteur explicites.
+
+    Sans elles, le navigateur ne connaît pas la place à réserver : le texte
+    saute de la hauteur de l'image au moment du chargement. C'était l'une des
+    causes des secousses signalées.
+    """
     cap = (f'\n      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">{legende}</figcaption>'
            if legende else "")
+    portrait = " portrait" if "portrait" in nom else ""
+    largeur, hauteur = (825, 1100) if portrait else (1600, 900)
     return f"""      <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-          <img src="assets/{nom}" alt="{alt}" loading="lazy" />
+          <img src="assets/{nom}" alt="{alt}" width="{largeur}" height="{hauteur}"
+               class="cadre{portrait}" loading="lazy" decoding="async" />
         </div>{cap}
       </figure>"""
 

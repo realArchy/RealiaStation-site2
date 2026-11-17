@@ -1,10 +1,12 @@
-/* Apparition douce au défilement — sans jamais cacher durablement le contenu.
+/* Apparition douce au défilement — sans jamais cacher le contenu.
 
-   Trois garde-fous, appris à la dure :
-   1. l'état « invisible » n'existe que si ce script s'exécute (classe sur <html>) ;
-   2. tout ce qui est déjà dans la fenêtre au chargement est révélé aussitôt ;
-   3. un filet de sécurité révèle tout après 2,5 s, même si l'observateur n'a
-      jamais réagi (saut de page, lien profond, onglet en arrière-plan).
+   Réécrit après mesure : la version précédente appelait getBoundingClientRect()
+   sur CHAQUE élément à CHAQUE événement de défilement. Lire la géométrie dans un
+   gestionnaire de scroll force le navigateur à recalculer la mise en page à
+   chaque image : c'est la définition même du défilement saccadé.
+
+   Ici : un IntersectionObserver, aucun écouteur de scroll, aucune lecture de
+   géométrie. Plus un filet de sécurité qui révèle tout après 1,5 s.
 */
 (function () {
   const cibles = document.querySelectorAll('.reveler');
@@ -19,22 +21,16 @@
 
   const o = new IntersectionObserver(function (entrees) {
     entrees.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('vu'); o.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add('vu');
+        o.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  }, { threshold: 0.05, rootMargin: '0px 0px -10px 0px' });
 
   cibles.forEach(e => o.observe(e));
 
-  function revelerVisible() {
-    cibles.forEach(function (e) {
-      const r = e.getBoundingClientRect();
-      if (r.top < window.innerHeight + 40 && r.bottom > -40) e.classList.add('vu');
-    });
-  }
-  window.addEventListener('load', revelerVisible);
-  window.addEventListener('scroll', revelerVisible, { passive: true });
-
   setTimeout(function () {
     cibles.forEach(e => e.classList.add('vu'));
-  }, 2500);
+  }, 1500);
 })();

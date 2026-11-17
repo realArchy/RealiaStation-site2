@@ -213,7 +213,9 @@ class Systeme {
       setTimeout(() => requestAnimationFrame(this.dessiner), 200);
       return;
     }
-    setTimeout(() => requestAnimationFrame(this.dessiner), 33);
+    // 8 i/s : une orbite aussi lente ne justifie pas plus, et un canvas
+    // fixe qui se redessine 30 fois par seconde coûte cher au défilement.
+    setTimeout(() => requestAnimationFrame(this.dessiner), 125);
   }
 }
 

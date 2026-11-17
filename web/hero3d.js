@@ -170,11 +170,19 @@ export function demarrerHero(canvas) {
 
   document.addEventListener('visibilitychange', () => { enPause = document.hidden; });
 
+  // Le hero sort de l'écran dès qu'on descend : inutile de continuer à rendre.
+  let heroVisible = true;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { heroVisible = e.isIntersecting; });
+    }, { threshold: 0.01 }).observe(canvas.parentElement);
+  }
+
   const horloge = new THREE.Clock();
 
   function boucle(t) {
     requestAnimationFrame(boucle);
-    if (enPause || defile) return;
+    if (enPause || defile || !heroVisible) return;
     if (t - dernier < 33) return;         // 30 i/s
     dernier = t;
 

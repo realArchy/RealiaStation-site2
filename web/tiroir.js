@@ -75,39 +75,33 @@ function libelle(entree) {
     return window.scrollY <= 2;
   }
 
-  let cumul = 0;
-  let minuterie = null;
+  /* Plus AUCUNE capture de la molette, du clavier ni du balayage.
+     C'était l'erreur : la page sautait de tiroir en tiroir au moment où l'on
+     atteignait le bas, ce qui donnait exactement l'impression de « mélanger le
+     scroll et les tiroirs ». On lit tranquillement ; on change de page en
+     cliquant la poignée, ou par le menu. */
 
-  window.addEventListener('wheel', (e) => {
-    const versLeBas = e.deltaY > 0;
-    if (versLeBas && !auBas()) { cumul = 0; return; }
-    if (!versLeBas && !enHaut()) { cumul = 0; return; }
+  /* Repère de position : une barre fine en haut, remplie selon la lecture.
+     Elle répond à « on est où ? » sans rien voler au défilement : une seule
+     lecture de scrollY par image, aucune lecture de géométrie. */
+  const barre = document.createElement('div');
+  barre.className = 'progression';
+  barre.setAttribute('aria-hidden', 'true');
+  barre.innerHTML = '<span></span>';
+  document.body.appendChild(barre);
+  const jauge = barre.firstChild;
 
-    cumul += e.deltaY;
-    clearTimeout(minuterie);
-    minuterie = setTimeout(() => { cumul = 0; }, 260);
-
-    if (cumul > SEUIL_MOLETTE) { cumul = 0; aller(suivant, 'bas'); }
-    else if (cumul < -SEUIL_MOLETTE) { cumul = 0; aller(precedent, 'haut'); }
-  }, { passive: true });
-
-  let departY = null;
-  window.addEventListener('touchstart', (e) => { departY = e.touches[0].clientY; }, { passive: true });
-  window.addEventListener('touchend', (e) => {
-    if (departY === null) return;
-    const delta = departY - e.changedTouches[0].clientY;
-    departY = null;
-    if (delta > SEUIL_DOIGT && auBas()) aller(suivant, 'bas');
-    else if (delta < -SEUIL_DOIGT && enHaut()) aller(precedent, 'haut');
-  }, { passive: true });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-    const bas = e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ';
-    const haut = e.key === 'ArrowUp' || e.key === 'PageUp';
-    if (bas && auBas()) { e.preventDefault(); aller(suivant, 'bas'); }
-    else if (haut && enHaut()) { e.preventDefault(); aller(precedent, 'haut'); }
-  });
+  /* Calcul direct : une division et un transform, sans lecture de géométrie.
+     Passer par requestAnimationFrame semblait plus prudent, mais dans un onglet
+     throttlé la jauge ne bougeait jamais. */
+  function majJauge() {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const part = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
+    jauge.style.transform = 'scaleX(' + part.toFixed(4) + ')';
+  }
+  window.addEventListener('scroll', majJauge, { passive: true });
+  window.addEventListener('resize', majJauge, { passive: true });
+  majJauge();
 
   const p = document.createElement('div');
   p.className = 'poignee';
@@ -147,9 +141,17 @@ function libelle(entree) {
   p.append(btnPrec, milieu, btnSuiv, compte);
   document.body.appendChild(p);
 
+  /* Hauteur de page mémorisée : la relire à chaque défilement obligerait le
+     navigateur à recalculer la mise en page pendant le scroll. */
+  let hauteurPage = document.documentElement.scrollHeight;
+  window.addEventListener('resize', function () {
+    hauteurPage = document.documentElement.scrollHeight;
+  }, { passive: true });
+
   function etatPoignee() {
-    p.style.borderColor = auBas() ? 'rgba(232,121,249,.55)' : '';
-    p.style.color = auBas() ? 'rgba(243,236,255,.85)' : '';
+    const enBas = window.scrollY + window.innerHeight >= hauteurPage - 4;
+    p.style.borderColor = enBas ? 'rgba(255,0,127,.55)' : '';
+    p.style.color = enBas ? 'rgba(255,255,255,.9)' : '';
   }
   window.addEventListener('scroll', etatPoignee, { passive: true });
   etatPoignee();
