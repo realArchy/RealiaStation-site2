@@ -79,9 +79,10 @@ export function demarrerHero(canvas) {
   camera.position.set(0, 0.25, 10.2);
 
   /* ---------------------------------------------------------- lumières */
-  scene.add(new THREE.AmbientLight(0x223047, 0.6));
-  const lumiereSoleil = new THREE.DirectionalLight(0xffe6bd, 2.2);
-  lumiereSoleil.position.copy(SOLEIL.clone().multiplyScalar(20));
+  scene.add(new THREE.AmbientLight(0x1b2536, 0.42));
+  // Lumière chaude venue du BAS-GAUCHE, très loin : c'est le Soleil lointain.
+  const lumiereSoleil = new THREE.DirectionalLight(0xffe2b8, 3.4);
+  lumiereSoleil.position.set(-20, -12, -6);
   scene.add(lumiereSoleil);
 
   /* ------------------------------------------------------------ Soleil */
@@ -91,10 +92,10 @@ export function demarrerHero(canvas) {
   }));
   // Le Soleil est placé pour être VU en haut à gauche ; la lumière, elle,
 // vient de sa direction réelle (SOLEIL), sinon la Terre serait plate.
-// Loin derrière, en haut à gauche : il entre dans le champ (le cône de
-// vision s'élargit avec la distance) et passe derrière la Terre.
-soleil.position.set(-13, 8.5, -30);
-  soleil.scale.setScalar(14);
+  // Bas à gauche, très loin sur l'axe Z : il paraît PLUS PETIT que la Lune.
+  // C'est une étoile lointaine, pas une lampe de studio.
+  soleil.position.set(-10.5, -6.8, -38);
+  soleil.scale.setScalar(4.2);
   scene.add(soleil);
 
   /* ----------------------------------------------------- groupes Terre */
@@ -111,6 +112,7 @@ soleil.position.set(-13, 8.5, -30);
       nuit: { value: null },
       soleil: { value: SOLEIL.clone() },
       phare: { value: 0 },
+      pasUv: { value: new THREE.Vector2(1 / 4096, 1 / 2048) },
     },
     vertexShader: /* glsl */`
       varying vec2 vUv;
@@ -128,21 +130,33 @@ soleil.position.set(-13, 8.5, -30);
       uniform sampler2D nuit;
       uniform vec3 soleil;
       uniform float phare;
+      uniform vec2 pasUv;
       varying vec2 vUv;
       varying vec3 vNormalW;
       varying vec3 vViewDir;
       void main() {
         vec3 n = normalize(vNormalW);
+
+        // relief léger : le gradient de luminance de la texture sert de bosse.
+        // (approximation tangentielle, invisible à cette distance, mais elle
+        //  casse l'aspect « autocollant » des continents)
+        float hC = texture2D(jour, vUv).r;
+        float hX = texture2D(jour, vUv + vec2(pasUv.x, 0.0)).r;
+        float hY = texture2D(jour, vUv + vec2(0.0, pasUv.y)).r;
+        vec3 tangente = normalize(cross(vec3(0.0, 1.0, 0.0), n) + vec3(1e-5));
+        vec3 bitangente = normalize(cross(n, tangente));
+        n = normalize(n + tangente * (hC - hX) * 9.0 + bitangente * (hC - hY) * 9.0);
+
         float d = dot(n, normalize(soleil));
         float lumiere = smoothstep(-0.28, 0.32, d);
 
         vec3 cJour = texture2D(jour, vUv).rgb;
         vec3 cNuit = texture2D(nuit, vUv).rgb;
 
-        vec3 nuitCol = cNuit * 1.5 + vec3(0.012, 0.020, 0.045);
+        vec3 nuitCol = cNuit * 1.9 + vec3(0.010, 0.016, 0.038);
         // les océans d'une vraie texture satellite sont très sombres :
         // on expose franchement, sinon la planète se lit comme un trou noir.
-        vec3 jourCol = cJour * (0.55 + 2.0 * max(d, 0.0));
+        vec3 jourCol = cJour * (0.85 + 2.6 * max(d, 0.0));
         vec3 col = mix(nuitCol, jourCol, lumiere);
 
         float limbe = pow(1.0 - max(dot(n, normalize(vViewDir)), 0.0), 3.0);
@@ -186,11 +200,25 @@ soleil.position.set(-13, 8.5, -30);
   );
   inclinaison.add(atmosphere);
 
+  /* ------------------------------------------------------------------ Lune
+     Plan intermédiaire, en haut à droite : plus grosse que le Soleil lointain,
+     éclairée sur son flanc gauche par la même lumière que la Terre. Clin d'œil
+     à LunaGalaxie. */
+  const lune = new THREE.Mesh(
+    new THREE.SphereGeometry(0.62, 64, 64),
+    new THREE.MeshStandardMaterial({
+      color: 0xf2ece0, roughness: .95, metalness: 0,
+      emissive: 0x0a0a12, emissiveIntensity: 1,
+    }),
+  );
+  lune.position.set(4.9, 2.55, -2.2);
+  lune.rotation.z = THREE.MathUtils.degToRad(-11);
+  scene.add(lune);
+
   /* ----------------------------------------------------------- balises */
   const groupeBalises = new THREE.Group();
   terre.add(groupeBalises);
 
-  const coneGeo = new THREE.CylinderGeometry(0.006, 0.11, 1.6, 16, 1, true);
   const balises = BALISES.map((b) => {
     const pos = surLaSphere(b.lat, b.lon, RAYON);
     const normale = pos.clone().normalize();
@@ -210,15 +238,7 @@ soleil.position.set(-13, 8.5, -30);
     halo.scale.setScalar(0.34);
     groupeBalises.add(halo);
 
-    // Le cône est un « phare » : il ne suit pas la normale de la surface, il
-    // pointe vers le visiteur. Il vit donc dans la scène, pas dans la Terre.
-    const cone = new THREE.Mesh(coneGeo, new THREE.MeshBasicMaterial({
-      color: b.couleur, transparent: true, opacity: 0,
-      blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
-    }));
-    scene.add(cone);
-
-    return { ...b, point, halo, cone, phase: Math.random() * Math.PI * 2 };
+    return { ...b, point, halo, phase: Math.random() * Math.PI * 2 };
   });
 
   /* ------------------------------------------------------------ cadrage */
@@ -238,10 +258,11 @@ soleil.position.set(-13, 8.5, -30);
   const charger = (url) => new Promise((ok) => chargeur.load(url, ok, undefined, () => ok(null)));
 
   Promise.all([
-    charger('vendor/earth/earth_atmos_2048.jpg'),
+    charger('assets/img/earth-satellite.jpg'),      // NASA Blue Marble, 4096×2048
     charger('vendor/earth/earth_lights_2048.png'),
     charger('vendor/earth/earth_clouds_1024.png'),
-  ]).then(([atmos, lumieres, nuageMap]) => {
+    charger('assets/img/moon.jpg'),
+  ]).then(([atmos, lumieres, nuageMap, luneMap]) => {
     if (atmos) {
       atmos.colorSpace = THREE.SRGBColorSpace;
       materiauTerre.uniforms.jour.value = atmos;
@@ -258,6 +279,13 @@ soleil.position.set(-13, 8.5, -30);
       if (!lumieres) materiauTerre.uniforms.nuit.value = bleu;
     }
     materiauTerre.needsUpdate = true;
+
+    // la Lune attend sa texture ici : elle est créée plus haut, on la branche
+    if (luneMap && lune) {
+      luneMap.colorSpace = THREE.SRGBColorSpace;
+      lune.material.map = luneMap;
+      lune.material.needsUpdate = true;
+    }
 
     if (nuageMap) {
       nuageMap.colorSpace = THREE.SRGBColorSpace;
@@ -316,18 +344,14 @@ soleil.position.set(-13, 8.5, -30);
       const puissance = THREE.MathUtils.smoothstep(face, 0.02, 0.72);
       const pulsation = 0.72 + 0.28 * Math.sin(temps * 2.2 + b.phase);
 
-      // le faisceau part de la balise et vient vers la caméra
-      vec.copy(camera.position).sub(positionMonde).normalize();
-      b.cone.position.copy(positionMonde).addScaledVector(vec, 0.95);
-      b.cone.quaternion.setFromUnitVectors(AXE_Y, vec);
-      b.cone.material.opacity = puissance * 0.34 * pulsation;
-      b.halo.material.opacity = 0.16 + puissance * 0.78 * pulsation;
-      b.halo.scale.setScalar(0.30 + puissance * 0.62 * pulsation);
-      b.point.scale.setScalar(0.8 + puissance * 0.9 * pulsation);
+      b.halo.material.opacity = 0.05 + puissance * 0.42 * pulsation;
+      b.halo.scale.setScalar(0.14 + puissance * 0.28 * pulsation);
+      b.point.scale.setScalar(0.75 + puissance * 0.55 * pulsation);
       if (puissance > max) max = puissance;
     }
 
-    phareLisse += (max - phareLisse) * 0.08;
+    // montée et descente douces : 0,035 par image à 30 i/s ≈ 1 s de transition
+    phareLisse += (max - phareLisse) * 0.035;
     racine.style.setProperty('--phare', phareLisse.toFixed(3));
     materiauTerre.uniforms.phare.value = phareLisse;
 
