@@ -340,7 +340,9 @@ def page_virtuel() -> str:
     corps += bloc(
         f"""      <h2 data-t="virtuel.c1t">{t('virtuel.c1t')}</h2>
       <p data-t="virtuel.c1d">{t('virtuel.c1d')}</p>""",
-        img("exo-appareil.jpg", "Planche de l'exosquelette", "L'appareil, avant l'usinage"),
+        img("virtuel-cinematique.jpg",
+            "Squelette filaire articulé, hanche et genou en surbrillance",
+            "La cinématique, avant l'usinage"),
         inverse=True)
 
     corps += bloc(
@@ -351,7 +353,9 @@ def page_virtuel() -> str:
     corps += bloc(
         f"""      <h2 data-t="virtuel.c3t">{t('virtuel.c3t')}</h2>
       <p data-t="virtuel.c3d">{t('virtuel.c3d')}</p>""",
-        img("rampe-securite.jpg", "Rampe de rééducation et portique de sécurité", "La rampe et son portique"),
+        img("virtuel-latence.jpg",
+            "Courbe de latence sous son seuil sur un écran technique",
+            "La latence, mesurée et publiée"),
         inverse=True)
 
     html = enveloppe("virtuel", corps, t("virtuel.titre"), t("virtuel.lead")[:150])
@@ -431,7 +435,8 @@ def page_luna() -> str:
         f"""      <h2 data-t="luna.prod_titre">{t('luna.prod_titre')}</h2>
       <p data-t="luna.prod_txt">{t('luna.prod_txt')}</p>
       <a href="realiastation.html" class="bouton-fantome" data-t="luna.prod_cta">{t('luna.prod_cta')}</a>""",
-        panneau("REALIASTATION — PRODUCTION", ["épisodes", "voix et images", "réseaux", "audience → Îlots"]),
+        img("luna-equipage.jpg", "L'équipage de LunaGalaxie, portraits cartoon cyberpunk",
+            "L'équipage du GhostSheller"),
         inverse=True)
     return enveloppe("luna", corps, t("luna.titre"), t("luna.lead")[:150])
 
@@ -471,6 +476,30 @@ def page_social() -> str:
     </div>
   </section>
 
+  <section class="split inverse">
+    <div class="split-texte reveler">
+      <p class="etiq">Sur place</p>
+      <h2 data-t="social.c3t">{t('social.c3t')}</h2>
+      <p data-t="social.c3d">{t('social.c3d')}</p>
+    </div>
+    <div class="split-visuel reveler" style="display:grid; gap:.9rem">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/social-cooperative.jpg" width="1024" height="1024" class="cadre" loading="lazy"
+               alt="Coopérative agricole : cageots de fruits, tri, sous un abri" />
+        </div>
+        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.6rem">Coopérative &amp; banque de fruits</figcaption>
+      </figure>
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/social-fablab.jpg" width="1024" height="1024" class="cadre" loading="lazy"
+               alt="FabLab : imprimante 3D en fonctionnement, prothèse sur l'établi" />
+        </div>
+        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.6rem">FabLab PMR</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="section" style="text-align:center">
     <a href="wishlist.html" class="bouton" data-t="social.cta">{t('social.cta')}</a>
   </section>
@@ -493,7 +522,26 @@ def page_archi() -> str:
       <p style="margin-top:1.4rem; font-style:italic; color:var(--doux)" data-t="archi.intro">{t('archi.intro')}</p>""",
         visuel)
 
-    for h, ps in (("h1", ("p1", "p2")), ("h2", ("p3", "p4", "p5")), ("h3", ("p6", "p7", "p8"))):
+    # Premier chapitre : en split, avec le fleuve — les racines se montrent.
+    paras1 = "\n".join(f'      <p data-t="archi.{k}">{t("archi." + k)}</p>' for k in ("p1", "p2"))
+    corps += f"""
+  <section class="split">
+    <div class="split-texte reveler">
+      <h2 style="font-size:1.5rem; margin-bottom:1rem" data-t="archi.h1">{t('archi.h1')}</h2>
+{paras1}
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <img src="assets/archi-guyane.jpg" width="1344" height="768" class="cadre" loading="lazy"
+               alt="Fleuve de Guyane à l'aube, pirogue, brume sur l'eau noire" />
+        </div>
+        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.7rem">Le fleuve, la forêt</figcaption>
+      </figure>
+    </div>
+  </section>"""
+
+    for h, ps in (("h2", ("p3", "p4", "p5")), ("h3", ("p6", "p7", "p8"))):
         paras = "\n".join(f'      <p data-t="archi.{k}">{t("archi." + k)}</p>' for k in ps)
         corps += f"""
   <section class="section">
@@ -764,22 +812,28 @@ def main() -> None:
         "virtuel": page_virtuel(),
         "neuroexo": page_simple(
             "neuroexo",
-            img("simulation-biomecanique.jpg", "Simulation biomécanique temps réel", "Système 2 — observation"),
-            img("exo-appareil.jpg", "Planche de l'exosquelette", "L'appareil de rééducation"),
+            img("neuroexo-harnais.jpg", "Ceinture et baudrier techniques posés sur un fond noir",
+                "Le harnais, avant montage"),
+            img("neuroexo-blanking.jpg", "Chronogramme de stimulation et de signal EMG",
+                "Stimulation et fenêtre de blanking"),
             journal_n=3),
         "devkit": page_simple(
             "devkit",
-            panneau("DEVKIT-CLEAN — ÉTAT", ["planner local : prêt", "coder local : prêt",
-                                            "outils : 66", "secrets : 0", "branche : release"]),
-            panneau("CHASSE AUX SECRETS", ["arbre : 0 constat", "historique : 0 constat",
-                                           "gitleaks : 3 faux positifs", "filter-repo : prêt"], accent="magenta"),
+            img("devkit-usine.jpg",
+                "Couloir de serveurs aux lignes de lumière cyan et magenta",
+                "L'usine logicielle"),
+            img("devkit-coffre.jpg",
+                "Coffre ouvert et vide sous une lumière magenta",
+                "Ce qu'on retire avant de publier"),
             journal_n=2),
         "realia": page_simple(
             "realia",
+            img("realia-station.jpg",
+                "Poste de travail nocturne à trois écrans",
+                "La station de production"),
             img("realia-production.jpg",
                 "Chaîne de production holographique : écrans, storyboards et onde audio",
-                "La fabrique de contenu"),
-            panneau("PRODUCTION LUNA", ["scénario", "images", "voix", "montage", "publication"], accent="magenta"),
+                "Ce que la station produit"),
             extra="""  <section class="section">
     <div class="verre-clair reveler" style="padding:1.8rem">
       <h2 style="font-size:1.3rem; margin-bottom:.6rem" data-t="realia.lien_titre">%s</h2>
