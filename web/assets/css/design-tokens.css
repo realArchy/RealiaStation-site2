@@ -531,3 +531,70 @@ h1, h2, h3,
   padding-left: 1rem;
   border-left: 2px solid rgba(212, 175, 55, .7);
 }
+
+
+/* ==================================== fonds cosmiques, une page un événement
+   La page d'accueil garde sa Terre 3D. Les autres pages reçoivent un cliché
+   NASA (domaine public), assombri pour que le texte blanc et l'impulsion
+   restent lisibles : opacité 0,42 sous le champ d'étoiles, plus une dérive
+   très lente (échelle 1,02 -> 1,10 sur deux minutes) pour la profondeur.
+   Aucune image n'est chargée si la page ne la demande pas. */
+
+.ciel::before { z-index: 3; }        /* les étoiles passent devant la photo */
+
+body[data-page="virtuel"] .ciel::after,
+body[data-page="neuroexo"] .ciel::after,
+body[data-page="blueprint"] .ciel::after,
+body[data-page="social"] .ciel::after,
+body[data-page="wish"] .ciel::after {
+  content: "";
+  position: absolute;
+  inset: -6%;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: .42;
+  animation: derive-cosmique 120s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* une nébuleuse pouponnière : naître avant le réel */
+body[data-page="virtuel"] .ciel::after {
+  background-image: url("../fonds/nebuleuse.webp");
+  background-position: center 40%;
+  opacity: .33;                    /* la nébuleuse est claire : on baisse */
+}
+
+/* un rémanent de supernova : un réseau de filaments, comme des neurones */
+body[data-page="neuroexo"] .ciel::after {
+  background-image: url("../fonds/filaments.webp");
+  background-position: center 45%;
+}
+
+/* un amas de galaxies en interaction : les forces qui s'allient */
+body[data-page="blueprint"] .ciel::after {
+  background-image: url("../fonds/amas.webp");
+}
+
+/* une éclipse totale : la couronne, l'énergie, la renaissance */
+body[data-page="social"] .ciel::after {
+  background-image: url("../fonds/eclipse.webp");
+  background-position: center 45%;
+  opacity: .5;
+}
+
+/* une spirale vue de face : tout converge vers un centre */
+body[data-page="wish"] .ciel::after {
+  background-image: url("../fonds/spirale.webp");
+  opacity: .38;
+}
+
+@keyframes derive-cosmique {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to   { transform: scale(1.10) translate3d(-1.2%, -1.6%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page] .ciel::after { animation: none; transform: scale(1.02); }
+}
