@@ -441,3 +441,20 @@ h1, h2, h3,
   border: 1px solid rgba(139, 92, 246, .35);
   box-shadow: 0 20px 48px rgba(0, 0, 0, .5);
 }
+
+
+/* ============================================ la devise du projet social
+   Une phrase qui doit s'arrêter l'œil : filet doré à gauche, or franc,
+   une taille au-dessus du chapô, sans effet. */
+.devise {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.45;
+  color: #f2c65a;
+  letter-spacing: .01em;
+  margin: 1.9rem 0 0;
+  padding: .15rem 0 .15rem 1.1rem;
+  border-left: 2px solid #d4af37;
+  text-shadow: 0 0 18px rgba(212, 175, 55, .28);
+}

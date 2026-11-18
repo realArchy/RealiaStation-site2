@@ -476,7 +476,8 @@ def page_social() -> str:
     corps = bloc(
         f"""{badge('social')}
       <h1 style="margin:1.1rem 0 0" data-t="social.titre">{t('social.titre')}</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="social.lead">{t('social.lead')}</p>""",
+      <p class="lead" style="margin-top:1.2rem" data-t="social.lead">{t('social.lead')}</p>
+      <p class="devise" data-t="social.devise">{t('social.devise')}</p>""",
         img("ilot-integre.jpg",
             "Infographie de l'Îlot Intégré, modèle d'ONG réplicable",
             "L'Îlot Intégré — infographie"))
