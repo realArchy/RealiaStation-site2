@@ -709,3 +709,12 @@ body[data-page="neuroexo"] .split-texte::before {
   display: block;
   pointer-events: none;
 }
+
+
+/* Le bouton Soutenir a un fond plein : la pulsation des étiquettes le faisait
+   virer au blanc (brightness 2,5 + ombre blanche) et le texte disparaissait.
+   Il garde sa propre pulsation, plus sobre, qui ne touche pas au contraste. */
+.entete .bouton.circuit-el,
+.entete .nav-haut > .bouton.circuit-el {
+  animation-name: dock-bouton;
+}

@@ -235,6 +235,13 @@
           'text-shadow:0 0 0 rgba(255,255,255,0)}' +
         '100%{transform:scale(1);filter:brightness(1);text-shadow:0 0 0 rgba(255,255,255,0)}}' +
 
+      '@keyframes dock-bouton {' +
+        '0%{transform:scale(1);filter:brightness(1)}' +
+        pct(0.13) + '%{transform:scale(1.1);filter:brightness(1.18)}' +
+        pct(0.13 + ECLAT.etiquette * 0.55) + '%{transform:scale(1.1);filter:brightness(1.18)}' +
+        pct(0.13 + ECLAT.etiquette) + '%{transform:scale(1);filter:brightness(1)}' +
+        '100%{transform:scale(1);filter:brightness(1)}}' +
+
       '@keyframes dock-mot {' +
         '0%{transform:scale(1);filter:brightness(1)}' +
         pct(0.1) + '%{transform:scale(1.05);filter:brightness(2.3)}' +
