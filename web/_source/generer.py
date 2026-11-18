@@ -134,7 +134,7 @@ def tete(titre: str, description: str) -> str:
 <meta name="description" content="{description}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css?v={VERSION}" />
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
@@ -476,8 +476,7 @@ def page_social() -> str:
     corps = bloc(
         f"""{badge('social')}
       <h1 style="margin:1.1rem 0 0" data-t="social.titre">{t('social.titre')}</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="social.lead">{t('social.lead')}</p>
-      <p class="devise" data-t="social.devise">{t('social.devise')}</p>""",
+      <p class="lead" style="margin-top:1.2rem" data-t="social.lead">{t('social.lead')}</p>""",
         img("ilot-integre.jpg",
             "Infographie de l'Îlot Intégré, modèle d'ONG réplicable",
             "L'Îlot Intégré — infographie"))
@@ -488,7 +487,8 @@ def page_social() -> str:
       <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c2t">{t('social.c2t')}</h2>
       <p data-t="social.c2d">{t('social.c2d')}</p>
       <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c3t">{t('social.c3t')}</h2>
-      <p data-t="social.c3d">{t('social.c3d')}</p>""",
+      <p data-t="social.c3d">{t('social.c3d')}</p>
+      <p class="etiquette-devise"><span data-t="social.devise">{t('social.devise')}</span></p>""",
         img("social-madagascar.jpg",
             "Vue aérienne du terrain et de ses bâtiments à Madagascar",
             "Le terrain du premier pilote"),
