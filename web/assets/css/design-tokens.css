@@ -570,24 +570,26 @@ body[data-page="virtuel"] .ciel::after {
 body[data-page="neuroexo"] .ciel::after {
   background-image: url("../fonds/filaments.webp");
   background-position: center 45%;
+  opacity: .4;
 }
 
 /* un amas de galaxies en interaction : les forces qui s'allient */
 body[data-page="blueprint"] .ciel::after {
   background-image: url("../fonds/amas.webp");
+  opacity: .3;                     /* galaxies claires : on baisse */
 }
 
 /* une éclipse totale : la couronne, l'énergie, la renaissance */
 body[data-page="social"] .ciel::after {
   background-image: url("../fonds/eclipse.webp");
   background-position: center 45%;
-  opacity: .5;
+  opacity: .42;
 }
 
 /* une spirale vue de face : tout converge vers un centre */
 body[data-page="wish"] .ciel::after {
   background-image: url("../fonds/spirale.webp");
-  opacity: .38;
+  opacity: .34;
 }
 
 @keyframes derive-cosmique {
