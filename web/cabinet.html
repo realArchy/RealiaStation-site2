@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202611181303">
+<link rel="stylesheet" href="style.css?v=202611181318">
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611181303">
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611181318">
 </head>
 <body data-page="cabinet" data-audio="assets/audio/luna-12-cabinet.mp3">
 
@@ -65,7 +65,7 @@
         <div class="cadre-neon">
           <picture>
               <source srcset="assets/cabinet-services.webp" type="image/webp">
-              <img src="assets/cabinet-services.jpg" alt="Maquette holographique dorée et violette : des lieux reliés par des fils de lumière" width="1600" height="900"
+              <img src="assets/cabinet-services.jpg" alt="Bureau de travail réel : plans dépliés, ordinateur portable, tasse et plante" width="1600" height="900"
                class="cadre" loading="lazy" decoding="async">
             </picture>
         </div>
@@ -76,7 +76,7 @@
     </div>
   </section>
   <section class="section">
-    <div class="verre encart-ethique reveler" style="padding:1.9rem">
+    <div class="encart-ethique reveler" style="padding:1.9rem">
       <p class="etiq" style="color:#f2c65a" data-t="cabinet.ethique_t">Une frontière claire</p>
       <p style="margin:0" data-t="cabinet.ethique">Les dons et les revenus de LunaGalaxie financent exclusivement la mission sociale et la R&amp;D de l'exosquelette NeuroExo. Le Cabinet d'Études est mon activité commerciale indépendante : je mets ce même savoir-faire d'architecte au service des professionnels pour gagner ma vie honnêtement, sans jamais toucher aux fonds de la mission.</p>
     </div>
@@ -84,27 +84,60 @@
 
   <section class="section">
     <p class="etiq" data-t="cabinet.domaine_t">Les domaines d'intervention</p>
-    <div class="trio" style="margin-top:1.4rem">
-      <article class="verre carte reveler">
+    <div class="quatuor" style="margin-top:1.4rem">
+      <article class="carte-pro reveler">
+        <div class="carte-tete"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4a7 7 0 1 0 4.9 12L21 21"/><path d="M8 11h6M11 8v6"/></svg><span class="carte-num">01</span></div>
         <h3 data-t="cabinet.c1t">Audit &amp; étude de terrain</h3>
-        <p class="mono" style="font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#d4af37; margin:.2rem 0 .8rem" data-t="cabinet.c1s">Sur place ou à distance</p>
+        <p class="carte-sous" data-t="cabinet.c1s">Sur place ou à distance</p>
         <p data-t="cabinet.c1d">Observation réelle de vos frictions opérationnelles. Pas de jargon technique inutile : j'analyse vos pertes de temps, vos appels manqués et vos tâches répétitives pour dessiner une solution adaptée à votre réalité métier.</p>
       </article>
-      <article class="verre carte reveler">
+      <article class="carte-pro reveler">
+        <div class="carte-tete"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h11a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M8 11h4"/></svg><span class="carte-num">02</span></div>
         <h3 data-t="cabinet.c2t">Architectures agentiques &amp; WhatsApp</h3>
-        <p class="mono" style="font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#d4af37; margin:.2rem 0 .8rem" data-t="cabinet.c2s">Agents sur mesure</p>
+        <p class="carte-sous" data-t="cabinet.c2s">Agents sur mesure</p>
         <p data-t="cabinet.c2d">Conception d'agents IA sur mesure pour les professionnels débordés (dentistes, avocats, pousadas, artisans). Gestion automatisée des rendez-vous, qualification des demandes, suivi client et paiements intégrés (Pix, agendas, dossiers).</p>
       </article>
-      <article class="verre carte reveler">
+      <article class="carte-pro reveler">
+        <div class="carte-tete"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-5"/><path d="M8.5 12.5a5 5 0 0 1 7 0"/><path d="M5.5 9.5a9 9 0 0 1 13 0"/><circle cx="12" cy="17" r="1.4" fill="#d4af37" stroke="none"/></svg><span class="carte-num">03</span></div>
         <h3 data-t="cabinet.c3t">Passerelles IoT &amp; environnements connectés</h3>
-        <p class="mono" style="font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#d4af37; margin:.2rem 0 .8rem" data-t="cabinet.c3s">Du numérique au physique</p>
+        <p class="carte-sous" data-t="cabinet.c3s">Du numérique au physique</p>
         <p data-t="cabinet.c3d">Connexion entre l'intelligence artificielle et le monde physique : pilotage intelligent de l'énergie (climatisation), caméras connectées, domotique accessible (PMR) et alertes temps réel pour les petites structures.</p>
+      </article>
+      <article class="carte-pro reveler">
+        <div class="carte-tete"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 13l1.8 1.8 3.2-3.6"/></svg><span class="carte-num">04</span></div>
+        <h3 data-t="cabinet.c4t">Services à la demande &amp; études de faisabilité</h3>
+        <p class="carte-sous" data-t="cabinet.c4s">Cadrage avant décision</p>
+        <p data-t="cabinet.c4d">Une question précise, une réponse chiffrée : faisabilité technique et économique, cadrage du besoin, choix des outils, estimation de charge et de coût. Pour les projets que personne n'a encore osé cadrer.</p>
       </article>
     </div>
   </section>
 
+  <section class="split inverse">
+    <div class="split-texte reveler">
+      <p class="etiq" data-t="cabinet.pmr_t">Études de terrain &amp; accessibilité PMR</p>
+      <p data-t="cabinet.pmr_d" style="margin-top:1rem">Je me déplace chez vous et je mesure ce qui bloque vraiment : largeur des passages, seuils, rayons de giration, hauteurs de préhension, éclairage, cheminement de porte à porte. Le rapport donne des priorités et des ordres de coût, pas une liste de prescriptions hors sol. Mon fauteuil est mon instrument de mesure : ce que je ne peux pas franchir, vos clients ne le franchissent pas non plus.</p>
+      <ul class="puces"><li>Seuils et ressauts</li><li>Largeurs de passage</li><li>Rayons de giration</li><li>Hauteurs de préhension</li><li>Éclairage et contraste</li><li>Cheminement extérieur</li></ul>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+          <picture>
+              <source srcset="assets/cabinet-pmr.webp" type="image/webp">
+              <img src="assets/cabinet-pmr.jpg" alt="Personne en fauteuil roulant franchissant un seuil plat, large ouverture en bois" width="1600" height="900"
+               class="cadre" loading="lazy" decoding="async">
+            </picture>
+        </div>
+      </figure>
+        </div>
+        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; letter-spacing:.1em" data-t="cabinet.pmr_leg">Un seuil se mesure, il ne se devine pas</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="section" id="contact">
-    <div class="verre reveler" style="padding:1.9rem; text-align:center">
+    <div class="encart-contact reveler" style="padding:1.9rem; text-align:center">
       <h2 style="font-size:1.4rem; margin-bottom:.7rem" data-t="cabinet.contact_t">Prendre contact</h2>
       <p style="margin:0 auto 1.5rem; max-width:52ch" data-t="cabinet.contact">Écrivez-moi pour décrire votre situation en trois lignes : je réponds sous 48 heures avec une première lecture, gratuite et sans engagement.</p>
       <a href="mailto:[EMAIL_PRO]" class="bouton" data-t="cabinet.cta">Demander une étude / Prendre contact</a>
@@ -126,15 +159,15 @@
 
 </footer>
 
-<script src="traductions.js?v=202611181303" defer></script>
-<script src="i18n.js?v=202611181303" defer></script>
-<script src="revele.js?v=202611181303" defer></script>
-<script src="tiroir.js?v=202611181303" defer></script>
-<script src="audio.js?v=202611181303" defer></script>
-<script type="module" src="systeme.js?v=202611181303"></script>
-  <script src="impulsion.js?v=202611181303" defer></script>
-  <script src="lumiere-scroll.js?v=202611181303" defer></script>
-  <script src="vendor/lenis.min.js?v=202611181303" defer></script>
-  <script src="defilement-doux.js?v=202611181303" defer></script>
+<script src="traductions.js?v=202611181318" defer></script>
+<script src="i18n.js?v=202611181318" defer></script>
+<script src="revele.js?v=202611181318" defer></script>
+<script src="tiroir.js?v=202611181318" defer></script>
+<script src="audio.js?v=202611181318" defer></script>
+<script type="module" src="systeme.js?v=202611181318"></script>
+  <script src="impulsion.js?v=202611181318" defer></script>
+  <script src="lumiere-scroll.js?v=202611181318" defer></script>
+  <script src="vendor/lenis.min.js?v=202611181318" defer></script>
+  <script src="defilement-doux.js?v=202611181318" defer></script>
 </body>
 </html>

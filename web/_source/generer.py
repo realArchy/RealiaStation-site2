@@ -592,9 +592,21 @@ def page_archi() -> str:
 def page_cabinet() -> str:
     p = PAGES["cabinet"]
 
+    icones = {
+        1: '<path d="M11 4a7 7 0 1 0 4.9 12L21 21"/><path d="M8 11h6M11 8v6"/>',
+        2: '<path d="M4 5h11a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M8 11h4"/>',
+        3: '<path d="M12 20v-5"/><path d="M8.5 12.5a5 5 0 0 1 7 0"/><path d="M5.5 9.5a9 9 0 0 1 13 0"/><circle cx="12" cy="17" r="1.4" fill="#d4af37" stroke="none"/>',
+        4: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 13l1.8 1.8 3.2-3.6"/>',
+    }
+
+    def svg(i: int) -> str:
+        return (f'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" '
+                f'stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" '
+                f'aria-hidden="true">{icones[i]}</svg>')
+
     visuel = f"""      <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
-{img("cabinet-services.jpg", "Maquette holographique dorée et violette : des lieux reliés par des fils de lumière",
+{img("cabinet-services.jpg", "Bureau de travail réel : plans dépliés, ordinateur portable, tasse et plante",
      "")}
         </div>
         <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; letter-spacing:.1em" data-t="cabinet.figure_leg">{t('cabinet.figure_leg')}</figcaption>
@@ -609,25 +621,46 @@ def page_cabinet() -> str:
     # Le bloc éthique : encart distinct, bordé d'or.
     corps += f"""
   <section class="section">
-    <div class="verre encart-ethique reveler" style="padding:1.9rem">
+    <div class="encart-ethique reveler" style="padding:1.9rem">
       <p class="etiq" style="color:#f2c65a" data-t="cabinet.ethique_t">{t('cabinet.ethique_t')}</p>
       <p style="margin:0" data-t="cabinet.ethique">{t('cabinet.ethique')}</p>
     </div>
   </section>
 """
 
-    # Les trois domaines.
-    cartes = "\n".join(f"""      <article class="verre carte reveler">
+    # Les quatre domaines, sur deux colonnes.
+    cartes = "\n".join(f"""      <article class="carte-pro reveler">
+        <div class="carte-tete">{svg(i)}<span class="carte-num">0{i}</span></div>
         <h3 data-t="cabinet.c{i}t">{t(f'cabinet.c{i}t')}</h3>
-        <p class="mono" style="font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#d4af37; margin:.2rem 0 .8rem" data-t="cabinet.c{i}s">{t(f'cabinet.c{i}s')}</p>
+        <p class="carte-sous" data-t="cabinet.c{i}s">{t(f'cabinet.c{i}s')}</p>
         <p data-t="cabinet.c{i}d">{t(f'cabinet.c{i}d')}</p>
-      </article>""" for i in (1, 2, 3))
+      </article>""" for i in (1, 2, 3, 4))
 
     corps += f"""
   <section class="section">
     <p class="etiq" data-t="cabinet.domaine_t">{t('cabinet.domaine_t')}</p>
-    <div class="trio" style="margin-top:1.4rem">
+    <div class="quatuor" style="margin-top:1.4rem">
 {cartes}
+    </div>
+  </section>
+"""
+
+    # Études de terrain et accessibilité PMR, avec le visuel mesuré.
+    puces = "".join(f'<li>{x}</li>' for x in t("cabinet.pmr_puces").split("|"))
+    corps += f"""
+  <section class="split inverse">
+    <div class="split-texte reveler">
+      <p class="etiq" data-t="cabinet.pmr_t">{t('cabinet.pmr_t')}</p>
+      <p data-t="cabinet.pmr_d" style="margin-top:1rem">{t('cabinet.pmr_d')}</p>
+      <ul class="puces">{puces}</ul>
+    </div>
+    <div class="split-visuel reveler">
+      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+{img("cabinet-pmr.jpg", "Personne en fauteuil roulant franchissant un seuil plat, large ouverture en bois", "")}
+        </div>
+        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; letter-spacing:.1em" data-t="cabinet.pmr_leg">{t('cabinet.pmr_leg')}</figcaption>
+      </figure>
     </div>
   </section>
 """
@@ -635,7 +668,7 @@ def page_cabinet() -> str:
     # Prise de contact.
     corps += f"""
   <section class="section" id="contact">
-    <div class="verre reveler" style="padding:1.9rem; text-align:center">
+    <div class="encart-contact reveler" style="padding:1.9rem; text-align:center">
       <h2 style="font-size:1.4rem; margin-bottom:.7rem" data-t="cabinet.contact_t">{t('cabinet.contact_t')}</h2>
       <p style="margin:0 auto 1.5rem; max-width:52ch" data-t="cabinet.contact">{t('cabinet.contact')}</p>
       <a href="mailto:[EMAIL_PRO]" class="bouton" data-t="cabinet.cta">{t('cabinet.cta')}</a>
