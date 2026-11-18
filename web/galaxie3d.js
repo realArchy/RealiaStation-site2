@@ -83,11 +83,14 @@ const FRAG_DISQUE = `
 
     // voile de gaz : les grosses volutes, adoucies par le détail
     float voile = smoothstep(0.28, 0.86, n1 * 0.72 + n2 * 0.34);
-    // filaments de poussière sombre qui déchirent les bras
-    voile *= 1.0 - smoothstep(0.48, 0.92, n3) * 0.62;
+    // veines de poussière : deux échelles de bruit soustraites, comme sur les
+    // photos de Hubble — c'est ce qui découpe les bras lumineux
+    float veine = smoothstep(0.35, 0.80, n3 * 0.65 + n2 * 0.45);
+    voile *= 1.0 - veine * 0.86;
+    voile *= 1.0 - smoothstep(0.55, 0.95, fbm(vec2(spirale * 8.5, r * 21.0))) * 0.45;
 
     // le disque s'éteint près du trou noir et s'effiloche vers les bords
-    float anneau = smoothstep(0.10, 0.70, r) * (1.0 - smoothstep(1.5, uRayon, r));
+    float anneau = smoothstep(0.08, 0.55, r) * (1.0 - smoothstep(0.45 * uRayon, uRayon, r));
 
     vec3 chaud = vec3(1.00, 0.80, 0.46);
     vec3 bleu  = vec3(0.26, 0.44, 1.00);
@@ -102,9 +105,9 @@ const FRAG_DISQUE = `
     // un peu d'éclat doré tout près du trou noir
     densite += smoothstep(0.45, 0.10, r) * 0.45 * voile;
 
-    vec3 couleur = teinte * densite * 1.55;
+    vec3 couleur = teinte * densite * 0.42;
     // l'alpha porte la densité : sans gaz, le pixel reste transparent
-    gl_FragColor = vec4(couleur, clamp(densite * 1.15, 0.0, 1.0));
+    gl_FragColor = vec4(couleur, clamp(densite * 0.85, 0.0, 1.0));
   }
 `;
 
@@ -133,7 +136,7 @@ const FRAG_ACCRETION = `
     vec3 teinte = mix(or * 1.2, blanc, chaleur * chaleur * 0.45);
 
     float densite = chaleur * (0.55 + filament * 0.75);
-    gl_FragColor = vec4(teinte * densite * 2.3, clamp(densite * 1.1, 0.0, 1.0));
+    gl_FragColor = vec4(teinte * densite * 0.95, clamp(densite * 0.8, 0.0, 1.0));
   }
 `;
 
@@ -205,14 +208,14 @@ function demarrer() {
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 120);
-  camera.position.set(0, 3.1, 9.6);
+  camera.position.set(0, 2.6, 13.0);
   camera.lookAt(0, 0, 0);
 
   const galaxie = new THREE.Group();
-  galaxie.rotation.x = -0.66;      // vue de trois quarts, ~38°
-  galaxie.rotation.z = 0.18;
-  galaxie.scale.setScalar(0.86);
-  galaxie.position.set(1.05, -0.05, 0);
+  galaxie.rotation.x = -0.78;      // vue de trois quarts, ~45°
+  galaxie.rotation.z = -0.62;      // diagonale haut-gauche → bas-droite
+  galaxie.scale.setScalar(2.5);    // ×3 : elle traverse l'écran
+  galaxie.position.set(0.5, -0.7, 0);
   scene.add(galaxie);
 
   /* ---- disque de gaz, un seul plan, tout en shader */
@@ -249,7 +252,7 @@ function demarrer() {
   galaxie.add(nuage);
 
   /* ---- trou noir : sphère noire absolue */
-  const RB = 0.5;
+  const RB = 0.3;
   const trou = new THREE.Mesh(
     new THREE.SphereGeometry(RB, 48, 32),
     new THREE.MeshBasicMaterial({ color: 0x000000 }),
@@ -278,7 +281,7 @@ function demarrer() {
       uniforms: {
         uTemps: { value: 0 },
         uInterne: { value: RB * 1.06 },
-        uExterne: { value: 2.3 },
+        uExterne: { value: 1.5 },
       },
       transparent: true,
       ...additifPropre(),
@@ -287,13 +290,31 @@ function demarrer() {
     }),
   );
   acc.rotation.x = -Math.PI / 2;
+  acc.scale.setScalar(0.55);
   acc.renderOrder = 6;
   galaxie.add(acc);
+
+  /* ---- halo chaud autour du trou noir : il adoucit le bord de la sphère */
+  const lueur = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: textureDouce(), color: 0xff9a3c, transparent: true,
+    ...additifPropre(), depthWrite: false, opacity: 0.34,
+  }));
+  lueur.scale.setScalar(2.2);
+  lueur.renderOrder = 4;
+  galaxie.add(lueur);
+
+  const lueur2 = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: textureDouce(), color: 0xffd9a0, transparent: true,
+    ...additifPropre(), depthWrite: false, opacity: 0.22,
+  }));
+  lueur2.scale.setScalar(4.2);
+  lueur2.renderOrder = 3;
+  galaxie.add(lueur2);
 
   /* ---- halo diffus du bulbe */
   const halo = new THREE.Sprite(new THREE.SpriteMaterial({
     map: textureDouce(), color: 0xffd9a0, transparent: true,
-    ...additifPropre(), depthWrite: false, opacity: 0.35,
+    ...additifPropre(), depthWrite: false, opacity: 0.18,
   }));
   halo.scale.setScalar(2.2);
   halo.renderOrder = 1;
