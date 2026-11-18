@@ -618,10 +618,12 @@ body[data-page="realia"] .ciel::after {
   opacity: .45;                    /* cliché très sombre : on peut monter */
 }
 
+/* LunaGalaxie : plus de photo — une galaxie WebGL (galaxie3d.js) prend sa
+   place. Le ::after ne sert plus qu'à garantir la lisibilité du texte. */
 body[data-page="luna"] .ciel::after {
-  background-image: url("../fonds/fond-luna.webp");
-  background-position: center 55%;
-  opacity: .34;
+  background-image:
+    radial-gradient(62% 58% at 30% 46%, rgba(5, 2, 10, .84), rgba(5, 2, 10, .34) 58%, transparent 80%);
+  opacity: 1;
 }
 
 body[data-page="archi"] .ciel::after {
@@ -696,4 +698,14 @@ body[data-page="neuroexo"] .split-texte::before {
 
 @media (prefers-reduced-motion: reduce) {
   .ciel { transform: none; }
+}
+
+
+/* le canvas de la galaxie, sous les étoiles et sous le contenu */
+.galaxie-fond {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
 }

@@ -472,6 +472,9 @@ def page_luna() -> str:
         img("luna-equipage.jpg", "L'équipage de LunaGalaxie, portraits cartoon cyberpunk",
             "L'équipage du GhostSheller"),
         inverse=True)
+    corps += f"""
+  <script type="module" src="galaxie3d.js?v={VERSION}"></script>
+"""
     return enveloppe("luna", corps, t("luna.titre"), t("luna.lead")[:150])
 
 

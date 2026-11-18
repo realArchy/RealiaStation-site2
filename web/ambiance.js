@@ -37,7 +37,7 @@
   var dernier = 0, temps = 0;
 
   function installerCanvas() {
-    if (page !== 'neuroexo' && page !== 'luna') return;
+    if (page !== 'neuroexo') return;   // Luna a sa galaxie WebGL, plus de canvas plat
     canvas = document.createElement('canvas');
     canvas.setAttribute('aria-hidden', 'true');
     canvas.className = 'impulsions-fond';
@@ -63,30 +63,19 @@
     ondes = [];
     etoiles = [];
     particules = [];
-    if (page === 'neuroexo') {
-      // trois ondes décalées, comme un influx qui part du corps du neurone
-      for (var i = 0; i < 3; i++) ondes.push({ age: i * 1.15, duree: 3.4 });
-      // poussière dorée qui dérive lentement
-      for (var j = 0; j < 46; j++) {
-        particules.push({
-          x: Math.random() * L,
-          y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.16,
-          vy: (Math.random() - 0.5) * 0.12,
-          r: 0.6 + Math.random() * 1.3,
-          phase: Math.random() * Math.PI * 2,
-        });
-      }
-    } else if (page === 'luna') {
-      for (var k = 0; k < 90; k++) {
-        etoiles.push({
-          x: Math.random() * L,
-          y: Math.random() * H,
-          r: 0.5 + Math.random() * 1.2,
-          phase: Math.random() * Math.PI * 2,
-          vitesse: 0.6 + Math.random() * 1.4,
-        });
-      }
+    if (page !== 'neuroexo') return;
+    // trois ondes décalées, comme un influx qui part du corps du neurone
+    for (var i = 0; i < 3; i++) ondes.push({ age: i * 1.15, duree: 3.4 });
+    // poussière dorée qui dérive lentement
+    for (var j = 0; j < 46; j++) {
+      particules.push({
+        x: Math.random() * L,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.16,
+        vy: (Math.random() - 0.5) * 0.12,
+        r: 0.6 + Math.random() * 1.3,
+        phase: Math.random() * Math.PI * 2,
+      });
     }
   }
 
