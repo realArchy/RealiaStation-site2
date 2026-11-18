@@ -51,6 +51,14 @@ NAV = {
 # 1. Accueil
 # ---------------------------------------------------------------------------
 ACCUEIL = {
+    "index.slogan1": T("On capte, on stimule, on simule.",
+                 "We sense, we stimulate, we simulate.",
+                 "Captamos, estimulamos, simulamos.",
+                 "我们采集，我们刺激，我们仿真。"),
+    "index.slogan2": T("Le chemin est là, c'est le parcourir qui va l'élargir.",
+                 "The path is there; walking it is what will widen it.",
+                 "O caminho está lá; é percorrê-lo que vai alargá-lo.",
+                 "路就在那里，走上去，它才会变宽。"),
     "index.badge": T("🚧 EN CHANTIER — WEBSITE ÉVOLUTIF",
                      "🚧 WORK IN PROGRESS — EVOLVING WEBSITE",
                      "🚧 EM OBRAS — SITE EM EVOLUÇÃO",

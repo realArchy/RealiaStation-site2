@@ -269,8 +269,10 @@ def page_index() -> str:
 """
     corps += bloc(
         f"""      <p class="etiq">Manifeste</p>
-      <h2 data-t="index.titre">{t('index.titre')}</h2>
-      <p class="lead" data-t="index.lead">{t('index.lead')}</p>""",
+        <h2 data-t="index.titre">{t('index.titre')}</h2>
+        <p class="slogan" data-t="index.slogan1">{t('index.slogan1')}</p>
+        <p class="lead" data-t="index.lead">{t('index.lead')}</p>
+        <p class="slogan-final" data-t="index.slogan2">{t('index.slogan2')}</p>""",
         img("index-declic.jpg",
             "Silhouette dans un exosquelette face à un stade illuminé",
             "Le déclic — 12 juin 2014"))
@@ -505,6 +507,20 @@ def page_social() -> str:
         <h3 data-t="social.eco_{i}">{t(f'social.eco_{i}')}</h3>
         <p data-t="social.eco_{i}d">{t(f'social.eco_{i}d')}</p>
       </article>""" for i in range(1, 5))
+    phases = "\n".join(f"""      <article class="verre carte reveler">
+        <h3 data-t="social.ph{i}t">{t(f'social.ph{i}t')}</h3>
+        <p data-t="social.ph{i}d">{t(f'social.ph{i}d')}</p>
+      </article>""" for i in (1, 2, 3))
+
+    corps += f"""
+  <section class="section">
+    <p class="etiq" data-t="social.phases_t">{t('social.phases_t')}</p>
+    <div class="trio" style="margin-top:1.4rem">
+{phases}
+    </div>
+  </section>
+"""
+
     corps += f"""
   <section class="section">
     <p class="etiq" data-t="social.eco_titre">{t('social.eco_titre')}</p>

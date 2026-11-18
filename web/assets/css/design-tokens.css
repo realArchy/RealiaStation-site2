@@ -499,3 +499,35 @@ h1, h2, h3,
 @media (prefers-reduced-motion: reduce) {
   .devise-neon.clignote { animation: none; }
 }
+
+
+/* ============================== les slogans du Manifeste
+   Deux phrases courtes, deux rôles : la première résume la méthode, la
+   seconde ferme le paragraphe. Aucune animation, aucune boîte. */
+.slogan {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: #fff;
+  margin: 0 0 1.3rem;
+}
+
+.slogan::after {
+  content: "";
+  display: block;
+  width: 3.2rem;
+  height: 2px;
+  margin-top: .85rem;
+  background: linear-gradient(90deg, #d4af37, transparent);
+}
+
+.slogan-final {
+  font-family: 'Caveat', 'Segoe Script', cursive;
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  line-height: 1.35;
+  color: #f2c65a;
+  margin: 1.6rem 0 0;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(212, 175, 55, .7);
+}
