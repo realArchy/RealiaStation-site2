@@ -582,8 +582,8 @@ body[data-page="blueprint"] .ciel::after {
 /* une éclipse totale : la couronne, l'énergie, la renaissance */
 body[data-page="social"] .ciel::after {
   background-image: url("../fonds/eclipse.webp");
-  background-position: center 45%;
-  opacity: .42;
+  background-position: 66% 42%;
+  opacity: .34;                    /* le disque est noir : on l'allège encore */
 }
 
 /* une spirale vue de face : tout converge vers un centre */
