@@ -359,3 +359,12 @@ h1, h2, h3,
   animation-delay: var(--d, 0s);
   will-change: transform, filter;
 }
+
+
+/* ============================== encart éthique (Cabinet & Services)
+   Une carte comme les autres, mais bordée d'or : la frontière entre la
+   mission et l'activité commerciale doit se voir avant d'être lue. */
+.encart-ethique {
+  border: 1px solid rgba(212, 175, 55, .55);
+  box-shadow: 0 0 26px rgba(212, 175, 55, .18), inset 0 0 30px rgba(212, 175, 55, .06);
+}

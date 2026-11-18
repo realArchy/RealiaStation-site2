@@ -40,6 +40,7 @@ ORDRE = [
     ("social", "meta-projet-social.html", "luna-07-ilot-ong"),
     ("blueprint", "blueprint.html", "luna-11-blueprint"),
     ("archi", "architecte.html", "luna-08-architecte"),
+    ("cabinet", "cabinet.html", "luna-12-cabinet"),
     ("wish", "wishlist.html", "luna-09-wishlist"),
     ("boutique", "boutique.html", "luna-10-noel"),
 ]
@@ -68,7 +69,7 @@ def e(s: str) -> str:
 def nav(page: str) -> str:
     idx = [p[0] for p in ORDRE].index(page)
     cles = ("accueil", "virtuel", "neuroexo", "devkit", "realia",
-            "luna", "social", "blueprint", "archi", "wishlist", "boutique")
+            "luna", "social", "blueprint", "archi", "cabinet", "wishlist", "boutique")
     liens = []
     for i, (cle, (pid, f, _a)) in enumerate(zip(cles, ORDRE)):
         courant = ' aria-current="page"' if i == idx else ""
@@ -588,6 +589,63 @@ def page_archi() -> str:
     return enveloppe("archi", corps, t("archi.titre")[:60], t("archi.intro")[:150])
 
 
+def page_cabinet() -> str:
+    p = PAGES["cabinet"]
+
+    visuel = f"""      <figure class="profondeur" style="margin:0">
+        <div class="cadre-neon">
+{img("cabinet-services.jpg", "Maquette holographique dorée et violette : des lieux reliés par des fils de lumière",
+     "")}
+        </div>
+        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.8rem; letter-spacing:.1em" data-t="cabinet.figure_leg">{t('cabinet.figure_leg')}</figcaption>
+      </figure>"""
+
+    corps = bloc(
+        f"""<p class="etiq" data-t="cabinet.etiq">{t('cabinet.etiq')}</p>
+      <h1 style="margin:.6rem 0 0" data-t="cabinet.titre">{t('cabinet.titre')}</h1>
+      <p class="lead" style="margin-top:1.4rem" data-t="cabinet.intro">{t('cabinet.intro')}</p>""",
+        visuel)
+
+    # Le bloc éthique : encart distinct, bordé d'or.
+    corps += f"""
+  <section class="section">
+    <div class="verre encart-ethique reveler" style="padding:1.9rem">
+      <p class="etiq" style="color:#f2c65a" data-t="cabinet.ethique_t">{t('cabinet.ethique_t')}</p>
+      <p style="margin:0" data-t="cabinet.ethique">{t('cabinet.ethique')}</p>
+    </div>
+  </section>
+"""
+
+    # Les trois domaines.
+    cartes = "\n".join(f"""      <article class="verre carte reveler">
+        <h3 data-t="cabinet.c{i}t">{t(f'cabinet.c{i}t')}</h3>
+        <p class="mono" style="font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#d4af37; margin:.2rem 0 .8rem" data-t="cabinet.c{i}s">{t(f'cabinet.c{i}s')}</p>
+        <p data-t="cabinet.c{i}d">{t(f'cabinet.c{i}d')}</p>
+      </article>""" for i in (1, 2, 3))
+
+    corps += f"""
+  <section class="section">
+    <p class="etiq" data-t="cabinet.domaine_t">{t('cabinet.domaine_t')}</p>
+    <div class="trio" style="margin-top:1.4rem">
+{cartes}
+    </div>
+  </section>
+"""
+
+    # Prise de contact.
+    corps += f"""
+  <section class="section" id="contact">
+    <div class="verre reveler" style="padding:1.9rem; text-align:center">
+      <h2 style="font-size:1.4rem; margin-bottom:.7rem" data-t="cabinet.contact_t">{t('cabinet.contact_t')}</h2>
+      <p style="margin:0 auto 1.5rem; max-width:52ch" data-t="cabinet.contact">{t('cabinet.contact')}</p>
+      <a href="mailto:[EMAIL_PRO]" class="bouton" data-t="cabinet.cta">{t('cabinet.cta')}</a>
+      <p class="mono faible" style="font-size:.68rem; margin-top:1rem; letter-spacing:.1em">[EMAIL_PRO] · [WHATSAPP_PRO]</p>
+    </div>
+  </section>
+"""
+    return enveloppe("cabinet", corps, t("cabinet.titre")[:60], t("cabinet.intro")[:150])
+
+
 def page_wishlist() -> str:
     prix = {"1": "≈ 2 000 €", "2": "≈ 185 €", "3": "≈ 45 €", "4": "≈ 120 €"}
     lignes = "\n".join(f"""      <div class="ligne-wish">
@@ -895,6 +953,7 @@ def main() -> None:
         "social": page_social(),
         "blueprint": page_blueprint(),
         "archi": page_archi(),
+        "cabinet": page_cabinet(),
         "wish": page_wishlist(),
         "boutique": page_boutique(),
     }

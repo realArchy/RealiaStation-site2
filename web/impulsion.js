@@ -237,8 +237,8 @@
 
       '@keyframes dock-mot {' +
         '0%{transform:scale(1);filter:brightness(1)}' +
-        pct(0.1) + '%{transform:scale(1.09);filter:brightness(2.2)}' +
-        pct(0.1 + ECLAT.mot * 0.5) + '%{transform:scale(1.09);filter:brightness(2.2)}' +
+        pct(0.1) + '%{transform:scale(1.05);filter:brightness(2.3)}' +
+        pct(0.1 + ECLAT.mot * 0.5) + '%{transform:scale(1.05);filter:brightness(2.3)}' +
         pct(0.1 + ECLAT.mot) + '%{transform:scale(1);filter:brightness(1)}' +
         '100%{transform:scale(1);filter:brightness(1)}}' +
 

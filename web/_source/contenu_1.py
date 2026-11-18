@@ -27,6 +27,7 @@ NAV = {
     "nav.social":   T("Projet social", "Social project", "Projeto social", "社会项目"),
     "nav.blueprint": T("Blueprint", "Blueprint", "Blueprint", "蓝图"),
     "nav.archi":    T("L'Architecte", "The Architect", "O Arquiteto", "建筑师"),
+    "nav.cabinet":  T("Cabinet & Services", "Cabinet & Services", "Gabinete & Serviços", "工作室与服务"),
     "nav.wishlist": T("Wishlist", "Wishlist", "Lista de desejos", "心愿单"),
     "nav.boutique": T("Boutique", "Shop", "Loja", "商店"),
 

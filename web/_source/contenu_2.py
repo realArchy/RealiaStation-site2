@@ -302,6 +302,65 @@ PAGES["archi"] = {
 }
 
 # ---------------------------------------------------------------------------
+# 8 bis. Cabinet & Services (tiroir 12)
+# ---------------------------------------------------------------------------
+PAGES["cabinet"] = {
+    "cle": "cabinet",
+    "fichier": "cabinet.html",
+    "badge": T("ACTIVITÉ INDÉPENDANTE", "INDEPENDENT PRACTICE",
+               "ATIVIDADE INDEPENDENTE", "独立业务"),
+    "etiq": T("Activité professionnelle & conseil", "Professional activity & consulting",
+              "Atividade profissional e consultoria", "专业活动与咨询"),
+    "titre": T("Le Cabinet d'Études de l'Architecte", "The Architect's Study Cabinet",
+               "O Gabinete de Estudos do Arquiteto", "建筑师的顾问工作室"),
+    "intro": T("De la conception de circuits touristiques sur mesure à l'architecture d'agents IA : le métier reste le même. Cartographier les flux, anticiper les besoins humains et orchestrer des systèmes complexes pour effacer les frictions du quotidien.",
+               "From designing tailor-made tourism circuits to architecting AI agents: the craft is the same. Mapping flows, anticipating human needs and orchestrating complex systems to erase everyday friction.",
+               "Do desenho de circuitos turísticos sob medida à arquitetura de agentes de IA: o ofício é o mesmo. Mapear fluxos, antecipar necessidades humanas e orquestrar sistemas complexos para apagar as fricções do dia a dia.",
+               "从量身定制的旅游线路设计，到人工智能智能体的架构：手艺从未改变。梳理流线、预判人的需求、编排复杂系统，抹去日常的摩擦。"),
+    "ethique_t": T("Une frontière claire", "A clear boundary",
+                   "Uma fronteira clara", "一条清晰的界线"),
+    "ethique": T("Les dons et les revenus de LunaGalaxie financent exclusivement la mission sociale et la R&D de l'exosquelette NeuroExo. Le Cabinet d'Études est mon activité commerciale indépendante : je mets ce même savoir-faire d'architecte au service des professionnels pour gagner ma vie honnêtement, sans jamais toucher aux fonds de la mission.",
+                "Donations and LunaGalaxie revenue fund only the social mission and NeuroExo's exoskeleton R&D. The Study Cabinet is my independent commercial activity: I put the same architectural know-how at the service of professionals to earn my living honestly, without ever touching the mission's funds.",
+                "As doações e a receita da LunaGalaxie financiam exclusivamente a missão social e a P&D do exoesqueleto NeuroExo. O Gabinete de Estudos é minha atividade comercial independente: coloco esse mesmo savoir-faire de arquiteto a serviço dos profissionais para ganhar a vida com honestidade, sem nunca tocar nos fundos da missão.",
+                "捐赠与 LunaGalaxie 的收入只用于社会使命和 NeuroExo 外骨骼的研发。顾问工作室是我独立的商业活动：我把同样的架构手艺用于服务专业人士，靠诚实劳动谋生，绝不动用使命的资金。"),
+    "domaine_t": T("Les domaines d'intervention", "Areas of work",
+                   "As áreas de atuação", "服务领域"),
+    "c1t": T("Audit & étude de terrain", "Audit & field study",
+             "Auditoria e estudo de campo", "审计与实地调研"),
+    "c1s": T("Sur place ou à distance", "On site or remote",
+             "No local ou à distância", "现场或远程"),
+    "c1d": T("Observation réelle de vos frictions opérationnelles. Pas de jargon technique inutile : j'analyse vos pertes de temps, vos appels manqués et vos tâches répétitives pour dessiner une solution adaptée à votre réalité métier.",
+             "A real observation of your operational friction. No useless technical jargon: I analyse your lost time, missed calls and repetitive tasks to design a solution that fits your actual trade.",
+             "Observação real das suas fricções operacionais. Sem jargão técnico inútil: analiso suas perdas de tempo, chamadas perdidas e tarefas repetitivas para desenhar uma solução adaptada à sua realidade profissional.",
+             "实地观察你的运营摩擦。不说没用的术语：我分析你浪费的时间、漏接的电话和重复劳动，画出贴合你行业现实的方案。"),
+    "c2t": T("Architectures agentiques & WhatsApp", "Agentic architectures & WhatsApp",
+             "Arquiteturas agênticas e WhatsApp", "智能体架构与 WhatsApp"),
+    "c2s": T("Agents sur mesure", "Tailor-made agents", "Agentes sob medida", "量身定制的智能体"),
+    "c2d": T("Conception d'agents IA sur mesure pour les professionnels débordés (dentistes, avocats, pousadas, artisans). Gestion automatisée des rendez-vous, qualification des demandes, suivi client et paiements intégrés (Pix, agendas, dossiers).",
+             "Tailor-made AI agents for overstretched professionals (dentists, lawyers, guesthouses, craftspeople). Automated appointments, request qualification, client follow-up and integrated payments (Pix, calendars, records).",
+             "Concepção de agentes de IA sob medida para profissionais sobrecarregados (dentistas, advogados, pousadas, artesãos). Gestão automática de agendamentos, qualificação de pedidos, acompanhamento do cliente e pagamentos integrados (Pix, agendas, prontuários).",
+             "为疲于应付的专业人士（牙医、律师、民宿、手艺人）量身设计智能体：自动管理预约、筛选需求、跟进客户并集成支付（Pix、日程、档案）。"),
+    "c3t": T("Passerelles IoT & environnements connectés", "IoT bridges & connected spaces",
+             "Pontes IoT e ambientes conectados", "物联网网关与互联空间"),
+    "c3s": T("Du numérique au physique", "From digital to physical", "Do digital ao físico", "从数字到物理"),
+    "c3d": T("Connexion entre l'intelligence artificielle et le monde physique : pilotage intelligent de l'énergie (climatisation), caméras connectées, domotique accessible (PMR) et alertes temps réel pour les petites structures.",
+             "Connecting artificial intelligence to the physical world: smart energy control (air conditioning), connected cameras, accessible home automation (for reduced mobility) and real-time alerts for small organisations.",
+             "Conexão entre a inteligência artificial e o mundo físico: controle inteligente de energia (ar-condicionado), câmeras conectadas, domótica acessível (mobilidade reduzida) e alertas em tempo real para pequenas estruturas.",
+             "把人工智能接到物理世界：能耗智能调控（空调）、联网摄像头、无障碍家居（行动不便者）以及面向小型机构实时告警。"),
+    "contact_t": T("Prendre contact", "Get in touch", "Entrar em contato", "联系"),
+    "contact": T("Écrivez-moi pour décrire votre situation en trois lignes : je réponds sous 48 heures avec une première lecture, gratuite et sans engagement.",
+                 "Write three lines about your situation: I answer within 48 hours with a first reading, free and without commitment.",
+                 "Escreva três linhas sobre a sua situação: respondo em 48 horas com uma primeira leitura, gratuita e sem compromisso.",
+                 "用三行话描述你的处境，我在 48 小时内回复一份初步判断，免费且不附带任何承诺。"),
+    "cta": T("Demander une étude / Prendre contact", "Request a study / Get in touch",
+             "Solicitar um estudo / Entrar em contato", "申请调研 / 联系我"),
+    "figure_leg": T("Le cabinet : cartographier, relier, alléger",
+                    "The cabinet: map, connect, lighten",
+                    "O gabinete: mapear, conectar, aliviar",
+                    "工作室：梳理、连接、减负"),
+}
+
+# ---------------------------------------------------------------------------
 # 9. Wishlist
 # ---------------------------------------------------------------------------
 PAGES["wish"] = {
