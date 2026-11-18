@@ -542,6 +542,12 @@ h1, h2, h3,
 
 .ciel::before { z-index: 3; }        /* les étoiles passent devant la photo */
 
+body[data-page="devkit"] .ciel::after,
+body[data-page="realia"] .ciel::after,
+body[data-page="luna"] .ciel::after,
+body[data-page="archi"] .ciel::after,
+body[data-page="cabinet"] .ciel::after,
+body[data-page="boutique"] .ciel::after,
 body[data-page="virtuel"] .ciel::after,
 body[data-page="neuroexo"] .ciel::after,
 body[data-page="blueprint"] .ciel::after,
@@ -599,4 +605,39 @@ body[data-page="wish"] .ciel::after {
 
 @media (prefers-reduced-motion: reduce) {
   body[data-page] .ciel::after { animation: none; transform: scale(1.02); }
+}
+
+
+/* ---- six fonds supplémentaires : la même règle de profondeur
+   Chacun a son image et son opacité, réglée sur la clarté du cliché. */
+body[data-page="devkit"] .ciel::after {
+  background-image: url("../fonds/fond-devkit.webp");
+  opacity: .32;
+}
+
+body[data-page="realia"] .ciel::after {
+  background-image: url("../fonds/fond-realia.webp");
+  opacity: .45;                    /* cliché très sombre : on peut monter */
+}
+
+body[data-page="luna"] .ciel::after {
+  background-image: url("../fonds/fond-luna.webp");
+  background-position: center 55%;
+  opacity: .34;
+}
+
+body[data-page="archi"] .ciel::after {
+  background-image: url("../fonds/fond-archi.webp");
+  opacity: .32;
+}
+
+body[data-page="cabinet"] .ciel::after {
+  background-image: url("../fonds/fond-cabinet.webp");
+  opacity: .38;
+}
+
+body[data-page="boutique"] .ciel::after {
+  background-image: url("../fonds/fond-boutique.webp");
+  background-position: 42% 50%;
+  opacity: .3;
 }
