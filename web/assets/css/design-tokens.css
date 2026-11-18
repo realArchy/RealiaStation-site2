@@ -705,7 +705,9 @@ body[data-page="neuroexo"] .split-texte::before {
 .galaxie-fond {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  /* au-dessus du voile sombre (::after, z=1) et sous les étoiles CSS (::before, z=3) :
+     sinon le dégradé de lisibilité grise la galaxie */
+  z-index: 2;
   display: block;
   pointer-events: none;
 }
