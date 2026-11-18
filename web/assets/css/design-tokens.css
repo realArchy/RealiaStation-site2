@@ -561,7 +561,6 @@ body[data-page="wish"] .ciel::after {
   background-position: center;
   background-size: cover;
   opacity: .42;
-  animation: derive-cosmique 120s ease-in-out infinite alternate;
   will-change: transform;
 }
 
@@ -598,10 +597,9 @@ body[data-page="wish"] .ciel::after {
   opacity: .34;
 }
 
-@keyframes derive-cosmique {
-  from { transform: scale(1.02) translate3d(0, 0, 0); }
-  to   { transform: scale(1.10) translate3d(-1.2%, -1.6%, 0); }
-}
+/* La respiration lente est écrite par ambiance.js dans --echelle : une
+   animation d'image clé aurait écrasé la parallaxe (les deux écrivent
+   transform), et animer une variable CSS demande @property. */
 
 @media (prefers-reduced-motion: reduce) {
   body[data-page] .ciel::after { animation: none; transform: scale(1.02); }
@@ -640,4 +638,62 @@ body[data-page="boutique"] .ciel::after {
   background-image: url("../fonds/fond-boutique.webp");
   background-position: 42% 50%;
   opacity: .3;
+}
+
+
+/* ======================================= parallaxe 2,5D sur le ciel entier
+   Le ciel déborde de 6 % : en tournant de 1,2°, aucun bord ne doit apparaître.
+   Seuls des transform sont écrits, par le script ambiance.js, deux fois par
+   image au plus. */
+/* la parallaxe vit sur la PHOTO (.ciel::after, déjà en débord de 6 %), pas
+   sur .ciel : élargir .ciel faisait apparaître 44 px de défilement latéral */
+.ciel::after {
+  transform:
+    translate3d(var(--px, 0px), var(--py, 0px), 0)
+    rotate3d(0, 1, 0, var(--ry, 0deg))
+    rotate3d(1, 0, 0, var(--rx, 0deg))
+    scale(var(--echelle, 1.02));
+  will-change: transform;
+}
+
+/* le canvas des impulsions passe sous les étoiles, au-dessus de la photo */
+.impulsions-fond {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ============================ lisibilité : halo sombre derrière le texte
+   Sur NeuroExoAI, les filaments dorés passent sous le paragraphe. Un halo
+   diffus, porté par le texte lui-même, suffit : l'image reste intacte. */
+body[data-page="neuroexo"] .split-texte,
+body[data-page="neuroexo"] .verre {
+  position: relative;
+}
+
+body[data-page="neuroexo"] .split-texte > h1,
+body[data-page="neuroexo"] .split-texte > h2,
+body[data-page="neuroexo"] .split-texte > h3,
+body[data-page="neuroexo"] .split-texte > p,
+body[data-page="neuroexo"] .split-texte > ul,
+body[data-page="neuroexo"] .verre h2,
+body[data-page="neuroexo"] .verre p {
+  text-shadow:
+    0 0 12px rgba(5, 2, 10, .95),
+    0 0 28px rgba(5, 2, 10, .8),
+    0 1px 3px rgba(0, 0, 0, .9);
+}
+
+body[data-page="neuroexo"] .split-texte::before {
+  content: "";
+  position: absolute;
+  inset: -3rem -2rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(58% 66% at 38% 44%, rgba(5, 2, 10, .62), transparent 72%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ciel { transform: none; }
 }
