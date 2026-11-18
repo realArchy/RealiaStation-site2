@@ -119,6 +119,7 @@ def scripts(particules: bool = False) -> str:
 <script src="audio.js?v={VERSION}" defer></script>
 <script type="module" src="systeme.js?v={VERSION}"></script>
   <script src="impulsion.js?v={VERSION}" defer></script>
+  <script src="devise-neon.js?v={VERSION}" defer></script>
   <script src="lumiere-scroll.js?v={VERSION}" defer></script>
   <script src="vendor/lenis.min.js?v={VERSION}" defer></script>
   <script src="defilement-doux.js?v={VERSION}" defer></script>"""
@@ -487,12 +488,17 @@ def page_social() -> str:
       <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c2t">{t('social.c2t')}</h2>
       <p data-t="social.c2d">{t('social.c2d')}</p>
       <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c3t">{t('social.c3t')}</h2>
-      <p data-t="social.c3d">{t('social.c3d')}</p>
-      <p class="etiquette-devise"><span data-t="social.devise">{t('social.devise')}</span></p>""",
+      <p data-t="social.c3d">{t('social.c3d')}</p>""",
         img("social-madagascar.jpg",
             "Vue aérienne du terrain et de ses bâtiments à Madagascar",
             "Le terrain du premier pilote"),
         inverse=True)
+
+    corps += f"""
+  <section class="section section-devise">
+    <p class="devise-neon" data-t="social.devise">{t('social.devise')}</p>
+  </section>
+"""
 
     boucles = "\n".join(
         f"""      <article class="verre carte reveler">

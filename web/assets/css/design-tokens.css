@@ -443,44 +443,59 @@ h1, h2, h3,
 }
 
 
-/* ============================== l'étiquette-devise du projet social
-   Une phrase écrite à la main, posée de travers comme un papillon collé sur
-   la page : fond chaud très clair, bordure abricot, texte dégradé rose →
-   abricot → jaune. Rien d'institutionnel. */
-.etiquette-devise {
-  display: inline-block;
-  margin: 1.7rem 0 .6rem;
-  padding: .55rem 1.5rem .85rem;
-  border-radius: 22px 999px 22px 999px;
-  /* un vrai papillon clair : crème, bordure abricot, halo chaud */
-  background:
-    radial-gradient(120% 140% at 8% 0%, rgba(255, 199, 214, .95), transparent 62%),
-    radial-gradient(120% 140% at 96% 100%, rgba(255, 236, 179, .95), transparent 62%),
-    #fff7ec;
-  border: 2px solid #ffb347;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, .35),
-    0 0 40px rgba(255, 183, 77, .35),
-    0 0 70px rgba(255, 143, 177, .22);
-  transform: rotate(-1.6deg);
-  transition: transform .3s ease, box-shadow .3s ease;
-  max-width: 100%;
+/* ================================= la phrase-devise, néon rouge puis vert
+   Centrée, seule dans sa bande, écrite en calligraphie, très grande.
+   Elle a sa propre pulsation : le balayage la fait passer du rouge au vert
+   lettre par lettre, puis trois clignotements, puis retour au rouge.
+   Script dédié : devise-neon.js. */
+.section-devise {
+  text-align: center;
+  padding: 5.5rem 1.2rem 6.5rem;
 }
 
-.etiquette-devise:hover { transform: rotate(0deg) translateY(-2px); }
-
-.etiquette-devise span {
+.devise-neon {
   display: inline-block;
+  margin: 0;
+  max-width: 22ch;
   font-family: 'Caveat', 'Segoe Script', cursive;
-  font-size: clamp(1.45rem, 2.5vw, 2.05rem);
+  font-size: clamp(2.2rem, 5.4vw, 4.4rem);
   font-weight: 700;
   line-height: 1.18;
   letter-spacing: .01em;
-  background-image: linear-gradient(100deg, #d81b6a 0%, #e8590c 52%, #b8860b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  text-shadow: none;
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .8));
+  color: #ff2b4a;
+  text-shadow:
+    0 0 6px #ff2b4a,
+    0 0 18px rgba(255, 43, 74, .95),
+    0 0 42px rgba(255, 43, 74, .7),
+    0 0 80px rgba(255, 43, 74, .45);
+  transition: opacity .18s ease;
+}
+
+.devise-neon .l {
+  display: inline-block;
+  transition: color .16s ease, text-shadow .16s ease;
+}
+
+.devise-neon .l.vert {
+  color: #35ff9a;
+  text-shadow:
+    0 0 6px #35ff9a,
+    0 0 18px rgba(53, 255, 154, .95),
+    0 0 42px rgba(53, 255, 154, .7),
+    0 0 80px rgba(53, 255, 154, .4);
+}
+
+/* trois clignotements, joués une fois par le script */
+.devise-neon.clignote {
+  animation: clignote-devise .3s ease-in-out 3;
+}
+
+@keyframes clignote-devise {
+  0%   { opacity: 1; }
+  45%  { opacity: .12; }
+  100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .devise-neon.clignote { animation: none; }
 }
