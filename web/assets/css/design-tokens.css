@@ -720,3 +720,15 @@ body[data-page="neuroexo"] .split-texte::before {
 .entete .nav-haut > .bouton.circuit-el {
   animation-name: dock-bouton;
 }
+
+
+/* ===================== l'impulsion est pilotée par GSAP (impulsion.js)
+   Les images clés CSS restent en secours : dès que le moteur tourne, il pose
+   la classe .gsap-impulsion sur <html> et ces animations se taisent, sinon
+   les deux écrivent transform/filter en même temps. */
+html.gsap-impulsion .lettre,
+html.gsap-impulsion .circuit-el,
+html.gsap-impulsion .impulsion-en-mot,
+html.gsap-impulsion .impulsion-en-bloc {
+  animation: none !important;
+}
