@@ -536,9 +536,9 @@ def page_social() -> str:
       <p data-t="social.m1d">{t('social.m1d')}</p>
       <p data-t="social.m1d2">{t('social.m1d2')}</p>""",
         img("ilot-masterplan.jpg",
-            "Vue aérienne de l'implantation : centre de rééducation, institut de formation, "
-            "FabLab, coopérative agricole, serres solaires, entrepôt et logements",
-            "Visualisation du plan : zones et circulations projetées"),
+            "Plan-masse axonométrique de l'Îlot Intégré : huit bâtiments à toit solaire, "
+            "voirie, serre, parcelles cultivées, château d'eau et bassin",
+            "Plan-masse — géométrie à l'échelle, rendue dans Blender"),
         inverse=True)
 
     corps += bloc(
