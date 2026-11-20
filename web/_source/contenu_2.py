@@ -433,10 +433,10 @@ PAGES["app"] = {
              "一个稍后可开启的独立模块：聚合真实视频源（PeerTube、Invidious、RSS、我们的 LunaGalaxie 频道），滑块由你调——优先主题、探索度、零标题党、零追踪。"),
 
     "date_t": T("Sortie visée", "Target release", "Lançamento previsto", "计划发布"),
-    "date_d": T("Janvier 2027, si tout va bien. Android et iOS sortent ensemble : je travaille sur iPhone, je ne livrerai pas une moitié d'application.",
-                "January 2027, if all goes well. Android and iOS ship together: I work on an iPhone, and I will not ship half an app.",
-                "Janeiro de 2027, se tudo correr bem. Android e iOS saem juntos: trabalho num iPhone, não vou entregar meio aplicativo.",
-                "2027 年 1 月，如果一切顺利。Android 与 iOS 同时发布：我自己用 iPhone，不会只交付半个应用。"),
+    "date_d": T("Janvier 2027, si tout va bien. Android et iOS sortent en même temps.",
+                "January 2027, if all goes well. Android and iOS ship together.",
+                "Janeiro de 2027, se tudo correr bem. Android e iOS saem ao mesmo tempo.",
+                "2027 年 1 月，如果一切顺利。Android 与 iOS 同时发布。"),
     "cta": T("Voir la feuille de route technique", "See the technical roadmap", "Ver o roteiro técnico", "查看技术路线"),
 }
 
