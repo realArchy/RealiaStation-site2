@@ -92,7 +92,7 @@ def nav(page: str) -> str:
           <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
           <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
         </div>
-        <p class="marque-station">{station}</p>
+        <p class="marque-station" data-decoupe="lettres">{station}</p>
         <div class="langues" role="group" aria-label="Language">
           <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
           <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>
