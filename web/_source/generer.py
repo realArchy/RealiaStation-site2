@@ -279,6 +279,15 @@ def page_index() -> str:
             "Silhouette dans un exosquelette face à un stade illuminé",
             "Le déclic — 12 juin 2014"))
 
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Origine</p>
+      <h2 data-t="index.reboot_titre">{t('index.reboot_titre')}</h2>
+      <p class="lead" data-t="index.reboot_txt">{t('index.reboot_txt')}</p>
+    </div>
+  </section>"""
+
     corps += bloc(
         f"""      <h2 data-t="index.histoire_titre">{t('index.histoire_titre')}</h2>
       <p data-t="index.histoire_1">{t('index.histoire_1')}</p>
@@ -517,8 +526,22 @@ def page_social() -> str:
         <p data-t="social.ph{i}d">{t(f'social.ph{i}d')}</p>
       </article>""" for i in (1, 2, 3))
 
+    actes = "".join(f"""      <article class="verre carte reveler">
+        <h3 data-t="social.{cle}t">{t(f'social.{cle}t')}</h3>
+        <p data-t="social.{cle}d">{t(f'social.{cle}d')}</p>
+      </article>""" for cle in ("rbt", "a0", "a1", "a2", "a3"))
+
     corps += f"""
-  <section class="section">
+    <section class="section">
+    <p class="etiq" data-t="social.actes_t">{t('social.actes_t')}</p>
+    <div class="duo" style="margin-top:1.4rem">
+    {actes}
+    </div>
+    </section>
+    """
+
+    corps += f"""
+    <section class="section">
     <p class="etiq" data-t="social.phases_t">{t('social.phases_t')}</p>
     <div class="trio" style="margin-top:1.4rem">
 {phases}
