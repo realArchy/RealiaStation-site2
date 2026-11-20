@@ -811,6 +811,10 @@ def page_app() -> str:
     <a href="blueprint.html" class="bouton" style="margin-top:1.6rem" data-t="app.cta">{t('app.cta')}</a>
   </section>
 """
+    corps += f"""
+    <canvas id="etoile-neutron" aria-hidden="true"></canvas>
+    <script src="etoile-neutron.js?v={VERSION}" defer></script>
+  """
     return enveloppe("app", corps, t("app.titre"), t("app.lead")[:150])
 
 

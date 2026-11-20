@@ -150,7 +150,7 @@ function etoiles() {
 
   for (let i = 0; i < N; i++) {
     // dispersion aléatoire, sans aucun alignement sur les bras
-    const r = Math.pow(Math.random(), 0.55) * 6.2;
+    const r = 0.42 + Math.pow(Math.random(), 0.55) * 5.8;   // rien dans l'horizon (RB = 0,3)
     const a = Math.random() * Math.PI * 2;
     const epaisseur = 0.06 + 0.55 * Math.exp(-r * 0.8);
     pos[i * 3] = Math.cos(a) * r;
