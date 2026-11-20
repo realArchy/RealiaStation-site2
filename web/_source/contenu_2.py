@@ -204,6 +204,28 @@ PAGES["luna"] = {
 # 7. Projet social
 # ---------------------------------------------------------------------------
 PAGES["social"] = {
+
+    "dm_t": T("La double mission", "The dual mission", "A dupla missão", "双重使命"),
+    "eco_sys": T("Ce n'est pas un simple centre de rééducation : c'est un écosystème autonome — énergie, ateliers de maintenance locale, suivi médical et rééducation assistée par IA.",
+                 "Not just a rehabilitation centre: an autonomous ecosystem — energy, local maintenance workshops, medical follow-up and AI-assisted rehabilitation.",
+                 "Não é apenas um centro de reabilitação: é um ecossistema autónomo — energia, oficinas de manutenção local, acompanhamento médico e reabilitação assistida por IA.",
+                 "不只是一个康复中心：而是一个自主生态系统——能源、本地维修工坊、医疗随访，以及人工智能辅助的康复。"),
+    "dm1t": T("Rééduquer et rendre l'autonomie", "Rehabilitate and restore autonomy",
+              "Reabilitar e devolver a autonomia", "康复与恢复自主"),
+    "dm1d": T("Permettre à des personnes atteintes de lésions médullaires ou de handicaps moteurs d'accéder à une rééducation robotisée de pointe, normalement réservée aux cliniques les plus riches.",
+              "Let people with spinal cord injuries or motor disabilities access advanced robotic rehabilitation, normally reserved for the wealthiest clinics.",
+              "Permitir que pessoas com lesões medulares ou deficiências motoras acedam a reabilitação robótica de ponta, normalmente reservada às clínicas mais ricas.",
+              "让脊髓损伤或运动障碍者获得先进的机器人康复——这通常只有最富裕的诊所才提供。"),
+    "dm2t": T("Former sur place", "Train on site", "Formar no local", "就地培养"),
+    "dm2d": T("Créer un pôle de compétences locales autour de la maintenance robotique, de l'électronique et de l'IA, pour que l'Îlot vive par et pour les talents locaux.",
+              "Build a local skills hub around robotic maintenance, electronics and AI, so the Isle lives by and for local talent.",
+              "Criar um polo de competências locais em manutenção robótica, eletrónica e IA, para que a Ilha viva pelos e para os talentos locais.",
+              "围绕机器人维护、电子与人工智能建立本地能力中心，让岛屿依靠本地人才、也为了本地人才而运转。"),
+    "rep_t": T("Un modèle d'ONG réplicable", "A replicable NGO model", "Um modelo de ONG replicável", "可复制的非政府组织模式"),
+    "rep_d": T("Madagascar est la première pierre. Une fois l'Îlot validé et rodé, son architecture — logicielle, matérielle et humaine — pourra être dupliquée dans d'autres territoires.",
+              "Madagascar is the first stone. Once the Isle is proven and running, its architecture — software, hardware and human — can be duplicated in other territories.",
+              "Madagascar é a primeira pedra. Uma vez validada e afinada a Ilha, a sua arquitetura — software, hardware e humana — poderá ser duplicada noutros territórios.",
+              "马达加斯加是第一块基石。一旦岛屿得到验证并运转顺畅，其软件、硬件与人的架构便可复制到其他地区。"),
     "cle": "social",
     "fichier": "meta-projet-social.html",
     "badge": T("🌍 LE BUT ULTIME", "🌍 THE ULTIMATE GOAL", "🌍 O OBJETIVO FINAL", "🌍 终极目标"),

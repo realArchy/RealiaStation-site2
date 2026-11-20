@@ -557,6 +557,30 @@ def page_social() -> str:
             "Rééducation et accompagnement humain"),
         inverse=True)
 
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Impact</p>
+      <h2 data-t="social.dm_t">{t('social.dm_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="social.eco_sys">{t('social.eco_sys')}</p>
+    </div>
+    <div class="duo" style="margin-top:1.5rem">
+      <article class="verre carte reveler">
+        <h3 data-t="social.dm1t">{t('social.dm1t')}</h3>
+        <p data-t="social.dm1d">{t('social.dm1d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="social.dm2t">{t('social.dm2t')}</h3>
+        <p data-t="social.dm2d">{t('social.dm2d')}</p>
+      </article>
+    </div>
+    <div class="verre-clair reveler" style="margin-top:1.4rem; padding:1.7rem">
+      <h3 data-t="social.rep_t">{t('social.rep_t')}</h3>
+      <p style="color:var(--doux); margin-top:.6rem" data-t="social.rep_d">{t('social.rep_d')}</p>
+    </div>
+  </section>
+"""
+
     actes = "".join(f"""      <article class="verre carte reveler">
         <h3 data-t="social.{cle}t">{t(f'social.{cle}t')}</h3>
         <p data-t="social.{cle}d">{t(f'social.{cle}d')}</p>
@@ -919,7 +943,42 @@ def page_blueprint() -> str:
 
     corps += f"""
   <section class="section">
-    <div class="verre-clair reveler" style="padding:2rem">
+    <div class="section-titre reveler">
+      <p class="etiq">Trajectoire</p>
+      <h2 style="max-width:26ch" data-t="blueprint.accroche">{t('blueprint.accroche')}</h2>
+    </div>
+    <div class="trio" style="margin-top:1.6rem">
+      <article class="verre carte reveler">
+        <span class="etat encours" data-t="blueprint.e1s">{t('blueprint.e1s')}</span>
+        <h3 data-t="blueprint.e1t">{t('blueprint.e1t')}</h3>
+        <p data-t="blueprint.e1d">{t('blueprint.e1d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <span class="etat next" data-t="blueprint.e2s">{t('blueprint.e2s')}</span>
+        <h3 data-t="blueprint.e2t">{t('blueprint.e2t')}</h3>
+        <p data-t="blueprint.e2d">{t('blueprint.e2d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <span class="etat avenir" data-t="blueprint.e3s">{t('blueprint.e3s')}</span>
+        <h3 data-t="blueprint.e3t">{t('blueprint.e3t')}</h3>
+        <p data-t="blueprint.e3d">{t('blueprint.e3d')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Géographie</p>
+      <h2 data-t="blueprint.axe_t">{t('blueprint.axe_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="blueprint.axe_d">{t('blueprint.axe_d')}</p>
+      <p style="margin-top:.9rem; max-width:64ch; color:var(--doux)" data-t="blueprint.axe_d2">{t('blueprint.axe_d2')}</p>
+    </div>
+  </section>
+"""
+
+    corps += f"""
+    <section class="section">
+      <div class="verre-clair reveler" style="padding:2rem">
       <p class="etiq" data-t="blueprint.tr_titre">{t('blueprint.tr_titre')}</p>
       <p style="color:var(--doux); max-width:52rem" data-t="blueprint.tr_txt">{t('blueprint.tr_txt')}</p>
       <ul class="points">
