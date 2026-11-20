@@ -385,7 +385,7 @@ PAGES["app"] = {
                "📱 EM BREVE — DEZEMBRO 2026",
                "📱 即将发布——2026 年 12 月"),
     "classe": "",
-    "titre": T("L'application R'Statio", "The R'Statio app", "A aplicação R'Statio", "R'Statio 应用"),
+    "titre": T("L'application R'Station", "The R'Station app", "A aplicação R'Station", "R'Station 应用"),
     "lead": T("Trois espaces séparés dans une seule application : votre IA personnelle, une messagerie souveraine, et de quoi soutenir la mission. Elle n'allume pas l'exosquelette — elle vous donne votre propre harnais.",
               "Three separate spaces in one app: your personal AI, sovereign messaging, and a way to support the mission. It does not drive the exoskeleton — it gives you your own harness.",
               "Três espaços separados numa só aplicação: a sua IA pessoal, uma mensageria soberana e uma forma de apoiar a missão. Não comanda o exosqueleto — dá-lhe o seu próprio arnês.",
