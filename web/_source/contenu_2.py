@@ -52,7 +52,7 @@ PAGES["virtuel"] = {
 # ---------------------------------------------------------------------------
 PAGES["neuroexo"] = {
     "cle": "neuroexo",
-    "fichier": "neuroexo-ai.html",
+    "fichier": "rexoia.html",
     "badge": T("🚧 EN CHANTIER — ARCHITECTURE BETA", "🚧 WORK IN PROGRESS — BETA ARCHITECTURE",
                "🚧 EM OBRAS — ARQUITETURA BETA", "🚧 建设中 — 架构 Beta"),
     "classe": "chantier beta",

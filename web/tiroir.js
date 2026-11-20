@@ -9,7 +9,7 @@
 const ORDRE = [
   { fichier: 'index.html',              cle: 'nav.accueil',  nom: 'Accueil' },
   { fichier: 'virtuel.html',            cle: 'nav.virtuel',  nom: 'Labo virtuel' },
-  { fichier: 'neuroexo-ai.html',        cle: 'nav.neuroexo', nom: 'NeuroExoAI' },
+  { fichier: 'rexoia.html',        cle: 'nav.neuroexo', nom: "R'ExoIA" },
   { fichier: 'devkit.html',             cle: 'nav.devkit',   nom: 'RealiDevKit' },
   { fichier: 'realiastation.html',      cle: 'nav.realia',   nom: 'RealiaStation' },
   { fichier: 'lunagalaxie.html',        cle: 'nav.luna',     nom: 'LunaGalaxie' },

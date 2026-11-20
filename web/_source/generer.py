@@ -33,7 +33,7 @@ VERSION = time.strftime("%Y%m%d%H%M")
 ORDRE = [
     ("index", "index.html", "luna-01-aventure"),
     ("virtuel", "virtuel.html", "luna-02-virtuel"),
-    ("neuroexo", "neuroexo-ai.html", "luna-03-neuroexo"),
+    ("neuroexo", "rexoia.html", "luna-03-neuroexo"),
     ("devkit", "devkit.html", "luna-04-devkit"),
     ("realia", "realiastation.html", "luna-05-realiastation"),
     ("luna", "lunagalaxie.html", "luna-06-ghostsheller"),
