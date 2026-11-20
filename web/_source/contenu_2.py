@@ -380,10 +380,10 @@ PAGES["social"] = {
 PAGES["app"] = {
     "cle": "app",
     "fichier": "app.html",
-    "badge": T("📱 SORTIE IMMINENTE — DÉCEMBRE 2026",
-               "📱 COMING SOON — DECEMBER 2026",
-               "📱 EM BREVE — DEZEMBRO 2026",
-               "📱 即将发布——2026 年 12 月"),
+    "badge": T("📱 SORTIE VISÉE — JANVIER 2027",
+               "📱 TARGET RELEASE — JANUARY 2027",
+               "📱 LANÇAMENTO PREVISTO — JANEIRO DE 2027",
+               "📱 计划发布——2027 年 1 月"),
     "classe": "",
     "titre": T("L'application R'Station", "The R'Station app", "A aplicação R'Station", "R'Station 应用"),
     "lead": T("Trois espaces séparés dans une seule application : votre IA personnelle, une messagerie souveraine, et de quoi soutenir la mission. Elle n'allume pas l'exosquelette — elle vous donne votre propre harnais.",
@@ -433,10 +433,10 @@ PAGES["app"] = {
              "一个稍后可开启的独立模块：聚合真实视频源（PeerTube、Invidious、RSS、我们的 LunaGalaxie 频道），滑块由你调——优先主题、探索度、零标题党、零追踪。"),
 
     "date_t": T("Sortie visée", "Target release", "Lançamento previsto", "计划发布"),
-    "date_d": T("Décembre 2026, après la mise en ligne du site. Android d'abord, iOS ensuite.",
-                "December 2026, after the site goes live. Android first, then iOS.",
-                "Dezembro de 2026, após a publicação do site. Android primeiro, iOS depois.",
-                "2026 年 12 月，网站上线之后。先 Android，后 iOS。"),
+    "date_d": T("Janvier 2027, si tout va bien. Android et iOS sortent ensemble : je travaille sur iPhone, je ne livrerai pas une moitié d'application.",
+                "January 2027, if all goes well. Android and iOS ship together: I work on an iPhone, and I will not ship half an app.",
+                "Janeiro de 2027, se tudo correr bem. Android e iOS saem juntos: trabalho num iPhone, não vou entregar meio aplicativo.",
+                "2027 年 1 月，如果一切顺利。Android 与 iOS 同时发布：我自己用 iPhone，不会只交付半个应用。"),
     "cta": T("Voir la feuille de route technique", "See the technical roadmap", "Ver o roteiro técnico", "查看技术路线"),
 }
 
