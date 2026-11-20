@@ -880,6 +880,58 @@ def page_cabinet() -> str:
   </section>
 """
 
+    # L'offre : équipe d'assistants spécialisés (aucun jargon technique).
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Offre</p>
+      <h2 style="max-width:30ch" data-t="cabinet.offre_t">{t('cabinet.offre_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="cabinet.offre_d">{t('cabinet.offre_d')}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="etiq" data-t="cabinet.met_t">{t('cabinet.met_t')}</p>
+    <p style="margin-top:.9rem; max-width:64ch; color:var(--doux)" data-t="cabinet.met_d">{t('cabinet.met_d')}</p>
+    <div class="trio" style="margin-top:1.6rem">
+      <article class="verre carte reveler">
+        <span class="etat encours" data-t="cabinet.m1t">{t('cabinet.m1t')}</span>
+        <p data-t="cabinet.m1d">{t('cabinet.m1d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <span class="etat next" data-t="cabinet.m2t">{t('cabinet.m2t')}</span>
+        <p data-t="cabinet.m2d">{t('cabinet.m2d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <span class="etat avenir" data-t="cabinet.m3t">{t('cabinet.m3t')}</span>
+        <p data-t="cabinet.m3d">{t('cabinet.m3d')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="etiq" data-t="cabinet.ben_t">{t('cabinet.ben_t')}</p>
+    <div class="trio" style="margin-top:1.4rem">
+      <article class="verre carte reveler">
+        <h3 data-t="cabinet.b1t">{t('cabinet.b1t')}</h3>
+        <p data-t="cabinet.b1d">{t('cabinet.b1d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="cabinet.b2t">{t('cabinet.b2t')}</h3>
+        <p data-t="cabinet.b2d">{t('cabinet.b2d')}</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="cabinet.b3t">{t('cabinet.b3t')}</h3>
+        <p data-t="cabinet.b3d">{t('cabinet.b3d')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="mailto:[EMAIL_PRO]" class="bouton" data-t="cabinet.cta_audit">{t('cabinet.cta_audit')}</a>
+  </section>
+"""
+
     # Prise de contact.
     corps += f"""
   <section class="section" id="contact">

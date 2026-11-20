@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202611201824">
+<link rel="stylesheet" href="style.css?v=202611201832">
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611201824">
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611201832">
 </head>
 <body data-page="cabinet" data-audio="assets/audio/luna-12-cabinet.mp3">
 
@@ -137,6 +137,55 @@
     </div>
   </section>
 
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Offre</p>
+      <h2 style="max-width:30ch" data-t="cabinet.offre_t">Pourquoi un assistant « à tout faire » ne suffit pas</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="cabinet.offre_d">Un assistant généraliste répond à tout, mais ne fait bien rien de précis : il improvise le format, oublie la moitié du dossier et coûte cher à chaque essai. En entreprise, ce n'est pas la conversation qui compte — c'est le résultat juste, du premier coup, sur une tâche qui revient tous les jours.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="etiq" data-t="cabinet.met_t">Notre méthode : votre équipe d'assistants dédiés</p>
+    <p style="margin-top:.9rem; max-width:64ch; color:var(--doux)" data-t="cabinet.met_d">Nous ne vendons pas un logiciel : nous construisons une équipe qui travaille comme un atelier bien rodé. Un chef d'équipe qui coordonne, des assistants formés chacun sur une seule tâche de votre métier, et un contrôle qualité à chaque étape.</p>
+    <div class="trio" style="margin-top:1.6rem">
+      <article class="verre carte reveler">
+        <span class="etat encours" data-t="cabinet.m1t">1 · Audit sur le terrain</span>
+        <p data-t="cabinet.m1d">Nous venons voir votre travail réel — pas l'organigramme. Nous relevons les tâches qui reviennent, le temps qu'elles prennent et ce que coûte une erreur. C'est de là que sortent les priorités.</p>
+      </article>
+      <article class="verre carte reveler">
+        <span class="etat next" data-t="cabinet.m2t">2 · Votre équipe, sur mesure</span>
+        <p data-t="cabinet.m2d">Chaque assistant est formé sur une seule tâche et rend toujours le même format de résultat : un devis, une fiche, un compte rendu. Rien d'autre. Ce qui est hors de son poste, il le passe au chef d'équipe.</p>
+      </article>
+      <article class="verre carte reveler">
+        <span class="etat avenir" data-t="cabinet.m3t">3 · Déploiement chez vous, en sécurité</span>
+        <p data-t="cabinet.m3d">L'équipe tourne là où vous décidez — sur votre machine ou sur un serveur dédié, jamais dans le cloud d'un autre. Vous gardez vos dossiers, vos noms, vos chiffres.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="etiq" data-t="cabinet.ben_t">Ce que ça change, concrètement</p>
+    <div class="trio" style="margin-top:1.4rem">
+      <article class="verre carte reveler">
+        <h3 data-t="cabinet.b1t">Le bon résultat du premier coup</h3>
+        <p data-t="cabinet.b1d">Un poste, un format vérifié automatiquement : plus de dossier à moitié rempli qu'on découvre la veille de l'envoi.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="cabinet.b2t">Vos données ne sortent pas</h3>
+        <p data-t="cabinet.b2d">Les échanges restent dans votre infrastructure. Ce qui quitte votre réseau, quand et pourquoi, se décide avec vous, par écrit.</p>
+      </article>
+      <article class="verre carte reveler">
+        <h3 data-t="cabinet.b3t">Un coût que vous maîtrisez</h3>
+        <p data-t="cabinet.b3d">Un assistant étroit coûte moins cher à l'usage qu'un généraliste coûteux qui se trompe : on paie la tâche, pas l'essai.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="mailto:[EMAIL_PRO]" class="bouton" data-t="cabinet.cta_audit">Réserver un audit de vos processus</a>
+  </section>
+
   <section class="section" id="contact">
     <div class="encart-contact reveler" style="padding:1.9rem; text-align:center">
       <h2 style="font-size:1.4rem; margin-bottom:.7rem" data-t="cabinet.contact_t">Prendre contact</h2>
@@ -160,18 +209,18 @@
 
 </footer>
 
-<script src="traductions.js?v=202611201824" defer></script>
-<script src="i18n.js?v=202611201824" defer></script>
-<script src="revele.js?v=202611201824" defer></script>
-<script src="tiroir.js?v=202611201824" defer></script>
-<script src="audio.js?v=202611201824" defer></script>
-<script type="module" src="systeme.js?v=202611201824"></script>
-  <script src="vendor/gsap.min.js?v=202611201824"></script>
-  <script src="ambiance.js?v=202611201824" defer></script>
-  <script src="impulsion.js?v=202611201824" defer></script>
-  <script src="devise-neon.js?v=202611201824" defer></script>
-  <script src="lumiere-scroll.js?v=202611201824" defer></script>
-  <script src="vendor/lenis.min.js?v=202611201824" defer></script>
-  <script src="defilement-doux.js?v=202611201824" defer></script>
+<script src="traductions.js?v=202611201832" defer></script>
+<script src="i18n.js?v=202611201832" defer></script>
+<script src="revele.js?v=202611201832" defer></script>
+<script src="tiroir.js?v=202611201832" defer></script>
+<script src="audio.js?v=202611201832" defer></script>
+<script type="module" src="systeme.js?v=202611201832"></script>
+  <script src="vendor/gsap.min.js?v=202611201832"></script>
+  <script src="ambiance.js?v=202611201832" defer></script>
+  <script src="impulsion.js?v=202611201832" defer></script>
+  <script src="devise-neon.js?v=202611201832" defer></script>
+  <script src="lumiere-scroll.js?v=202611201832" defer></script>
+  <script src="vendor/lenis.min.js?v=202611201832" defer></script>
+  <script src="defilement-doux.js?v=202611201832" defer></script>
 </body>
 </html>
