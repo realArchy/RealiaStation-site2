@@ -166,7 +166,7 @@
     const versNous = Math.abs(m[2]) / Math.sin(ALPHA);   // 1 quand un cône nous vise
     const frac = (phase % (Math.PI * 2 / VITESSE)) / (Math.PI * 2 / VITESSE);
     const court = frac < 0.06 ? Math.sin((frac / 0.06) * Math.PI) : 0;
-    const impulsion = Math.max(Math.pow(versNous, 12) * 0.9, court * 0.75);
+    const impulsion = Math.max(Math.pow(versNous, 6) * 0.95, court * 0.9);
 
     /* 1. brume lointaine */
     halo(cx, cy, k * 5.4, [
@@ -177,7 +177,7 @@
 
     /* 2. le faisceau du pôle ÉLOIGNÉ : il passe derrière le corps */
     const sensDevant = m[2] >= 0 ? 1 : -1;
-    faisceau(m, -sensDevant, k, 0.16 + impulsion * 0.10);
+    faisceau(m, -sensDevant, k, 0.50 + impulsion * 0.50);
 
     /* 3. anneaux de pulse */
     for (let i = anneaux.length - 1; i >= 0; i--) {
@@ -247,7 +247,7 @@
     ctx.restore();
 
     /* 6. le faisceau du pôle PROCHE : devant le corps, base sur la surface */
-    faisceau(m, sensDevant, k, 0.75 + impulsion * 0.25);
+    faisceau(m, sensDevant, k, 0.55 + impulsion * 0.45);
 
     /* 7. éclat du pulse */
     if (impulsion > 0.02) {
