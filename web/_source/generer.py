@@ -787,7 +787,7 @@ def page_app() -> str:
     cartes = "".join(f"""      <article class="verre carte reveler">
         <h3 data-t="app.s{i}t">{t(f'app.s{i}t')}</h3>
         <p data-t="app.s{i}d">{t(f'app.s{i}d')}</p>
-        <p class="carte-note" data-t="app.s{i}a">{t(f'app.s{i}a')}</p>
+        {f'<p class="carte-note" data-t="app.s{i}a">{t(f"app.s{i}a")}</p>' if i != 3 else ''}
         {f'<p class="carte-note" data-t="app.s{i}b">{t(f"app.s{i}b")}</p>' if i == 1 else ''}
       </article>""" for i in (1, 2, 3))
 

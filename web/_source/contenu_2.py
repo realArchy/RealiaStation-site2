@@ -425,10 +425,6 @@ PAGES["app"] = {
              "Compra como sempre, ao preço apresentado, nas lojas que já conhece. O coletivo — amanhã a ONG — é parceiro afiliado dessas lojas: elas pagam-lhe uma comissão sobre as suas compras. Essa comissão financia a R'ExoIA e a Ilha Integrada.",
              "你照常在熟悉的商家以标价购物。集体——明天的非政府组织——是这些商家的联盟伙伴：它们就你的购买向集体支付佣金。这笔佣金资助 R'ExoIA 与综合之岛。"),
 
-    "s3a": T("Rien à activer, rien à gagner : vous ne touchez aucune commission et vous ne payez pas un centime de plus. Le prix est identique à celui du site marchand ; seule la commission du partenaire change de destinataire.",
-             "Nothing to activate, nothing to earn: you get no commission and you pay not one cent more. The price is the same as on the retailer's site; only the partner commission changes hands.",
-             "Nada a ativar, nada a ganhar: não recebe comissão e não paga um cêntimo a mais. O preço é o mesmo do site da loja; só a comissão do parceiro muda de destinatário.",
-             "无需开通，也没有收益：你拿不到佣金，也不会多付一分钱。价格与商家网站一致；只是合作方的佣金换了收款人。"),
     "v2t": T("Prévu en V2 · Lecteur vidéo souverain", "Planned in V2 · Sovereign video player",
             "Previsto na V2 · Leitor de vídeo soberano", "V2 计划 · 主权视频播放器"),
     "v2d": T("Un module séparé, activable plus tard : il agrège de vrais flux (PeerTube, Invidious, RSS, notre chaîne LunaGalaxie) et vous laissez régler les curseurs — thèmes prioritaires, découverte, zéro putaclic. Aucun pistage.",
