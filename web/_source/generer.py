@@ -37,6 +37,7 @@ ORDRE = [
     ("devkit", "devkit.html", "luna-04-devkit"),
     ("realia", "realiastation.html", "luna-05-realiastation"),
     ("luna", "lunagalaxie.html", "luna-06-ghostsheller"),
+    ("app", "app.html", "luna-13-app"),
     ("social", "meta-projet-social.html", "luna-07-ilot-ong"),
     ("blueprint", "blueprint.html", "luna-11-blueprint"),
     ("archi", "architecte.html", "luna-08-architecte"),
@@ -69,7 +70,7 @@ def e(s: str) -> str:
 def nav(page: str) -> str:
     idx = [p[0] for p in ORDRE].index(page)
     cles = ("accueil", "virtuel", "neuroexo", "devkit", "realia",
-            "luna", "social", "blueprint", "archi", "cabinet", "wishlist", "boutique")
+            "luna", "app", "social", "blueprint", "archi", "cabinet", "wishlist", "boutique")
     liens = []
     for i, (cle, (pid, f, _a)) in enumerate(zip(cles, ORDRE)):
         courant = ' aria-current="page"' if i == idx else ""
@@ -735,6 +736,74 @@ def page_archi() -> str:
     return enveloppe("archi", corps, t("archi.titre")[:60], t("archi.intro")[:150])
 
 
+def page_app() -> str:
+    p = PAGES["app"]
+    # maquette dessinée en CSS : un rendu d'IA pour une interface n'aurait
+    # aucun sens, et une capture d'écran d'une app qui n'existe pas serait un mensonge
+    maquette = """      <div class="mockup-app reveler">
+        <div class="phone">
+          <span class="ph-encoche"></span>
+          <p class="ph-titre" data-t="app.s1t">{0}</p>
+          <div class="ph-ligne"></div><div class="ph-ligne courte"></div>
+          <span class="ph-puce" data-t="app.s1a">{1}</span>
+        </div>
+        <div class="phone">
+          <span class="ph-encoche"></span>
+          <p class="ph-titre" data-t="app.s2t">{2}</p>
+          <div class="ph-ligne"></div><div class="ph-ligne"></div><div class="ph-ligne courte"></div>
+          <span class="ph-puce" data-t="app.s2d">{3}</span>
+        </div>
+        <div class="phone">
+          <span class="ph-encoche"></span>
+          <p class="ph-titre" data-t="app.s3t">{4}</p>
+          <div class="ph-ligne"></div><div class="ph-ligne courte"></div>
+          <span class="ph-puce" data-t="app.s3d">{5}</span>
+        </div>
+      </div>""".format(
+        t('app.s1t'), t('app.s1a'),
+        t('app.s2t'), t('app.s2d'),
+        t('app.s3t'), t('app.s3d'))
+
+    corps = f"""
+  <section class="section hero-app">
+    {badge('app')}
+    <h1 style="margin:1.1rem 0 0" data-t="app.titre">{t('app.titre')}</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:62ch" data-t="app.lead">{t('app.lead')}</p>
+    <p class="chapo" style="max-width:64ch" data-t="app.why">{t('app.why')}</p>
+    {maquette}
+  </section>
+"""
+
+    cartes = "".join(f"""      <article class="verre carte reveler">
+        <h3 data-t="app.s{i}t">{t(f'app.s{i}t')}</h3>
+        <p data-t="app.s{i}d">{t(f'app.s{i}d')}</p>
+        <p class="carte-note" data-t="app.s{i}a">{t(f'app.s{i}a')}</p>
+        {f'<p class="carte-note" data-t="app.s{i}b">{t(f"app.s{i}b")}</p>' if i == 1 else ''}
+      </article>""" for i in (1, 2, 3))
+
+    corps += f"""
+  <section class="section">
+    <div class="trio" style="margin-top:1rem">
+{cartes}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="verre-clair reveler" style="padding:1.8rem">
+      <p class="etiq" data-t="app.v2t">{t('app.v2t')}</p>
+      <p style="color:var(--doux); max-width:60rem" data-t="app.v2d">{t('app.v2d')}</p>
+    </div>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <h2 data-t="app.date_t">{t('app.date_t')}</h2>
+    <p class="lead" style="margin-top:.8rem" data-t="app.date_d">{t('app.date_d')}</p>
+    <a href="blueprint.html" class="bouton" style="margin-top:1.6rem" data-t="app.cta">{t('app.cta')}</a>
+  </section>
+"""
+    return enveloppe("app", corps, t("app.titre"), t("app.lead")[:150])
+
+
 def page_cabinet() -> str:
     p = PAGES["cabinet"]
 
@@ -1167,6 +1236,7 @@ def main() -> None:
         "social": page_social(),
         "blueprint": page_blueprint(),
         "archi": page_archi(),
+        "app": page_app(),
         "cabinet": page_cabinet(),
         "wish": page_wishlist(),
         "boutique": page_boutique(),

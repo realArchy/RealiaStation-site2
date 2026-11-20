@@ -24,6 +24,7 @@ NAV = {
     "nav.devkit":   T("RealiDevKit", "RealiDevKit", "RealiDevKit", "RealiDevKit"),
     "nav.realia":   T("RealiaStation", "RealiaStation", "RealiaStation", "RealiaStation"),
     "nav.luna":     T("LunaGalaxie", "LunaGalaxie", "LunaGalaxie", "LunaGalaxie"),
+    "nav.app":      T("Application", "Mobile app", "Aplicação", "应用"),
     "nav.social":   T("Projet social", "Social project", "Projeto social", "社会项目"),
     "nav.blueprint": T("Blueprint", "Blueprint", "Blueprint", "蓝图"),
     "nav.archi":    T("L'Architecte", "The Architect", "O Arquiteto", "建筑师"),

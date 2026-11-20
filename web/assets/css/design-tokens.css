@@ -795,3 +795,35 @@ body[data-page="social"] .hero-social { padding-top: 3.2rem; }
 .etat.encours { color: #ffd447; border-color: rgba(255, 212, 71, .55); background: rgba(255, 212, 71, .08); }
 .etat.next { color: #2ee6c5; border-color: rgba(46, 230, 197, .5); background: rgba(46, 230, 197, .07); }
 .etat.avenir { color: #9d97b5; border-color: rgba(157, 151, 181, .45); background: rgba(157, 151, 181, .06); }
+
+/* Maquette de l'application : trois écrans dessinés, aucun rendu IA */
+.hero-app { padding-top: 3rem; }
+.mockup-app {
+  display: flex; gap: 1.6rem; justify-content: center;
+  margin-top: 2.6rem; flex-wrap: wrap;
+}
+.phone {
+  position: relative; width: 214px; min-height: 460px;
+  padding: 2.1rem 1.1rem 1.2rem;
+  border-radius: 28px; border: 1px solid rgba(255,255,255,.16);
+  background: linear-gradient(170deg, rgba(38,20,72,.92), rgba(10,6,20,.96));
+  box-shadow: 0 22px 60px rgba(0,0,0,.6), inset 0 0 0 6px rgba(0,0,0,.35);
+  display: flex; flex-direction: column; gap: .55rem; overflow: hidden;
+}
+.phone:nth-child(2) { transform: translateY(-14px); border-color: rgba(46,230,197,.35); }
+.phone:nth-child(3) { border-color: rgba(255,212,71,.28); }
+.ph-encoche {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  width: 62px; height: 8px; border-radius: 999px; background: rgba(0,0,0,.65);
+}
+.ph-titre {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .95rem; font-weight: 700;
+  color: #fff; margin: 0 0 .35rem;
+}
+.ph-ligne { height: 7px; border-radius: 4px; background: rgba(255,255,255,.14); }
+.ph-ligne.courte { width: 62%; }
+.ph-puce {
+  margin-top: auto; font-size: .68rem; line-height: 1.45;
+  color: #b9b3cf; background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.10); border-radius: 10px; padding: .5rem .6rem;
+}
