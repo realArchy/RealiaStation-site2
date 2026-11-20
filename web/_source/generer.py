@@ -76,22 +76,27 @@ def nav(page: str) -> str:
         courant = ' aria-current="page"' if i == idx else ""
         liens.append(f'      <a href="{f}"{courant}>{t("nav." + cle)}</a>')
     return f"""<header class="entete">
-  <nav class="nav">
+    <nav class="nav">
     <div class="nav-haut">
       <a href="index.html" class="marque">
-        <span class="marque-pastille">N</span>
-        <span class="marque-texte">NEURO<span>EXO</span></span>
+        <span class="marque-pastille">R</span>
+        <span class="marque-texte">R'Exo<span>IA</span></span>
       </a>
-      <div class="langues" role="group" aria-label="Langue">
-        <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
-        <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
-        <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
-        <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>
+      <div class="nav-centre">
+        <div class="langues" role="group" aria-label="Langue">
+          <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
+          <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
+        </div>
+        <p class="marque-station">RealiaStation</p>
+        <div class="langues" role="group" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
+          <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>
+        </div>
       </div>
       <a href="index.html#financer" class="bouton">{t('commun.soutenir')}</a>
     </div>
-  </nav>
-</header>
+    </nav>
+    </header>
 
 <nav class="rail" aria-label="Pages">
 {chr(10).join(liens)}

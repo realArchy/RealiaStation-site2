@@ -827,3 +827,25 @@ body[data-page="social"] .hero-social { padding-top: 3.2rem; }
   color: #b9b3cf; background: rgba(255,255,255,.05);
   border: 1px solid rgba(255,255,255,.10); border-radius: 10px; padding: .5rem .6rem;
 }
+
+/* En-tête : les drapeaux encadrent le nom de la station */
+.nav-centre {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.1rem; flex: 1 1 auto; min-width: 0;
+}
+.marque-station {
+  margin: 0; padding: 0 .3rem;
+  font-family: 'Bricolage Grotesque', 'Space Grotesk', sans-serif;
+  font-size: clamp(1.05rem, 1.7vw, 1.55rem);
+  font-weight: 700; letter-spacing: .02em; line-height: 1;
+  color: #ffffff; white-space: nowrap;
+  text-shadow: 0 0 18px rgba(212, 175, 55, .35);
+}
+.marque-station::first-letter { color: #d4af37; }
+@media (max-width: 780px) {
+  .nav-centre { gap: .5rem; }
+  .marque-station { font-size: .95rem; }
+}
+
+/* aucun défilement horizontal : le hero déborde de 44 px en 1440 */
+html { overflow-x: hidden; }

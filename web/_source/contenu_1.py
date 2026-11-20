@@ -20,11 +20,11 @@ def T(fr, en, pt, zh):
 NAV = {
     "nav.accueil":  T("Accueil", "Home", "Início", "首页"),
     "nav.virtuel":  T("Labo virtuel", "Virtual Lab", "Laboratório virtual", "虚拟实验室"),
-    "nav.neuroexo": T("NeuroExoAI", "NeuroExoAI", "NeuroExoAI", "NeuroExoAI"),
+    "nav.neuroexo": T("R'ExoIA", "R'ExoIA", "R'ExoIA", "R'ExoIA"),
     "nav.devkit":   T("RealiDevKit", "RealiDevKit", "RealiDevKit", "RealiDevKit"),
     "nav.realia":   T("RealiaStation", "RealiaStation", "RealiaStation", "RealiaStation"),
     "nav.luna":     T("LunaGalaxie", "LunaGalaxie", "LunaGalaxie", "LunaGalaxie"),
-    "nav.app":      T("Application", "Mobile app", "Aplicação", "应用"),
+    "nav.app":      T("R'Statio", "R'Statio", "R'Statio", "R'Statio"),
     "nav.social":   T("Projet social", "Social project", "Projeto social", "社会项目"),
     "nav.blueprint": T("Blueprint", "Blueprint", "Blueprint", "蓝图"),
     "nav.archi":    T("L'Architecte", "The Architect", "O Arquiteto", "建筑师"),
