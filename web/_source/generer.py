@@ -137,7 +137,7 @@ def tete(titre: str, description: str) -> str:
 <meta name="description" content="{description}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css?v={VERSION}" />
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
@@ -184,7 +184,7 @@ def bloc(texte: str, visuel: str, inverse: bool = False) -> str:
   </section>"""
 
 
-def img(nom: str, alt: str, legende: str = "") -> str:
+def img(nom: str, alt: str, legende: str = "", largeur: int = None, hauteur: int = None) -> str:
     """Image avec largeur et hauteur explicites.
 
     Sans elles, le navigateur ne connaît pas la place à réserver : le texte
@@ -194,7 +194,16 @@ def img(nom: str, alt: str, legende: str = "") -> str:
     cap = (f'\n      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">{legende}</figcaption>'
            if legende else "")
     portrait = " portrait" if "portrait" in nom else ""
-    largeur, hauteur = (825, 1100) if portrait else (1600, 900)
+    # rapports réels des visuels 4:3 de l'Îlot Intégré
+    RATIOS = {"cooperative-agricole.jpg": (1152, 864),
+              "rehabilitation-center.jpg": (1152, 864),
+              "formation-emancipation.jpg": (1152, 864),
+              "digital-twin-neuroexo.jpg": (1152, 864),
+              "fablab-pmr.jpg": (1152, 864),
+              "solar-fruit-processing.jpg": (1152, 864),
+              "realia-virtual-economy.jpg": (1152, 864)}
+    if largeur is None or hauteur is None:
+        largeur, hauteur = RATIOS.get(nom, (825, 1100) if portrait else (1600, 900))
     return f"""      <figure class="profondeur" style="margin:0">
         <div class="cadre-neon">
           <picture>
@@ -204,6 +213,19 @@ def img(nom: str, alt: str, legende: str = "") -> str:
             </picture>
         </div>{cap}
       </figure>"""
+
+
+def img_large(nom: str, alt: str, legende: str = "", largeur: int = 1600, hauteur: int = 900) -> str:
+    """Image en bandeau pleine largeur : les grands visuels ne sont pas écrasés
+    dans une colonne de split."""
+    cap = (f'\n    <figcaption class="mono faible">{legende}</figcaption>' if legende else "")
+    return f"""    <figure class="bandeau reveler">
+      <picture>
+        <source srcset="assets/{nom.rsplit('.', 1)[0]}.webp" type="image/webp" />
+        <img src="assets/{nom}" alt="{alt}" width="{largeur}" height="{hauteur}"
+             loading="lazy" decoding="async" />
+      </picture>{cap}
+    </figure>"""
 
 
 def panneau(titre: str, lignes: list, accent: str = "cyan") -> str:
@@ -490,41 +512,50 @@ def page_luna() -> str:
 
 def page_social() -> str:
     p = PAGES["social"]
-    corps = bloc(
-        f"""{badge('social')}
-      <h1 style="margin:1.1rem 0 0" data-t="social.titre">{t('social.titre')}</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="social.lead">{t('social.lead')}</p>""",
-        img("ilot-integre.jpg",
-            "Infographie de l'Îlot Intégré, modèle d'ONG réplicable",
-            "L'Îlot Intégré — infographie"))
-
-    corps += bloc(
-        f"""      <h2 data-t="social.c1t">{t('social.c1t')}</h2>
-      <p data-t="social.c1d">{t('social.c1d')}</p>
-      <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c2t">{t('social.c2t')}</h2>
-      <p data-t="social.c2d">{t('social.c2d')}</p>
-      <h2 style="margin-top:1.8rem; font-size:1.5rem" data-t="social.c3t">{t('social.c3t')}</h2>
-      <p data-t="social.c3d">{t('social.c3d')}</p>""",
-        img("social-madagascar.jpg",
-            "Vue aérienne du terrain et de ses bâtiments à Madagascar",
-            "Le terrain du premier pilote"),
-        inverse=True)
+    corps = f"""
+  <section class="section hero-social">
+    {badge('social')}
+    <h1 style="margin:1.1rem 0 0" data-t="social.titre">{t('social.titre')}</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:64ch" data-t="social.lead">{t('social.lead')}</p>
+    <p class="chapo" style="max-width:66ch" data-t="social.chapo">{t('social.chapo')}</p>
+  </section>
+"""
+    corps += img_large("ilot-hero.jpg",
+            "Vue panoramique d'un campus intégré à Madagascar : bâtiments accessibles, "
+            "serres solaires, ateliers, habitants et soignants sur les chemins",
+            "Visualisation — l'Îlot Intégré tel qu'il est projeté, pas un bâtiment existant")
 
     corps += f"""
   <section class="section section-devise">
     <p class="devise-neon" data-t="social.devise">{t('social.devise')}</p>
-  </section>
-"""
+  </section>"""
 
-    boucles = "\n".join(
-        f"""      <article class="verre carte reveler">
-        <h3 data-t="social.eco_{i}">{t(f'social.eco_{i}')}</h3>
-        <p data-t="social.eco_{i}d">{t(f'social.eco_{i}d')}</p>
-      </article>""" for i in range(1, 5))
-    phases = "\n".join(f"""      <article class="verre carte reveler">
-        <h3 data-t="social.ph{i}t">{t(f'social.ph{i}t')}</h3>
-        <p data-t="social.ph{i}d">{t(f'social.ph{i}d')}</p>
-      </article>""" for i in (1, 2, 3))
+    corps += bloc(
+        f"""      <p class="etiq">Le modèle</p>
+      <h2 data-t="social.m1t">{t('social.m1t')}</h2>
+      <p data-t="social.m1d">{t('social.m1d')}</p>
+      <p data-t="social.m1d2">{t('social.m1d2')}</p>""",
+        img("ilot-masterplan.jpg",
+            "Vue aérienne de l'implantation : centre de rééducation, institut de formation, "
+            "FabLab, coopérative agricole, serres solaires, entrepôt et logements",
+            "Visualisation du plan : zones et circulations projetées"),
+        inverse=True)
+
+    corps += bloc(
+        f"""      <h2 data-t="social.m2t">{t('social.m2t')}</h2>
+      <p data-t="social.m2d">{t('social.m2d')}</p>""",
+        img("cooperative-agricole.jpg",
+            "Producteurs malgaches triant mangues, bananes et ananas sous un abri ventilé",
+            "Premier pilote : le terrain, pas la théorie"))
+
+    corps += bloc(
+        f"""      <h2 data-t="social.m3t">{t('social.m3t')}</h2>
+      <p data-t="social.m3d">{t('social.m3d')}</p>""",
+        img("rehabilitation-center.jpg",
+            "Séance de rééducation dans un centre accessible : kinésithérapeute, "
+            "patient en fauteuil, appareil d'aide à la marche",
+            "Rééducation et accompagnement humain"),
+        inverse=True)
 
     actes = "".join(f"""      <article class="verre carte reveler">
         <h3 data-t="social.{cle}t">{t(f'social.{cle}t')}</h3>
@@ -532,16 +563,22 @@ def page_social() -> str:
       </article>""" for cle in ("rbt", "a0", "a1", "a2", "a3"))
 
     corps += f"""
-    <section class="section">
+  <section class="section">
     <p class="etiq" data-t="social.actes_t">{t('social.actes_t')}</p>
     <div class="duo" style="margin-top:1.4rem">
-    {actes}
+{actes}
     </div>
-    </section>
-    """
+  </section>
+"""
+
+    phases = "".join(f"""      <article class="verre carte reveler">
+        <h3 data-t="social.ph{i}t">{t(f'social.ph{i}t')}</h3>
+        <p data-t="social.ph{i}d">{t(f'social.ph{i}d')}</p>
+        {f'<p class="carte-note" data-t="social.ph{i}l">{t(f"social.ph{i}l")}</p>' if i == 2 else ''}
+      </article>""" for i in (1, 2, 3))
 
     corps += f"""
-    <section class="section">
+  <section class="section">
     <p class="etiq" data-t="social.phases_t">{t('social.phases_t')}</p>
     <div class="trio" style="margin-top:1.4rem">
 {phases}
@@ -549,40 +586,74 @@ def page_social() -> str:
   </section>
 """
 
+    corps += bloc(
+        f"""      <p class="etiq">Recherche</p>
+      <h2>NEUROEXO</h2>
+      <p data-t="social.ph1d">{t('social.ph1d')}</p>""",
+        img("neuroexo-research.jpg",
+            "Laboratoire de neuro-réhabilitation : patient en exosquelette, "
+            "équipe pluridisciplinaire, écrans de signaux neuronaux",
+            "La recherche, l'IA et la rééducation"),
+        inverse=True)
+
+    finances = "".join(f"""      <article class="verre carte carte-img reveler">
+        <img src="assets/{nom}" alt="{alt}" width="1152" height="864" loading="lazy" decoding="async" />
+        <h3 data-t="social.{cle}t">{t(f'social.{cle}t')}</h3>
+        <p data-t="social.{cle}d">{t(f'social.{cle}d')}</p>
+      </article>""" for cle, nom, alt in (
+        ("f2", "cooperative-agricole.jpg",
+         "Coopérative : tri des fruits et séchoir solaire en arrière-plan"),
+        ("f3", "fablab-pmr.jpg",
+         "FabLab : technicien et utilisateur de fauteuil roulant ajustant une pièce imprimée"),
+        ("f4", "realia-virtual-economy.jpg",
+         "Poste de travail IA : écrans de réseaux de neurones et de production de contenus"),
+        ("f1", "logistique-import-export.jpg",
+         "Port de l'océan Indien : grues, conteneurs et entrepôt logistique"),
+    ))
+
     corps += f"""
   <section class="section">
-    <p class="etiq" data-t="social.eco_titre">{t('social.eco_titre')}</p>
-    <div class="duo" style="margin-top:1.4rem">
-{boucles}
+    <p class="etiq" data-t="social.fin_t">{t('social.fin_t')}</p>
+    <p class="lead" style="margin:.9rem 0 0; max-width:60ch" data-t="social.fin_lead">{t('social.fin_lead')}</p>
+    <div class="duo" style="margin-top:1.6rem">
+{finances}
     </div>
   </section>
+"""
 
-  <section class="split inverse">
-    <div class="split-texte reveler">
-      <p class="etiq">Sur place</p>
-      <h2 data-t="social.c3t">{t('social.c3t')}</h2>
-      <p data-t="social.c3d">{t('social.c3d')}</p>
-    </div>
-    <div class="split-visuel reveler" style="display:grid; gap:.9rem">
-      <figure class="profondeur" style="margin:0">
-        <div class="cadre-neon">
-          <img src="assets/social-cooperative.jpg" width="1024" height="1024" class="cadre" loading="lazy"
-               alt="Coopérative agricole : cageots de fruits, tri, sous un abri" />
-        </div>
-        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.6rem">Coopérative &amp; banque de fruits</figcaption>
-      </figure>
-      <figure class="profondeur" style="margin:0">
-        <div class="cadre-neon">
-          <img src="assets/social-fablab.jpg" width="1024" height="1024" class="cadre" loading="lazy"
-               alt="FabLab : imprimante 3D en fonctionnement, prothèse sur l'établi" />
-        </div>
-        <figcaption class="mono faible" style="font-size:.64rem; margin-top:.6rem">FabLab PMR</figcaption>
-      </figure>
-    </div>
-  </section>
+    corps += bloc(
+        f"""      <p class="etiq">Sur place</p>
+      <h2 data-t="social.sol_t">{t('social.sol_t')}</h2>
+      <p data-t="social.sol_d">{t('social.sol_d')}</p>
+      <h3 style="margin-top:1.6rem" data-t="social.sol_c1t">{t('social.sol_c1t')}</h3>
+      <p data-t="social.sol_c1d">{t('social.sol_c1d')}</p>
+      <h3 style="margin-top:1.2rem" data-t="social.sol_c2t">{t('social.sol_c2t')}</h3>
+      <p data-t="social.sol_c2d">{t('social.sol_c2d')}</p>""",
+        img("formation-emancipation.jpg",
+            "Salle de formation inclusive : jeunes femmes et hommes, dont un utilisateur "
+            "de fauteuil roulant, apprenant avec un formateur local",
+            "Formation et émancipation"))
 
+    corps += bloc(
+        f"""      <p class="etiq">Ambition</p>
+      <h2 data-t="social.amb_t">{t('social.amb_t')}</h2>
+      <p data-t="social.amb_d">{t('social.amb_d')}</p>
+      <h3 style="margin-top:1.6rem" data-t="social.close_t">{t('social.close_t')}</h3>
+      <p data-t="social.close_d">{t('social.close_d')}</p>""",
+        img("digital-twin-neuroexo.jpg",
+            "Jumeau numérique biomécanique : modèle des membres inférieurs, signaux "
+            "cérébraux et ondes musculaires projetés sur un grand écran",
+            "Le jumeau numérique, phase 1"),
+        inverse=True)
+
+    corps += f"""
   <section class="section" style="text-align:center">
     <a href="wishlist.html" class="bouton" data-t="social.cta">{t('social.cta')}</a>
+    <p class="mono faible" style="margin-top:1.2rem; font-size:.8rem">
+      <a href="wishlist.html">Wishlist</a> ·
+      <a href="boutique.html">Boutique</a> ·
+      <a href="[LIEN_GITHUB]" rel="noopener">GitHub</a>
+    </p>
   </section>
 """
     return enveloppe("social", corps, t("social.titre"), t("social.lead")[:150])
