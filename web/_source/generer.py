@@ -106,7 +106,7 @@ def nav(page: str) -> str:
 def pied(extra: str = "") -> str:
     return f"""<footer class="pied">
   <div class="pied-corps">
-    <p style="margin:0"><strong style="color:#fff">NEUROEXO</strong> — <span data-t="commun.nonmed">{t('commun.nonmed')}</span></p>
+    <p style="margin:0"><strong style="color:#fff">R'EXOIA</strong> — <span data-t="commun.nonmed">{t('commun.nonmed')}</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
       <a href="wishlist.html" data-t="nav.wishlist">{t('nav.wishlist')}</a>
       <a href="boutique.html" data-t="nav.boutique">{t('nav.boutique')}</a>
@@ -139,7 +139,7 @@ def tete(titre: str, description: str) -> str:
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{titre} — Neuro-Exo</title>
+<title>{titre} — R'ExoIA</title>
 <meta name="description" content="{description}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -350,7 +350,7 @@ def page_index() -> str:
   </section>
 """
     html = enveloppe("index", corps, "Capter l'étincelle",
-                     "Neuro-Exo : neuro-robotique open source, IA agentique et solidarité internationale.",
+                     "R'ExoIA : neuro-robotique open source, IA agentique et solidarité internationale.",
                      interne=False)
     return html.replace("</body>", """<script type="module">
   import { demarrerHero } from './hero3d.js?v={VERSION}';
@@ -618,7 +618,7 @@ def page_social() -> str:
 
     corps += bloc(
         f"""      <p class="etiq">Recherche</p>
-      <h2>NEUROEXO</h2>
+      <h2>R'EXOIA</h2>
       <p data-t="social.ph1d">{t('social.ph1d')}</p>""",
         img("neuroexo-research.jpg",
             "Laboratoire de neuro-réhabilitation : patient en exosquelette, "

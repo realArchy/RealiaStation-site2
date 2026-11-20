@@ -1,4 +1,4 @@
-"""Contenu du site Neuro-Exo — source unique, quatre langues.
+"""Contenu du site R'ExoIA — source unique, quatre langues.
 
 Chaque chaîne est écrite quatre fois : français (langue de travail), anglais,
 portugais brésilien et chinois simplifié. Le générateur produit le HTML français
@@ -127,7 +127,7 @@ ACCUEIL = {
 ORIENT = [
     ("virtuel.html", "virtuel.carte", T("Labo virtuel", "Virtual Lab", "Laboratório virtual", "虚拟实验室"),
      T("Le corps avant le métal : simuler pour ne pas usiner à l'aveugle.", "Body before metal: simulate instead of machining blind.", "O corpo antes do metal: simular em vez de usinar às cegas.", "先有身体，后有金属：先仿真，而不是盲目加工。")),
-    ("neuroexo-ai.html", "neuroexo.carte", T("Harnais NeuroExoAI", "NeuroExoAI harness", "Arnês NeuroExoAI", "NeuroExoAI 背具"),
+    ("neuroexo-ai.html", "neuroexo.carte", T("Harnais R'ExoIA", "R'ExoIA harness", "Arnês R'ExoIA", "R'ExoIA 束具"),
      T("La boucle dure : sEMG, FES et sécurité sous 20 ms.", "The hard loop: sEMG, FES and safety under 20 ms.", "O laço duro: sEMG, FES e segurança abaixo de 20 ms.", "硬实时回路：20 毫秒内的 sEMG、FES 与安全。")),
     ("devkit.html", "devkit.carte", T("Harnais RealiDevKit", "RealiDevKit harness", "Arnês RealiDevKit", "RealiDevKit 背具"),
      T("L'usine logicielle qui construit tout le reste.", "The software factory that builds everything else.", "A fábrica de software que constrói todo o resto.", "构建其他一切的软件工厂。")),
