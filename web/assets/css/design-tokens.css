@@ -856,3 +856,20 @@ html { overflow-x: hidden; }
 /* le logo colle au bord gauche, la station est centrée sur la page */
 .nav-haut { position: relative; }
 .nav-haut .marque { margin-right: auto; }
+
+/* Au-delà de 1500 px, .nav-haut devient display:contents : le bloc central doit
+   alors se positionner dans .nav, et ses enfants doivent échapper à l'ordre 3
+   que la media query impose aux .langues. C'est ce qui mettait les quatre
+   drapeaux après le titre sur un écran 1920. */
+.entete { position: relative; }
+.nav { position: relative; }
+.nav-haut { position: relative; }
+.nav-centre {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; align-items: center; gap: .55rem; white-space: nowrap;
+  z-index: 3;
+}
+.nav-centre .langues { order: 0 !important; margin: 0; }
+.nav-centre .marque-station { order: 1 !important; }
+.nav-centre > .langues:last-of-type { order: 2 !important; }
