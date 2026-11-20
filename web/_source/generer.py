@@ -16,7 +16,7 @@ import re
 import sys
 import time
 
-RACINE = pathlib.Path("/home/realia/projects/neuro-exo-project/web")
+RACINE = pathlib.Path("/home/realia/projects/rexoia/web")
 sys.path.insert(0, str(RACINE / "_source"))
 
 from contenu_1 import ACCUEIL, NAV, ORIENT  # noqa: E402
@@ -75,6 +75,11 @@ def nav(page: str) -> str:
     for i, (cle, (pid, f, _a)) in enumerate(zip(cles, ORDRE)):
         courant = ' aria-current="page"' if i == idx else ""
         liens.append(f'      <a href="{f}"{courant}>{t("nav." + cle)}</a>')
+    station = "".join(
+        ('<span class="lettre lettre-or">%s</span>' % c) if i == 0
+        else ('<span class="lettre">%s</span>' % c)
+        for i, c in enumerate("RealiaStation"))
+
     return f"""<header class="entete">
     <nav class="nav">
     <div class="nav-haut">
@@ -87,7 +92,7 @@ def nav(page: str) -> str:
           <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
           <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
         </div>
-        <p class="marque-station">RealiaStation</p>
+        <p class="marque-station">{station}</p>
         <div class="langues" role="group" aria-label="Language">
           <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
           <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>

@@ -830,8 +830,10 @@ body[data-page="social"] .hero-social { padding-top: 3.2rem; }
 
 /* En-tête : les drapeaux encadrent le nom de la station */
 .nav-centre {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
   display: flex; align-items: center; justify-content: center;
-  gap: 1.1rem; flex: 1 1 auto; min-width: 0;
+  gap: .55rem; white-space: nowrap;
 }
 .marque-station {
   margin: 0; padding: 0 .3rem;
@@ -841,7 +843,8 @@ body[data-page="social"] .hero-social { padding-top: 3.2rem; }
   color: #ffffff; white-space: nowrap;
   text-shadow: 0 0 18px rgba(212, 175, 55, .35);
 }
-.marque-station::first-letter { color: #d4af37; }
+.marque-station .lettre { display: inline-block; }
+.marque-station .lettre-or { color: #d4af37; }
 @media (max-width: 780px) {
   .nav-centre { gap: .5rem; }
   .marque-station { font-size: .95rem; }
@@ -849,3 +852,7 @@ body[data-page="social"] .hero-social { padding-top: 3.2rem; }
 
 /* aucun défilement horizontal : le hero déborde de 44 px en 1440 */
 html { overflow-x: hidden; }
+
+/* le logo colle au bord gauche, la station est centrée sur la page */
+.nav-haut { position: relative; }
+.nav-haut .marque { margin-right: auto; }

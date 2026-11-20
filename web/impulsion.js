@@ -141,6 +141,14 @@
       .filter(function (e) { return e && visible(e); })
       .forEach(function (el) { pas.push({ el: el, k: 1.25, f: 'brightness(2.5)' }); });
 
+    // 4 bis. le nom de la station, lettre par lettre
+    const station = document.querySelector('.marque-station');
+    if (station && visible(station)) {
+      decouperLettres(station).forEach(function (l) {
+        pas.push({ el: l, k: 1.18, f: 'brightness(2.4)' });
+      });
+    }
+
     // 5. la barre du haut — le bouton plein reste sobre
     [document.querySelector('.marque')]
       .concat([].slice.call(document.querySelectorAll('.langues button')))
