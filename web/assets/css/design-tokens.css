@@ -911,3 +911,25 @@ body[data-page="luna"] .ciel::before { z-index: 1; }
   .nav-centre .langues button { padding: .1rem .2rem; }
   .marque-station { font-size: .82rem; letter-spacing: 0; }
 }
+
+/* Trois cartes côte à côte sur la page du projet social ; deux par ligne
+   sur écran moyen, une seule sur téléphone. */
+.triple {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.grille-atouts {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.grille-atouts > p { margin: 0; }
+.liste-puces { padding-left: 1.2rem; display: grid; gap: .55rem; }
+.liste-puces li { color: var(--doux, #d0d0e0); line-height: 1.65; }
+
+/* Les planches du projet social sont verticales : on les tient dans l'écran
+   au lieu de laisser une colonne de 1200 px de haut. */
+figure.bandeau.planche { text-align: center; }
+figure.bandeau.planche img {
+  max-height: 82vh; width: auto; max-width: 100%;
+  display: block; margin: 0 auto; border-radius: 14px;
+}

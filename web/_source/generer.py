@@ -22,8 +22,10 @@ sys.path.insert(0, str(RACINE / "_source"))
 from contenu_1 import ACCUEIL, NAV, ORIENT  # noqa: E402
 from contenu_2 import PAGES  # noqa: E402
 from contenu_3 import BLUEPRINT  # noqa: E402
+from contenu_4 import SOCIAL_PLUS  # noqa: E402
 
 PAGES["blueprint"] = BLUEPRINT
+PAGES["social"].update(SOCIAL_PLUS)
 
 FR = "fr"
 
@@ -226,11 +228,12 @@ def img(nom: str, alt: str, legende: str = "", largeur: int = None, hauteur: int
       </figure>"""
 
 
-def img_large(nom: str, alt: str, legende: str = "", largeur: int = 1600, hauteur: int = 900) -> str:
+def img_large(nom: str, alt: str, legende: str = "", largeur: int = 1600, hauteur: int = 900,
+              classe: str = "") -> str:
     """Image en bandeau pleine largeur : les grands visuels ne sont pas écrasés
     dans une colonne de split."""
     cap = (f'\n    <figcaption class="mono faible">{legende}</figcaption>' if legende else "")
-    return f"""    <figure class="bandeau reveler">
+    return f"""    <figure class="bandeau reveler{(' ' + classe) if classe else ''}">
       <picture>
         <source srcset="assets/{nom.rsplit('.', 1)[0]}.webp" type="image/webp" />
         <img src="assets/{nom}" alt="{alt}" width="{largeur}" height="{hauteur}"
@@ -681,6 +684,130 @@ def page_social() -> str:
             "Le jumeau numérique, phase 1"),
         inverse=True)
 
+    def cartes(triples):
+        return "\n".join(
+            f'      <article class="verre carte reveler">\n'
+            f'        <h3 data-t="social.{k}t">{t(f"social.{k}t")}</h3>\n'
+            f'        <p data-t="social.{k}d">{t(f"social.{k}d")}</p>\n'
+            f'      </article>' for k in triples)
+
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Le pôle</p>
+      <h2 data-t="social.s4a_t">{t('social.s4a_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="social.s4a_lead">{t('social.s4a_lead')}</p>
+    </div>
+    <div class="duo" style="margin-top:1.6rem">
+{cartes(("s4a_1", "s4a_2", "s4a_3"))}
+    </div>
+  </section>
+"""
+
+    corps += img_large("ilot-pole-integre.jpg",
+            "Planche illustrée du pôle intégré : port à conteneurs, entrepôt, serres solaires, "
+            "séchage des récoltes, application de la coopérative, salle de rééducation et atelier de fabrication",
+            "Le pôle intégré — logistique, énergie, coopérative, santé, atelier", largeur=896, hauteur=1200, classe="planche")
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Économie circulaire</p>
+      <h2 data-t="social.s4b_t">{t('social.s4b_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="social.s4b_lead">{t('social.s4b_lead')}</p>
+    </div>
+    <div class="grille-atouts" style="margin-top:1.5rem">
+      <p class="verre-clair" style="padding:1rem 1.2rem" data-t="social.s4b_1">{t('social.s4b_1')}</p>
+      <p class="verre-clair" style="padding:1rem 1.2rem" data-t="social.s4b_2">{t('social.s4b_2')}</p>
+      <p class="verre-clair" style="padding:1rem 1.2rem" data-t="social.s4b_3">{t('social.s4b_3')}</p>
+      <p class="verre-clair" style="padding:1rem 1.2rem" data-t="social.s4b_4">{t('social.s4b_4')}</p>
+    </div>
+  </section>
+"""
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Atelier</p>
+      <h2 data-t="social.s4c_t">{t('social.s4c_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="social.s4c_lead">{t('social.s4c_lead')}</p>
+    </div>
+    <div class="triple" style="margin-top:1.5rem">
+      <article class="verre carte reveler"><p data-t="social.s4c_1">{t('social.s4c_1')}</p></article>
+      <article class="verre carte reveler"><p data-t="social.s4c_2">{t('social.s4c_2')}</p></article>
+      <article class="verre carte reveler"><p data-t="social.s4c_3">{t('social.s4c_3')}</p></article>
+    </div>
+  </section>
+"""
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Formation</p>
+      <h2 data-t="social.s4d_t">{t('social.s4d_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="social.s4d_lead">{t('social.s4d_lead')}</p>
+    </div>
+    <div class="triple" style="margin-top:1.6rem">
+{cartes(("s4d_1", "s4d_2", "s4d_3"))}
+    </div>
+  </section>
+"""
+
+    corps += img_large("ilot-emancipation.jpg",
+            "Planche illustrée de la boucle d'émancipation : école, ateliers techniques, brigade de cuisine, "
+            "bureau d'étude et équipes de direction, puis réplication sur plusieurs territoires",
+            "De l'élève au dirigeant, puis du premier pôle aux suivants", largeur=896, hauteur=1200, classe="planche")
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Robustesse</p>
+      <h2 data-t="social.s4e_t">{t('social.s4e_t')}</h2>
+    </div>
+    <div class="triple" style="margin-top:1.4rem">
+      <article class="verre carte reveler"><p data-t="social.s4e_1">{t('social.s4e_1')}</p></article>
+      <article class="verre carte reveler"><p data-t="social.s4e_2">{t('social.s4e_2')}</p></article>
+      <article class="verre carte reveler"><p data-t="social.s4e_3">{t('social.s4e_3')}</p></article>
+    </div>
+  </section>
+"""
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Duplication</p>
+      <h2 data-t="social.s4f_t">{t('social.s4f_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="social.s4f_lead">{t('social.s4f_lead')}</p>
+    </div>
+    <div class="triple" style="margin-top:1.5rem">
+      <article class="verre carte reveler"><p data-t="social.s4f_1">{t('social.s4f_1')}</p></article>
+      <article class="verre carte reveler"><p data-t="social.s4f_2">{t('social.s4f_2')}</p></article>
+      <article class="verre carte reveler"><p data-t="social.s4f_3">{t('social.s4f_3')}</p></article>
+    </div>
+  </section>
+"""
+
+    corps += img_large("ilot-franchise.jpg",
+            "Planche illustrée de l'écosystème : équipes en formation, ateliers, direction, planisphère "
+            "des implantations et réseau de pôles interconnectés",
+            "Une méthode qui se duplique, un réseau qui s'ouvre", largeur=896, hauteur=1200, classe="planche")
+
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq">Synthèse</p>
+      <h2 data-t="social.s4g_t">{t('social.s4g_t')}</h2>
+    </div>
+    <ul class="liste-puces" style="margin-top:1.2rem">
+      <li data-t="social.s4g_1">{t('social.s4g_1')}</li>
+      <li data-t="social.s4g_2">{t('social.s4g_2')}</li>
+      <li data-t="social.s4g_3">{t('social.s4g_3')}</li>
+      <li data-t="social.s4g_4">{t('social.s4g_4')}</li>
+      <li data-t="social.s4g_5">{t('social.s4g_5')}</li>
+    </ul>
+  </section>
+"""
     corps += f"""
   <section class="section" style="text-align:center">
     <a href="wishlist.html" class="bouton" data-t="social.cta">{t('social.cta')}</a>
