@@ -430,7 +430,7 @@ def page_virtuel() -> str:
 
 REALIDEVKIT_CHIFFRES = """
   <section class="section">
-    <p class="etiq">RealiDevKit en chiffres</p>
+    <p class="etiq">RealiaDevKit en chiffres</p>
     <div class="chiffres">
       <div class="chiffre"><strong>66</strong><span>outils branchés</span></div>
       <div class="chiffre"><strong>16</strong><span>fiches de rôle</span></div>

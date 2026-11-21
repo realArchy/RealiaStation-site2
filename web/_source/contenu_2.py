@@ -97,7 +97,7 @@ PAGES["neuroexo"] = {
 }
 
 # ---------------------------------------------------------------------------
-# 4. RealiDevKit
+# 4. RealiaDevKit
 # ---------------------------------------------------------------------------
 PAGES["devkit"] = {
     "cle": "devkit",
@@ -107,10 +107,10 @@ PAGES["devkit"] = {
                "⚡ EM PRODUÇÃO — ABERTURA PÚBLICA EM PREPARAÇÃO",
                "⚡ 生产运行中 — 公开发布筹备中"),
     "classe": "chantier prod",
-    "titre": T("RealiDevKit — l'atelier qui reste chez vous",
-               "RealiDevKit — the workshop that stays at home",
-               "RealiDevKit — a oficina que fica na sua máquina",
-               "RealiDevKit——留在你自己机器上的工坊"),
+    "titre": T("RealiaDevKit — l'atelier qui reste chez vous",
+               "RealiaDevKit — the workshop that stays at home",
+               "RealiaDevKit — a oficina que fica na sua máquina",
+               "RealiaDevKit——留在你自己机器上的工坊"),
     "lead": T("La Team RealiaDevKit vous ouvre un atelier qui tourne entièrement sur votre machine : vos modèles, vos fichiers, votre VRAM, et personne d'autre. Les données ne sortent jamais de la station. Un swarm d'agents spécialisés orchestre vos projets de l'idée au commit — l'autonomie d'un CTO, la confidentialité d'un coffre-fort.",
               "The RealiaDevKit team opens a workshop that runs entirely on your machine: your models, your files, your VRAM, and nobody else. Data never leaves the station. A swarm of specialised agents orchestrates your projects from idea to commit — the autonomy of a CTO, the confidentiality of a vault.",
               "A equipe RealiaDevKit abre uma oficina que roda inteiramente na sua máquina: seus modelos, seus arquivos, sua VRAM, e mais ninguém. Os dados nunca saem da estação. Um enxame de agentes especializados orquestra seus projetos da ideia ao commit — a autonomia de um CTO, a confidencialidade de um cofre.",
@@ -139,15 +139,20 @@ PAGES["devkit"] = {
              "Keys, personal paths, working data and history: everything was purged, commit by commit, not just in the latest state. The check also runs on the files served to the browser — a secret left in a public page cannot be undone.",
              "Chaves, caminhos pessoais, dados de trabalho e histórico: tudo foi purgado, commit por commit, não só no último estado. A checagem também roda nos arquivos servidos ao navegador — um segredo esquecido numa página pública não se recupera.",
              "密钥、个人路径、工作数据与历史：逐次提交全部清除，而不只是最新状态。检查同样作用于发给浏览器的文件——留在公开页面上的密钥无法挽回。"),
-    "journal_titre": T("Journal build-in-public", "Build-in-public log", "Diário build-in-public", "公开构建日志"),
-    "j1": T("2026-11-17 — Audit outillé du site : accessibilité 100 sur les douze pages, zéro erreur de conformité HTML.",
-            "2026-11-17 — Tooled audit of the site: accessibility 100 on all twelve pages, zero HTML conformance error.",
-            "2026-11-17 — Auditoria instrumentada do site: acessibilidade 100 nas doze páginas, zero erro de conformidade HTML.",
-            "2026-11-17 — 网站工具化审计：十二个页面无障碍 100，HTML 合规零错误。"),
-    "j2": T("2026-11-09 — Dépôt public séparé, 650 fichiers suivis, contrôles de fuite au vert.",
-            "2026-11-09 — Separate public repository, 650 tracked files, leak checks green.",
-            "2026-11-09 — Repositório público separado, 650 arquivos rastreados, checagens de vazamento verdes.",
-            "2026-11-09 — 独立公开仓库，650 个受控文件，泄漏检查通过。"),
+    "journal_titre": T("Le programme build-in-public", "The build-in-public programme",
+                        "O programa build-in-public", "公开构建计划"),
+    "journal_lead": T("Aucun journal daté ici non plus : ces lignes décrivent ce qui est déjà rendu public, sans calendrier.",
+                       "No dated log here either: these lines describe what is already public, with no calendar.",
+                       "Também aqui não há diário com datas: estas linhas descrevem o que já é público, sem calendário.",
+                       "这里同样没有带日期的日志：以下内容描述已经公开的事实，不设时间表。"),
+    "j1": T("Audit outillé du site : accessibilité 100 sur les douze pages, zéro erreur de conformité HTML.",
+            "Tooled audit of the site: accessibility 100 on all twelve pages, zero HTML conformance error.",
+            "Auditoria instrumentada do site: acessibilidade 100 nas doze páginas, zero erro de conformidade HTML.",
+            "网站工具化审计：十二个页面无障碍 100，HTML 合规零错误。"),
+    "j2": T("Dépôt public séparé, 650 fichiers suivis, contrôles de fuite au vert.",
+            "Separate public repository, 650 tracked files, leak checks green.",
+            "Repositório público separado, 650 arquivos rastreados, checagens de vazamento verdes.",
+            "独立公开仓库，650 个受控文件，泄漏检查通过。"),
 }
 
 PAGES["realia"] = {
