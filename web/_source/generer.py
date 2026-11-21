@@ -473,16 +473,24 @@ def page_simple(page: str, visuel1: str, visuel2: str, journal_n: int = 0, extra
 
     if journal_n:
         lignes = []
+        cle_lead = f"{page}.journal_lead"
+        lead = (f'<p class="lead" style="margin:.8rem 0 1.4rem; max-width:64ch" '
+                f'data-t="{cle_lead}">{t(cle_lead)}</p>') if cle_lead in TOUS else ""
         for i in range(1, journal_n + 1):
             cle = f"{page}.j{i}"
             if cle not in TOUS:
                 continue
             txt = t(cle)
-            date, reste = (txt.split(" — ", 1) + [""])[:2] if " — " in txt else (txt, "")
-            lignes.append(f'        <li><time>{date}</time><span class="txt" data-t="{cle}">{reste}</span></li>')
+            if " — " in txt:
+                date, reste = txt.split(" — ", 1)
+                lignes.append(f'        <li><time>{date}</time><span class="txt" data-t="{cle}">{reste}</span></li>')
+            else:
+                # pas de date : une ligne de programme, pas une entrée de journal
+                lignes.append(f'        <li><span class="txt" data-t="{cle}">{txt}</span></li>')
         corps += f"""
   <section class="section">
     <p class="etiq" data-t="{page}.journal_titre">{t(page + '.journal_titre')}</p>
+    {lead}
     <div class="verre reveler" style="padding:1.6rem">
       <ul class="journal">
 {chr(10).join(lignes)}
