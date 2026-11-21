@@ -1428,7 +1428,7 @@ def main() -> None:
             img("devkit-coffre.jpg",
                 "Coffre ouvert et vide sous une lumière dorée",
                 "Ce qu'on retire avant de publier"),
-            journal_n=2, extra=REALIDEVKIT_CHIFFRES),
+            journal_n=0, extra=REALIDEVKIT_CHIFFRES),
         "realia": page_simple(
             "realia",
             img("realia-station.jpg",
