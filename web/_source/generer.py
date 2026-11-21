@@ -441,6 +441,9 @@ def page_virtuel() -> str:
 
 
 REALIDEVKIT_CHIFFRES = f"""
+  {img_large("devkit-gui.jpg",
+      "Interface de RealiaDevKit : barre latérale des projets, éditeur de code, terminal et panneau de chat avec le modèle chargé",
+      "L\'interface réelle, capturée en service — accueil, éditeur, terminal et chat", largeur=1920, hauteur=1080, classe="capture-gui")}
   <section class="section">
     <p class="etiq" data-t="devkit.ch_t">{t('devkit.ch_t')}</p>
     <div class="verre reveler" style="padding:1.8rem">

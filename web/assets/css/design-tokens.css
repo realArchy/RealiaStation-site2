@@ -937,3 +937,10 @@ figure.bandeau.planche img {
 /* Une ligne de programme n'a pas de date : le texte occupe toute la largeur
    au lieu d'être écrasé dans la colonne de 8 rem réservée aux dates. */
 .journal li > .txt:only-child { grid-column: 1 / -1; }
+
+/* Capture d'interface : image large, plafonnée pour rester dans l'écran. */
+figure.bandeau.capture-gui img {
+  width: 100%; height: auto; max-height: 78vh; object-fit: contain;
+  border-radius: 14px; border: 1px solid rgba(139, 92, 246, .28);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .55);
+}
