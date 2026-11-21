@@ -440,23 +440,22 @@ def page_virtuel() -> str:
 </body>""")
 
 
-REALIDEVKIT_CHIFFRES = """
+REALIDEVKIT_CHIFFRES = f"""
   <section class="section">
-    <p class="etiq">RealiaDevKit en chiffres</p>
-    <div class="chiffres">
-      <div class="chiffre"><strong>66</strong><span>outils branchés</span></div>
-      <div class="chiffre"><strong>16</strong><span>fiches de rôle</span></div>
-      <div class="chiffre"><strong>2</strong><span>modèles qui se relaient</span></div>
-      <div class="chiffre"><strong>16 Go</strong><span>de VRAM, une seule carte</span></div>
-      <div class="chiffre"><strong>0</strong><span>appel sortant nécessaire</span></div>
-      <div class="chiffre"><strong>0</strong><span>secret dans les fichiers servis</span></div>
+    <p class="etiq" data-t="devkit.ch_t">{t('devkit.ch_t')}</p>
+    <div class="verre reveler" style="padding:1.8rem">
+      <p style="margin:0 0 .9rem" data-t="devkit.ch_d1">{t('devkit.ch_d1')}</p>
+      <p style="margin:0" data-t="devkit.ch_d2">{t('devkit.ch_d2')}</p>
     </div>
   </section>
   <section class="section">
-    <div class="verre reveler" style="padding:1.8rem">
-      <p class="etiq" style="margin-bottom:.8rem">Ce que ça change, concrètement</p>
-      <p style="margin:0 0 .9rem">Un projet de trois semaines se mène sans jamais sortir un fichier du disque : le brief reste sur la station, les modèles aussi, les résultats aussi. Le jour où la machine s'éteint, il ne reste rien à révoquer chez un prestataire.</p>
-      <p style="margin:0">Et parce que le swarm écrit la preuve de ce qu'il avance — un test, une mesure, un journal — on peut relire six mois plus tard <em>pourquoi</em> une décision a été prise, pas seulement laquelle.</p>
+    <div class="chiffres">
+      <div class="chiffre"><strong>66</strong><span data-t="devkit.ch_l1">{t('devkit.ch_l1')}</span></div>
+      <div class="chiffre"><strong>16</strong><span data-t="devkit.ch_l2">{t('devkit.ch_l2')}</span></div>
+      <div class="chiffre"><strong>2</strong><span data-t="devkit.ch_l3">{t('devkit.ch_l3')}</span></div>
+      <div class="chiffre"><strong>16 Go</strong><span data-t="devkit.ch_l4">{t('devkit.ch_l4')}</span></div>
+      <div class="chiffre"><strong>0</strong><span data-t="devkit.ch_l5">{t('devkit.ch_l5')}</span></div>
+      <div class="chiffre"><strong>1</strong><span data-t="devkit.ch_l6">{t('devkit.ch_l6')}</span></div>
     </div>
   </section>
 """
