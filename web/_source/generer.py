@@ -242,16 +242,20 @@ def img_large(nom: str, alt: str, legende: str = "", largeur: int = 1600, hauteu
     </figure>"""
 
 
-def panneau(titre: str, lignes: list, accent: str = "cyan") -> str:
+def panneau(titre: str, lignes: list, accent: str = "cyan",
+            cles_lignes: list | None = None, cle_titre: str = "") -> str:
     """Visuel de remplacement : une console stylisée, sans image."""
     couleur = "var(--cyan)" if accent == "cyan" else "var(--magenta)"
     corps = "\n".join(
-        f'          <div style="display:flex; gap:.6rem; font-family:\'JetBrains Mono\',monospace; font-size:.78rem; color:var(--doux)">'
-        f'<span style="color:{couleur}">›</span><span>{e(l)}</span></div>'
-        for l in lignes)
+        f'          <div style="display:flex; gap:.7rem; align-items:baseline; '
+        f'font-family:\'JetBrains Mono\',monospace; font-size:.78rem; color:var(--doux); padding:.35rem 0; '
+        f'border-top:1px solid rgba(139,92,246,.10)">'
+        f'<span style="color:{couleur}; font-size:.68rem; letter-spacing:.12em">{i:02d}</span>'
+        f'<span{f" data-t=\"{cles_lignes[i - 1]}\"" if cles_lignes and i <= len(cles_lignes) else ""}>{e(l)}</span></div>'
+        for i, l in enumerate(lignes, 1))
     return f"""      <div class="profondeur cadre-neon">
         <div style="padding:1.5rem; background:#08030f; border-radius:calc(var(--rayon) - 2px); min-height:260px">
-          <p class="mono" style="font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:{couleur}; margin-bottom:1rem">{e(titre)}</p>
+          <p class="mono" style="font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:{couleur}; margin-bottom:1rem"{f' data-t="{cle_titre}"' if cle_titre else ''}>{e(titre)}</p>
 {corps}
         </div>
       </div>"""
@@ -269,10 +273,18 @@ def titre_h1(page: str, taille: str = "clamp(2.2rem,4.4vw,3.4rem)") -> str:
     return f'      <h1 style="font-size:{taille}; margin:1.1rem 0 0" data-t="{page}.titre">{t(page + ".titre")}</h1>'
 
 
+def reperes(page: str, accent: str = "cyan") -> str:
+    """Visuel de remplacement : les trois axes de la page, numérotés.
+    Aucun paragraphe recopié — c'est un sommaire latéral, pas un doublon."""
+    cles = [f"{page}.c{i}t" for i in (1, 2, 3) if f"{page}.c{i}t" in TOUS]
+    return panneau(t("commun.reperes"), [t(k) for k in cles] or [t(f"{page}.titre")],
+                   accent, cles_lignes=cles or None, cle_titre="commun.reperes")
+
+
 def chap(page: str, n: int, inverse: bool = False, visuel: str = "") -> str:
     texte = f"""      <h2 data-t="{page}.c{n}t">{t(f'{page}.c{n}t')}</h2>
       <p data-t="{page}.c{n}d">{t(f'{page}.c{n}d')}</p>"""
-    return bloc(texte, visuel or panneau(t(f"{page}.c{n}t"), [t(f"{page}.c{n}d")[:80] + "…"]), inverse)
+    return bloc(texte, visuel or reperes(page), inverse)
 
 
 # ===========================================================================
@@ -468,7 +480,7 @@ def page_simple(page: str, visuel1: str, visuel2: str, journal_n: int = 0, extra
     corps += bloc(
         f"""      <h2 data-t="{page}.c3t">{t(page + '.c3t')}</h2>
       <p data-t="{page}.c3d">{t(page + '.c3d')}</p>""",
-        panneau(t(f"{page}.c3t"), [t(f"{page}.c3t"), "—", t(f"{page}.c3d")[:90]]),
+        reperes(page, "magenta"),
     )
 
     if journal_n:

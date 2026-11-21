@@ -33,6 +33,7 @@ NAV = {
     "nav.boutique": T("Boutique", "Shop", "Loja", "商店"),
 
     "commun.soutenir": T("Soutenir", "Support", "Apoiar", "支持"),
+    "commun.reperes":  T("Repères", "Markers", "Marcadores", "要点"),
     "commun.retour":   T("← Accueil", "← Home", "← Início", "← 首页"),
     "commun.suivant":  T("Tiroir suivant", "Next drawer", "Próxima gaveta", "下一个抽屉"),
     "commun.dernier":  T("Dernier tiroir", "Last drawer", "Última gaveta", "最后一个抽屉"),
