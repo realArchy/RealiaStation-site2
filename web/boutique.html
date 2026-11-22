@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faites vos courses de Noël ! — R'ExoIA</title>
-<meta name="description" content="Ce n'est pas une liste d'achats pour le projet. Tu fais tes courses comme d'habitude, au prix habituel, et la plateforme reverse une commission pour f">
+<title>Le centre commercial de la mission — R'ExoIA</title>
+<meta name="description" content="Vous achetez au prix affiché, chez les enseignes que vous connaissez déjà. Le collectif est partenaire affilié : une commission finance la R&amp;D open-so">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202611212032">
+<link rel="stylesheet" href="style.css?v=202611222033">
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611212032">
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611222033">
+  <link rel="stylesheet" href="assets/css/boutique.css?v=202611222033">
 </head>
 <body data-page="boutique" data-audio="assets/audio/luna-10-noel.mp3">
 
@@ -59,111 +60,81 @@
 
 <main class="enveloppe interne">
 
-  <div class="guirlande" aria-hidden="true">
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-        <span class="ampoule"></span>
-  </div>
-  <div class="flocons" aria-hidden="true">
-    <span class="flocon" style="left:43%; animation-duration:13s; animation-delay:-12s; width:3px; height:3px"></span>
-    <span class="flocon" style="left:70%; animation-duration:12s; animation-delay:-11s; width:3px; height:4px"></span>
-    <span class="flocon" style="left:6%; animation-duration:12s; animation-delay:-13s; width:6px; height:3px"></span>
-    <span class="flocon" style="left:32%; animation-duration:12s; animation-delay:-17s; width:6px; height:3px"></span>
-    <span class="flocon" style="left:74%; animation-duration:12s; animation-delay:-7s; width:3px; height:6px"></span>
-    <span class="flocon" style="left:8%; animation-duration:14s; animation-delay:-1s; width:4px; height:5px"></span>
-    <span class="flocon" style="left:55%; animation-duration:13s; animation-delay:-17s; width:3px; height:5px"></span>
-    <span class="flocon" style="left:73%; animation-duration:21s; animation-delay:-5s; width:3px; height:4px"></span>
-    <span class="flocon" style="left:49%; animation-duration:12s; animation-delay:-17s; width:3px; height:3px"></span>
-    <span class="flocon" style="left:81%; animation-duration:14s; animation-delay:-15s; width:6px; height:5px"></span>
-    <span class="flocon" style="left:61%; animation-duration:20s; animation-delay:-14s; width:5px; height:5px"></span>
-    <span class="flocon" style="left:33%; animation-duration:13s; animation-delay:-7s; width:3px; height:5px"></span>
-    <span class="flocon" style="left:69%; animation-duration:18s; animation-delay:-10s; width:6px; height:5px"></span>
-    <span class="flocon" style="left:79%; animation-duration:12s; animation-delay:-3s; width:6px; height:4px"></span>
-    <span class="flocon" style="left:98%; animation-duration:16s; animation-delay:-4s; width:6px; height:6px"></span>
-    <span class="flocon" style="left:7%; animation-duration:21s; animation-delay:-2s; width:5px; height:5px"></span>
-  </div>
-  <section class="split">
-    <div class="split-texte reveler">
-      <span class="chantier"><span class="point"></span><span data-t="boutique.badge">🎄 BOUTIQUE SOLIDAIRE — NOËL</span></span>
-      <h1 style="margin:1.1rem 0 0" data-t="boutique.titre">Faites vos courses de Noël !</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="boutique.lead">Ce n'est pas une liste d'achats pour le projet. Tu fais tes courses comme d'habitude, au prix habituel, et la plateforme reverse une commission pour financer R'ExoIA et sa future ONG. Zéro euro de plus pour toi.</p>
-      <p class="etiq" style="margin-top:2rem" data-t="boutique.enseignes_titre">Les enseignes</p>
-      <p style="font-size:.95rem" data-t="boutique.enseignes">Boutons activés au fur et à mesure des validations de comptes partenaires.</p>
-      <div style="display:flex; flex-wrap:wrap; gap:.6rem">
-        <a href="[LIEN_AFFILIE_AMAZON]" class="bouton-fantome">Amazon</a>
-        <a href="[LIEN_AFFILIE_FNAC]" class="bouton-fantome">Fnac</a>
-        <a href="[LIEN_AFFILIE_CDISCOUNT]" class="bouton-fantome">Cdiscount</a>
-        <a href="[LIEN_AFFILIE_ALIEXPRESS]" class="bouton-fantome">AliExpress</a>
-        <a href="[LIEN_AFFILIE_CULTURA]" class="bouton-fantome">Cultura</a>
-      </div>
-    </div>
-    <div class="split-visuel reveler">
-      <figure class="profondeur" style="margin:0">
-        <div class="cadre-neon">
-          <picture>
-              <source srcset="assets/boutique-cadeaux.webp" type="image/webp">
-              <img src="assets/boutique-cadeaux.jpg" alt="Cadeaux de Noël sous une lumière néon magenta et cyan" width="1600" height="900"
-               class="cadre" loading="lazy" decoding="async">
-            </picture>
-        </div>
-      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">Noël cyberpunk</figcaption>
-      </figure>
-    </div>
-  </section>
   <section class="section">
-    <p class="etiq">Vitrines</p>
-    <div class="vitrines" style="margin-top:1.4rem">
-        <a class="verre vitrine" href="[LIEN_AFFILIE_AMAZON_TECH]">
-          <span class="emoji">🎧</span>
-          <h2 data-t="boutique.v1">Cadeaux high-tech &amp; gadgets IA</h2>
-          <p data-t="boutique.v1d">Pour celles et ceux qui veulent comprendre l'IA en la touchant.</p>
-          <span class="balise">[LIEN_AFFILIE_AMAZON_TECH]</span>
-        </a>
-        <a class="verre vitrine" href="[LIEN_AFFILIE_MAKER]">
-          <span class="emoji">🛠️</span>
-          <h2 data-t="boutique.v2">Atelier maker, électronique &amp; impression 3D</h2>
-          <p data-t="boutique.v2d">Fers à souder, microcontrôleurs, filaments : la boîte à outils du projet.</p>
-          <span class="balise">[LIEN_AFFILIE_MAKER]</span>
-        </a>
-        <a class="verre vitrine" href="[LIEN_AFFILIE_LIVRES]">
-          <span class="emoji">📚</span>
-          <h2 data-t="boutique.v3">Livres, science-fiction &amp; neurosciences</h2>
-          <p data-t="boutique.v3d">Ce qui a nourri le projet, et ce qui le nourrira encore.</p>
-          <span class="balise">[LIEN_AFFILIE_LIVRES]</span>
-        </a>
-        <a class="verre vitrine" href="[LIEN_AFFILIE_GENERAL]">
-          <span class="emoji">🎁</span>
-          <h2 data-t="boutique.v4">Maison, jouets &amp; idées famille</h2>
-          <p data-t="boutique.v4d">Les cadeaux qui n'ont rien à voir avec la tech, et c'est très bien.</p>
-          <span class="balise">[LIEN_AFFILIE_GENERAL]</span>
-        </a>
+          <span class="chantier"><span class="point"></span><span data-t="boutique.badge">🛍️ CENTRE COMMERCIAL — R'EXOIA</span></span>
+    <h1 style="margin:1.1rem 0 0" data-t="boutique.titre">Le centre commercial de la mission</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:66ch" data-t="boutique.lead">Vous achetez au prix affiché, chez les enseignes que vous connaissez déjà. Le collectif est partenaire affilié : une commission finance la R&amp;D open-source. Aucun surcoût, aucun compte à créer.</p>
+    <p class="mention-affiliation" id="mention-affiliation" style="max-width:72ch"
+       data-t="boutique.mention">Transparence : en tant que Partenaire des programmes d'affiliation cités, R'ExoIA perçoit une commission sur les achats éligibles. Le prix que vous payez reste identique, et certaines enseignes ne versent rien.</p>
+    <div class="region-barre" role="group" aria-label="Région">
+      <span class="etq-region" data-t="boutique.b_region">Région</span>
+        <button type="button" class="btn-pays" data-pays="FR" aria-pressed="false">🇫🇷 France</button>
+        <button type="button" class="btn-pays" data-pays="BR" aria-pressed="false">🇧🇷 Brasil</button>
+        <button type="button" class="btn-pays" data-pays="GLOBAL" aria-pressed="false">🌍 Global</button>
     </div>
   </section>
 
-  <section class="section" style="text-align:center">
-    <p style="margin-bottom:1.2rem" data-t="boutique.noel">Joyeux Noël — et merci de faire vivre le projet en achetant ce dont tu as besoin.</p>
-    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
-    <p class="mentions" style="margin-top:2rem" data-t="boutique.mention">En tant que Partenaire des programmes d'affiliation mentionnés, R'ExoIA réalise un bénéfice sur les achats remplissant les conditions requises, sans aucun frais supplémentaire pour l'acheteur.</p>
+  <section class="section" id="partenaires">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="boutique.b_part_etiq">Partenaires</p>
+      <h2 data-t="boutique.b_part_t">Le florilège des partenaires</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="boutique.b_part_d">Les enseignes changent avec le pays choisi : ce qui est disponible au Brésil n'est pas la même liste qu'en France. Les commerces locaux ont leur propre carte.</p>
+    </div>
+    <div class="grille-partenaires" id="grille-partenaires" aria-live="polite"></div>
   </section>
+
+  <section class="section" id="catalogue">
+    <div class="section-titre reveler">
+      <p class="etiq">Catalogue</p>
+      <h2 data-t="boutique.b_prod_t">Les produits, comparés marchand par marchand</h2>
+    </div>
+    <div class="barre-recherche">
+      <input id="champ-recherche" type="search" autocomplete="off"
+             placeholder="Rechercher un produit, une marque, une ville…" aria-label="Rechercher un produit, une marque, une ville…">
+      <span class="compte" id="compte-resultats"></span>
+    </div>
+    <div class="onglets" role="group">
+        <button type="button" class="onglet" data-cat="all" aria-pressed="true" data-t="boutique.b_cat_all">Tout</button>
+        <button type="button" class="onglet" data-cat="maker" aria-pressed="false" data-t="boutique.b_cat_maker">Labo &amp; Makers (ESP32 / robotique)</button>
+        <button type="button" class="onglet" data-cat="gift" aria-pressed="false" data-t="boutique.b_cat_gift">Idées cadeaux &amp; Noël</button>
+        <button type="button" class="onglet" data-cat="tech" aria-pressed="false" data-t="boutique.b_cat_tech">High-Tech</button>
+        <button type="button" class="onglet" data-cat="culture" aria-pressed="false" data-t="boutique.b_cat_culture">Culture &amp; Livres</button>
+        <button type="button" class="onglet" data-cat="local" aria-pressed="false" data-t="boutique.b_cat_local">Commerces locaux</button>
+    </div>
+    <div class="grille-produits" id="grille-produits" aria-live="polite"></div>
+    <p class="b_compare_hint note-donnees" data-t="boutique.b_compare_hint">Cochez « Comparer » sur 2 à 3 produits pour obtenir un tableau de caractéristiques côte à côte.</p>
+    <p class="note-donnees" id="note-donnees"></p>
+  </section>
+
+  <div class="barre-comparer" id="barre-comparer" hidden>
+    <span id="comparer-compte"></span>
+    <button type="button" id="comparer-lancer" disabled data-t="boutique.b_compare_go">Comparer</button>
+  </div>
+
+  <div class="tiroir" id="tiroir-offres" hidden role="dialog" aria-modal="true" aria-labelledby="tiroir-titre">
+    <div class="panneau">
+      <button type="button" class="fermer" id="tiroir-fermer" data-t="boutique.b_fermer">Fermer</button>
+      <h2 id="tiroir-titre"></h2>
+      <div id="tiroir-corps"></div>
+    </div>
+  </div>
+
+  <div class="compare-modal" id="compare-modal" hidden role="dialog" aria-modal="true">
+    <div class="boite">
+      <button type="button" class="fermer" id="compare-fermer" data-t="boutique.b_fermer">Fermer</button>
+      <table id="compare-table"></table>
+    </div>
+  </div>
+
+  <section class="section" style="text-align:center">
+    <a href="index.html#financer" class="bouton" data-t="boutique.b_cta">Soutenir la R&amp;D sans rien acheter</a>
+    <p class="mono faible" style="margin-top:1.4rem; font-size:.8rem">
+      <a href="meta-projet-social.html">Projet social</a> ·
+      <a href="wishlist.html">Wishlist</a> ·
+      <a href="cabinet.html">Devenir partenaire local</a>
+    </p>
+  </section>
+  <p id="annonce" aria-live="polite" style="position:absolute;left:-9999px"></p>
 
 </main>
 
@@ -179,18 +150,19 @@
 
 </footer>
 
-<script src="traductions.js?v=202611212032" defer></script>
-<script src="i18n.js?v=202611212032" defer></script>
-<script src="revele.js?v=202611212032" defer></script>
-<script src="tiroir.js?v=202611212032" defer></script>
-<script src="audio.js?v=202611212032" defer></script>
-<script type="module" src="systeme.js?v=202611212032"></script>
-  <script src="vendor/gsap.min.js?v=202611212032"></script>
-  <script src="ambiance.js?v=202611212032" defer></script>
-  <script src="impulsion.js?v=202611212032" defer></script>
-  <script src="devise-neon.js?v=202611212032" defer></script>
-  <script src="lumiere-scroll.js?v=202611212032" defer></script>
-  <script src="vendor/lenis.min.js?v=202611212032" defer></script>
-  <script src="defilement-doux.js?v=202611212032" defer></script>
+<script src="traductions.js?v=202611222033" defer></script>
+<script src="i18n.js?v=202611222033" defer></script>
+<script src="revele.js?v=202611222033" defer></script>
+<script src="tiroir.js?v=202611222033" defer></script>
+<script src="audio.js?v=202611222033" defer></script>
+<script type="module" src="systeme.js?v=202611222033"></script>
+  <script src="vendor/gsap.min.js?v=202611222033"></script>
+  <script src="ambiance.js?v=202611222033" defer></script>
+  <script src="impulsion.js?v=202611222033" defer></script>
+  <script src="devise-neon.js?v=202611222033" defer></script>
+  <script src="lumiere-scroll.js?v=202611222033" defer></script>
+  <script src="vendor/lenis.min.js?v=202611222033" defer></script>
+  <script src="defilement-doux.js?v=202611222033" defer></script>
+  <script src="boutique.js?v=202611222033" defer></script>
 </body>
 </html>

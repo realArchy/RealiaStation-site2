@@ -124,7 +124,9 @@ def pied(extra: str = "") -> str:
 </footer>"""
 
 
-def scripts(particules: bool = False) -> str:
+def scripts(particules: bool = False, page: str = "") -> str:
+    boutique_js = (f'\n  <script src="boutique.js?v={VERSION}" defer></script>'
+                   if page == "boutique" else "")
     return f"""<script src="traductions.js?v={VERSION}" defer></script>
 <script src="i18n.js?v={VERSION}" defer></script>
 <script src="revele.js?v={VERSION}" defer></script>
@@ -137,10 +139,10 @@ def scripts(particules: bool = False) -> str:
   <script src="devise-neon.js?v={VERSION}" defer></script>
   <script src="lumiere-scroll.js?v={VERSION}" defer></script>
   <script src="vendor/lenis.min.js?v={VERSION}" defer></script>
-  <script src="defilement-doux.js?v={VERSION}" defer></script>"""
+  <script src="defilement-doux.js?v={VERSION}" defer></script>{boutique_js}"""
 
 
-def tete(titre: str, description: str) -> str:
+def tete(titre: str, description: str, css_page: str = "") -> str:
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -154,14 +156,16 @@ def tete(titre: str, description: str) -> str:
 <link rel="stylesheet" href="style.css?v={VERSION}" />
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v={VERSION}" />"""
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v={VERSION}" />{css_page}"""
 
 
 def enveloppe(page: str, corps: str, titre_page: str, description: str,
               interne: bool = True, extra_pied: str = "") -> str:
     audio = [p for p in ORDRE if p[0] == page][0][2]
     classe = "enveloppe interne" if interne else "enveloppe"
-    return f"""{tete(titre_page, description)}
+    css_page = (f'\n  <link rel="stylesheet" href="assets/css/{page}.css?v={VERSION}" />'
+                if page == "boutique" else "")
+    return f"""{tete(titre_page, description, css_page)}
 </head>
 <body data-page="{page}" data-audio="assets/audio/{audio}.mp3">
 
@@ -176,7 +180,7 @@ def enveloppe(page: str, corps: str, titre_page: str, description: str,
 
 {pied(extra_pied)}
 
-{scripts()}
+{scripts(page=page)}
 </body>
 </html>
 """
@@ -1146,60 +1150,93 @@ def page_wishlist() -> str:
 
 
 def page_boutique() -> str:
-    ampoules = "".join('        <span class="ampoule"></span>\n' for _ in range(22))
-    random.seed(7)
-    flocons = "".join(
-        f'    <span class="flocon" style="left:{random.randint(2, 98)}%; '
-        f'animation-duration:{random.randint(11, 22)}s; animation-delay:-{random.randint(0, 20)}s; '
-        f'width:{random.choice([3,4,5,6])}px; height:{random.choice([3,4,5,6])}px"></span>\n'
-        for _ in range(16))
+    """Centre commercial agnostique : la page ne contient AUCUN produit.
 
-    liens = {"1": "[LIEN_AFFILIE_AMAZON_TECH]", "2": "[LIEN_AFFILIE_MAKER]",
-             "3": "[LIEN_AFFILIE_LIVRES]", "4": "[LIEN_AFFILIE_GENERAL]"}
-    emojis = {"1": "🎧", "2": "🛠️", "3": "📚", "4": "🎁"}
-    vitrines = "\n".join(f"""        <a class="verre vitrine" href="{liens[str(i)]}">
-          <span class="emoji">{emojis[str(i)]}</span>
-          <h2 data-t="boutique.v{i}">{t(f'boutique.v{i}')}</h2>
-          <p data-t="boutique.v{i}d">{t(f'boutique.v{i}d')}</p>
-          <span class="balise">{liens[str(i)]}</span>
-        </a>""" for i in range(1, 5))
+    Elle pose la coquille (région, recherche, onglets, grilles vides) et
+    boutique.js remplit à partir de data/partners.json et data/catalog.json.
+    Une application mobile lira les mêmes fichiers.
+    """
+    onglets = "".join(
+        f'        <button type="button" class="onglet" data-cat="{cat}" '
+        f'aria-pressed="{"true" if cat == "all" else "false"}" '
+        f'data-t="boutique.{cle}">{t("boutique." + cle)}</button>\n'
+        for cle, cat in (("b_cat_all", "all"), ("b_cat_maker", "maker"), ("b_cat_gift", "gift"),
+                         ("b_cat_tech", "tech"), ("b_cat_culture", "culture"),
+                         ("b_cat_local", "local")))
 
-    enseignes = "".join(
-        f'        <a href="[LIEN_AFFILIE_{n}]" class="bouton-fantome">{lbl}</a>\n'
-        for n, lbl in (("AMAZON", "Amazon"), ("FNAC", "Fnac"), ("CDISCOUNT", "Cdiscount"),
-                       ("ALIEXPRESS", "AliExpress"), ("CULTURA", "Cultura")))
+    pays = "".join(
+        f'        <button type="button" class="btn-pays" data-pays="{code}" aria-pressed="false">'
+        f'{drapeau} {nom}</button>\n'
+        for code, drapeau, nom in (("FR", "🇫🇷", "France"), ("BR", "🇧🇷", "Brasil"),
+                                    ("GLOBAL", "🌍", "Global")))
 
     corps = f"""
-  <div class="guirlande" aria-hidden="true">
-{ampoules}  </div>
-  <div class="flocons" aria-hidden="true">
-{flocons}  </div>
-"""
-    corps += bloc(
-        f"""{badge('boutique')}
-      <h1 style="margin:1.1rem 0 0" data-t="boutique.titre">{t('boutique.titre')}</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="boutique.lead">{t('boutique.lead')}</p>
-      <p class="etiq" style="margin-top:2rem" data-t="boutique.enseignes_titre">{t('boutique.enseignes_titre')}</p>
-      <p style="font-size:.95rem" data-t="boutique.enseignes">{t('boutique.enseignes')}</p>
-      <div style="display:flex; flex-wrap:wrap; gap:.6rem">
-{enseignes}      </div>""",
-        img("boutique-cadeaux.jpg",
-            "Cadeaux de Noël sous une lumière néon magenta et cyan",
-            "Noël cyberpunk"))
-
-    corps += f"""
   <section class="section">
-    <p class="etiq">Vitrines</p>
-    <div class="vitrines" style="margin-top:1.4rem">
-{vitrines}
-    </div>
+    {badge('boutique')}
+    <h1 style="margin:1.1rem 0 0" data-t="boutique.titre">{t('boutique.titre')}</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:66ch" data-t="boutique.lead">{t('boutique.lead')}</p>
+    <p class="mention-affiliation" id="mention-affiliation" style="max-width:72ch"
+       data-t="boutique.mention">{t('boutique.mention')}</p>
+    <div class="region-barre" role="group" aria-label="{t('boutique.b_region')}">
+      <span class="etq-region" data-t="boutique.b_region">{t('boutique.b_region')}</span>
+{pays}    </div>
   </section>
+
+  <section class="section" id="partenaires">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="boutique.b_part_etiq">{t('boutique.b_part_etiq')}</p>
+      <h2 data-t="boutique.b_part_t">{t('boutique.b_part_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="boutique.b_part_d">{t('boutique.b_part_d')}</p>
+    </div>
+    <div class="grille-partenaires" id="grille-partenaires" aria-live="polite"></div>
+  </section>
+
+  <section class="section" id="catalogue">
+    <div class="section-titre reveler">
+      <p class="etiq">Catalogue</p>
+      <h2 data-t="boutique.b_prod_t">{t('boutique.b_prod_t')}</h2>
+    </div>
+    <div class="barre-recherche">
+      <input id="champ-recherche" type="search" autocomplete="off"
+             placeholder="{t('boutique.b_rech_ph')}" aria-label="{t('boutique.b_rech_ph')}" />
+      <span class="compte" id="compte-resultats"></span>
+    </div>
+    <div class="onglets" role="group">
+{onglets}    </div>
+    <div class="grille-produits" id="grille-produits" aria-live="polite"></div>
+    <p class="b_compare_hint note-donnees" data-t="boutique.b_compare_hint">{t('boutique.b_compare_hint')}</p>
+    <p class="note-donnees" id="note-donnees"></p>
+  </section>
+
+  <div class="barre-comparer" id="barre-comparer" hidden>
+    <span id="comparer-compte"></span>
+    <button type="button" id="comparer-lancer" disabled data-t="boutique.b_compare_go">{t('boutique.b_compare_go')}</button>
+  </div>
+
+  <div class="tiroir" id="tiroir-offres" hidden role="dialog" aria-modal="true" aria-labelledby="tiroir-titre">
+    <div class="panneau">
+      <button type="button" class="fermer" id="tiroir-fermer" data-t="boutique.b_fermer">{t('boutique.b_fermer')}</button>
+      <h2 id="tiroir-titre"></h2>
+      <div id="tiroir-corps"></div>
+    </div>
+  </div>
+
+  <div class="compare-modal" id="compare-modal" hidden role="dialog" aria-modal="true">
+    <div class="boite">
+      <button type="button" class="fermer" id="compare-fermer" data-t="boutique.b_fermer">{t('boutique.b_fermer')}</button>
+      <table id="compare-table"></table>
+    </div>
+  </div>
 
   <section class="section" style="text-align:center">
-    <p style="margin-bottom:1.2rem" data-t="boutique.noel">{t('boutique.noel')}</p>
-    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">{t('commun.soutenir')}</a>
-    <p class="mentions" style="margin-top:2rem" data-t="boutique.mention">{t('boutique.mention')}</p>
+    <a href="index.html#financer" class="bouton" data-t="boutique.b_cta">{t('boutique.b_cta')}</a>
+    <p class="mono faible" style="margin-top:1.4rem; font-size:.8rem">
+      <a href="meta-projet-social.html">Projet social</a> ·
+      <a href="wishlist.html">Wishlist</a> ·
+      <a href="cabinet.html">Devenir partenaire local</a>
+    </p>
   </section>
+  <p id="annonce" aria-live="polite" style="position:absolute;left:-9999px"></p>
 """
     return enveloppe("boutique", corps, t("boutique.titre")[:60], t("boutique.lead")[:150])
 

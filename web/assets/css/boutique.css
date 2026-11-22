@@ -1,0 +1,205 @@
+/* ============================================================================
+   BOUTIQUE — styles propres à la page (le reste vient de design-tokens.css)
+   Mobile d'abord : une colonne, puis deux, puis trois.
+   ========================================================================= */
+
+/* ---- sélecteur de pays --------------------------------------------------- */
+.region-barre {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+  margin: 1.4rem 0 0;
+}
+.region-barre .etq-region {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--doux); margin-right: .3rem;
+}
+.btn-pays {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .42rem .8rem; border-radius: 999px; cursor: pointer;
+  background: rgba(255, 255, 255, .04); color: #fff;
+  border: 1px solid rgba(139, 92, 246, .32);
+  font-size: .82rem; transition: border-color .18s ease, background .18s ease;
+}
+.btn-pays:hover { border-color: rgba(0, 245, 255, .55); }
+.btn-pays[aria-pressed="true"] {
+  border-color: var(--or, #d4af37); background: rgba(212, 175, 55, .12);
+  color: #fff8e6;
+}
+
+/* ---- mention légale ------------------------------------------------------ */
+.mention-affiliation {
+  margin: 1.1rem 0 0; padding: .7rem .95rem;
+  border-left: 2px solid rgba(212, 175, 55, .55);
+  background: rgba(255, 255, 255, .03);
+  font-size: .8rem; line-height: 1.55; color: var(--doux);
+}
+
+/* ---- grille des partenaires --------------------------------------------- */
+.grille-partenaires {
+  display: grid; gap: .9rem; margin-top: 1.3rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.partenaire {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .45rem;
+  padding: 1rem; border-radius: 16px;
+  background: rgba(255, 255, 255, .035);
+  border: 1px solid rgba(139, 92, 246, .18);
+  transition: transform .18s ease, border-color .18s ease;
+}
+.partenaire:hover { transform: translateY(-2px); border-color: rgba(0, 245, 255, .4); }
+.partenaire img { width: 56px; height: 56px; border-radius: 14px; }
+.partenaire h3 { font-size: .95rem; margin: 0; color: #fff; }
+.partenaire p { font-size: .76rem; line-height: 1.5; color: var(--doux); margin: 0; }
+.partenaire.local { border-color: rgba(212, 175, 55, .45); background: rgba(212, 175, 55, .07); }
+.partenaire .etq-local {
+  font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .14em;
+  text-transform: uppercase; color: #f2c65a; border: 1px solid rgba(242, 198, 90, .45);
+  border-radius: 999px; padding: .1rem .45rem;
+}
+.partenaire .ville { font-size: .7rem; color: var(--doux); }
+.partenaire.placeholder { border-style: dashed; opacity: .9; }
+.lien-discret { font-size: .74rem; color: #7fe7ff; text-decoration: none; }
+.lien-discret:hover { text-decoration: underline; }
+
+/* ---- recherche & onglets ------------------------------------------------- */
+.barre-recherche {
+  display: flex; align-items: center; gap: .6rem; margin-top: 1.3rem;
+  padding: .7rem 1rem; border-radius: 999px;
+  background: rgba(10, 6, 20, .8);
+  border: 1px solid rgba(139, 92, 246, .3);
+}
+.barre-recherche input {
+  flex: 1; min-width: 0; background: none; border: 0; outline: none;
+  color: #fff; font-size: .95rem; font-family: inherit;
+}
+.barre-recherche input::placeholder { color: rgba(208, 208, 224, .55); }
+.compte { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--doux); }
+
+.onglets { display: flex; gap: .45rem; flex-wrap: wrap; margin-top: .9rem; }
+.onglet {
+  padding: .42rem .85rem; border-radius: 999px; cursor: pointer;
+  background: rgba(255, 255, 255, .03); color: var(--doux);
+  border: 1px solid rgba(139, 92, 246, .22); font-size: .8rem;
+}
+.onglet[aria-pressed="true"] {
+  color: #05020a; background: linear-gradient(120deg, #00f5ff, #8b5cf6);
+  border-color: transparent; font-weight: 600;
+}
+
+/* ---- grille produits ----------------------------------------------------- */
+.grille-produits {
+  display: grid; gap: 1.1rem; margin-top: 1.4rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.produit {
+  display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 18px; background: rgba(255, 255, 255, .035);
+  border: 1px solid rgba(139, 92, 246, .18);
+  transition: border-color .18s ease, transform .18s ease;
+}
+.produit:hover { transform: translateY(-2px); border-color: rgba(0, 245, 255, .38); }
+.produit.est-compare { border-color: var(--or, #d4af37); box-shadow: 0 0 0 1px rgba(212, 175, 55, .35) inset; }
+.produit .visuel { position: relative; aspect-ratio: 600 / 420; overflow: hidden; }
+.produit .visuel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.produit .pastille {
+  position: absolute; left: .6rem; top: .6rem;
+  font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase; padding: .16rem .5rem; border-radius: 999px;
+  background: rgba(5, 2, 10, .78); color: #fff; border: 1px solid rgba(255, 255, 255, .22);
+}
+.produit .pastille.local { left: auto; right: .6rem; color: #f2c65a; border-color: rgba(242, 198, 90, .5); }
+.produit .corps { display: flex; flex-direction: column; gap: .45rem; padding: 1rem; flex: 1; }
+.produit h3 { font-size: 1rem; margin: 0; color: #fff; line-height: 1.35; }
+.produit .resume { font-size: .8rem; line-height: 1.55; color: var(--doux); margin: 0; flex: 1; }
+.produit .prix { margin: 0; font-size: .86rem; color: var(--doux); }
+.produit .prix strong { color: #fff; font-size: 1.02rem; }
+.produit .actions { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .3rem; }
+.btn-offres {
+  flex: 1; padding: .5rem .7rem; border-radius: 10px; cursor: pointer;
+  background: rgba(0, 245, 255, .1); color: #bff6ff; font-size: .78rem; font-weight: 600;
+  border: 1px solid rgba(0, 245, 255, .35);
+}
+.btn-offres:hover:not([disabled]) { background: rgba(0, 245, 255, .2); }
+.btn-offres[disabled] { opacity: .4; cursor: not-allowed; }
+.case { display: inline-flex; align-items: center; gap: .35rem; font-size: .74rem; color: var(--doux); cursor: pointer; }
+.case input { accent-color: #d4af37; }
+
+.vide { color: var(--doux); font-size: .9rem; padding: 1.4rem 0; }
+
+/* ---- tiroir des offres --------------------------------------------------- */
+.tiroir {
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; grid-template-columns: 1fr;
+  background: rgba(3, 1, 8, .72); backdrop-filter: blur(6px);
+}
+.tiroir[hidden] { display: none; }
+.tiroir .panneau {
+  margin: auto 0 0; background: #0a0614; border-top-left-radius: 20px; border-top-right-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, .3); max-height: 82vh; overflow: auto;
+  padding: 1.2rem 1.1rem 2rem;
+}
+@media (min-width: 780px) {
+  .tiroir .panneau { margin: auto; max-width: 720px; border-radius: 20px; }
+}
+.tiroir h2 { font-size: 1.05rem; margin: 0 0 .9rem; color: #fff; }
+.tiroir .fermer {
+  float: right; background: none; border: 1px solid rgba(255, 255, 255, .2);
+  color: #fff; border-radius: 999px; padding: .25rem .7rem; cursor: pointer; font-size: .78rem;
+}
+.table-offres { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.table-offres th {
+  text-align: left; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--doux);
+  padding: .4rem .3rem; border-bottom: 1px solid rgba(139, 92, 246, .25);
+}
+.table-offres td { padding: .55rem .3rem; border-bottom: 1px solid rgba(255, 255, 255, .06); color: #e8e8f2; vertical-align: middle; }
+.table-offres .marchand { display: flex; align-items: center; gap: .45rem; }
+.table-offres .marchand img { border-radius: 8px; }
+.table-offres .prix { font-weight: 600; color: #fff; white-space: nowrap; }
+.btn-voir {
+  display: inline-block; padding: .35rem .7rem; border-radius: 8px; white-space: nowrap;
+  background: linear-gradient(120deg, #00f5ff, #8b5cf6); color: #05020a;
+  font-weight: 700; font-size: .72rem; text-decoration: none;
+}
+.mentions-tiroir { font-size: .68rem; color: var(--doux); margin-top: .9rem; line-height: 1.5; }
+
+/* ---- barre & modale de comparaison -------------------------------------- */
+.barre-comparer {
+  position: fixed; left: 50%; bottom: 1.1rem; transform: translateX(-50%);
+  z-index: 55; display: flex; align-items: center; gap: .7rem;
+  padding: .55rem .7rem .55rem 1rem; border-radius: 999px;
+  background: rgba(8, 4, 16, .92); border: 1px solid rgba(212, 175, 55, .45);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .5);
+}
+.barre-comparer[hidden] { display: none; }
+.barre-comparer span { font-size: .82rem; color: #fff8e6; font-family: 'JetBrains Mono', monospace; }
+.barre-comparer button {
+  padding: .42rem .9rem; border-radius: 999px; border: 0; cursor: pointer;
+  background: linear-gradient(120deg, #d4af37, #ffd97a); color: #14100a; font-weight: 700; font-size: .78rem;
+}
+.barre-comparer button[disabled] { opacity: .45; cursor: not-allowed; }
+
+.compare-modal { position: fixed; inset: 0; z-index: 65; background: rgba(3, 1, 8, .78); backdrop-filter: blur(6px); overflow: auto; padding: 1.2rem; }
+.compare-modal[hidden] { display: none; }
+.compare-modal .boite {
+  margin: 2rem auto; max-width: 900px; background: #0a0614; border-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, .3); padding: 1.2rem; overflow-x: auto;
+}
+.compare-modal table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+.compare-modal th, .compare-modal td {
+  padding: .55rem .5rem; border-bottom: 1px solid rgba(255, 255, 255, .07);
+  text-align: left; vertical-align: top; color: #e8e8f2;
+}
+.compare-modal thead th { font-size: .82rem; color: #fff; }
+.compare-modal thead img { display: block; border-radius: 8px; margin-bottom: .4rem; width: 96px; height: 67px; object-fit: cover; }
+.compare-modal tbody th { font-weight: 500; color: var(--doux); font-size: .74rem; width: 30%; }
+.compare-modal .fermer {
+  float: right; background: none; border: 1px solid rgba(255, 255, 255, .2);
+  color: #fff; border-radius: 999px; padding: .25rem .7rem; cursor: pointer; font-size: .78rem;
+}
+.note-donnees { font-size: .68rem; color: rgba(208, 208, 224, .6); margin-top: 1.6rem; }
+
+@media (max-width: 520px) {
+  .grille-partenaires { grid-template-columns: repeat(2, 1fr); }
+  .grille-produits { grid-template-columns: 1fr; }
+  .barre-comparer { left: .6rem; right: .6rem; transform: none; justify-content: space-between; }
+}
