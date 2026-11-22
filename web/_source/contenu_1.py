@@ -29,7 +29,7 @@ NAV = {
     "nav.blueprint": T("Blueprint", "Blueprint", "Blueprint", "蓝图"),
     "nav.archi":    T("L'Architecte", "The Architect", "O Arquiteto", "建筑师"),
     "nav.cabinet":  T("Cabinet & Services", "Cabinet & Services", "Gabinete & Serviços", "工作室与服务"),
-    "nav.wishlist": T("Wishlist", "Wishlist", "Lista de desejos", "心愿单"),
+    "nav.wishlist": T("My Setup & Wishlist", "My Setup & Wishlist", "Meu Setup & Wishlist", "我的装备与心愿单"),
     "nav.boutique": T("Boutique", "Shop", "Loja", "商店"),
 
     "commun.soutenir": T("Soutenir", "Support", "Apoiar", "支持"),
@@ -140,7 +140,7 @@ ORIENT = [
      T("Le modèle d'ONG réplicable, première pierre à Madagascar.", "The replicable NGO model, first stone in Madagascar.", "O modelo de ONG replicável, primeira pedra em Madagascar.", "可复制的非政府组织模式，第一站在马达加斯加。")),
     ("architecte.html", "archi.carte", T("L'Architecte", "The Architect", "O Arquiteto", "建筑师"),
      T("Une renaissance, une cause, une mission.", "A rebirth, a cause, a mission.", "Um renascimento, uma causa, uma missão.", "一次重生，一项事业，一个使命。")),
-    ("wishlist.html", "wish.carte", T("Wishlist matériel", "Hardware wishlist", "Lista de material", "设备心愿单"),
+    ("setup-wishlist.html", "wish.carte", T("Wishlist matériel", "Hardware wishlist", "Lista de material", "设备心愿单"),
      T("Financer un composant précis, pas un pot commun.", "Fund one precise component, not a pool.", "Financiar um componente exato, não um bolo.", "资助一个具体的部件，而不是一笔糊涂账。")),
     ("boutique.html", "boutique.carte", T("Boutique de Noël", "Christmas shop", "Loja de Natal", "圣诞商店"),
      T("Acheter comme d'habitude, financer le projet sans surcoût.", "Shop as usual, fund the project at no extra cost.", "Comprar como sempre, financiar o projeto sem custo extra.", "照常购物，零额外成本地资助项目。")),

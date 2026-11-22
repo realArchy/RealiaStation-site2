@@ -17,7 +17,7 @@ const ORDRE = [
   { fichier: 'blueprint.html',          cle: 'nav.blueprint', nom: 'Blueprint' },
   { fichier: 'architecte.html',         cle: 'nav.archi',    nom: "L'Architecte" },
   { fichier: 'cabinet.html',            cle: 'nav.cabinet',  nom: 'Cabinet & Services' },
-  { fichier: 'wishlist.html',           cle: 'nav.wishlist', nom: 'Wishlist' },
+  { fichier: 'setup-wishlist.html',    cle: 'nav.wishlist', nom: 'My Setup & Wishlist' },
   { fichier: 'boutique.html',           cle: 'nav.boutique', nom: 'Boutique' }
 ];
 

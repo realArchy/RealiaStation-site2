@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Setup &amp; Wishlist — l'envers du décor R&amp;D — R'ExoIA</title>
+<meta name="description" content="Ce avec quoi je construis aujourd'hui, et ce qui manque encore. Le matériel listé est en service, pas en projet ; les besoins sont classés par urgence">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=202611222044">
+  <!-- banque de couleurs et typographies : chargée après style.css pour
+       que ses variables gagnent -->
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611222044">
+  <link rel="stylesheet" href="assets/css/setup-wishlist.css?v=202611222044">
+</head>
+<body data-page="wish" data-audio="assets/audio/luna-09-wishlist.mp3">
+
+<div class="ciel"></div>
+<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
+
+<header class="entete">
+    <nav class="nav">
+    <div class="nav-haut">
+      <a href="index.html" class="marque">
+        <span class="marque-pastille">R</span>
+        <span class="marque-texte">R'Exo<span>IA</span></span>
+      </a>
+      <div class="nav-centre">
+        <div class="langues" role="group" aria-label="Langue">
+          <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
+          <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
+        </div>
+        <p class="marque-station" data-decoupe="lettres"><span class="lettre lettre-or">R</span><span class="lettre">e</span><span class="lettre">a</span><span class="lettre">l</span><span class="lettre">i</span><span class="lettre">a</span><span class="lettre">S</span><span class="lettre">t</span><span class="lettre">a</span><span class="lettre">t</span><span class="lettre">i</span><span class="lettre">o</span><span class="lettre">n</span></p>
+        <div class="langues" role="group" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
+          <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>
+        </div>
+      </div>
+      <a href="index.html#financer" class="bouton">Soutenir</a>
+    </div>
+    </nav>
+    </header>
+
+<nav class="rail" aria-label="Pages">
+      <a href="index.html">Accueil</a>
+      <a href="virtuel.html">Labo virtuel</a>
+      <a href="rexoia.html">R'ExoIA</a>
+      <a href="devkit.html">RealiaDevKit</a>
+      <a href="realiastation.html">RealiaStation</a>
+      <a href="lunagalaxie.html">LunaGalaxie</a>
+      <a href="app.html">R'Station</a>
+      <a href="meta-projet-social.html">Projet social</a>
+      <a href="blueprint.html">Blueprint</a>
+      <a href="architecte.html">L'Architecte</a>
+      <a href="cabinet.html">Cabinet &amp; Services</a>
+      <a href="setup-wishlist.html" aria-current="page">My Setup &amp; Wishlist</a>
+      <a href="boutique.html">Boutique</a>
+</nav>
+
+<main class="enveloppe interne">
+
+  <section class="section">
+          <span class="chantier"><span class="point"></span><span data-t="wish.badge">🔧 SETUP &amp; WISHLIST — L'ENVERS DU DÉCOR</span></span>
+    <h1 style="margin:1.1rem 0 0" data-t="wish.titre">My Setup &amp; Wishlist — l'envers du décor R&amp;D</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:66ch" data-t="wish.lead">Ce avec quoi je construis aujourd'hui, et ce qui manque encore. Le matériel listé est en service, pas en projet ; les besoins sont classés par urgence réelle, pas par envie.</p>
+    <div class="region-barre" role="group" aria-label="Région">
+      <span class="etq-region" data-t="wish.b_region">Région</span>
+        <button type="button" class="btn-pays" data-pays="FR" aria-pressed="false">🇫🇷 France</button>
+        <button type="button" class="btn-pays" data-pays="BR" aria-pressed="false">🇧🇷 Brasil</button>
+        <button type="button" class="btn-pays" data-pays="GLOBAL" aria-pressed="false">🌍 Global</button>
+    </div>
+
+    <div class="encart-soutien" id="soutenir">
+      <h2 data-t="wish.soutien_t">Soutenir l'équipement du labo</h2>
+      <p class="objet" id="objet-retenu" aria-live="polite"></p>
+      <div class="liens-soutien" id="liens-soutien"></div>
+    </div>
+  </section>
+
+  <section class="section" id="besoins">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="wish.besoins_etiq">Priorités</p>
+      <h2 data-t="wish.besoins_t">Ce qui manque, par ordre d'urgence</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="wish.besoins_d">Chaque ligne dit ce que l'objet débloque concrètement. Le premier bloque la phase 1 ; le dernier attend la phase 2. Aucun classement par prix.</p>
+      <p class="compte-besoins" id="compte-besoins"></p>
+    </div>
+    <div class="liste-besoins" id="liste-besoins" aria-live="polite"></div>
+  </section>
+
+  <section class="section" id="setup">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="wish.setup_etiq">En service</p>
+      <h2 data-t="wish.setup_t">Avec quoi je construis aujourd'hui</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="wish.setup_d">Tout ce qui suit tourne réellement : les modèles, les rendus, le site et les vidéos sortent de cette machine et de deux GPU loués à l'heure.</p>
+    </div>
+    <div class="onglets" id="onglets-setup" role="group"></div>
+    <div class="grille-setup" id="grille-setup" aria-live="polite"></div>
+    <p class="note-donnees" id="note-setup"></p>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">Soutenir</a>
+    <p class="mono faible" style="margin-top:1.4rem; font-size:.8rem">
+      <a href="boutique.html">Boutique</a> ·
+      <a href="meta-projet-social.html">Projet social</a> ·
+      <a href="cabinet.html">Devenir partenaire</a>
+    </p>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-corps">
+    <p style="margin:0"><strong style="color:#fff">R'EXOIA</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
+    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
+      <a href="setup-wishlist.html" data-t="nav.wishlist">My Setup &amp; Wishlist</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
+      <a href="[LIEN_GITHUB]">GitHub</a>
+    </div>
+  </div>
+
+</footer>
+
+<script src="traductions.js?v=202611222044" defer></script>
+<script src="i18n.js?v=202611222044" defer></script>
+<script src="revele.js?v=202611222044" defer></script>
+<script src="tiroir.js?v=202611222044" defer></script>
+<script src="audio.js?v=202611222044" defer></script>
+<script type="module" src="systeme.js?v=202611222044"></script>
+  <script src="vendor/gsap.min.js?v=202611222044"></script>
+  <script src="ambiance.js?v=202611222044" defer></script>
+  <script src="impulsion.js?v=202611222044" defer></script>
+  <script src="devise-neon.js?v=202611222044" defer></script>
+  <script src="lumiere-scroll.js?v=202611222044" defer></script>
+  <script src="vendor/lenis.min.js?v=202611222044" defer></script>
+  <script src="defilement-doux.js?v=202611222044" defer></script>
+  <script src="setup-wishlist.js?v=202611222044" defer></script>
+</body>
+</html>

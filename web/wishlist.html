@@ -1,150 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La wishlist du labo — R'ExoIA</title>
-<meta name="description" content="Quatre composants, pas un pot commun. Si tu veux financer un objet précis, tu sais exactement ce que ton argent achète — et ce qu'il débloque.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202611222033">
-  <!-- banque de couleurs et typographies : chargée après style.css pour
-       que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611222033">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Setup &amp; Wishlist — R'ExoIA</title>
+<meta name="robots" content="noindex" />
+<meta http-equiv="refresh" content="0; url=setup-wishlist.html" />
+<link rel="canonical" href="setup-wishlist.html" />
 </head>
-<body data-page="wish" data-audio="assets/audio/luna-09-wishlist.mp3">
-
-<div class="ciel"></div>
-<div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
-
-<header class="entete">
-    <nav class="nav">
-    <div class="nav-haut">
-      <a href="index.html" class="marque">
-        <span class="marque-pastille">R</span>
-        <span class="marque-texte">R'Exo<span>IA</span></span>
-      </a>
-      <div class="nav-centre">
-        <div class="langues" role="group" aria-label="Langue">
-          <button type="button" data-lang="fr" aria-pressed="true" aria-label="Français" title="Français"><span class="drapeau">🇫🇷</span></button>
-          <button type="button" data-lang="pt" aria-pressed="false" aria-label="Português (Brasil)" title="Português (Brasil)"><span class="drapeau">🇧🇷</span></button>
-        </div>
-        <p class="marque-station" data-decoupe="lettres"><span class="lettre lettre-or">R</span><span class="lettre">e</span><span class="lettre">a</span><span class="lettre">l</span><span class="lettre">i</span><span class="lettre">a</span><span class="lettre">S</span><span class="lettre">t</span><span class="lettre">a</span><span class="lettre">t</span><span class="lettre">i</span><span class="lettre">o</span><span class="lettre">n</span></p>
-        <div class="langues" role="group" aria-label="Language">
-          <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><span class="drapeau">🇬🇧</span></button>
-          <button type="button" data-lang="zh" aria-pressed="false" aria-label="中文" title="中文"><span class="drapeau">🇨🇳</span></button>
-        </div>
-      </div>
-      <a href="index.html#financer" class="bouton">Soutenir</a>
-    </div>
-    </nav>
-    </header>
-
-<nav class="rail" aria-label="Pages">
-      <a href="index.html">Accueil</a>
-      <a href="virtuel.html">Labo virtuel</a>
-      <a href="rexoia.html">R'ExoIA</a>
-      <a href="devkit.html">RealiaDevKit</a>
-      <a href="realiastation.html">RealiaStation</a>
-      <a href="lunagalaxie.html">LunaGalaxie</a>
-      <a href="app.html">R'Station</a>
-      <a href="meta-projet-social.html">Projet social</a>
-      <a href="blueprint.html">Blueprint</a>
-      <a href="architecte.html">L'Architecte</a>
-      <a href="cabinet.html">Cabinet &amp; Services</a>
-      <a href="wishlist.html" aria-current="page">Wishlist</a>
-      <a href="boutique.html">Boutique</a>
-</nav>
-
-<main class="enveloppe interne">
-  <section class="split">
-    <div class="split-texte reveler">
-      <span class="chantier"><span class="point"></span><span data-t="wish.badge">🚧 EN CHANTIER — PHASE 1</span></span>
-      <h1 style="margin:1.1rem 0 0" data-t="wish.titre">La wishlist du labo</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="wish.lead">Quatre composants, pas un pot commun. Si tu veux financer un objet précis, tu sais exactement ce que ton argent achète — et ce qu'il débloque.</p>
-      <div style="display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.8rem">
-        <a href="[LIEN_LISTE_AMAZON]" class="bouton" data-t="wish.bouton_amazon">Voir ma liste d'envies officielle sur Amazon</a>
-        <a href="[LIEN_KOFI]" class="bouton-fantome" data-t="wish.cagnottes">Ou contribuer librement — Ko-fi / Tipeee</a>
-      </div>
-      <p class="mentions" style="margin-top:1.6rem" data-t="wish.note">Les prix sont des estimations publiques, hors frais de port. Aucune commission n'est prélevée sur ces achats : le lien Amazon renvoie vers ma liste, pas vers un panier affilié.</p>
-    </div>
-    <div class="split-visuel reveler">
-      <figure class="profondeur" style="margin:0">
-        <div class="cadre-neon">
-          <picture>
-              <source srcset="assets/wish-materiel.webp" type="image/webp">
-              <img src="assets/wish-materiel.jpg" alt="Les quatre composants de la wishlist alignés sur fond noir" width="1600" height="900"
-               class="cadre" loading="lazy" decoding="async">
-            </picture>
-        </div>
-      <figcaption class="mono faible" style="font-size:.66rem; margin-top:.7rem; line-height:1.6">Les quatre maillons manquants</figcaption>
-      </figure>
-    </div>
-  </section>
-  <section class="section">
-    <div class="verre reveler" style="padding:1.6rem">
-      <div class="ligne-wish">
-        <span class="n">01</span>
-        <div>
-          <h2 data-t="wish.l1">Casque EEG OpenBCI Ultracortex Mark IV + carte Cyton (8 canaux)</h2>
-          <p data-t="wish.l1d">Électrodes sèches : lire les ondes cérébrales sans préparation du cuir chevelu.</p>
-        </div>
-        <span class="prix">≈ 2 000 €</span>
-      </div>
-      <div class="ligne-wish">
-        <span class="n">02</span>
-        <div>
-          <h2 data-t="wish.l2">Kit MyoWare 2.0 Muscle Sensor (SparkFun)</h2>
-          <p data-t="wish.l2d">Capteurs sEMG modulaires : capter les micro-signaux musculaires, sur le terrain comme au banc.</p>
-        </div>
-        <span class="prix">≈ 185 €</span>
-      </div>
-      <div class="ligne-wish">
-        <span class="n">03</span>
-        <div>
-          <h2 data-t="wish.l3">Cartes ESP32-S3-DevKitC-1 (lot de 3)</h2>
-          <p data-t="wish.l3d">Acquisition temps réel sous 20 ms et liaison sans fil basse latence.</p>
-        </div>
-        <span class="prix">≈ 45 €</span>
-      </div>
-      <div class="ligne-wish">
-        <span class="n">04</span>
-        <div>
-          <h2 data-t="wish.l4">Module FES isolé + électrodes TENS/EMS</h2>
-          <p data-t="wish.l4d">Stimulation fonctionnelle sécurisée sur batterie : la partie qui exige une isolation sérieuse.</p>
-        </div>
-        <span class="prix">≈ 120 €</span>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="pied">
-  <div class="pied-corps">
-    <p style="margin:0"><strong style="color:#fff">R'EXOIA</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
-    <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="wishlist.html" data-t="nav.wishlist">Wishlist</a>
-      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
-      <a href="[LIEN_GITHUB]">GitHub</a>
-    </div>
-  </div>
-
-</footer>
-
-<script src="traductions.js?v=202611222033" defer></script>
-<script src="i18n.js?v=202611222033" defer></script>
-<script src="revele.js?v=202611222033" defer></script>
-<script src="tiroir.js?v=202611222033" defer></script>
-<script src="audio.js?v=202611222033" defer></script>
-<script type="module" src="systeme.js?v=202611222033"></script>
-  <script src="vendor/gsap.min.js?v=202611222033"></script>
-  <script src="ambiance.js?v=202611222033" defer></script>
-  <script src="impulsion.js?v=202611222033" defer></script>
-  <script src="devise-neon.js?v=202611222033" defer></script>
-  <script src="lumiere-scroll.js?v=202611222033" defer></script>
-  <script src="vendor/lenis.min.js?v=202611222033" defer></script>
-  <script src="defilement-doux.js?v=202611222033" defer></script>
+<body style="background:#05020a;color:#d0d0e0;font-family:system-ui,sans-serif;padding:3rem">
+  <p>Cette page a déménagé : <a href="setup-wishlist.html" style="color:#00f5ff">My Setup &amp; Wishlist</a>.</p>
+  <script>location.replace('setup-wishlist.html');</script>
 </body>
 </html>

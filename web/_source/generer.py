@@ -44,7 +44,7 @@ ORDRE = [
     ("blueprint", "blueprint.html", "luna-11-blueprint"),
     ("archi", "architecte.html", "luna-08-architecte"),
     ("cabinet", "cabinet.html", "luna-12-cabinet"),
-    ("wish", "wishlist.html", "luna-09-wishlist"),
+    ("wish", "setup-wishlist.html", "luna-09-wishlist"),
     ("boutique", "boutique.html", "luna-10-noel"),
 ]
 
@@ -115,7 +115,7 @@ def pied(extra: str = "") -> str:
   <div class="pied-corps">
     <p style="margin:0"><strong style="color:#fff">R'EXOIA</strong> — <span data-t="commun.nonmed">{t('commun.nonmed')}</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
-      <a href="wishlist.html" data-t="nav.wishlist">{t('nav.wishlist')}</a>
+      <a href="setup-wishlist.html" data-t="nav.wishlist">{t('nav.wishlist')}</a>
       <a href="boutique.html" data-t="nav.boutique">{t('nav.boutique')}</a>
       <a href="[LIEN_GITHUB]">GitHub</a>
     </div>
@@ -125,8 +125,9 @@ def pied(extra: str = "") -> str:
 
 
 def scripts(particules: bool = False, page: str = "") -> str:
-    boutique_js = (f'\n  <script src="boutique.js?v={VERSION}" defer></script>'
-                   if page == "boutique" else "")
+    scripts_page = {"boutique": "boutique.js", "wish": "setup-wishlist.js"}
+    boutique_js = (f'\n  <script src="{scripts_page[page]}?v={VERSION}" defer></script>'
+                   if page in scripts_page else "")
     return f"""<script src="traductions.js?v={VERSION}" defer></script>
 <script src="i18n.js?v={VERSION}" defer></script>
 <script src="revele.js?v={VERSION}" defer></script>
@@ -163,8 +164,9 @@ def enveloppe(page: str, corps: str, titre_page: str, description: str,
               interne: bool = True, extra_pied: str = "") -> str:
     audio = [p for p in ORDRE if p[0] == page][0][2]
     classe = "enveloppe interne" if interne else "enveloppe"
-    css_page = (f'\n  <link rel="stylesheet" href="assets/css/{page}.css?v={VERSION}" />'
-                if page == "boutique" else "")
+    feuilles = {"boutique": "boutique", "wish": "setup-wishlist"}
+    css_page = (f'\n  <link rel="stylesheet" href="assets/css/{feuilles[page]}.css?v={VERSION}" />'
+                if page in feuilles else "")
     return f"""{tete(titre_page, description, css_page)}
 </head>
 <body data-page="{page}" data-audio="assets/audio/{audio}.mp3">
@@ -836,9 +838,9 @@ def page_social() -> str:
 """
     corps += f"""
   <section class="section" style="text-align:center">
-    <a href="wishlist.html" class="bouton" data-t="social.cta">{t('social.cta')}</a>
+    <a href="setup-wishlist.html" class="bouton" data-t="social.cta">{t('social.cta')}</a>
     <p class="mono faible" style="margin-top:1.2rem; font-size:.8rem">
-      <a href="wishlist.html">Wishlist</a> ·
+      <a href="setup-wishlist.html">My Setup &amp; Wishlist</a> ·
       <a href="boutique.html">Boutique</a> ·
       <a href="[LIEN_GITHUB]" rel="noopener">GitHub</a>
     </p>
@@ -1114,39 +1116,64 @@ def page_cabinet() -> str:
 
 
 def page_wishlist() -> str:
-    prix = {"1": "≈ 2 000 €", "2": "≈ 185 €", "3": "≈ 45 €", "4": "≈ 120 €"}
-    lignes = "\n".join(f"""      <div class="ligne-wish">
-        <span class="n">{i:02d}</span>
-        <div>
-          <h2 data-t="wish.l{i}">{t(f'wish.l{i}')}</h2>
-          <p data-t="wish.l{i}d">{t(f'wish.l{i}d')}</p>
-        </div>
-        <span class="prix">{prix[str(i)]}</span>
-      </div>""" for i in range(1, 5))
+    """My Setup & Wishlist — shell vide, setup-wishlist.js remplit.
 
-    visuel = img("wish-materiel.jpg",
-                 "Les quatre composants de la wishlist alignés sur fond noir",
-                 "Les quatre maillons manquants")
+    Toujours zéro matériel dans le HTML : data/setup.json est la seule source,
+    partagée avec la future application mobile.
+    """
+    pays = "".join(
+        f'        <button type="button" class="btn-pays" data-pays="{code}" aria-pressed="false">'
+        f'{drapeau} {nom}</button>\n'
+        for code, drapeau, nom in (("FR", "🇫🇷", "France"), ("BR", "🇧🇷", "Brasil"),
+                                    ("GLOBAL", "🌍", "Global")))
 
-    corps = bloc(
-        f"""{badge('wish')}
-      <h1 style="margin:1.1rem 0 0" data-t="wish.titre">{t('wish.titre')}</h1>
-      <p class="lead" style="margin-top:1.2rem" data-t="wish.lead">{t('wish.lead')}</p>
-      <div style="display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.8rem">
-        <a href="[LIEN_LISTE_AMAZON]" class="bouton" data-t="wish.bouton_amazon">{t('wish.bouton_amazon')}</a>
-        <a href="[LIEN_KOFI]" class="bouton-fantome" data-t="wish.cagnottes">{t('wish.cagnottes')}</a>
-      </div>
-      <p class="mentions" style="margin-top:1.6rem" data-t="wish.note">{t('wish.note')}</p>""",
-        visuel)
-
-    corps += f"""
+    corps = f"""
   <section class="section">
-    <div class="verre reveler" style="padding:1.6rem">
-{lignes}
+    {badge('wish')}
+    <h1 style="margin:1.1rem 0 0" data-t="wish.titre">{t('wish.titre')}</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:66ch" data-t="wish.lead">{t('wish.lead')}</p>
+    <div class="region-barre" role="group" aria-label="{t('wish.b_region')}">
+      <span class="etq-region" data-t="wish.b_region">{t('wish.b_region')}</span>
+{pays}    </div>
+
+    <div class="encart-soutien" id="soutenir">
+      <h2 data-t="wish.soutien_t">{t('wish.soutien_t')}</h2>
+      <p class="objet" id="objet-retenu" aria-live="polite"></p>
+      <div class="liens-soutien" id="liens-soutien"></div>
     </div>
   </section>
+
+  <section class="section" id="besoins">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="wish.besoins_etiq">{t('wish.besoins_etiq')}</p>
+      <h2 data-t="wish.besoins_t">{t('wish.besoins_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="wish.besoins_d">{t('wish.besoins_d')}</p>
+      <p class="compte-besoins" id="compte-besoins"></p>
+    </div>
+    <div class="liste-besoins" id="liste-besoins" aria-live="polite"></div>
+  </section>
+
+  <section class="section" id="setup">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="wish.setup_etiq">{t('wish.setup_etiq')}</p>
+      <h2 data-t="wish.setup_t">{t('wish.setup_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:64ch" data-t="wish.setup_d">{t('wish.setup_d')}</p>
+    </div>
+    <div class="onglets" id="onglets-setup" role="group"></div>
+    <div class="grille-setup" id="grille-setup" aria-live="polite"></div>
+    <p class="note-donnees" id="note-setup"></p>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="index.html#financer" class="bouton" data-t="commun.soutenir">{t('commun.soutenir')}</a>
+    <p class="mono faible" style="margin-top:1.4rem; font-size:.8rem">
+      <a href="boutique.html">Boutique</a> ·
+      <a href="meta-projet-social.html">Projet social</a> ·
+      <a href="cabinet.html">Devenir partenaire</a>
+    </p>
+  </section>
 """
-    return enveloppe("wish", corps, t("wish.titre"), t("wish.lead")[:150])
+    return enveloppe("wish", corps, t("wish.titre")[:60], t("wish.lead")[:150])
 
 
 def page_boutique() -> str:
@@ -1232,7 +1259,7 @@ def page_boutique() -> str:
     <a href="index.html#financer" class="bouton" data-t="boutique.b_cta">{t('boutique.b_cta')}</a>
     <p class="mono faible" style="margin-top:1.4rem; font-size:.8rem">
       <a href="meta-projet-social.html">Projet social</a> ·
-      <a href="wishlist.html">Wishlist</a> ·
+      <a href="setup-wishlist.html">My Setup &amp; Wishlist</a> ·
       <a href="cabinet.html">Devenir partenaire local</a>
     </p>
   </section>
