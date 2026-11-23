@@ -1,0 +1,278 @@
+{
+  "version": "2026-11-21",
+  "note": "Données de démonstration. Les prix et liens d'affiliation seront remplacés par les vrais contrats.",
+  "countries": [
+    {
+      "code": "FR",
+      "label": "France",
+      "flag": "🇫🇷"
+    },
+    {
+      "code": "BR",
+      "label": "Brasil",
+      "flag": "🇧🇷"
+    },
+    {
+      "code": "GLOBAL",
+      "label": "Global",
+      "flag": "🌍"
+    }
+  ],
+  "categories": [
+    {
+      "id": "tech",
+      "label": {
+        "fr": "High-Tech",
+        "en": "Tech",
+        "pt": "Tecnologia",
+        "zh": "数码"
+      }
+    },
+    {
+      "id": "maker",
+      "label": {
+        "fr": "Labo & Makers",
+        "en": "Lab & Makers",
+        "pt": "Laboratório & Makers",
+        "zh": "创客实验室"
+      }
+    },
+    {
+      "id": "culture",
+      "label": {
+        "fr": "Culture & Livres",
+        "en": "Culture & Books",
+        "pt": "Cultura & Livros",
+        "zh": "文化与图书"
+      }
+    },
+    {
+      "id": "food",
+      "label": {
+        "fr": "Food",
+        "en": "Food",
+        "pt": "Comida",
+        "zh": "美食"
+      }
+    },
+    {
+      "id": "local",
+      "label": {
+        "fr": "Commerces locaux",
+        "en": "Local shops",
+        "pt": "Lojas locais",
+        "zh": "本地商家"
+      }
+    }
+  ],
+  "partners": [
+    {
+      "id": "amazon-fr",
+      "name": "Amazon",
+      "logo_url": "assets/partenaires/amazon.svg",
+      "category": "tech",
+      "type": "affiliate_network",
+      "countries": [
+        "FR"
+      ],
+      "base_affiliate_url": "https://www.amazon.fr/",
+      "tracking_tag": "rexoia-21",
+      "pitch": {
+        "fr": "Le plus large choix, livraison rapide",
+        "en": "Widest choice, fast delivery"
+      }
+    },
+    {
+      "id": "fnac",
+      "name": "Fnac",
+      "logo_url": "assets/partenaires/fnac.svg",
+      "category": "tech",
+      "type": "affiliate_network",
+      "countries": [
+        "FR"
+      ],
+      "base_affiliate_url": "https://www.fnac.com/",
+      "tracking_tag": "rexoia-fnac",
+      "pitch": {
+        "fr": "Retrait magasin en 1 h",
+        "en": "One-hour store pickup"
+      }
+    },
+    {
+      "id": "cultura",
+      "name": "Cultura",
+      "logo_url": "assets/partenaires/cultura.svg",
+      "category": "culture",
+      "type": "affiliate_network",
+      "countries": [
+        "FR"
+      ],
+      "base_affiliate_url": "https://www.cultura.com/",
+      "tracking_tag": "rexoia-cultura",
+      "pitch": {
+        "fr": "Livres, jeux, matériel créatif",
+        "en": "Books, games, creative supplies"
+      }
+    },
+    {
+      "id": "deliveroo",
+      "name": "Deliveroo",
+      "logo_url": "assets/partenaires/deliveroo.svg",
+      "category": "food",
+      "type": "affiliate_network",
+      "countries": [
+        "FR"
+      ],
+      "base_affiliate_url": "https://deliveroo.fr/",
+      "tracking_tag": "rexoia-deliveroo",
+      "pitch": {
+        "fr": "Livraison de repas, 30 min",
+        "en": "Food delivery, 30 min"
+      }
+    },
+    {
+      "id": "mercado-livre",
+      "name": "Mercado Livre",
+      "logo_url": "assets/partenaires/mercadolivre.svg",
+      "category": "tech",
+      "type": "affiliate_network",
+      "countries": [
+        "BR"
+      ],
+      "base_affiliate_url": "https://www.mercadolivre.com.br/",
+      "tracking_tag": "rexoia-ml",
+      "pitch": {
+        "pt": "Maior marketplace do Brasil",
+        "fr": "Le plus grand marketplace du Brésil"
+      }
+    },
+    {
+      "id": "magalu",
+      "name": "Magalu",
+      "logo_url": "assets/partenaires/magalu.svg",
+      "category": "tech",
+      "type": "affiliate_network",
+      "countries": [
+        "BR"
+      ],
+      "base_affiliate_url": "https://www.magazineluiza.com.br/",
+      "tracking_tag": "rexoia-magalu",
+      "pitch": {
+        "pt": "Retirada em loja",
+        "fr": "Retrait en magasin"
+      }
+    },
+    {
+      "id": "kabum",
+      "name": "KaBuM!",
+      "logo_url": "assets/partenaires/kabum.svg",
+      "category": "maker",
+      "type": "affiliate_network",
+      "countries": [
+        "BR"
+      ],
+      "base_affiliate_url": "https://www.kabum.com.br/",
+      "tracking_tag": "rexoia-kabum",
+      "pitch": {
+        "pt": "Especialista em hardware e robótica",
+        "fr": "Spécialiste hardware et robotique"
+      }
+    },
+    {
+      "id": "ifood",
+      "name": "iFood",
+      "logo_url": "assets/partenaires/ifood.svg",
+      "category": "food",
+      "type": "affiliate_network",
+      "countries": [
+        "BR"
+      ],
+      "base_affiliate_url": "https://www.ifood.com.br/",
+      "tracking_tag": "rexoia-ifood",
+      "pitch": {
+        "pt": "Entrega de refeições",
+        "fr": "Livraison de repas"
+      }
+    },
+    {
+      "id": "aliexpress",
+      "name": "AliExpress",
+      "logo_url": "assets/partenaires/aliexpress.svg",
+      "category": "maker",
+      "type": "affiliate_network",
+      "countries": [
+        "GLOBAL"
+      ],
+      "base_affiliate_url": "https://www.aliexpress.com/",
+      "tracking_tag": "rexoia-ali",
+      "pitch": {
+        "fr": "Composants au meilleur coût",
+        "en": "Cheapest components"
+      }
+    },
+    {
+      "id": "dfrobot",
+      "name": "DFRobot",
+      "logo_url": "assets/partenaires/dfrobot.svg",
+      "category": "maker",
+      "type": "direct_brand",
+      "countries": [
+        "GLOBAL"
+      ],
+      "base_affiliate_url": "https://www.dfrobot.com/",
+      "tracking_tag": "rexoia-dfrobot",
+      "pitch": {
+        "fr": "Capteurs et cartes pour robotique",
+        "en": "Sensors and robotics boards"
+      }
+    },
+    {
+      "id": "atelier-canal",
+      "name": "Atelier du Canal",
+      "logo_url": "assets/partenaires/atelier-canal.svg",
+      "category": "local",
+      "type": "local_merchant",
+      "countries": [
+        "FR"
+      ],
+      "base_affiliate_url": "",
+      "tracking_tag": "",
+      "pitch": {
+        "fr": "Impression 3D et pièces sur mesure, Toulouse",
+        "en": "3D printing and custom parts, Toulouse"
+      },
+      "local_info": {
+        "city": "Toulouse",
+        "region": "Occitanie",
+        "address": "12 quai de la Daurade, 31000 Toulouse",
+        "whatsapp": "+33 6 00 00 00 00",
+        "website_url": "",
+        "is_featured": true
+      }
+    },
+    {
+      "id": "loja-natal",
+      "name": "Loja Potiguar Maker",
+      "logo_url": "assets/partenaires/loja-natal.svg",
+      "category": "local",
+      "type": "local_merchant",
+      "countries": [
+        "BR"
+      ],
+      "base_affiliate_url": "",
+      "tracking_tag": "",
+      "pitch": {
+        "pt": "Eletrônica e impressão 3D, Natal/RN",
+        "fr": "Électronique et impression 3D, Natal/RN"
+      },
+      "local_info": {
+        "city": "Natal",
+        "region": "Rio Grande do Norte",
+        "address": "Av. Rio Branco, 500 — Petrópolis",
+        "whatsapp": "+55 84 90000-0000",
+        "website_url": "",
+        "is_featured": true
+      }
+    }
+  ]
+}

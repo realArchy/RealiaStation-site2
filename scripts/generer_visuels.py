@@ -21,7 +21,7 @@ import urllib.error
 import urllib.request
 import uuid
 
-ASSETS = pathlib.Path("/home/realia/projects/neuro-exo-project/web/assets")
+ASSETS = pathlib.Path(__file__).resolve().parent.parent / "web" / "assets"
 
 #: style commun — le site entier est en noir abyssal avec deux néons
 STYLE = ("cinematic lighting, near-black background, electric magenta and cyan neon rim light, "

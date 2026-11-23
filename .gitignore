@@ -9,7 +9,10 @@ venv/
 *.bag
 *.mcap
 *.db3
-data/
+/data/
 node_modules/
 .DS_Store
 *.log
+
+# les données du site sont publiques et versionnées
+!web/data/

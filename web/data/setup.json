@@ -1,0 +1,348 @@
+{
+  "version": "2026-11-22",
+  "note": "Matériel réel du laboratoire et besoins classés par urgence. Les liens marchands pointent pour l'instant vers des recherches, pas des liens d'affiliation.",
+  "countries": [
+    {
+      "code": "FR",
+      "label": "France",
+      "flag": "🇫🇷"
+    },
+    {
+      "code": "BR",
+      "label": "Brasil",
+      "flag": "🇧🇷"
+    },
+    {
+      "code": "GLOBAL",
+      "label": "Global",
+      "flag": "🌍"
+    }
+  ],
+  "support_links": [
+    {
+      "id": "kofi",
+      "label": "Ko-fi",
+      "url": "[LIEN_KOFI]",
+      "note": "contribution libre, sans contrepartie"
+    },
+    {
+      "id": "tipeee",
+      "label": "Tipeee",
+      "url": "[LIEN_TIPEEE]",
+      "note": "soutien récurrent"
+    },
+    {
+      "id": "github",
+      "label": "GitHub Sponsors",
+      "url": "[LIEN_GITHUB_SPONSORS]",
+      "note": "pour les développeurs"
+    },
+    {
+      "id": "amazon-wishlist",
+      "label": "Liste d'envies Amazon",
+      "url": "[LIEN_LISTE_AMAZON]",
+      "note": "acheter directement l'objet"
+    }
+  ],
+  "current_setup": [
+    {
+      "id": "gpu-16",
+      "name": "Carte graphique 16 Go",
+      "category": "Compute & IA",
+      "role_in_project": "Fait tourner les modèles locaux : planificateur, codeur, embeddings",
+      "specs_short": "16 Go de VRAM · une seule carte, tout passe dessus",
+      "image_url": "assets/setup/gpu.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {
+        "FR": "https://www.amazon.fr/s?k=carte+graphique+16+go",
+        "BR": "https://www.mercadolivre.com.br/",
+        "GLOBAL": ""
+      }
+    },
+    {
+      "id": "ram-128",
+      "name": "128 Go de mémoire vive",
+      "category": "Compute & IA",
+      "role_in_project": "Porte les modèles en mémoire : sans elle, un 80B ne rentre pas",
+      "specs_short": "128 Go · modules mmap, plusieurs moteurs en parallèle",
+      "image_url": "assets/setup/ram.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "disque-8to",
+      "name": "Disque 8 To (archive)",
+      "category": "Compute & IA",
+      "role_in_project": "Stocke modèles, datasets, rendus et sauvegardes hors du disque système",
+      "specs_short": "8 To · SMR assumé, monté sur /mnt/soute_8tb",
+      "image_url": "assets/setup/disque.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "devkit",
+      "name": "RealiaDevKit (orchestrateur maison)",
+      "category": "Compute & IA",
+      "role_in_project": "Le harnais d'agents qui écrit RealiaStation : planificateur + codeur + outils",
+      "specs_short": "66 outils · 16 fiches de rôle · 2 modèles en relais",
+      "image_url": "assets/setup/devkit.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "kaggle-2xt4",
+      "name": "GPU distants 2×T4 (Kaggle)",
+      "category": "Compute & IA",
+      "role_in_project": "Rendus Blender, images SDXL/RealVisXL, vidéo Wan2.1, audio ACE-Step",
+      "specs_short": "2× Tesla T4 · 16 Go chacune · à la demande, jamais sur la carte locale",
+      "image_url": "assets/setup/kaggle.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "emg-dev",
+      "name": "Capteur EMG de développement",
+      "category": "Électronique & Capteurs",
+      "role_in_project": "Premiers signaux musculaires réels pour le jumeau numérique",
+      "specs_short": "1 canal · analogique · suffisant pour prototyper, pas pour mesurer",
+      "image_url": "assets/setup/emg.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "multimetre",
+      "name": "Multimètre numérique",
+      "category": "Électronique & Capteurs",
+      "role_in_project": "Vérifier chaque montage avant de brancher quoi que ce soit sur le harnais",
+      "specs_short": "Tension, continuité, résistance",
+      "image_url": "assets/setup/multimetre.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {
+        "FR": "https://www.amazon.fr/s?k=multimetre+numerique",
+        "BR": "https://www.mercadolivre.com.br/",
+        "GLOBAL": ""
+      }
+    },
+    {
+      "id": "fer-soudure",
+      "name": "Fer à souder d'entrée de gamme",
+      "category": "Outillage & Prototypage",
+      "role_in_project": "Soude les connecteurs des cartes de test — lent, mais il soude",
+      "specs_short": "Panne fine · température non régulée",
+      "image_url": "assets/setup/fer.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "imprimante-3d-lab",
+      "name": "Imprimante 3D FDM",
+      "category": "Outillage & Prototypage",
+      "role_in_project": "Sort les supports de capteurs et les boîtiers de test",
+      "specs_short": "Volume 220 × 220 mm · PLA/PETG",
+      "image_url": "assets/setup/imprimante.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {
+        "FR": "https://www.amazon.fr/s?k=imprimante+3d+fdm",
+        "BR": "https://www.magazineluiza.com.br/",
+        "GLOBAL": ""
+      }
+    },
+    {
+      "id": "micro-usb",
+      "name": "Microphone USB",
+      "category": "Audio/Vidéo & LunaGalaxie",
+      "role_in_project": "Voix des pilotes musicaux et des vidéos LunaGalaxie",
+      "specs_short": "Cardioïde · 48 kHz",
+      "image_url": "assets/setup/micro.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    },
+    {
+      "id": "logiciels",
+      "name": "Chaîne logicielle libre",
+      "category": "Audio/Vidéo & LunaGalaxie",
+      "role_in_project": "Blender headless, HyperFrames, ComfyUI, ffmpeg : tout le rendu",
+      "specs_short": "Blender 4.5 LTS · HyperFrames 0.9 · Python 3.13",
+      "image_url": "assets/setup/logiciels.svg",
+      "status": "Opérationnel",
+      "affiliate_links": {}
+    }
+  ],
+  "wishlist_devices": [
+    {
+      "id": "station-soudure-pro",
+      "priority_rank": 1,
+      "urgency_level": "CRITIQUE — Bloquant Phase 1",
+      "name": "Station de soudure régulée + loupe",
+      "category": "Outillage & Prototypage",
+      "why_needed": "Le fer d'entrée de gamme brûle les pistes fines et ne tient pas la température : impossible de souder proprement un connecteur d'électrodes EMG. Sans elle, le premier harnais de mesure reste un montage volant.",
+      "estimated_price": {
+        "FR": "120 €",
+        "BR": "750 R$",
+        "GLOBAL": "130 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 120,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "https://www.amazon.fr/s?k=station+soudure+regulee",
+        "BR": "https://www.kabum.com.br/busca/estacao-de-solda",
+        "GLOBAL": "https://www.aliexpress.com/"
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/station-soudure-pro.svg"
+    },
+    {
+      "id": "capteurs-emg-medicaux",
+      "priority_rank": 2,
+      "urgency_level": "CRITIQUE — Bloquant Phase 1",
+      "name": "Kit EMG/EEG de qualité mesure (8 canaux)",
+      "category": "Électronique & Capteurs",
+      "why_needed": "Le jumeau numérique a besoin de signaux propres et synchronisés. Un capteur de développement à un canal ne permet ni de filtrer, ni de comparer, ni de publier un résultat défendable.",
+      "estimated_price": {
+        "FR": "1 200 €",
+        "BR": "7 400 R$",
+        "GLOBAL": "1 300 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 1200,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "https://www.amazon.fr/s?k=openbci+emg",
+        "BR": "https://www.mercadolivre.com.br/",
+        "GLOBAL": "https://www.dfrobot.com/"
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/capteurs-emg-medicaux.svg"
+    },
+    {
+      "id": "imprimante-resine",
+      "priority_rank": 3,
+      "urgency_level": "HAUTE — Accélération R&D",
+      "name": "Imprimante 3D résine (haute précision)",
+      "category": "Outillage & Prototypage",
+      "why_needed": "Une orthèse ou un guide de doigt demande 0,1 mm de précision : le FDM les sort approximatifs et fragiles. C'est la pièce qui transforme un prototype en objet utilisable par une personne.",
+      "estimated_price": {
+        "FR": "320 €",
+        "BR": "1 900 R$",
+        "GLOBAL": "350 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 320,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "https://www.amazon.fr/s?k=imprimante+3d+resine",
+        "BR": "https://www.magazineluiza.com.br/",
+        "GLOBAL": "https://www.aliexpress.com/"
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/imprimante-resine.svg"
+    },
+    {
+      "id": "oscilloscope",
+      "priority_rank": 4,
+      "urgency_level": "HAUTE — Accélération R&D",
+      "name": "Oscilloscope 2 voies (100 MHz)",
+      "category": "Électronique & Capteurs",
+      "why_needed": "Sans oscilloscope, on ne voit ni le bruit, ni la latence, ni le timing d'une stimulation. On répare à l'aveugle et on croit que le modèle se trompe quand c'est le signal qui est sale.",
+      "estimated_price": {
+        "FR": "380 €",
+        "BR": "2 300 R$",
+        "GLOBAL": "400 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 380,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "https://www.amazon.fr/s?k=oscilloscope+100mhz",
+        "BR": "https://www.kabum.com.br/busca/osciloscopio",
+        "GLOBAL": "https://www.aliexpress.com/"
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/oscilloscope.svg"
+    },
+    {
+      "id": "gpu-seconde",
+      "priority_rank": 5,
+      "urgency_level": "HAUTE — Accélération R&D",
+      "name": "Seconde carte graphique 16 Go",
+      "category": "Compute & IA",
+      "why_needed": "Aujourd'hui un seul modèle tient en mémoire à la fois : chaque bascule coûte des minutes. Deux cartes permettent planificateur et codeur en parallèle, et un banc d'essai sans arrêter la production.",
+      "estimated_price": {
+        "FR": "520 €",
+        "BR": "3 200 R$",
+        "GLOBAL": "560 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 520,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "https://www.amazon.fr/s?k=carte+graphique+16+go",
+        "BR": "https://www.kabum.com.br/busca/placa-de-video",
+        "GLOBAL": ""
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/gpu-seconde.svg"
+    },
+    {
+      "id": "camera-tournage",
+      "priority_rank": 6,
+      "urgency_level": "MOYENNE — Phase 2 & Production",
+      "name": "Caméra + éclairage pour LunaGalaxie",
+      "category": "Audio/Vidéo & LunaGalaxie",
+      "why_needed": "Les épisodes passent aujourd'hui par des rendus 3D et des images générées. Une caméra permet de filmer le vrai laboratoire, les mains, les pièces — la crédibilité d'une chaîne R&D se joue là.",
+      "estimated_price": {
+        "FR": "650 €",
+        "BR": "3 900 R$",
+        "GLOBAL": "700 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 650,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "https://www.fnac.com/",
+        "BR": "https://www.mercadolivre.com.br/",
+        "GLOBAL": ""
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/camera-tournage.svg"
+    },
+    {
+      "id": "banc-essai",
+      "priority_rank": 7,
+      "urgency_level": "MOYENNE — Phase 2 & Production",
+      "name": "Banc d'essai mécanique (cadre + poulies)",
+      "category": "Outillage & Prototypage",
+      "why_needed": "Un exosquelette se règle sur un corps, pas sur un dessin. Le banc permet de tester la course, les butées et les efforts sans mobiliser une personne à chaque essai.",
+      "estimated_price": {
+        "FR": "450 €",
+        "BR": "2 700 R$",
+        "GLOBAL": "480 $"
+      },
+      "funding_progress": {
+        "collected": 0,
+        "target": 450,
+        "currency": "EUR"
+      },
+      "links": {
+        "FR": "",
+        "BR": "",
+        "GLOBAL": ""
+      },
+      "direct_support_enabled": true,
+      "image_url": "assets/setup/banc-essai.svg"
+    }
+  ]
+}

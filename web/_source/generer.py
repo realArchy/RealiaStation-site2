@@ -16,7 +16,7 @@ import re
 import sys
 import time
 
-RACINE = pathlib.Path("/home/realia/projects/rexoia/web")
+RACINE = pathlib.Path(__file__).resolve().parent.parent  # …/web
 sys.path.insert(0, str(RACINE / "_source"))
 
 from contenu_1 import ACCUEIL, NAV, ORIENT  # noqa: E402
@@ -117,7 +117,7 @@ def pied(extra: str = "") -> str:
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
       <a href="setup-wishlist.html" data-t="nav.wishlist">{t('nav.wishlist')}</a>
       <a href="boutique.html" data-t="nav.boutique">{t('nav.boutique')}</a>
-      <a href="[LIEN_GITHUB]">GitHub</a>
+      <a href="https://github.com/Realiastation/RealiaDevKit">GitHub</a>
     </div>
   </div>
   {extra}
@@ -368,9 +368,9 @@ def page_index() -> str:
       <h2 data-t="commun.soutenir">{t('commun.soutenir')}</h2>
       <p class="lead" style="margin:1rem auto 0">Ko-fi · Tipeee · GitHub Sponsors — trois canaux ouverts, sans tout-ou-rien.</p>
       <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.8rem">
-        <a href="[LIEN_KOFI]" class="bouton">Ko-fi</a>
-        <a href="[LIEN_TIPTEEE]" class="bouton-fantome">Tipeee</a>
-        <a href="[LIEN_GITHUB_SPONSORS]" class="bouton-fantome">GitHub Sponsors</a>
+        <a href="setup-wishlist.html#soutenir" class="bouton">Ko-fi</a>
+        <a href="setup-wishlist.html#soutenir" class="bouton-fantome">Tipeee</a>
+        <a href="setup-wishlist.html#soutenir" class="bouton-fantome">GitHub Sponsors</a>
       </div>
     </div>
   </section>
@@ -842,7 +842,7 @@ def page_social() -> str:
     <p class="mono faible" style="margin-top:1.2rem; font-size:.8rem">
       <a href="setup-wishlist.html">My Setup &amp; Wishlist</a> ·
       <a href="boutique.html">Boutique</a> ·
-      <a href="[LIEN_GITHUB]" rel="noopener">GitHub</a>
+      <a href="https://github.com/Realiastation/RealiaDevKit" rel="noopener">GitHub</a>
     </p>
   </section>
 """

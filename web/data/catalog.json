@@ -1,0 +1,856 @@
+{
+  "version": "2026-11-21",
+  "note": "Catalogue de démonstration. Prix indicatifs, liens à remplacer par les vrais contrats.",
+  "currency_hint": {
+    "FR": "EUR",
+    "BR": "BRL",
+    "GLOBAL": "EUR"
+  },
+  "products": [
+    {
+      "id": "esp32-s3",
+      "title": {
+        "fr": "Carte ESP32-S3 (Wi-Fi + BLE)",
+        "en": "ESP32-S3 board (Wi-Fi + BLE)",
+        "pt": "Placa ESP32-S3 (Wi-Fi + BLE)",
+        "zh": "ESP32-S3 开发板"
+      },
+      "description_short": {
+        "fr": "Le cerveau d'un objet connecté : Wi-Fi, Bluetooth, 16 Mo de flash.",
+        "en": "The brain of a connected object: Wi-Fi, Bluetooth, 16 MB flash.",
+        "pt": "O cérebro de um objeto conectado: Wi-Fi, Bluetooth, 16 MB de flash.",
+        "zh": "联网设备的“大脑”：Wi-Fi、蓝牙、16 MB 闪存。"
+      },
+      "image_url": "assets/produits/esp32.svg",
+      "category": "maker",
+      "tags": [
+        "esp32",
+        "maker",
+        "noel",
+        "cadeau"
+      ],
+      "specs": {
+        "Alimentation": "5 V USB-C",
+        "Mémoire": "16 Mo flash / 8 Mo PSRAM",
+        "Origine": "Import",
+        "Garantie": "1 an"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 12.9,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "aliexpress",
+            "price": 8.4,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "mercado-livre",
+            "price": 79.9,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "kabum",
+            "price": 89.9,
+            "currency": "BRL",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "dfrobot",
+            "price": 14.5,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Soutien R&D"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bras-robot-6d",
+      "title": {
+        "fr": "Bras robotisé 6 axes (kit)",
+        "en": "6-axis robot arm (kit)",
+        "pt": "Braço robótico 6 eixos (kit)",
+        "zh": "六轴机械臂（套件）"
+      },
+      "description_short": {
+        "fr": "Six servomoteurs, structure aluminium, pince : de quoi apprendre la cinématique.",
+        "en": "Six servos, aluminium frame, gripper: enough to learn kinematics.",
+        "pt": "Seis servo-motores, estrutura de alumínio, garra: para aprender cinemática.",
+        "zh": "六个舵机、铝型材结构、夹爪：用于学习运动学。"
+      },
+      "image_url": "assets/produits/bras.svg",
+      "category": "maker",
+      "tags": [
+        "robotique",
+        "maker",
+        "bras",
+        "noel"
+      ],
+      "specs": {
+        "Axes": "6",
+        "Charge": "500 g",
+        "Alimentation": "12 V / 5 A",
+        "Garantie": "1 an"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 189.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "aliexpress",
+            "price": 142.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "mercado-livre",
+            "price": 1290.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "dfrobot",
+            "price": 205.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Soutien R&D"
+          }
+        ]
+      }
+    },
+    {
+      "id": "capteurs-emg",
+      "title": {
+        "fr": "Kit capteurs EMG (3 électrodes)",
+        "en": "EMG sensor kit (3 electrodes)",
+        "pt": "Kit sensores EMG (3 elétrodos)",
+        "zh": "肌电传感器套件（3 电极）"
+      },
+      "description_short": {
+        "fr": "Lire l'activité musculaire : la brique de départ d'un harnais.",
+        "en": "Read muscle activity: the first brick of a harness.",
+        "pt": "Ler a atividade muscular: o primeiro tijolo de uma armadura.",
+        "zh": "读取肌肉活动：外骨骼肩带的第一块砖。"
+      },
+      "image_url": "assets/produits/emg.svg",
+      "category": "maker",
+      "tags": [
+        "emg",
+        "capteur",
+        "makers",
+        "recherche"
+      ],
+      "specs": {
+        "Canaux": "3",
+        "Fréquence": "1 kHz",
+        "Interface": "Analogique 0-3,3 V",
+        "Garantie": "6 mois"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 49.9,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          },
+          {
+            "partner_id": "fnac",
+            "price": 54.9,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Retrait 1 h"
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "mercado-livre",
+            "price": 289.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "dfrobot",
+            "price": 58.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Soutien R&D"
+          }
+        ]
+      }
+    },
+    {
+      "id": "imprimante-3d",
+      "title": {
+        "fr": "Imprimante 3D fermée (220 × 220)",
+        "en": "Enclosed 3D printer (220 × 220)",
+        "pt": "Impressora 3D fechada (220 × 220)",
+        "zh": "封闭式 3D 打印机（220×220）"
+      },
+      "description_short": {
+        "fr": "Pièces techniques, orthèses, prototypes : la fabrication à la maison.",
+        "en": "Technical parts, orthoses, prototypes: fabrication at home.",
+        "pt": "Peças técnicas, órteses, protótipos: fabrico em casa.",
+        "zh": "技术零件、矫形器、原型：在家制造。"
+      },
+      "image_url": "assets/produits/imprimante.svg",
+      "category": "maker",
+      "tags": [
+        "3d",
+        "fabrication",
+        "maker",
+        "cadeau"
+      ],
+      "specs": {
+        "Volume": "220×220×250 mm",
+        "Buse": "0,4 mm",
+        "Plateau": "Chauffant 100 °C",
+        "Garantie": "2 ans"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 279.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "fnac",
+            "price": 299.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "magalu",
+            "price": 1899.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "kabum",
+            "price": 1949.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "aliexpress",
+            "price": 245.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ]
+      }
+    },
+    {
+      "id": "station-soudure",
+      "title": {
+        "fr": "Station de soudure régulée",
+        "en": "Temperature-controlled soldering station",
+        "pt": "Estação de solda regulada",
+        "zh": "恒温焊台"
+      },
+      "description_short": {
+        "fr": "Pour assembler les cartes du harnais sans brûler les pistes.",
+        "en": "To assemble harness boards without burning traces.",
+        "pt": "Para montar as placas da armadura sem queimar as trilhas.",
+        "zh": "焊接肩带电路板而不烧坏走线。"
+      },
+      "image_url": "assets/produits/soudure.svg",
+      "category": "maker",
+      "tags": [
+        "outil",
+        "maker",
+        "electronique"
+      ],
+      "specs": {
+        "Puissance": "65 W",
+        "Plage": "200-450 °C",
+        "Pannes": "3 fournies",
+        "Garantie": "2 ans"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 59.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "kabum",
+            "price": 349.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "aliexpress",
+            "price": 38.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ]
+      }
+    },
+    {
+      "id": "servo-pack",
+      "title": {
+        "fr": "Lot de 6 servomoteurs 25 kg",
+        "en": "6-pack 25 kg servos",
+        "pt": "Lote de 6 servo-motores 25 kg",
+        "zh": "6 只 25 kg 舵机套装"
+      },
+      "description_short": {
+        "fr": "Couple élevé, métal : le mouvement d'un exosquelette de démonstration.",
+        "en": "High torque, metal gears: motion for a demo exoskeleton.",
+        "pt": "Alto torque, engrenagens metálicas: movimento para um exoesqueleto de demonstração.",
+        "zh": "高扭矩、金属齿轮：演示外骨骼的动力。"
+      },
+      "image_url": "assets/produits/servo.svg",
+      "category": "maker",
+      "tags": [
+        "servo",
+        "robotique",
+        "maker"
+      ],
+      "specs": {
+        "Couple": "25 kg·cm",
+        "Engrenages": "Métal",
+        "Tension": "6-8,4 V",
+        "Garantie": "1 an"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 74.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "mercado-livre",
+            "price": 439.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "dfrobot",
+            "price": 82.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Soutien R&D"
+          }
+        ]
+      }
+    },
+    {
+      "id": "livre-exosquelettes",
+      "title": {
+        "fr": "Exosquelettes : conception et commande",
+        "en": "Exoskeletons: design and control",
+        "pt": "Exoesqueletos: projeto e controlo",
+        "zh": "外骨骼：设计与控制"
+      },
+      "description_short": {
+        "fr": "Le livre de référence pour comprendre la boucle cerveau-muscle-machine.",
+        "en": "The reference book on the brain-muscle-machine loop.",
+        "pt": "O livro de referência sobre o ciclo cérebro-músculo-máquina.",
+        "zh": "理解脑—肌—机闭环的参考书。"
+      },
+      "image_url": "assets/produits/livre.svg",
+      "category": "culture",
+      "tags": [
+        "livre",
+        "culture",
+        "noel",
+        "cadeau"
+      ],
+      "specs": {
+        "Langue": "Anglais",
+        "Pages": "480",
+        "Format": "Relié",
+        "Livraison": "48 h"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "cultura",
+            "price": 89.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "amazon-fr",
+            "price": 92.5,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "mercado-livre",
+            "price": 349.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 89.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "carte-cadeau-maker",
+      "title": {
+        "fr": "Coffret cadeau « premier robot »",
+        "en": "“First robot” gift box",
+        "pt": "Caixa presente « primeiro robô »",
+        "zh": "“第一台机器人”礼盒"
+      },
+      "description_short": {
+        "fr": "Une carte, un capteur, un moteur, un guide : on assemble en une soirée.",
+        "en": "A board, a sensor, a motor, a guide: assembled in one evening.",
+        "pt": "Uma placa, um sensor, um motor, um guia: montado numa noite.",
+        "zh": "一块板、一个传感器、一个电机、一份指南：一晚就能装好。"
+      },
+      "image_url": "assets/produits/coffret.svg",
+      "category": "maker",
+      "tags": [
+        "noel",
+        "cadeau",
+        "maker",
+        "debutant"
+      ],
+      "specs": {
+        "Âge": "12 ans et +",
+        "Contenu": "12 pièces",
+        "Durée": "2 h",
+        "Garantie": "1 an"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 39.9,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "fnac",
+            "price": 42.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "mercado-livre",
+            "price": 219.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "aliexpress",
+            "price": 26.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ]
+      }
+    },
+    {
+      "id": "casque-bruits",
+      "title": {
+        "fr": "Casque à réduction de bruit",
+        "en": "Noise-cancelling headphones",
+        "pt": "Auscultadores com cancelamento de ruído",
+        "zh": "降噪耳机"
+      },
+      "description_short": {
+        "fr": "Pour coder longtemps sans entendre la rue.",
+        "en": "To code for hours without hearing the street.",
+        "pt": "Para programar horas sem ouvir a rua.",
+        "zh": "长时间编程而不被街道噪音打扰。"
+      },
+      "image_url": "assets/produits/casque.svg",
+      "category": "tech",
+      "tags": [
+        "audio",
+        "high-tech",
+        "noel",
+        "cadeau"
+      ],
+      "specs": {
+        "Autonomie": "40 h",
+        "Bluetooth": "5.3",
+        "Poids": "250 g",
+        "Garantie": "2 ans"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "fnac",
+            "price": 149.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Retrait 1 h"
+          },
+          {
+            "partner_id": "amazon-fr",
+            "price": 139.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "magalu",
+            "price": 899.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          },
+          {
+            "partner_id": "mercado-livre",
+            "price": 929.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "aliexpress",
+            "price": 78.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clavier-mecanique",
+      "title": {
+        "fr": "Clavier mécanique compact",
+        "en": "Compact mechanical keyboard",
+        "pt": "Teclado mecânico compacto",
+        "zh": "紧凑型机械键盘"
+      },
+      "description_short": {
+        "fr": "Soixante-cinq touches, switches silencieux, rétroéclairage doux.",
+        "en": "Sixty-five keys, silent switches, soft backlight.",
+        "pt": "Sessenta e cinco teclas, switches silenciosos, retroiluminação suave.",
+        "zh": "65 键、静音轴、柔和背光。"
+      },
+      "image_url": "assets/produits/clavier.svg",
+      "category": "tech",
+      "tags": [
+        "clavier",
+        "high-tech",
+        "bureau"
+      ],
+      "specs": {
+        "Touches": "65",
+        "Switch": "Linéaire silencieux",
+        "Connexion": "USB-C / BT",
+        "Garantie": "2 ans"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 89.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "kabum",
+            "price": 429.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "aliexpress",
+            "price": 52.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ]
+      }
+    },
+    {
+      "id": "enceinte-atelier",
+      "title": {
+        "fr": "Enceinte d'atelier Bluetooth",
+        "en": "Bluetooth workshop speaker",
+        "pt": "Coluna de oficina Bluetooth",
+        "zh": "车间蓝牙音箱"
+      },
+      "description_short": {
+        "fr": "Robuste, à accrocher au établi, batterie de dix heures.",
+        "en": "Rugged, hangs on the bench, ten-hour battery.",
+        "pt": "Robusta, para pendurar na bancada, bateria de dez horas.",
+        "zh": "坚固，可挂在工作台上，续航十小时。"
+      },
+      "image_url": "assets/produits/enceinte.svg",
+      "category": "tech",
+      "tags": [
+        "audio",
+        "atelier",
+        "noel"
+      ],
+      "specs": {
+        "Autonomie": "10 h",
+        "Étanchéité": "IPX5",
+        "Puissance": "20 W",
+        "Garantie": "1 an"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "amazon-fr",
+            "price": 59.9,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "magalu",
+            "price": 399.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Meilleur prix"
+          }
+        ],
+        "GLOBAL": [
+          {
+            "partner_id": "aliexpress",
+            "price": 31.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Moins cher"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pieces-toulouse",
+      "title": {
+        "fr": "Pièces imprimées sur mesure",
+        "en": "Custom printed parts",
+        "pt": "Peças impressas sob medida",
+        "zh": "定制打印零件"
+      },
+      "description_short": {
+        "fr": "Vous envoyez un fichier, l'atelier imprime et expédie sous 48 h.",
+        "en": "You send a file, the workshop prints and ships within 48 h.",
+        "pt": "Envia um ficheiro, a oficina imprime e envia em 48 h.",
+        "zh": "发送文件，工坊 48 小时内打印并发货。"
+      },
+      "image_url": "assets/produits/pieces.svg",
+      "category": "local",
+      "tags": [
+        "local",
+        "3d",
+        "toulouse",
+        "sur-mesure"
+      ],
+      "specs": {
+        "Délai": "48 h",
+        "Matière": "PETG / PLA",
+        "Retrait": "Toulouse",
+        "Livraison": "France"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "atelier-canal",
+            "price": 0.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Commerce local"
+          }
+        ],
+        "BR": [],
+        "GLOBAL": []
+      }
+    },
+    {
+      "id": "cables-natal",
+      "title": {
+        "fr": "Câbles et connecteurs (Natal)",
+        "en": "Cables and connectors (Natal)",
+        "pt": "Cabos e conectores (Natal)",
+        "zh": "线材与连接器（纳塔尔）"
+      },
+      "description_short": {
+        "fr": "Le stock du quartier : pas d'attente, on règle sur place.",
+        "en": "The neighbourhood stock: no waiting, paid on the spot.",
+        "pt": "O stock do bairro: sem espera, paga-se no local.",
+        "zh": "社区现货：无需等待，现场结账。"
+      },
+      "image_url": "assets/produits/cables.svg",
+      "category": "local",
+      "tags": [
+        "local",
+        "electronique",
+        "electronique",
+        "natal"
+      ],
+      "specs": {
+        "Stock": "175 pièces",
+        "Retrait": "Natal/RN",
+        "Paiement": "Espèces / Pix",
+        "Livraison": "Retrait"
+      },
+      "offers": {
+        "FR": [],
+        "BR": [
+          {
+            "partner_id": "loja-natal",
+            "price": 15.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Commerce local"
+          }
+        ],
+        "GLOBAL": []
+      }
+    },
+    {
+      "id": "kit-reeducation",
+      "title": {
+        "fr": "Kit de préhension assistée",
+        "en": "Assisted grip kit",
+        "pt": "Kit de preensão assistida",
+        "zh": "辅助抓握套装"
+      },
+      "description_short": {
+        "fr": "Sangles et embouts imprimés pour tenir un outil quand la main fatigue.",
+        "en": "Printed straps and tips to hold a tool when the hand tires.",
+        "pt": "Correias e ponteiras impressas para segurar uma ferramenta.",
+        "zh": "打印绑带与端头，手累时也能握住工具。"
+      },
+      "image_url": "assets/produits/prehention.svg",
+      "category": "maker",
+      "tags": [
+        "recherche",
+        "sante",
+        "impression",
+        "maker"
+      ],
+      "specs": {
+        "Tailles": "3",
+        "Matière": "TPU",
+        "Personnalisable": "Oui",
+        "Origine": "Fabriqué sur place"
+      },
+      "offers": {
+        "FR": [
+          {
+            "partner_id": "atelier-canal",
+            "price": 35.0,
+            "currency": "EUR",
+            "url": "",
+            "badge": "Commerce local"
+          },
+          {
+            "partner_id": "amazon-fr",
+            "price": 44.9,
+            "currency": "EUR",
+            "url": "",
+            "badge": ""
+          }
+        ],
+        "BR": [
+          {
+            "partner_id": "loja-natal",
+            "price": 120.0,
+            "currency": "BRL",
+            "url": "",
+            "badge": "Commerce local"
+          }
+        ],
+        "GLOBAL": []
+      }
+    }
+  ]
+}

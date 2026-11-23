@@ -178,3 +178,37 @@ validation, clinical supervision and ethics approval.
 ---
 
 *Suivez l'aventure — Follow the build.*
+
+---
+
+## Déploiement — Cloudflare Pages
+
+Le site est **statique** : aucun build n'est nécessaire, mais les pages sont
+**générées** par un script Python. Les `.html` à la racine de `web/` sont des
+sorties : on modifie `web/_source/*.py`, jamais les pages.
+
+```
+racine du dépôt        /                (ce README, docs/, hardware/, src/)
+site à publier         web/             ← index.html est ici
+données du site        web/data/*.json  ← boutique et wishlist les lisent
+régénérer les pages    python web/_source/generer.py
+servir en local        python -m http.server 8123 -d web
+```
+
+Réglages Cloudflare Pages (connexion Git) :
+
+```
+Framework preset          None
+Build command             (vide)
+Build output directory    web
+Root directory            /            (laisser la racine)
+```
+
+Les fichiers `web/data/partners.json`, `catalog.json` et `setup.json` sont
+versionnés : sans eux les pages boutique et setup-wishlist affichent
+« données indisponibles ».
+
+Pages servies : `index.html`, `virtuel`, `rexoia`, `realiastation`,
+`devkit`, `lunagalaxie`, `app`, `meta-projet-social`, `blueprint`,
+`architecte`, `cabinet`, `boutique`, `setup-wishlist`.
+`wishlist.html` et `neuroexo-ai.html` sont des redirections (`noindex`).
