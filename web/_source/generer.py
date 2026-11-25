@@ -118,6 +118,7 @@ def pied(extra: str = "") -> str:
       <a href="setup-wishlist.html" data-t="nav.wishlist">{t('nav.wishlist')}</a>
       <a href="boutique.html" data-t="nav.boutique">{t('nav.boutique')}</a>
       <a href="https://github.com/Realiastation/RealiaDevKit">GitHub</a>
+      <a href="affiliations.html" style="opacity:.55">Affiliations (Bêta)</a>
     </div>
   </div>
   {extra}
