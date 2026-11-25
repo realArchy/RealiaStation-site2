@@ -38,13 +38,25 @@ const DUREE_SORTIE = 210;
 const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-transition-name: none');
 
 (function tiroirs() {
-  const fichier = location.pathname.split('/').pop() || 'index.html';
+  /* Cloudflare sert des URL propres (/virtuel) ; en local ce sont des fichiers
+     (virtuel.html). Sans cette normalisation, seule la page d'accueil était
+     reconnue — d'où un passage qui ne marchait que de 1 à 2. */
+  function fichierCourant() {
+    const chemin = location.pathname;
+    if (chemin.endsWith('/')) return 'index.html';
+    const nom = chemin.split('/').pop();
+    if (!nom) return 'index.html';
+    return nom.indexOf('.') === -1 ? nom + '.html' : nom;
+  }
+
+  const fichier = fichierCourant();
   const i = ORDRE.findIndex(p => p.fichier === fichier);
   if (i < 0) return;
 
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const suivant = i < ORDRE.length - 1 ? ORDRE[i + 1] : null;
-  if (!suivant) return;                      // dernière page : plus rien après
+  const precedent = i > 0 ? ORDRE[i - 1] : null;
+  if (!suivant && !precedent) return;
 
   /* ---- entrée : la page arrive du haut ou du bas ------------------------ */
   const entree = sessionStorage.getItem('tiroir-entree');
@@ -57,19 +69,28 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   }
   sessionStorage.removeItem('tiroir-entree');
 
+  /* Après une bascule, l'inertie de la molette continuait d'arriver sur la
+     page suivante, déjà en haut : elle repartait aussitôt en arrière (vécu :
+     rexoia → virtuel → index d'un seul geste). On pose donc une échéance. */
+  const CLE_VERROU = 'tiroir-verrou';
+  const verrouJusqua = Number(sessionStorage.getItem(CLE_VERROU) || 0);
+  function verrouille() { return Date.now() < verrouJusqua; }
+
   let enCours = false;
-  function aller(sens) {
-    if (!suivant || enCours) return;
+  function aller(cible, sens) {
+    if (!cible || enCours) return;
     enCours = true;
-    if (TRANSITION_NATIVE || reduit) { location.href = suivant.fichier; return; }
+    sessionStorage.setItem(CLE_VERROU, String(Date.now() + 1100));
+    if (TRANSITION_NATIVE || reduit) { location.href = cible.fichier; return; }
     sessionStorage.setItem('tiroir-entree', sens);
     document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
-    setTimeout(() => { location.href = suivant.fichier; }, DUREE_SORTIE);
+    setTimeout(() => { location.href = cible.fichier; }, DUREE_SORTIE);
   }
 
   function auBas() {
     return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 3;
   }
+  function enHaut() { return window.scrollY <= 2; }
 
   /* ---- on ne tourne que si c'est voulu ---------------------------------- */
   function panneauOuvert() {
@@ -89,18 +110,32 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     return t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || cible.isContentEditable;
   }
 
-  /* ---- molette ---------------------------------------------------------- */
-  let cumul = 0;
-  let dernierGeste = 0;
+  /* ---- molette : au-delà du bas on descend, au-dessus du haut on remonte -- */
+  let cumulBas = 0, cumulHaut = 0, dernierBas = 0, dernierHaut = 0;
 
   window.addEventListener('wheel', function (e) {
-    if (enCours || e.ctrlKey) return;
+    if (enCours || verrouille() || e.ctrlKey) return;
     if (dansUnChamp(e.target) || panneauOuvert()) return;
-    if (!auBas() || e.deltaY <= 0) { cumul = 0; return; }
+
     const maintenant = Date.now();
-    cumul = (maintenant - dernierGeste > OUBLI) ? e.deltaY : cumul + e.deltaY;
-    dernierGeste = maintenant;
-    if (cumul >= SEUIL_MOLETTE) aller('bas');
+
+    if (e.deltaY > 0 && auBas()) {                       // vers le bas, à la fin
+      cumulBas = (maintenant - dernierBas > OUBLI) ? e.deltaY : cumulBas + e.deltaY;
+      dernierBas = maintenant;
+      cumulHaut = 0;
+      if (cumulBas >= SEUIL_MOLETTE) aller(suivant, 'bas');
+      return;
+    }
+
+    if (e.deltaY < 0 && enHaut()) {                      // vers le haut, au début
+      cumulHaut = (maintenant - dernierHaut > OUBLI) ? -e.deltaY : cumulHaut - e.deltaY;
+      dernierHaut = maintenant;
+      cumulBas = 0;
+      if (cumulHaut >= SEUIL_MOLETTE) aller(precedent, 'haut');
+      return;
+    }
+
+    cumulBas = 0; cumulHaut = 0;
   }, { passive: true });
 
   /* ---- tactile ---------------------------------------------------------- */
@@ -110,23 +145,23 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   }, { passive: true });
 
   window.addEventListener('touchmove', function (e) {
-    if (enCours || departY === null || panneauOuvert()) return;
+    if (enCours || verrouille() || departY === null || panneauOuvert()) return;
     if (dansUnChamp(e.target)) return;
     const y = e.touches[0].clientY;
-    if (!auBas() || y > departY) return;           // on descend : geste normal
-    if (departY - y >= SEUIL_DOIGT) aller('bas');
+    const ecart = departY - y;                     // positif : le doigt monte
+    if (ecart >= SEUIL_DOIGT && auBas()) { aller(suivant, 'bas'); return; }
+    if (-ecart >= SEUIL_DOIGT && enHaut()) { aller(precedent, 'haut'); }
   }, { passive: true });
 
   window.addEventListener('touchend', function () { departY = null; }, { passive: true });
 
   /* ---- clavier ---------------------------------------------------------- */
   window.addEventListener('keydown', function (e) {
-    if (enCours || panneauOuvert() || dansUnChamp(e.target)) return;
-    if (!auBas()) return;
-    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-      e.preventDefault();
-      aller('bas');
-    }
+    if (enCours || verrouille() || panneauOuvert() || dansUnChamp(e.target)) return;
+    const versBas = e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ';
+    const versHaut = e.key === 'ArrowUp' || e.key === 'PageUp';
+    if (versBas && auBas()) { e.preventDefault(); aller(suivant, 'bas'); }
+    else if (versHaut && enHaut()) { e.preventDefault(); aller(precedent, 'haut'); }
   });
 
   /* ---- repère de lecture : une barre fine en haut, pas un bouton -------- */
@@ -147,9 +182,9 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   majJauge();
 
   window.__tiroir = {
-    index: i, suivant,
-    aller: function () { aller('bas'); },
-    auBas,
-    enHaut: function () { return window.scrollY <= 2; }
+    index: i, suivant, precedent,
+    suivantPage: function () { aller(suivant, 'bas'); },
+    precedentPage: function () { aller(precedent, 'haut'); },
+    auBas, enHaut
   };
 })();
