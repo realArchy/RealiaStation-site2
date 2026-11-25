@@ -142,10 +142,11 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
      (direction et distance cumulées sur 400 ms) et on se contente d'être
      proche du bord. */
   const FENETRE = 400;          // ms : au-delà, le geste est considéré terminé
-  const INTENTION = 90;         // px cumulés dans une même direction
-  const MARGE = 200;            // px : « proche du bord » suffit
+  const INTENTION = 120;        // px cumulés dans une même direction
+  const IMPULSIONS = 4;         // ou quatre impulsions, même minuscules
+  const MARGE = 140;            // px : « proche du bord » suffit
 
-  let versBas = 0, versHaut = 0, dernier = 0;
+  let cumulBas = 0, cumulHaut = 0, nBas = 0, nHaut = 0, dernier = 0;
 
   function procheBas() {
     return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - MARGE;
@@ -160,14 +161,17 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     if (!d) return;
     const t = performance.now();
 
-    if (t - dernier > FENETRE) { versBas = 0; versHaut = 0; }
+    if (t - dernier > FENETRE) { cumulBas = 0; cumulHaut = 0; nBas = 0; nHaut = 0; }
     dernier = t;
 
-    if (d > 0) { versBas += d; versHaut = 0; }
-    else { versHaut += -d; versBas = 0; }
+    if (d > 0) {
+      cumulBas += d; nBas += 1; cumulHaut = 0; nHaut = 0;
+      if ((cumulBas >= INTENTION || nBas >= IMPULSIONS) && procheBas()) aller(suivant, 'bas');
+      return;
+    }
 
-    if (versBas >= INTENTION && procheBas()) { aller(suivant, 'bas'); return; }
-    if (versHaut >= INTENTION && procheHaut()) { aller(precedent, 'haut'); }
+    cumulHaut += -d; nHaut += 1; cumulBas = 0; nBas = 0;
+    if ((cumulHaut >= INTENTION || nHaut >= IMPULSIONS) && procheHaut()) aller(precedent, 'haut');
   }, { passive: true });
 
   /* ---- tactile ---------------------------------------------------------- */
@@ -202,7 +206,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
      armé pour toujours : la page ne répondait plus à aucun geste. */
   function reinitialiser() {
     enCours = false;
-    versBas = 0; versHaut = 0; dernier = 0;
+    cumulBas = 0; cumulHaut = 0; nBas = 0; nHaut = 0; dernier = 0;
   }
   window.addEventListener('pageshow', function (e) { if (e.persisted) reinitialiser(); });
   document.addEventListener('visibilitychange', function () {
