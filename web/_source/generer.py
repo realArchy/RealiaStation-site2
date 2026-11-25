@@ -29,6 +29,11 @@ PAGES["social"].update(SOCIAL_PLUS)
 
 FR = "fr"
 
+#: False tant que le site est en chantier : les pages portent noindex.
+#: À passer à True le jour de la mise en ligne, en même temps qu'on supprime
+#: web/robots.txt.
+INDEXATION = False
+
 #: incrémenté à chaque génération — sert de cache-buster
 VERSION = time.strftime("%Y%m%d%H%M")
 
@@ -145,13 +150,15 @@ def scripts(particules: bool = False, page: str = "") -> str:
 
 
 def tete(titre: str, description: str, css_page: str = "") -> str:
+    robots = ("" if INDEXATION else
+              '\n<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />')
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{titre} — R'ExoIA</title>
-<meta name="description" content="{description}" />
+<meta name="description" content="{description}" />{robots}
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
