@@ -25,7 +25,7 @@
   const RETOUR = 0.30;     // temps pour revenir au repos
   const REPOS = 0.9;       // pause en fin de boucle
 
-  const HERO = ['.hero .bienvenue', '.hero-titre h1', '.hero-soustitre'];
+  const HERO = ['.hero .bienvenue', '.hero-titre h1 > span', '.hero-soustitre'];
   const TEXTE = 'main h2, main h3, main .lead, main .etiq, main figcaption, main .chiffre,' +
                 ' main .impulsion-texte';
   const MEDIA = 'main figure img, main .verre, main .carte, main .impulsion-media';
@@ -45,19 +45,27 @@
     el.dataset.decoupe = 'lettres';
     el.textContent = '';
     const sortie = [];
-    for (let i = 0; i < texte.length; i++) {
-      const ch = texte[i];
-      if (ch === ' ' || ch === '\u00a0') {
-        el.appendChild(document.createTextNode('\u00a0'));
-        continue;
+    /* Chaque MOT est enveloppé dans un inline-block insécable : sans ça, les
+       lettres étant des boîtes séparées, le navigateur coupait au milieu d'un
+       mot (« aveni » / « r ») dès qu'il manquait de place. */
+    texte.split(/(\s+)/).forEach(function (morceau) {
+      if (!morceau) return;
+      if (/^\s+$/.test(morceau)) {
+        el.appendChild(document.createTextNode(' '));
+        return;
       }
-      const s = document.createElement('span');
-      s.className = 'lettre' + (clair ? ' lettre-clair' : '');
-      s.dataset.c = ch;
-      s.textContent = ch;
-      el.appendChild(s);
-      sortie.push(s);
-    }
+      const mot = document.createElement('span');
+      mot.className = 'mot';
+      for (let i = 0; i < morceau.length; i++) {
+        const s = document.createElement('span');
+        s.className = 'lettre' + (clair ? ' lettre-clair' : '');
+        s.dataset.c = morceau[i];
+        s.textContent = morceau[i];
+        mot.appendChild(s);
+        sortie.push(s);
+      }
+      el.appendChild(mot);
+    });
     return sortie;
   }
 

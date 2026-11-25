@@ -366,11 +366,13 @@ def page_index() -> str:
       <a href="#manifeste" class="lien-gauche" data-t="index.cta2">{t('index.cta2')}</a>
       <button type="button" class="play-music" id="play-music" data-t="index.cta_music">{t('index.cta_music')}</button>
     </aside>
+    <div class="hero-centre">
     <p class="bienvenue" data-t="index.bienvenue">{t('index.bienvenue')}</p>
     <div class="hero-titre">
-      <h1 data-t="index.titre_1">{t('index.titre_1')}</h1>
+      <h1><span data-t="index.ligne_1">{t('index.ligne_1')}</span> <span data-t="index.ligne_2">{t('index.ligne_2')}</span> <span data-t="index.ligne_3">{t('index.ligne_3')}</span></h1>
     </div>
     <p class="hero-soustitre" data-t="index.titre_2">{t('index.titre_2')}</p>
+    </div>
     <div class="hero-indice">Scroll<span></span></div>
     </section>
 
