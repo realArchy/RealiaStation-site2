@@ -9,10 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202611251610">
+<link rel="stylesheet" href="style.css?v=202611251746">
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611251610">
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611251746">
 </head>
 <body data-page="social" data-audio="assets/audio/luna-07-ilot-ong.mp3">
 
@@ -38,8 +38,13 @@
         </div>
       </div>
       <a href="index.html#financer" class="bouton">Soutenir</a>
+      <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu-mobile"
+              aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
     </nav>
+
     </header>
 
 <nav class="rail" aria-label="Pages">
@@ -55,8 +60,36 @@
       <a href="architecte.html">L'Architecte</a>
       <a href="cabinet.html">Cabinet &amp; Services</a>
       <a href="setup-wishlist.html">My Setup &amp; Wishlist</a>
-      <a href="boutique.html">Boutique</a>
+      <a href="boutique.html">Boutique du Collectif</a>
 </nav>
+
+<div class="menu-voile" id="menu-voile" hidden></div>
+<div class="menu-mobile" id="menu-mobile" hidden>
+      <div class="menu-groupe">
+        <p class="menu-titre">L'écosystème R'ExoIA</p>
+          <a href="index.html">Accueil</a>
+          <a href="virtuel.html">Labo virtuel</a>
+          <a href="rexoia.html">R'ExoIA</a>
+          <a href="devkit.html">RealiaDevKit</a>
+          <a href="realiastation.html">RealiaStation</a>
+          <a href="blueprint.html">Blueprint</a>
+      </div>
+      <div class="menu-groupe">
+        <p class="menu-titre">L'univers &amp; l'impact</p>
+          <a href="lunagalaxie.html">LunaGalaxie</a>
+          <a href="app.html">R'Station</a>
+          <a href="meta-projet-social.html">Projet social</a>
+          <a href="architecte.html">L'Architecte</a>
+      </div>
+      <div class="menu-groupe">
+        <p class="menu-titre">Services &amp; boutique</p>
+          <a href="cabinet.html">Cabinet &amp; Services</a>
+          <a href="boutique.html#reexpedition">Réexpédition DOM-TOM</a>
+          <a href="setup-wishlist.html">My Setup &amp; Wishlist</a>
+          <a href="boutique.html">Boutique du Collectif</a>
+      </div>
+  <a href="index.html#financer" class="menu-soutenir">Soutenir</a>
+</div>
 
 <main class="enveloppe interne">
 
@@ -354,6 +387,14 @@
       </article>
     </div>
   </section>
+
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="social.bois_t">Économie circulaire &amp; artisanat bois</p>
+      <h2 data-t="social.bois_t">Économie circulaire &amp; artisanat bois</h2>
+      <p class="lead" style="margin-top:1rem; max-width:66ch" data-t="social.bois_d">Les menuisiers et ébénistes malgaches travaillent un bois que le pays produit déjà : mobilier durable pour l'hôtellerie et l'internat, aménagement intérieur et extérieur, agencement des ateliers. L'Îlot achète local, forme sur place et n'importe ni le meuble ni le geste. Le bois vient de filières certifiées, et chaque pièce porte le nom de l'atelier qui l'a faite.</p>
+    </div>
+  </section>
     <figure class="bandeau reveler planche">
       <picture>
         <source srcset="assets/ilot-emancipation.webp" type="image/webp">
@@ -424,7 +465,7 @@
     <p style="margin:0"><strong style="color:#fff">R'EXOIA</strong> — <span data-t="commun.nonmed">projet open source · prototype de recherche, non dispositif médical</span></p>
     <div style="display:flex; gap:1.1rem; flex-wrap:wrap">
       <a href="setup-wishlist.html" data-t="nav.wishlist">My Setup &amp; Wishlist</a>
-      <a href="boutique.html" data-t="nav.boutique">Boutique</a>
+      <a href="boutique.html" data-t="nav.boutique">Boutique du Collectif</a>
       <a href="https://github.com/Realiastation/RealiaDevKit">GitHub</a>
       <a href="affiliations.html" style="opacity:.55">Affiliations (Bêta)</a>
     </div>
@@ -432,18 +473,19 @@
 
 </footer>
 
-<script src="traductions.js?v=202611251610" defer></script>
-<script src="i18n.js?v=202611251610" defer></script>
-<script src="revele.js?v=202611251610" defer></script>
-<script src="tiroir.js?v=202611251610" defer></script>
-<script src="audio.js?v=202611251610" defer></script>
-<script type="module" src="systeme.js?v=202611251610"></script>
-  <script src="vendor/gsap.min.js?v=202611251610"></script>
-  <script src="ambiance.js?v=202611251610" defer></script>
-  <script src="impulsion.js?v=202611251610" defer></script>
-  <script src="devise-neon.js?v=202611251610" defer></script>
-  <script src="lumiere-scroll.js?v=202611251610" defer></script>
-  <script src="vendor/lenis.min.js?v=202611251610" defer></script>
-  <script src="defilement-doux.js?v=202611251610" defer></script>
+<script src="traductions.js?v=202611251746" defer></script>
+<script src="i18n.js?v=202611251746" defer></script>
+<script src="revele.js?v=202611251746" defer></script>
+<script src="tiroir.js?v=202611251746" defer></script>
+<script src="menu-mobile.js?v=202611251746" defer></script>
+<script src="audio.js?v=202611251746" defer></script>
+<script type="module" src="systeme.js?v=202611251746"></script>
+  <script src="vendor/gsap.min.js?v=202611251746"></script>
+  <script src="ambiance.js?v=202611251746" defer></script>
+  <script src="impulsion.js?v=202611251746" defer></script>
+  <script src="devise-neon.js?v=202611251746" defer></script>
+  <script src="lumiere-scroll.js?v=202611251746" defer></script>
+  <script src="vendor/lenis.min.js?v=202611251746" defer></script>
+  <script src="defilement-doux.js?v=202611251746" defer></script>
 </body>
 </html>

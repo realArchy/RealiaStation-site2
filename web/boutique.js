@@ -174,6 +174,16 @@
   function rendreProduits() {
     const cible = $('#grille-produits');
     if (!cible) return;
+
+    // l'onglet « réexpédition » n'affiche pas de produits : c'est un service
+    const panneau = $('#reexpedition');
+    if (panneau) panneau.hidden = ETAT.cat !== 'reexp';
+    if (ETAT.cat === 'reexp') {
+      cible.innerHTML = '';
+      const compte = $('#compte-resultats');
+      if (compte) compte.textContent = '';
+      return;
+    }
     const liste = filtrerProduits();
     const compte = $('#compte-resultats');
     if (compte) compte.textContent = `${liste.length} ${M.resultats}`;
@@ -377,6 +387,16 @@
     brancherRecherche();
     brancherModales();
     appliquerPays(paysDetecte(), false);
+
+    // lien direct depuis le menu mobile : #reexpedition ouvre l'onglet
+    if (location.hash === '#reexpedition') {
+      ETAT.cat = 'reexp';
+      $$('[data-cat]').forEach((x) =>
+        x.setAttribute('aria-pressed', x.dataset.cat === 'reexp' ? 'true' : 'false'));
+      rendreProduits();
+      const cible = document.getElementById('reexpedition');
+      if (cible) cible.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
   }
 
   if (document.readyState === 'loading') {

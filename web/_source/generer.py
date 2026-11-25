@@ -87,6 +87,28 @@ def nav(page: str) -> str:
         else ('<span class="lettre">%s</span>' % c)
         for i, c in enumerate("RealiaStation"))
 
+    # --- menu mobile : trois groupes, dans l'ordre du récit ---------------- #
+    groupes = (
+        ("menu.eco", (("accueil", "index.html"), ("virtuel", "virtuel.html"),
+                      ("neuroexo", "rexoia.html"), ("devkit", "devkit.html"),
+                      ("realia", "realiastation.html"), ("blueprint", "blueprint.html"))),
+        ("menu.univers", (("luna", "lunagalaxie.html"), ("app", "app.html"),
+                          ("social", "meta-projet-social.html"), ("archi", "architecte.html"))),
+        ("menu.services", (("cabinet", "cabinet.html"),
+                           ("menu.reexp", "boutique.html#reexpedition"),
+                           ("wishlist", "setup-wishlist.html"),
+                           ("boutique", "boutique.html"))),
+    )
+    blocs = []
+    for titre_cle, entrees in groupes:
+        items = "".join(
+            f'          <a href="{href}">{t("nav." + cle) if cle != "menu.reexp" else t("menu.reexp")}</a>\n'
+            for cle, href in entrees)
+        blocs.append(f"""      <div class="menu-groupe">
+        <p class="menu-titre">{t(titre_cle)}</p>
+{items}      </div>""")
+    menu_mobile = "\n".join(blocs)
+
     return f"""<header class="entete">
     <nav class="nav">
     <div class="nav-haut">
@@ -106,13 +128,24 @@ def nav(page: str) -> str:
         </div>
       </div>
       <a href="index.html#financer" class="bouton">{t('commun.soutenir')}</a>
+      <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu-mobile"
+              aria-label="{t('menu.ouvrir')}">
+        <span></span><span></span><span></span>
+      </button>
     </div>
     </nav>
+
     </header>
 
 <nav class="rail" aria-label="Pages">
 {chr(10).join(liens)}
-</nav>"""
+</nav>
+
+<div class="menu-voile" id="menu-voile" hidden></div>
+<div class="menu-mobile" id="menu-mobile" hidden>
+{menu_mobile}
+  <a href="index.html#financer" class="menu-soutenir">{t('commun.soutenir')}</a>
+</div>"""
 
 
 def pied(extra: str = "") -> str:
@@ -138,6 +171,7 @@ def scripts(particules: bool = False, page: str = "") -> str:
 <script src="i18n.js?v={VERSION}" defer></script>
 <script src="revele.js?v={VERSION}" defer></script>
 <script src="tiroir.js?v={VERSION}" defer></script>
+<script src="menu-mobile.js?v={VERSION}" defer></script>
 <script src="audio.js?v={VERSION}" defer></script>
 <script type="module" src="systeme.js?v={VERSION}"></script>
   <script src="vendor/gsap.min.js?v={VERSION}"></script>
@@ -307,11 +341,17 @@ def chap(page: str, n: int, inverse: bool = False, visuel: str = "") -> str:
 def page_index() -> str:
     orient = []
     for i, (fichier, cle, titre, descr) in enumerate(ORIENT, 1):
-        orient.append(f"""      <a href="{fichier}">
-        <span class="rang">{i:02d}</span>
-        <strong data-t="{cle}">{titre[FR]}</strong>
-        <span class="d" data-t="{cle.replace('.carte', '.descr')}">{descr[FR]}</span>
-      </a>""")
+        cle_d = cle.replace(".carte", ".descr")
+        orient.append(f"""      <details>
+        <summary>
+          <span class="rang">{i:02d}</span>
+          <strong data-t="{cle}">{titre[FR]}</strong>
+        </summary>
+        <div class="etape-corps">
+          <p data-t="{cle_d}">{descr[FR]}</p>
+          <a class="etape-cta" href="{fichier}" data-t="index.etape_cta">{t('index.etape_cta')} →</a>
+        </div>
+      </details>""")
 
     corps = f"""
   <section class="hero">
@@ -790,6 +830,16 @@ def page_social() -> str:
   </section>
 """
 
+    corps += f"""
+  <section class="section">
+    <div class="section-titre reveler">
+      <p class="etiq" data-t="social.bois_t">{t('social.bois_t')}</p>
+      <h2 data-t="social.bois_t">{t('social.bois_t')}</h2>
+      <p class="lead" style="margin-top:1rem; max-width:66ch" data-t="social.bois_d">{t('social.bois_d')}</p>
+    </div>
+  </section>
+"""
+
     corps += img_large("ilot-emancipation.jpg",
             "Planche illustrée de la boucle d'émancipation : école, ateliers techniques, brigade de cuisine, "
             "bureau d'étude et équipes de direction, puis réplication sur plusieurs territoires",
@@ -1020,6 +1070,25 @@ def page_cabinet() -> str:
   </section>
 """
 
+    # Les deux piliers, côte à côte : c'est la première chose qu'un client doit lire.
+    corps += f"""
+    <section class="section">
+      <p class="etiq" data-t="cabinet.pilier_t">{t('cabinet.pilier_t')}</p>
+      <div class="duo" style="margin-top:1.3rem">
+        <article class="verre carte reveler">
+          <p class="etiq" style="color:#7fe7ff; margin-bottom:.4rem">01</p>
+          <h2 style="font-size:1.15rem" data-t="cabinet.pilier1_t">{t('cabinet.pilier1_t')}</h2>
+          <p data-t="cabinet.pilier1_d">{t('cabinet.pilier1_d')}</p>
+        </article>
+        <article class="verre carte reveler">
+          <p class="etiq" style="color:#f2c65a; margin-bottom:.4rem">02</p>
+          <h2 style="font-size:1.15rem" data-t="cabinet.pilier2_t">{t('cabinet.pilier2_t')}</h2>
+          <p data-t="cabinet.pilier2_d">{t('cabinet.pilier2_d')}</p>
+        </article>
+      </div>
+    </section>
+"""
+
     # Les quatre domaines, sur deux colonnes.
     cartes = "\n".join(f"""      <article class="carte-pro reveler">
         <div class="carte-tete">{svg(i)}<span class="carte-num">0{i}</span></div>
@@ -1045,6 +1114,8 @@ def page_cabinet() -> str:
       <p class="etiq" data-t="cabinet.pmr_t">{t('cabinet.pmr_t')}</p>
       <p data-t="cabinet.pmr_d" style="margin-top:1rem">{t('cabinet.pmr_d')}</p>
       <ul class="puces">{puces}</ul>
+        <p style="margin-top:1.15rem; padding-left:.9rem; border-left:2px solid rgba(0,245,255,.45); font-size:.92rem; line-height:1.65; color:var(--doux)"
+           data-t="cabinet.pmr_ia">{t('cabinet.pmr_ia')}</p>
     </div>
     <div class="split-visuel reveler">
       <figure class="profondeur" style="margin:0">
@@ -1197,7 +1268,7 @@ def page_boutique() -> str:
         f'data-t="boutique.{cle}">{t("boutique." + cle)}</button>\n'
         for cle, cat in (("b_cat_all", "all"), ("b_cat_maker", "maker"), ("b_cat_gift", "gift"),
                          ("b_cat_tech", "tech"), ("b_cat_culture", "culture"),
-                         ("b_cat_local", "local")))
+                         ("b_cat_local", "local"), ("b_cat_reexp", "reexp")))
 
     pays = "".join(
         f'        <button type="button" class="btn-pays" data-pays="{code}" aria-pressed="false">'
@@ -1226,7 +1297,7 @@ def page_boutique() -> str:
     <div class="grille-partenaires" id="grille-partenaires" aria-live="polite"></div>
   </section>
 
-  <section class="section" id="catalogue">
+  <section class="section" id="catalogue" data-ancre="reexpedition">
     <div class="section-titre reveler">
       <p class="etiq">Catalogue</p>
       <h2 data-t="boutique.b_prod_t">{t('boutique.b_prod_t')}</h2>
@@ -1239,6 +1310,18 @@ def page_boutique() -> str:
     <div class="onglets" role="group">
 {onglets}    </div>
     <div class="grille-produits" id="grille-produits" aria-live="polite"></div>
+
+    <div class="panneau-reexp" id="reexpedition" hidden>
+      <h3 data-t="boutique.rx_t">{t('boutique.rx_t')}</h3>
+      <p class="lead" style="margin:.6rem 0 1.2rem; max-width:64ch" data-t="boutique.rx_d">{t('boutique.rx_d')}</p>
+      <ol class="etapes-reexp">
+        <li data-t="boutique.rx_1">{t('boutique.rx_1')}</li>
+        <li data-t="boutique.rx_2">{t('boutique.rx_2')}</li>
+        <li data-t="boutique.rx_3">{t('boutique.rx_3')}</li>
+        <li data-t="boutique.rx_4">{t('boutique.rx_4')}</li>
+      </ol>
+      <p class="note-donnees" data-t="boutique.rx_note">{t('boutique.rx_note')}</p>
+    </div>
     <p class="b_compare_hint note-donnees" data-t="boutique.b_compare_hint">{t('boutique.b_compare_hint')}</p>
     <p class="note-donnees" id="note-donnees"></p>
   </section>
