@@ -1348,3 +1348,12 @@ html, body { overscroll-behavior-y: contain; }
     font-size: .7rem;
   }
 }
+
+/* accueil plus haut, dernière phrase plus bas : on écarte les deux du titre,
+   qui reste où il est (les deux écarts s'équilibrent autour de lui) */
+@media (max-width: 1023px) {
+  .hero-centre { gap: 0; }
+  .hero .bienvenue { margin: 0 0 2.55rem; }
+  .hero-titre { margin: 0 0 2.55rem; }
+  .hero-soustitre { margin: 0; }
+}
