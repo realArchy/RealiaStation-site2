@@ -1308,3 +1308,43 @@ html, body { overscroll-behavior-y: contain; }
   .hero-titre h1 { font-size: clamp(2.2rem, 10.4vw, 3.1rem); }
   .hero .bienvenue { font-size: .64rem; }
 }
+
+/* ---- réglage fin du hero téléphone, troisième passe ---------------------- */
+@media (max-width: 1023px) {
+  .hero { padding: 2.6rem .9rem 1.2rem; }        /* les étiquettes remontent */
+
+  .barre-gauche { gap: .35rem; padding-top: 0; }
+  .barre-gauche .badge-hero {
+    font-size: .48rem; letter-spacing: .03em;
+    padding: .26rem .5rem; opacity: .82;
+  }
+  .barre-gauche .lien-gauche,
+  .barre-gauche .play-music {
+    font-size: .53rem; letter-spacing: .05em;
+    padding: .22rem .45rem; opacity: .78;
+  }
+
+  /* le bloc descend : c'est le milieu bas du globe qui doit porter le titre */
+  .hero-centre { padding: 6.6rem 1rem 3.4rem; gap: 1rem; }
+
+  .hero .bienvenue {
+    font-size: .74rem; letter-spacing: .14em;
+    padding: .42rem .95rem;
+    background: rgba(3, 1, 7, .78);
+    border-color: rgba(212, 175, 55, .42);
+    color: #ffe9a8;
+    text-shadow: 0 2px 10px #000;
+  }
+  .hero-titre h1 { font-size: clamp(2.2rem, 10.2vw, 3rem); }
+  .hero-soustitre { margin: 0; font-size: clamp(.9rem, 3.9vw, 1.05rem); }
+}
+
+/* le message d'accueil sur une seule ligne : le « ! » seul sur une deuxième
+   ligne faisait désordre */
+@media (max-width: 1023px) {
+  .hero .bienvenue {
+    white-space: nowrap;
+    letter-spacing: .1em;
+    font-size: .7rem;
+  }
+}
