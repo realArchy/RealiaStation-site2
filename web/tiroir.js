@@ -63,10 +63,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   if (entree) {
     /* Safari restaure parfois l'offset de la page précédente : on repart du
        haut, sinon la page suivante s'ouvre sur son pied de page. */
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
-    document.addEventListener('DOMContentLoaded', function () { window.scrollTo(0, 0); });
-    window.addEventListener('load', function () { window.scrollTo(0, 0); });
   }
   if (entree && !reduit) {
     document.body.classList.add('entree-' + entree);
@@ -81,8 +78,11 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
      page suivante, déjà en haut : elle repartait aussitôt en arrière (vécu :
      rexoia → virtuel → index d'un seul geste). On pose donc une échéance. */
   const CLE_VERROU = 'tiroir-verrou';
-  const verrouJusqua = Number(sessionStorage.getItem(CLE_VERROU) || 0);
-  function verrouille() { return Date.now() < verrouJusqua; }
+  /* relu à chaque geste : figé au chargement, il restait « verrouillé » sur une
+     page restaurée depuis le cache mémoire du navigateur (bfcache). */
+  function verrouille() {
+    return Date.now() < Number(sessionStorage.getItem(CLE_VERROU) || 0);
+  }
 
   let enCours = false;
   function aller(cible, sens) {
@@ -92,6 +92,8 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     if (TRANSITION_NATIVE || reduit) { location.href = cible.fichier; return; }
     sessionStorage.setItem('tiroir-entree', sens);
     document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
+    /* si la navigation échoue, le drapeau ne doit pas rester bloqué */
+    setTimeout(function () { enCours = false; }, 3000);
     /* pas d'attente : la page suivante glisse à l'arrivée, c'est assez */
     location.href = cible.fichier;
   }
@@ -192,6 +194,20 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     const versHaut = e.key === 'ArrowUp' || e.key === 'PageUp';
     if (versBas && auBas()) { e.preventDefault(); aller(suivant, 'bas'); }
     else if (versHaut && enHaut()) { e.preventDefault(); aller(precedent, 'haut'); }
+  });
+
+  /* ---- page restaurée depuis le cache : on remet tout à zéro ------------
+     Le navigateur gèle l'état JS au moment où l'on quitte une page. Revenu
+     dessus par le bouton retour, le drapeau « bascule en cours » y restait
+     armé pour toujours : la page ne répondait plus à aucun geste. */
+  function reinitialiser() {
+    enCours = false;
+    nBas = 0; nHaut = 0; cumulBas = 0; cumulHaut = 0;
+    finBas = 0; finHaut = 0;
+  }
+  window.addEventListener('pageshow', function (e) { if (e.persisted) reinitialiser(); });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) reinitialiser();
   });
 
   /* ---- préchargement : la page suivante arrive déjà dans le cache ------- */
