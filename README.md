@@ -192,7 +192,7 @@ racine du dépôt        /                (ce README, docs/, hardware/, src/)
 site à publier         web/             ← index.html est ici
 données du site        web/data/*.json  ← boutique et wishlist les lisent
 régénérer les pages    python web/_source/generer.py
-servir en local        python -m http.server 8123 -d web
+servir en local        python scripts/servir.py            (sans cache)
 ```
 
 Réglages Cloudflare Pages (connexion Git) :
