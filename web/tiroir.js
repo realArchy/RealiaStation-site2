@@ -133,13 +133,24 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   }
 
   /* ---- molette ----------------------------------------------------------
-     Un trackpad Mac n'envoie pas un grand saut mais une traînée de petits
-     événements (2 à 12 px), et Safari cesse d'agrandir les deltas quand la
-     page ne peut plus défiler. Compter les pixels seuls demandait donc
-     d'insister. On compte aussi les événements : trois impulsions vers le
-     bas en bord de page, ou 50 px cumulés, et la page tourne. */
-  const FENETRE = 700;        // ms : au-delà, le geste est considéré terminé
-  let nBas = 0, nHaut = 0, finBas = 0, finHaut = 0, cumulBas = 0, cumulHaut = 0;
+     Deux pièges, vus en vrai :
+       · sur un trackpad, le défilement est lissé : les événements arrivent
+         AVANT que la page ait fini de descendre, donc « suis-je en bas ? »
+         répondait non au moment du geste et le compteur repartait à zéro ;
+       · les deltas d'un trackpad sont minuscules (1 à 5 px).
+     On ne regarde donc plus la position exacte : on mesure l'intention
+     (direction et distance cumulées sur 400 ms) et on se contente d'être
+     proche du bord. */
+  const FENETRE = 400;          // ms : au-delà, le geste est considéré terminé
+  const INTENTION = 90;         // px cumulés dans une même direction
+  const MARGE = 200;            // px : « proche du bord » suffit
+
+  let versBas = 0, versHaut = 0, dernier = 0;
+
+  function procheBas() {
+    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - MARGE;
+  }
+  function procheHaut() { return window.scrollY <= MARGE; }
 
   window.addEventListener('wheel', function (e) {
     if (enCours || verrouille() || e.ctrlKey) return;
@@ -149,25 +160,14 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     if (!d) return;
     const t = performance.now();
 
-    if (d > 0 && auBas()) {
-      if (t - finBas > FENETRE) { nBas = 0; cumulBas = 0; }
-      nBas += 1;
-      cumulBas += d;
-      finBas = t;
-      if (nBas >= 3 || cumulBas >= 50) aller(suivant, 'bas');
-      return;
-    }
+    if (t - dernier > FENETRE) { versBas = 0; versHaut = 0; }
+    dernier = t;
 
-    if (d < 0 && enHaut()) {
-      if (t - finHaut > FENETRE) { nHaut = 0; cumulHaut = 0; }
-      nHaut += 1;
-      cumulHaut += -d;
-      finHaut = t;
-      if (nHaut >= 3 || cumulHaut >= 50) aller(precedent, 'haut');
-      return;
-    }
+    if (d > 0) { versBas += d; versHaut = 0; }
+    else { versHaut += -d; versBas = 0; }
 
-    nBas = 0; nHaut = 0; cumulBas = 0; cumulHaut = 0;
+    if (versBas >= INTENTION && procheBas()) { aller(suivant, 'bas'); return; }
+    if (versHaut >= INTENTION && procheHaut()) { aller(precedent, 'haut'); }
   }, { passive: true });
 
   /* ---- tactile ---------------------------------------------------------- */
@@ -202,8 +202,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
      armé pour toujours : la page ne répondait plus à aucun geste. */
   function reinitialiser() {
     enCours = false;
-    nBas = 0; nHaut = 0; cumulBas = 0; cumulHaut = 0;
-    finBas = 0; finHaut = 0;
+    versBas = 0; versHaut = 0; dernier = 0;
   }
   window.addEventListener('pageshow', function (e) { if (e.persisted) reinitialiser(); });
   document.addEventListener('visibilitychange', function () {
