@@ -112,10 +112,13 @@
 
     // 1. les trois phrases du hero, lettre par lettre
     HERO.forEach(function (sel) {
-      const el = document.querySelector(sel);
-      if (!el || !visible(el)) return;
-      const lettres = decouperLettres(el);
-      lettres.forEach(function (l) { pas.push({ el: l, k: 1.20, f: 'brightness(2.6)' }); });
+      /* querySelectorAll : le titre est découpé en trois lignes, et un
+         querySelector simple n'en animait que la première */
+      [].slice.call(document.querySelectorAll(sel)).forEach(function (el) {
+        if (!visible(el)) return;
+        const lettres = decouperLettres(el);
+        lettres.forEach(function (l) { pas.push({ el: l, k: 1.20, f: 'brightness(2.6)' }); });
+      });
     });
 
     // 2. le contenu visible, de haut en bas
