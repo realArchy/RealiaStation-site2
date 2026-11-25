@@ -1189,3 +1189,9 @@ figure.bandeau.capture-gui img {
 
 /* ---- plus de poignée « tiroir suivant » : le passage se fait au défilement */
 .poignee { display: none !important; }
+
+/* ---- le rebond du navigateur ne doit pas court-circuiter nos gestes -------
+   Sans ça, tirer vers le bas en haut de page déclenche le « tirer pour
+   rafraîchir » de Safari, et pousser vers le haut en bas de page ouvre la
+   barre d'outils d'iOS : dans les deux cas, la bascule de page ne part pas. */
+html, body { overscroll-behavior-y: contain; }

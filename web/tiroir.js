@@ -30,10 +30,10 @@ const ORDRE = [
   { fichier: 'boutique.html',           cle: 'nav.boutique',  nom: 'Boutique du Collectif' }
 ];
 
-const SEUIL_MOLETTE = 220;   // px cumulés en bas de page avant de tourner
-const SEUIL_DOIGT = 90;      // px de glissement vers le haut sur tactile
-const OUBLI = 900;           // ms sans geste : le cumul repart de zéro
-const DUREE_SORTIE = 210;
+const SEUIL_MOLETTE = 80;    // px cumulés : un trackpad envoie 2 à 10 px par événement
+const SEUIL_DOIGT = 70;      // px de glissement sur tactile
+const OUBLI = 1600;          // ms sans geste : le cumul repart de zéro
+const DUREE_SORTIE = 150;
 //: si le navigateur gère les transitions inter-documents, on ne double pas l'effet
 const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-transition-name: none');
 
@@ -87,10 +87,21 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     setTimeout(() => { location.href = cible.fichier; }, DUREE_SORTIE);
   }
 
+  /* Safari décale scrollY de quelques pixels pendant le rebond élastique :
+     avec une tolérance de 3 px, « en haut » et « en bas » étaient faux une
+     fois sur deux, et le geste ne partait pas. */
   function auBas() {
-    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 3;
+    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 24;
   }
-  function enHaut() { return window.scrollY <= 2; }
+  function enHaut() { return window.scrollY <= 12; }
+
+  /* deltaMode : 0 = pixels, 1 = lignes (×16), 2 = pages */
+  function enPixels(e) {
+    const mode = e.deltaMode || 0;
+    if (mode === 1) return e.deltaY * 16;
+    if (mode === 2) return e.deltaY * window.innerHeight;
+    return e.deltaY;
+  }
 
   /* ---- on ne tourne que si c'est voulu ---------------------------------- */
   function panneauOuvert() {
@@ -118,17 +129,18 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     if (dansUnChamp(e.target) || panneauOuvert()) return;
 
     const maintenant = Date.now();
+    const d = enPixels(e);
 
-    if (e.deltaY > 0 && auBas()) {                       // vers le bas, à la fin
-      cumulBas = (maintenant - dernierBas > OUBLI) ? e.deltaY : cumulBas + e.deltaY;
+    if (d > 0 && auBas()) {                              // vers le bas, à la fin
+      cumulBas = (maintenant - dernierBas > OUBLI) ? d : cumulBas + d;
       dernierBas = maintenant;
       cumulHaut = 0;
       if (cumulBas >= SEUIL_MOLETTE) aller(suivant, 'bas');
       return;
     }
 
-    if (e.deltaY < 0 && enHaut()) {                      // vers le haut, au début
-      cumulHaut = (maintenant - dernierHaut > OUBLI) ? -e.deltaY : cumulHaut - e.deltaY;
+    if (d < 0 && enHaut()) {                             // vers le haut, au début
+      cumulHaut = (maintenant - dernierHaut > OUBLI) ? -d : cumulHaut - d;
       dernierHaut = maintenant;
       cumulBas = 0;
       if (cumulHaut >= SEUIL_MOLETTE) aller(precedent, 'haut');
@@ -164,6 +176,19 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     else if (versHaut && enHaut()) { e.preventDefault(); aller(precedent, 'haut'); }
   });
 
+  /* ---- préchargement : la page suivante arrive déjà dans le cache ------- */
+  /* La bascule rechargeait tout le document à froid ; sur un portable, la
+     page mettait une seconde à s'afficher. On va donc chercher le document
+     voisin dès qu'on approche du bord, sans bloquer le rendu. */
+  const precharges = new Set();
+  function precharger(cible) {
+    if (!cible || precharges.has(cible.fichier)) return;
+    precharges.add(cible.fichier);
+    try {
+      fetch(cible.fichier, { credentials: 'same-origin', priority: 'low' }).catch(function () {});
+    } catch (e) { /* réseau coupé : la bascule se fera normalement */ }
+  }
+
   /* ---- repère de lecture : une barre fine en haut, pas un bouton -------- */
   const barre = document.createElement('div');
   barre.className = 'progression';
@@ -176,7 +201,15 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     const h = document.documentElement.scrollHeight - window.innerHeight;
     const part = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
     jauge.style.transform = 'scaleX(' + part.toFixed(4) + ')';
+    if (part > 0.45) precharger(suivant);          // on approche du bas
+    if (part > 0.15) precharger(precedent);        // on a quitté le haut
   }
+
+  /* au doigt posé sur l'écran, on prépare la suite tout de suite */
+  window.addEventListener('wheel', function (e) {
+    if (enPixels(e) > 0 && auBas()) precharger(suivant);
+    if (enPixels(e) < 0 && enHaut()) precharger(precedent);
+  }, { passive: true });
   window.addEventListener('scroll', majJauge, { passive: true });
   window.addEventListener('resize', majJauge, { passive: true });
   majJauge();
