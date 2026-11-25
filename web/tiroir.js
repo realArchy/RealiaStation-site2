@@ -22,6 +22,7 @@ const ORDRE = [
   { fichier: 'devkit.html',             cle: 'nav.devkit',    nom: 'RealiaDevKit' },
   { fichier: 'realiastation.html',      cle: 'nav.realia',    nom: 'RealiaStation' },
   { fichier: 'lunagalaxie.html',        cle: 'nav.luna',      nom: 'LunaGalaxie' },
+  { fichier: 'app.html',                cle: 'nav.app',       nom: "R'Station" },
   { fichier: 'meta-projet-social.html', cle: 'nav.social',    nom: 'Projet social' },
   { fichier: 'blueprint.html',          cle: 'nav.blueprint', nom: 'Blueprint' },
   { fichier: 'architecte.html',         cle: 'nav.archi',     nom: "L'Architecte" },
@@ -64,11 +65,23 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
 
   const fichier = fichierCourant();
   const i = ORDRE.findIndex(p => p.fichier === fichier);
-  if (i < 0) return;
+
+  /* Le générateur écrit les voisines dans la balise body. C'est la seule
+     source fiable : ma liste en dur avait oublié app.html, et sur cette page
+     le script sortait sans rien faire. */
+  const corps = document.body;
+  const nomSuivant = corps ? corps.getAttribute('data-suivant') : '';
+  const nomPrecedent = corps ? corps.getAttribute('data-precedent') : '';
+  const depuisPage = corps && corps.hasAttribute('data-suivant');
 
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const suivant = i < ORDRE.length - 1 ? ORDRE[i + 1] : null;
-  const precedent = i > 0 ? ORDRE[i - 1] : null;
+  const suivant = depuisPage
+    ? (nomSuivant ? { fichier: nomSuivant } : null)
+    : (i >= 0 && i < ORDRE.length - 1 ? ORDRE[i + 1] : null);
+  const precedent = depuisPage
+    ? (nomPrecedent ? { fichier: nomPrecedent } : null)
+    : (i > 0 ? ORDRE[i - 1] : null);
+
   if (!suivant && !precedent) return;
 
   /* ---- entrée : la page arrive du haut ou du bas ------------------------ */

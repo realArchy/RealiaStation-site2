@@ -205,13 +205,18 @@ def tete(titre: str, description: str, css_page: str = "") -> str:
 def enveloppe(page: str, corps: str, titre_page: str, description: str,
               interne: bool = True, extra_pied: str = "") -> str:
     audio = [p for p in ORDRE if p[0] == page][0][2]
+    # les voisines sont écrites dans la page : le script de défilement n'a
+    # plus sa propre liste, donc plus de page oubliée quand on en ajoute une
+    _rang = [k for k, p in enumerate(ORDRE) if p[0] == page][0]
+    _suiv = ORDRE[_rang + 1][1] if _rang + 1 < len(ORDRE) else ""
+    _prec = ORDRE[_rang - 1][1] if _rang > 0 else ""
     classe = "enveloppe interne" if interne else "enveloppe"
     feuilles = {"boutique": "boutique", "wish": "setup-wishlist"}
     css_page = (f'\n  <link rel="stylesheet" href="assets/css/{feuilles[page]}.css?v={VERSION}" />'
                 if page in feuilles else "")
     return f"""{tete(titre_page, description, css_page)}
 </head>
-<body data-page="{page}" data-audio="assets/audio/{audio}.mp3">
+<body data-page="{page}" data-audio="assets/audio/{audio}.mp3" data-suivant="{_suiv}" data-precedent="{_prec}">
 
 <div class="ciel"></div>
 <div class="systeme" data-position="bas-gauche" data-taille="280" data-opacite="0.4"></div>
