@@ -1195,3 +1195,10 @@ figure.bandeau.capture-gui img {
    rafraîchir » de Safari, et pousser vers le haut en bas de page ouvre la
    barre d'outils d'iOS : dans les deux cas, la bascule de page ne part pas. */
 html, body { overscroll-behavior-y: contain; }
+
+/* ---- le rail disparaît sous 1240 px : le burger doit prendre le relais là,
+   pas 216 px plus bas. Entre 1024 et 1240, il n'y avait plus AUCUNE navigation. */
+@media (max-width: 1240px) {
+  .burger { display: inline-flex; }
+  .entete { overflow-x: clip; }
+}

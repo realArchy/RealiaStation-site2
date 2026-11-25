@@ -179,7 +179,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   }
   function procheHaut() { return window.scrollY <= MARGE; }
 
-  window.addEventListener('wheel', function (e) {
+  function surMolette(e) {
     if (enCours || verrouille() || e.ctrlKey) return;
     if (dansUnChamp(e.target) || panneauOuvert()) return;
 
@@ -198,15 +198,22 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
 
     cumulHaut += -d; nHaut += 1; cumulBas = 0; nBas = 0;
     if ((cumulHaut >= INTENTION || nHaut >= IMPULSIONS) && procheHaut()) aller(precedent, 'haut');
-  }, { passive: true });
+  }
+
+  /* capture : on passe avant tout script qui arrêterait la propagation ;
+     plus l'alias historique « mousewheel » pour les navigateurs anciens */
+  document.addEventListener('wheel', surMolette, { passive: true, capture: true });
+  if (!('onwheel' in window)) {
+    document.addEventListener('mousewheel', surMolette, { passive: true, capture: true });
+  }
 
   /* ---- tactile ---------------------------------------------------------- */
   let departY = null;
-  window.addEventListener('touchstart', function (e) {
+  document.addEventListener('touchstart', function (e) {
     departY = e.touches.length === 1 ? e.touches[0].clientY : null;
   }, { passive: true });
 
-  window.addEventListener('touchmove', function (e) {
+  document.addEventListener('touchmove', function (e) {
     if (enCours || verrouille() || departY === null || panneauOuvert()) return;
     if (dansUnChamp(e.target)) return;
     const y = e.touches[0].clientY;
@@ -215,7 +222,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     if (-ecart >= SEUIL_DOIGT && enHaut()) { aller(precedent, 'haut'); }
   }, { passive: true });
 
-  window.addEventListener('touchend', function () { departY = null; }, { passive: true });
+  document.addEventListener('touchend', function () { departY = null; }, { passive: true });
 
   /* ---- clavier ---------------------------------------------------------- */
   window.addEventListener('keydown', function (e) {
@@ -269,10 +276,10 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   }
 
   /* en bord de page, on prépare la suite avant même le déclenchement */
-  window.addEventListener('wheel', function (e) {
-    if (enPixels(e) > 0 && auBas()) precharger(suivant);
-    else if (enPixels(e) < 0 && enHaut()) precharger(precedent);
-  }, { passive: true });
+  document.addEventListener('wheel', function (e) {
+    if (enPixels(e) > 0 && procheBas()) precharger(suivant);
+    else if (enPixels(e) < 0 && procheHaut()) precharger(precedent);
+  }, { passive: true, capture: true });
   window.addEventListener('scroll', majJauge, { passive: true });
   window.addEventListener('resize', majJauge, { passive: true });
   majJauge();
