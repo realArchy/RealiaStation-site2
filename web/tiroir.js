@@ -315,10 +315,20 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
       'padding:8px 10px;background:#000d;color:#0f0;font:11px/1.4 monospace;' +
       'border:1px solid #0f05;border-radius:6px;pointer-events:none;white-space:pre';
     document.body.appendChild(boite);
+    boite.textContent = 'version     ' + versionScript() +
+      '\nbascule     ' + (suivant ? 'vers ' + suivant.fichier : 'dernière page') +
+      '\nbande       ' + (document.querySelector('.fin-de-page') ? 'présente' : 'absente') +
+      '\nau bord bas ' + procheBas() + ' · haut ' + procheHaut() +
+      '\n→ pousse avec deux doigts en bas de page';
     let n = 0;
+    function versionScript() {
+      const s = [].slice.call(document.scripts).filter(function (t) { return t.src.indexOf('tiroir.js') >= 0; })[0];
+      return s ? (s.src.split('?')[1] || 'sans version') : 'script absent';
+    }
     window.addEventListener('wheel', function (e) {
       n += 1;
-      boite.textContent = 'wheel #' + n +
+      boite.textContent = 'version     ' + versionScript() +
+        '\nwheel #     ' + n +
         '\ndeltaY      ' + e.deltaY.toFixed(1) +
         '\ndeltaMode   ' + e.deltaMode +
         '\nscrollY     ' + Math.round(window.scrollY) +
