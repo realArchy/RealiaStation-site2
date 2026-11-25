@@ -1202,3 +1202,9 @@ html, body { overscroll-behavior-y: contain; }
   .burger { display: inline-flex; }
   .entete { overflow-x: clip; }
 }
+
+/* ---- bande de respiration en bas de page : 110 px de défilement réel, pour
+   que « arrivé au bout » se détecte même quand le navigateur n'émet plus rien
+   à la butée. Invisible : c'est le fond de la page. */
+.fin-de-page { height: 110px; pointer-events: none; }
+@media (max-width: 1023px) { .fin-de-page { height: 90px; } }

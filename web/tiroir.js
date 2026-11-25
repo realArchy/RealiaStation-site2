@@ -259,6 +259,30 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     } catch (e) { /* réseau coupé : la bascule se fera normalement */ }
   }
 
+  /* ---- seuil de fin : une bande de respiration sous le pied de page ------
+     Certains navigateurs (Safari ancien sur un portable) n'envoient plus rien
+     quand la page bute sur son fond : le geste existe, l'événement n'arrive
+     jamais. On ajoute donc 110 px de vrai défilement après le pied de page :
+     y arriver est un geste volontaire, et l'arrivée se détecte par `scroll`,
+     que tous les navigateurs émettent. */
+  const fin = document.createElement('div');
+  fin.className = 'fin-de-page';
+  fin.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(fin);
+
+  let minuteurFin = null;
+  function surveillerFin() {
+    const enBout = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 30;
+    if (!enBout) { clearTimeout(minuteurFin); minuteurFin = null; return; }
+    if (minuteurFin || panneauOuvert() || verrouille()) return;
+    minuteurFin = setTimeout(function () {
+      minuteurFin = null;
+      const toujours = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 30;
+      if (toujours && !panneauOuvert() && !verrouille()) aller(suivant, 'bas');
+    }, 350);
+  }
+  window.addEventListener('scroll', surveillerFin, { passive: true });
+
   /* ---- repère de lecture : une barre fine en haut, pas un bouton -------- */
   const barre = document.createElement('div');
   barre.className = 'progression';
