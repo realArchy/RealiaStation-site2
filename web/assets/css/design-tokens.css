@@ -1357,3 +1357,21 @@ html, body { overscroll-behavior-y: contain; }
   .hero-titre { margin: 0 0 2.55rem; }
   .hero-soustitre { margin: 0; }
 }
+
+/* accueil au nord, dernière phrase au sud, titre au milieu : les deux phrases
+   occupent les bords du globe, la marge automatique du titre le centre entre
+   les deux quelles que soient leurs hauteurs */
+@media (max-width: 1023px) {
+  .hero-centre {
+    justify-content: flex-start;
+    padding: 7.2rem 1rem 5.4rem;
+  }
+  .hero .bienvenue { margin: 0 0 0; }
+  .hero-titre { margin: auto 0; }
+  .hero-soustitre { margin: 0; }
+}
+
+/* la phrase du sud passe au-dessus du lecteur audio, qui occupe le coin bas droit */
+@media (max-width: 1023px) {
+  .hero-centre { padding-bottom: 7.6rem; }
+}
