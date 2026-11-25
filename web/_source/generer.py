@@ -51,6 +51,7 @@ ORDRE = [
     ("cabinet", "cabinet.html", "luna-12-cabinet"),
     ("wish", "setup-wishlist.html", "luna-09-wishlist"),
     ("boutique", "boutique.html", "luna-10-noel"),
+    ("reexp", "reexpedition.html", "luna-14-reexp"),
 ]
 
 TOUS = {**NAV, **ACCUEIL}
@@ -77,7 +78,7 @@ def e(s: str) -> str:
 def nav(page: str) -> str:
     idx = [p[0] for p in ORDRE].index(page)
     cles = ("accueil", "virtuel", "neuroexo", "devkit", "realia",
-            "luna", "app", "social", "blueprint", "archi", "cabinet", "wishlist", "boutique")
+            "luna", "app", "social", "blueprint", "archi", "cabinet", "wishlist", "boutique", "reexp")
     liens = []
     for i, (cle, (pid, f, _a)) in enumerate(zip(cles, ORDRE)):
         courant = ' aria-current="page"' if i == idx else ""
@@ -95,7 +96,7 @@ def nav(page: str) -> str:
         ("menu.univers", (("luna", "lunagalaxie.html"), ("app", "app.html"),
                           ("social", "meta-projet-social.html"), ("archi", "architecte.html"))),
         ("menu.services", (("cabinet", "cabinet.html"),
-                           ("menu.reexp", "boutique.html#reexpedition"),
+                           ("menu.reexp", "reexpedition.html"),
                            ("wishlist", "setup-wishlist.html"),
                            ("boutique", "boutique.html"))),
     )
@@ -1194,6 +1195,47 @@ def page_cabinet() -> str:
     return enveloppe("cabinet", corps, t("cabinet.titre")[:60], t("cabinet.intro")[:150])
 
 
+def page_reexp() -> str:
+    """Réexpédition DOM-TOM : quatre étapes, aucune donnée en dur."""
+    etapes = "".join(
+        f"""      <article class="verre carte reveler">
+          <p class="etiq" style="color:#7fe7ff; margin-bottom:.3rem">{i:02d}</p>
+          <h2 style="font-size:1.1rem" data-t="reexp.c{i}t">{t(f'reexp.c{i}t')}</h2>
+          <p data-t="reexp.c{i}d">{t(f'reexp.c{i}d')}</p>
+        </article>\n"""
+        for i in (1, 2, 3))
+
+    corps = f"""
+  <section class="section">
+    {badge('reexp')}
+    <h1 style="margin:1.1rem 0 0" data-t="reexp.titre">{t('reexp.titre')}</h1>
+    <p class="lead" style="margin-top:1.2rem; max-width:66ch" data-t="reexp.lead">{t('reexp.lead')}</p>
+  </section>
+
+  <section class="section">
+    <div class="duo" style="margin-top:.4rem">
+{etapes}    </div>
+  </section>
+
+  <section class="section">
+    <div class="verre reveler" style="padding:1.6rem; border-color:rgba(0,245,255,.3)">
+      <h2 style="font-size:1.15rem; margin:0 0 .6rem" data-t="reexp.c4t">{t('reexp.c4t')}</h2>
+      <p style="margin:0" data-t="reexp.c4d">{t('reexp.c4d')}</p>
+    </div>
+    <p class="note-donnees" data-t="reexp.note">{t('reexp.note')}</p>
+  </section>
+
+  <section class="section" style="text-align:center">
+    <a href="boutique.html" class="bouton" data-t="nav.boutique">{t('nav.boutique')}</a>
+    <p class="mono faible" style="margin-top:1.2rem; font-size:.8rem">
+      <a href="setup-wishlist.html">My Setup &amp; Wishlist</a> ·
+      <a href="cabinet.html">Cabinet &amp; Services</a>
+    </p>
+  </section>
+"""
+    return enveloppe("reexp", corps, t("reexp.titre")[:60], t("reexp.lead")[:150])
+
+
 def page_wishlist() -> str:
     """My Setup & Wishlist — shell vide, setup-wishlist.js remplit.
 
@@ -1610,6 +1652,7 @@ def main() -> None:
         "cabinet": page_cabinet(),
         "wish": page_wishlist(),
         "boutique": page_boutique(),
+          "reexp": page_reexp(),
     }
 
     for page, html in pages.items():

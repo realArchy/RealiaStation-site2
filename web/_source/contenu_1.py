@@ -30,6 +30,7 @@ NAV = {
     "nav.archi":    T("L'Architecte", "The Architect", "O Arquiteto", "建筑师"),
     "nav.cabinet":  T("Cabinet & Services", "Cabinet & Services", "Gabinete & Serviços", "工作室与服务"),
     "nav.wishlist": T("My Setup & Wishlist", "My Setup & Wishlist", "Meu Setup & Wishlist", "我的装备与心愿单"),
+    "nav.reexp":     T("Réexpédition DOM-TOM", "Overseas forwarding", "Reexpedição ultramar", "海外属地转运"),
     "nav.boutique": T("Boutique du Collectif", "Collective shop", "Loja do Coletivo", "集体商店"),
 
     "menu.ouvrir":  T("Ouvrir le menu", "Open menu", "Abrir o menu", "打开菜单"),
@@ -151,4 +152,6 @@ ORIENT = [
      T("Financer un composant précis, pas un pot commun.", "Fund one precise component, not a pool.", "Financiar um componente exato, não um bolo.", "资助一个具体的部件，而不是一笔糊涂账。")),
     ("boutique.html", "boutique.carte", T("Boutique du Collectif", "Collective shop", "Loja do Coletivo", "集体商店"),
      T("Acheter comme d'habitude, financer le projet sans surcoût.", "Shop as usual, fund the project at no extra cost.", "Comprar como sempre, financiar o projeto sem custo extra.", "照常购物，零额外成本地资助项目。")),
+    ("reexpedition.html", "reexp.carte", T("Réexpédition DOM-TOM", "Overseas forwarding", "Reexpedição ultramar", "海外属地转运"),
+     T("Recevoir en Hexagone, regrouper, réexpédier vers la Guyane et les Antilles.", "Receive in mainland France, consolidate, forward to Guiana and the Caribbean.", "Receber em França continental, agrupar e reexpedir para a Guiana e as Antilhas.", "在法国本土收货、合并，再转运至法属圭亚那与加勒比。")),
 ]
