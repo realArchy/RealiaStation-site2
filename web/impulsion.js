@@ -131,7 +131,7 @@
     });
 
     // 3. le menu de droite, de haut en bas
-    [].slice.call(document.querySelectorAll('.rail a')).filter(visible).forEach(function (el) {
+    [].slice.call(document.querySelectorAll('.rail a span')).filter(visible).forEach(function (el) {
       pas.push({ el: el, k: 1.25, f: 'brightness(2.5)' });
     });
 

@@ -1137,3 +1137,52 @@ figure.bandeau.capture-gui img {
   .nav-haut .marque-texte { font-size: .76rem; }
   .langues .drapeau { font-size: .85rem; }
 }
+
+/* ---- rail : plus petit, tout tient à l'écran, et grossit au survol -------- */
+.rail { gap: 0; }
+.rail a {
+  font-size: .84rem;               /* 1.05 → .84 : 13 entrées tiennent en 390 px */
+  line-height: 1.3;
+  padding: .2rem 0 .2rem .8rem;
+  opacity: .72;
+}
+.rail a[aria-current="page"] { opacity: 1; }
+.rail a:hover, .rail a:focus-visible { transform: scale(1.18); opacity: 1; }
+.rail:hover a:not(:hover) { opacity: .45; }
+@media (min-width: 1241px) {
+  main.enveloppe { padding-right: 8.5rem; }   /* le rail est plus étroit */
+}
+
+/* ---- hero mobile : les étiquettes montent en haut, discrètes ; les trois
+   phrases (bienvenue, titre, sous-titre) restent sur le globe ---------------- */
+@media (max-width: 1023px) {
+  .barre-gauche { order: 0; margin: 0 auto .9rem; padding: 0; gap: .4rem; }
+  .barre-gauche .badge-hero {
+    font-size: .56rem; letter-spacing: .04em; padding: .3rem .55rem;
+    opacity: .85;
+  }
+  .barre-gauche .lien-gauche,
+  .barre-gauche .play-music {
+    font-size: .62rem; letter-spacing: .06em; padding: .25rem .5rem;
+    opacity: .8;
+  }
+  .hero .bienvenue { order: 1; }
+  .hero-titre { order: 2; }
+  .hero-soustitre { order: 3; }
+  .hero-indice { order: 4; }
+  .hero { padding-top: 5.2rem; gap: .2rem; }
+}
+
+/* espacement du hero mobile : le titre ne doit pas toucher la ligne d'accueil,
+   et le sous-titre doit tenir sur une ligne à 375 px */
+@media (max-width: 1023px) {
+  .hero .bienvenue { font-size: .54rem; letter-spacing: .18em; margin: 0 0 .15rem; }
+  .hero-titre { margin: .55rem 0 0; }
+  .hero-soustitre {
+    font-size: clamp(.82rem, 3.5vw, 1rem); max-width: 94%;
+    padding: .2rem .55rem; line-height: 1.35;
+  }
+}
+@media (max-width: 1023px) {
+  .hero .bienvenue { margin: 0 0 .45rem; }
+}

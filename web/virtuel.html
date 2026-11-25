@@ -9,10 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202611251841">
+<link rel="stylesheet" href="style.css?v=202611251930">
   <!-- banque de couleurs et typographies : chargée après style.css pour
        que ses variables gagnent -->
-  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611251841">
+  <link rel="stylesheet" href="assets/css/design-tokens.css?v=202611251930">
 </head>
 <body data-page="virtuel" data-audio="assets/audio/luna-02-virtuel.mp3">
 
@@ -48,20 +48,19 @@
     </header>
 
 <nav class="rail" aria-label="Pages">
-      <a href="index.html">Accueil</a>
-      <a href="virtuel.html" aria-current="page">Labo virtuel</a>
-      <a href="rexoia.html">R'ExoIA</a>
-      <a href="devkit.html">RealiaDevKit</a>
-      <a href="realiastation.html">RealiaStation</a>
-      <a href="lunagalaxie.html">LunaGalaxie</a>
-      <a href="app.html">R'Station</a>
-      <a href="meta-projet-social.html">Projet social</a>
-      <a href="blueprint.html">Blueprint</a>
-      <a href="architecte.html">L'Architecte</a>
-      <a href="cabinet.html">Cabinet &amp; Services</a>
-      <a href="setup-wishlist.html">My Setup &amp; Wishlist</a>
-      <a href="boutique.html">Boutique du Collectif</a>
-      <a href="reexpedition.html">Réexpédition DOM-TOM</a>
+      <a href="index.html"><span>Accueil</span></a>
+      <a href="virtuel.html" aria-current="page"><span>Labo virtuel</span></a>
+      <a href="rexoia.html"><span>R'ExoIA</span></a>
+      <a href="devkit.html"><span>RealiaDevKit</span></a>
+      <a href="realiastation.html"><span>RealiaStation</span></a>
+      <a href="lunagalaxie.html"><span>LunaGalaxie</span></a>
+      <a href="app.html"><span>R'Station</span></a>
+      <a href="meta-projet-social.html"><span>Projet social</span></a>
+      <a href="blueprint.html"><span>Blueprint</span></a>
+      <a href="architecte.html"><span>L'Architecte</span></a>
+      <a href="cabinet.html"><span>Cabinet &amp; Services</span></a>
+      <a href="setup-wishlist.html"><span>My Setup &amp; Wishlist</span></a>
+      <a href="boutique.html"><span>Boutique du Collectif</span></a>
 </nav>
 
 <div class="menu-voile" id="menu-voile" hidden></div>
@@ -85,7 +84,7 @@
       <div class="menu-groupe">
         <p class="menu-titre">Services &amp; boutique</p>
           <a href="cabinet.html">Cabinet &amp; Services</a>
-          <a href="reexpedition.html">Réexpédition DOM-TOM</a>
+          <a href="boutique.html#reexpedition">Réexpédition DOM-TOM</a>
           <a href="setup-wishlist.html">My Setup &amp; Wishlist</a>
           <a href="boutique.html">Boutique du Collectif</a>
       </div>
@@ -177,22 +176,22 @@
 
 </footer>
 
-<script src="traductions.js?v=202611251841" defer></script>
-<script src="i18n.js?v=202611251841" defer></script>
-<script src="revele.js?v=202611251841" defer></script>
-<script src="tiroir.js?v=202611251841" defer></script>
-<script src="menu-mobile.js?v=202611251841" defer></script>
-<script src="audio.js?v=202611251841" defer></script>
-<script type="module" src="systeme.js?v=202611251841"></script>
-  <script src="vendor/gsap.min.js?v=202611251841"></script>
-  <script src="ambiance.js?v=202611251841" defer></script>
-  <script src="impulsion.js?v=202611251841" defer></script>
-  <script src="devise-neon.js?v=202611251841" defer></script>
-  <script src="lumiere-scroll.js?v=202611251841" defer></script>
-  <script src="vendor/lenis.min.js?v=202611251841" defer></script>
-  <script src="defilement-doux.js?v=202611251841" defer></script>
+<script src="traductions.js?v=202611251930" defer></script>
+<script src="i18n.js?v=202611251930" defer></script>
+<script src="revele.js?v=202611251930" defer></script>
+<script src="tiroir.js?v=202611251930" defer></script>
+<script src="menu-mobile.js?v=202611251930" defer></script>
+<script src="audio.js?v=202611251930" defer></script>
+<script type="module" src="systeme.js?v=202611251930"></script>
+  <script src="vendor/gsap.min.js?v=202611251930"></script>
+  <script src="ambiance.js?v=202611251930" defer></script>
+  <script src="impulsion.js?v=202611251930" defer></script>
+  <script src="devise-neon.js?v=202611251930" defer></script>
+  <script src="lumiere-scroll.js?v=202611251930" defer></script>
+  <script src="vendor/lenis.min.js?v=202611251930" defer></script>
+  <script src="defilement-doux.js?v=202611251930" defer></script>
 <script type="module">
-  import { demarrerScene } from './three-scene.js?v=202611251841';
+  import { demarrerScene } from './three-scene.js?v=202611251930';
   const c = document.getElementById('scene3d');
   if (c) demarrerScene(c, { legendeId: 'scene-legende' });
 </script>
