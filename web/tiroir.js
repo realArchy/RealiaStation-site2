@@ -60,6 +60,14 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
 
   /* ---- entrée : la page arrive du haut ou du bas ------------------------ */
   const entree = sessionStorage.getItem('tiroir-entree');
+  if (entree) {
+    /* Safari restaure parfois l'offset de la page précédente : on repart du
+       haut, sinon la page suivante s'ouvre sur son pied de page. */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    document.addEventListener('DOMContentLoaded', function () { window.scrollTo(0, 0); });
+    window.addEventListener('load', function () { window.scrollTo(0, 0); });
+  }
   if (entree && !reduit) {
     document.body.classList.add('entree-' + entree);
     document.body.addEventListener('animationend', function fin() {
@@ -80,20 +88,21 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   function aller(cible, sens) {
     if (!cible || enCours) return;
     enCours = true;
-    sessionStorage.setItem(CLE_VERROU, String(Date.now() + 1100));
+    sessionStorage.setItem(CLE_VERROU, String(Date.now() + 800));
     if (TRANSITION_NATIVE || reduit) { location.href = cible.fichier; return; }
     sessionStorage.setItem('tiroir-entree', sens);
     document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
-    setTimeout(() => { location.href = cible.fichier; }, DUREE_SORTIE);
+    /* pas d'attente : la page suivante glisse à l'arrivée, c'est assez */
+    location.href = cible.fichier;
   }
 
   /* Safari décale scrollY de quelques pixels pendant le rebond élastique :
      avec une tolérance de 3 px, « en haut » et « en bas » étaient faux une
      fois sur deux, et le geste ne partait pas. */
   function auBas() {
-    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 24;
+    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80;
   }
-  function enHaut() { return window.scrollY <= 12; }
+  function enHaut() { return window.scrollY <= 40; }
 
   /* deltaMode : 0 = pixels, 1 = lignes (×16), 2 = pages */
   function enPixels(e) {
@@ -121,33 +130,42 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     return t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || cible.isContentEditable;
   }
 
-  /* ---- molette : au-delà du bas on descend, au-dessus du haut on remonte -- */
-  let cumulBas = 0, cumulHaut = 0, dernierBas = 0, dernierHaut = 0;
+  /* ---- molette ----------------------------------------------------------
+     Un trackpad Mac n'envoie pas un grand saut mais une traînée de petits
+     événements (2 à 12 px), et Safari cesse d'agrandir les deltas quand la
+     page ne peut plus défiler. Compter les pixels seuls demandait donc
+     d'insister. On compte aussi les événements : trois impulsions vers le
+     bas en bord de page, ou 50 px cumulés, et la page tourne. */
+  const FENETRE = 700;        // ms : au-delà, le geste est considéré terminé
+  let nBas = 0, nHaut = 0, finBas = 0, finHaut = 0, cumulBas = 0, cumulHaut = 0;
 
   window.addEventListener('wheel', function (e) {
     if (enCours || verrouille() || e.ctrlKey) return;
     if (dansUnChamp(e.target) || panneauOuvert()) return;
 
-    const maintenant = Date.now();
     const d = enPixels(e);
+    if (!d) return;
+    const t = performance.now();
 
-    if (d > 0 && auBas()) {                              // vers le bas, à la fin
-      cumulBas = (maintenant - dernierBas > OUBLI) ? d : cumulBas + d;
-      dernierBas = maintenant;
-      cumulHaut = 0;
-      if (cumulBas >= SEUIL_MOLETTE) aller(suivant, 'bas');
+    if (d > 0 && auBas()) {
+      if (t - finBas > FENETRE) { nBas = 0; cumulBas = 0; }
+      nBas += 1;
+      cumulBas += d;
+      finBas = t;
+      if (nBas >= 3 || cumulBas >= 50) aller(suivant, 'bas');
       return;
     }
 
-    if (d < 0 && enHaut()) {                             // vers le haut, au début
-      cumulHaut = (maintenant - dernierHaut > OUBLI) ? -d : cumulHaut - d;
-      dernierHaut = maintenant;
-      cumulBas = 0;
-      if (cumulHaut >= SEUIL_MOLETTE) aller(precedent, 'haut');
+    if (d < 0 && enHaut()) {
+      if (t - finHaut > FENETRE) { nHaut = 0; cumulHaut = 0; }
+      nHaut += 1;
+      cumulHaut += -d;
+      finHaut = t;
+      if (nHaut >= 3 || cumulHaut >= 50) aller(precedent, 'haut');
       return;
     }
 
-    cumulBas = 0; cumulHaut = 0;
+    nBas = 0; nHaut = 0; cumulBas = 0; cumulHaut = 0;
   }, { passive: true });
 
   /* ---- tactile ---------------------------------------------------------- */
@@ -201,18 +219,38 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
     const h = document.documentElement.scrollHeight - window.innerHeight;
     const part = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
     jauge.style.transform = 'scaleX(' + part.toFixed(4) + ')';
-    if (part > 0.45) precharger(suivant);          // on approche du bas
+    if (part > 0.3) precharger(suivant);          // on approche du bas
     if (part > 0.15) precharger(precedent);        // on a quitté le haut
   }
 
-  /* au doigt posé sur l'écran, on prépare la suite tout de suite */
+  /* en bord de page, on prépare la suite avant même le déclenchement */
   window.addEventListener('wheel', function (e) {
     if (enPixels(e) > 0 && auBas()) precharger(suivant);
-    if (enPixels(e) < 0 && enHaut()) precharger(precedent);
+    else if (enPixels(e) < 0 && enHaut()) precharger(precedent);
   }, { passive: true });
   window.addEventListener('scroll', majJauge, { passive: true });
   window.addEventListener('resize', majJauge, { passive: true });
   majJauge();
+
+  /* ---- diagnostic : ouvrir la page avec ?diag=1 pour voir les chiffres --- */
+  if (new URLSearchParams(location.search).has('diag')) {
+    const boite = document.createElement('pre');
+    boite.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;margin:0;' +
+      'padding:8px 10px;background:#000d;color:#0f0;font:11px/1.4 monospace;' +
+      'border:1px solid #0f05;border-radius:6px;pointer-events:none;white-space:pre';
+    document.body.appendChild(boite);
+    let n = 0;
+    window.addEventListener('wheel', function (e) {
+      n += 1;
+      boite.textContent = 'wheel #' + n +
+        '\ndeltaY      ' + e.deltaY.toFixed(1) +
+        '\ndeltaMode   ' + e.deltaMode +
+        '\nscrollY     ' + Math.round(window.scrollY) +
+        '\nhaut total  ' + Math.round(document.documentElement.scrollHeight - window.innerHeight) +
+        '\nen bas ?    ' + auBas() +
+        '\nen haut ?   ' + enHaut();
+    }, { passive: true });
+  }
 
   window.__tiroir = {
     index: i, suivant, precedent,
