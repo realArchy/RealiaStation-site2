@@ -38,6 +38,19 @@ const DUREE_SORTIE = 150;
 const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-transition-name: none');
 
 (function tiroirs() {
+  /* Firefox peut refuser le stockage de session (cookies bloqués, mode strict).
+     Un accès non protégé lève une exception et tue tout le script : la page ne
+     répond plus à aucun geste, sans le moindre message. */
+  function memoLire(cle) {
+    try { return sessionStorage.getItem(cle); } catch (e) { return null; }
+  }
+  function memoEcrire(cle, valeur) {
+    try { sessionStorage.setItem(cle, valeur); } catch (e) { /* tant pis */ }
+  }
+  function memoOublier(cle) {
+    try { sessionStorage.removeItem(cle); } catch (e) { /* tant pis */ }
+  }
+
   /* Cloudflare sert des URL propres (/virtuel) ; en local ce sont des fichiers
      (virtuel.html). Sans cette normalisation, seule la page d'accueil était
      reconnue — d'où un passage qui ne marchait que de 1 à 2. */
@@ -59,7 +72,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   if (!suivant && !precedent) return;
 
   /* ---- entrée : la page arrive du haut ou du bas ------------------------ */
-  const entree = sessionStorage.getItem('tiroir-entree');
+  const entree = memoLire('tiroir-entree');
   if (entree) {
     /* Safari restaure parfois l'offset de la page précédente : on repart du
        haut, sinon la page suivante s'ouvre sur son pied de page. */
@@ -72,7 +85,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
       document.body.removeEventListener('animationend', fin);
     });
   }
-  sessionStorage.removeItem('tiroir-entree');
+  memoOublier('tiroir-entree');
 
   /* Après une bascule, l'inertie de la molette continuait d'arriver sur la
      page suivante, déjà en haut : elle repartait aussitôt en arrière (vécu :
@@ -81,16 +94,16 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   /* relu à chaque geste : figé au chargement, il restait « verrouillé » sur une
      page restaurée depuis le cache mémoire du navigateur (bfcache). */
   function verrouille() {
-    return Date.now() < Number(sessionStorage.getItem(CLE_VERROU) || 0);
+    return Date.now() < Number(memoLire(CLE_VERROU) || 0);
   }
 
   let enCours = false;
   function aller(cible, sens) {
     if (!cible || enCours) return;
     enCours = true;
-    sessionStorage.setItem(CLE_VERROU, String(Date.now() + 800));
+    memoEcrire(CLE_VERROU, String(Date.now() + 800));
     if (TRANSITION_NATIVE || reduit) { location.href = cible.fichier; return; }
-    sessionStorage.setItem('tiroir-entree', sens);
+    memoEcrire('tiroir-entree', sens);
     document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
     /* si la navigation échoue, le drapeau ne doit pas rester bloqué */
     setTimeout(function () { enCours = false; }, 3000);
