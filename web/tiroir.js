@@ -157,7 +157,7 @@ const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-trans
   const FENETRE = 400;          // ms : au-delà, le geste est considéré terminé
   const INTENTION = 120;        // px cumulés dans une même direction
   const IMPULSIONS = 4;         // ou quatre impulsions, même minuscules
-  const MARGE = 140;            // px : « proche du bord » suffit
+  const MARGE = 200;            // px : « proche du bord » suffit
 
   let cumulBas = 0, cumulHaut = 0, nBas = 0, nHaut = 0, dernier = 0;
 
