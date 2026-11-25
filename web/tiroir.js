@@ -1,39 +1,41 @@
 /* ============================================================================
-   Les tiroirs — une page = un tiroir de commode.
-   Dix tiroirs, dans l'ordre du cheminement du projet. Les libellés passent par
-   i18n.js quand il est chargé ; sinon on garde le français.
+   PASSAGE DE PAGE AU DÉFILEMENT — une page = un tiroir de commode
 
-   Molette (au-delà du bord, 140 px), clavier, doigt (70 px), poignée au clic.
+   Aucun bouton, aucune poignée : on lit la page, et arrivé en bas, continuer à
+   défiler fait glisser vers la page suivante. Remonter ne renvoie pas en
+   arrière — c'est le geste du navigateur, on ne le vole pas.
+
+   Trois gestes, tous au bord bas :
+     · molette vers le bas, cumulée jusqu'à un seuil (un petit coup de molette
+       en fin de lecture ne doit pas changer de page par accident) ;
+     · doigt qui remonte sur un écran tactile ;
+     · flèche bas / Page suivante / espace quand on est déjà en bas.
+
+   Rien ne se déclenche si un panneau est ouvert, si le curseur est dans un
+   champ de saisie, ou si la page est la dernière du parcours.
    ========================================================================== */
 
 const ORDRE = [
-  { fichier: 'index.html',              cle: 'nav.accueil',  nom: 'Accueil' },
-  { fichier: 'virtuel.html',            cle: 'nav.virtuel',  nom: 'Labo virtuel' },
-  { fichier: 'rexoia.html',        cle: 'nav.neuroexo', nom: "R'ExoIA" },
-  { fichier: 'devkit.html',             cle: 'nav.devkit',   nom: 'RealiaDevKit' },
-  { fichier: 'realiastation.html',      cle: 'nav.realia',   nom: 'RealiaStation' },
-  { fichier: 'lunagalaxie.html',        cle: 'nav.luna',     nom: 'LunaGalaxie' },
-  { fichier: 'meta-projet-social.html', cle: 'nav.social',   nom: 'Projet social' },
+  { fichier: 'index.html',              cle: 'nav.accueil',   nom: 'Accueil' },
+  { fichier: 'virtuel.html',            cle: 'nav.virtuel',   nom: 'Labo virtuel' },
+  { fichier: 'rexoia.html',             cle: 'nav.neuroexo',  nom: "R'ExoIA" },
+  { fichier: 'devkit.html',             cle: 'nav.devkit',    nom: 'RealiaDevKit' },
+  { fichier: 'realiastation.html',      cle: 'nav.realia',    nom: 'RealiaStation' },
+  { fichier: 'lunagalaxie.html',        cle: 'nav.luna',      nom: 'LunaGalaxie' },
+  { fichier: 'meta-projet-social.html', cle: 'nav.social',    nom: 'Projet social' },
   { fichier: 'blueprint.html',          cle: 'nav.blueprint', nom: 'Blueprint' },
-  { fichier: 'architecte.html',         cle: 'nav.archi',    nom: "L'Architecte" },
-  { fichier: 'cabinet.html',            cle: 'nav.cabinet',  nom: 'Cabinet & Services' },
-  { fichier: 'setup-wishlist.html',    cle: 'nav.wishlist', nom: 'My Setup & Wishlist' },
-  { fichier: 'boutique.html',           cle: 'nav.boutique', nom: 'Boutique' }
+  { fichier: 'architecte.html',         cle: 'nav.archi',     nom: "L'Architecte" },
+  { fichier: 'cabinet.html',            cle: 'nav.cabinet',   nom: 'Cabinet & Services' },
+  { fichier: 'setup-wishlist.html',     cle: 'nav.wishlist',  nom: 'My Setup & Wishlist' },
+  { fichier: 'boutique.html',           cle: 'nav.boutique',  nom: 'Boutique du Collectif' }
 ];
 
-const SEUIL_MOLETTE = 140;
-const SEUIL_DOIGT = 70;
+const SEUIL_MOLETTE = 220;   // px cumulés en bas de page avant de tourner
+const SEUIL_DOIGT = 90;      // px de glissement vers le haut sur tactile
+const OUBLI = 900;           // ms sans geste : le cumul repart de zéro
 const DUREE_SORTIE = 210;
 //: si le navigateur gère les transitions inter-documents, on ne double pas l'effet
 const TRANSITION_NATIVE = window.CSS && CSS.supports && CSS.supports('view-transition-name: none');
-
-function libelle(entree) {
-  if (window.I18N && typeof window.I18N.t === 'function') {
-    const v = window.I18N.t(entree.cle);
-    if (v) return v;
-  }
-  return entree.nom;
-}
 
 (function tiroirs() {
   const fichier = location.pathname.split('/').pop() || 'index.html';
@@ -41,9 +43,10 @@ function libelle(entree) {
   if (i < 0) return;
 
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const precedent = i > 0 ? ORDRE[i - 1] : null;
   const suivant = i < ORDRE.length - 1 ? ORDRE[i + 1] : null;
+  if (!suivant) return;                      // dernière page : plus rien après
 
+  /* ---- entrée : la page arrive du haut ou du bas ------------------------ */
   const entree = sessionStorage.getItem('tiroir-entree');
   if (entree && !reduit) {
     document.body.classList.add('entree-' + entree);
@@ -55,36 +58,78 @@ function libelle(entree) {
   sessionStorage.removeItem('tiroir-entree');
 
   let enCours = false;
-  function aller(cible, sens) {
-    if (!cible || enCours) return;
+  function aller(sens) {
+    if (!suivant || enCours) return;
     enCours = true;
-    if (TRANSITION_NATIVE || reduit) {
-      location.href = cible.fichier;       // le compositeur s'occupe de l'animation
-      return;
-    }
-    if (!reduit) {
-      sessionStorage.setItem('tiroir-entree', sens);
-      document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
-      setTimeout(() => { location.href = cible.fichier; }, DUREE_SORTIE);
-    }
+    if (TRANSITION_NATIVE || reduit) { location.href = suivant.fichier; return; }
+    sessionStorage.setItem('tiroir-entree', sens);
+    document.body.classList.add(sens === 'bas' ? 'sortie-bas' : 'sortie-haut');
+    setTimeout(() => { location.href = suivant.fichier; }, DUREE_SORTIE);
   }
 
   function auBas() {
-    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
-  }
-  function enHaut() {
-    return window.scrollY <= 2;
+    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 3;
   }
 
-  /* Plus AUCUNE capture de la molette, du clavier ni du balayage.
-     C'était l'erreur : la page sautait de tiroir en tiroir au moment où l'on
-     atteignait le bas, ce qui donnait exactement l'impression de « mélanger le
-     scroll et les tiroirs ». On lit tranquillement ; on change de page en
-     cliquant la poignée, ou par le menu. */
+  /* ---- on ne tourne que si c'est voulu ---------------------------------- */
+  function panneauOuvert() {
+    if (document.body.classList.contains('tiroir-ouvert')) return true;
+    const menu = document.getElementById('menu-mobile');
+    if (menu && menu.classList.contains('ouvert')) return true;
+    const offres = document.getElementById('tiroir-offres');
+    if (offres && !offres.hidden) return true;
+    const compare = document.getElementById('compare-modal');
+    if (compare && !compare.hidden) return true;
+    return false;
+  }
 
-  /* Repère de position : une barre fine en haut, remplie selon la lecture.
-     Elle répond à « on est où ? » sans rien voler au défilement : une seule
-     lecture de scrollY par image, aucune lecture de géométrie. */
+  function dansUnChamp(cible) {
+    if (!cible || !cible.tagName) return false;
+    const t = cible.tagName;
+    return t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || cible.isContentEditable;
+  }
+
+  /* ---- molette ---------------------------------------------------------- */
+  let cumul = 0;
+  let dernierGeste = 0;
+
+  window.addEventListener('wheel', function (e) {
+    if (enCours || e.ctrlKey) return;
+    if (dansUnChamp(e.target) || panneauOuvert()) return;
+    if (!auBas() || e.deltaY <= 0) { cumul = 0; return; }
+    const maintenant = Date.now();
+    cumul = (maintenant - dernierGeste > OUBLI) ? e.deltaY : cumul + e.deltaY;
+    dernierGeste = maintenant;
+    if (cumul >= SEUIL_MOLETTE) aller('bas');
+  }, { passive: true });
+
+  /* ---- tactile ---------------------------------------------------------- */
+  let departY = null;
+  window.addEventListener('touchstart', function (e) {
+    departY = e.touches.length === 1 ? e.touches[0].clientY : null;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function (e) {
+    if (enCours || departY === null || panneauOuvert()) return;
+    if (dansUnChamp(e.target)) return;
+    const y = e.touches[0].clientY;
+    if (!auBas() || y > departY) return;           // on descend : geste normal
+    if (departY - y >= SEUIL_DOIGT) aller('bas');
+  }, { passive: true });
+
+  window.addEventListener('touchend', function () { departY = null; }, { passive: true });
+
+  /* ---- clavier ---------------------------------------------------------- */
+  window.addEventListener('keydown', function (e) {
+    if (enCours || panneauOuvert() || dansUnChamp(e.target)) return;
+    if (!auBas()) return;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      aller('bas');
+    }
+  });
+
+  /* ---- repère de lecture : une barre fine en haut, pas un bouton -------- */
   const barre = document.createElement('div');
   barre.className = 'progression';
   barre.setAttribute('aria-hidden', 'true');
@@ -92,9 +137,6 @@ function libelle(entree) {
   document.body.appendChild(barre);
   const jauge = barre.firstChild;
 
-  /* Calcul direct : une division et un transform, sans lecture de géométrie.
-     Passer par requestAnimationFrame semblait plus prudent, mais dans un onglet
-     throttlé la jauge ne bougeait jamais. */
   function majJauge() {
     const h = document.documentElement.scrollHeight - window.innerHeight;
     const part = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
@@ -104,58 +146,10 @@ function libelle(entree) {
   window.addEventListener('resize', majJauge, { passive: true });
   majJauge();
 
-  const p = document.createElement('div');
-  p.className = 'poignee';
-  p.setAttribute('role', 'group');
-
-  const btnPrec = document.createElement('button');
-  btnPrec.type = 'button';
-  btnPrec.textContent = '↑';
-  btnPrec.disabled = !precedent;
-  btnPrec.addEventListener('click', () => aller(precedent, 'haut'));
-
-  const milieu = document.createElement('span');
-  milieu.className = 'suite';
-
-  const btnSuiv = document.createElement('button');
-  btnSuiv.type = 'button';
-  btnSuiv.className = 'fleche';
-  btnSuiv.textContent = '↓';
-  btnSuiv.disabled = !suivant;
-  btnSuiv.addEventListener('click', () => aller(suivant, 'bas'));
-
-  const compte = document.createElement('span');
-  compte.className = 'compte';
-  compte.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(ORDRE.length).padStart(2, '0');
-
-  function rafraichirLibelles() {
-    const prefixe = (window.I18N && window.I18N.t('tiroir.suivant')) || 'Tiroir suivant';
-    milieu.textContent = suivant
-      ? prefixe + ' · ' + libelle(suivant)
-      : ((window.I18N && window.I18N.t('tiroir.dernier')) || 'Dernier tiroir');
-    milieu.style.cursor = suivant ? 'pointer' : 'default';
-  }
-  milieu.addEventListener('click', () => { if (suivant) aller(suivant, 'bas'); });
-  rafraichirLibelles();
-  document.addEventListener('langue-change', rafraichirLibelles);
-
-  p.append(btnPrec, milieu, btnSuiv, compte);
-  document.body.appendChild(p);
-
-  /* Hauteur de page mémorisée : la relire à chaque défilement obligerait le
-     navigateur à recalculer la mise en page pendant le scroll. */
-  let hauteurPage = document.documentElement.scrollHeight;
-  window.addEventListener('resize', function () {
-    hauteurPage = document.documentElement.scrollHeight;
-  }, { passive: true });
-
-  function etatPoignee() {
-    const enBas = window.scrollY + window.innerHeight >= hauteurPage - 4;
-    p.style.borderColor = enBas ? 'rgba(212,175,55,.55)' : '';
-    p.style.color = enBas ? 'rgba(255,255,255,.9)' : '';
-  }
-  window.addEventListener('scroll', etatPoignee, { passive: true });
-  etatPoignee();
-
-  window.__tiroir = { index: i, suivant, precedent, aller, auBas, enHaut };
+  window.__tiroir = {
+    index: i, suivant,
+    aller: function () { aller('bas'); },
+    auBas,
+    enHaut: function () { return window.scrollY <= 2; }
+  };
 })();
